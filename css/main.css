@@ -92,6 +92,22 @@ body {
 	border-top: 3px solid #973232;
 }
 
+.items-container {
+	overflow-y: scroll;
+	max-height: 300px;
+}
+.items-container .item {
+	height: 70px;
+	clear: both;
+}
+.items-container img {
+	border: 2px solid #5f9a18;
+	border-radius: 40px;
+	-moz-border-radius: 40px;
+	-webkit-border-radius: 40px;
+	margin-right: 10px;
+}
+
 #footer{
 	background: url("../images/footer/dsfgds.jpg") center right no-repeat;
 	background-size: cover;

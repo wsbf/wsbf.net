@@ -19,10 +19,10 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-		<script src="/bower_components/angular/angular.js"></script>
-		<script src="/bower_components/angular-route/angular-route.js"></script>
-		<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/angular-route/angular-route.js"></script>
+		<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 		<script src="js/app.js"></script>
 
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fjalla+One">
@@ -149,20 +149,10 @@
 						<h1>PLAYLIST <small><button class="btn btn-default pull-right">VIEW DAILY PLAYLIST</button></small></h1>
 						<hr>
 						<div class="items-container">
-							<div class="items-pane inner-content-div playlist-container">
-								<div class="views-row" ng-repeat="p in playlist">
-									<div class="views-field field-icon">
-										<div class="field-content">
-											<img class="song-art" alt="album art" src="images/media_small.png" width="60" height="60"/>
-										</div>
-									</div>
-									<div class="views-field views-field-time">
-										<span class="field-content time">07:00 - 11:00</span>
-									</div>
-									<div class="views-field views-field-title">
-										<span class="field-content song-artist">First Song</span>
-									</div>
-								</div>
+							<div class="item" ng-repeat="p in playlist">
+								<img class="pull-left" src="images/media_small.png" width="60" height="60" alt="album art"/>
+								<div>{{p.start_time | date:'shortTime'}}</div>
+								<div>{{p.lb_track_name}} - {{p.lb_artist}}</div>
 							</div>
 						</div>
 						<!-- End playlist.home -->

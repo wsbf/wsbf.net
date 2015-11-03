@@ -24,9 +24,9 @@ app.controller("PlaylistCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.playlist = [];
 
 	var getPlaylist = function() {
-		$http.get("http://www.wsbf.net/api/playlist/current.php")
-			.then(function(playlist) {
-				$scope.playlist = playlist;
+		$http.get("/api/playlist/current.php")
+			.then(function(res) {
+				$scope.playlist = res.data;
 			});
 	};
 
