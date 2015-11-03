@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app" ng-strict-di>
+	<head>
+		<!--[if lt IE 9]>
+		<script src="js/dist/html5shiv.js"></script>
+		<![endif]-->
+
+<!--
+		<?php
+			/* Needed to load most recent blog posts */
+			define('WP_USE_THEMES', false);
+			require('./blog/wp-blog-header.php');
+			
+			require('./api/config/functions.php');
+		?>
+-->
+
+		<title>WSBF-FM Clemson | The Upstate's only True Alternative Radio</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<script src="/bower_components/angular/angular.js"></script>
+		<script src="/bower_components/angular-route/angular-route.js"></script>
+		<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+		<script src="js/app.js"></script>
+
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fjalla+One">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/main.css">
+
+<!--
+		<script src="js/libs/pace/pace.min.js"></script>
+		<link href='https://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Coustard:900' rel='stylesheet' type='text/css' />
+		<link href='https://fonts.googleapis.com/css?family=Rochester' rel='stylesheet' type='text/css' />
+		<link rel="stylesheet" href="js/libs/jgrowl/jquery.jgrowl.min.css">
+		<link rel="stylesheet" href="css/responsive.css">
+		<link rel="stylesheet" href="css/social.css">
+		<link rel="stylesheet" href="css/wsbf.slider.css">
+		<link rel="stylesheet" href="css/media.css">
+		<link rel="stylesheet" href="js/libs/animate/animate.css">
+		<link rel="stylesheet" type="text/css" href="css/content_scroller.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery.jscrollpane.css" media="all" />
+-->
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/#/" title="WSBF.net">
+						<img class="img img-responsive" src="images/logo.png" alt="WSBF logo"/>
+					</a>
+
+					<a class="navbar-toggle collapsed" ng-click="navCollapsed = !navCollapsed">
+						<span class="menuIcon fa-stack">
+							<i class="fa fa-circle-thin fa-stack-2x"></i>
+							<i class="fa fa-bars fa-stack-1x"></i>
+						</span>
+					</a>
+				</div>
+
+				<div class="navbar-collapse" uib-collapse="!navCollapsed">
+					<div class="social">
+						<a href="https://www.facebook.com/wsbf881?ref=br_tf"><i class="fa fa-facebook"></i></a>
+						<a href="https://www.twitter.com/WSBF_FM"><i class="fa fa-twitter"></i></a>
+						<a href="https://www.instagram.com/wsbf_fm"><i class="fa fa-instagram"></i></a>
+					</div>
+
+					<!-- Angular UI currently doesn't have hover directive, will need a custom hack -->
+					<ul class="nav navbar-nav navbar-right">
+						<li uib-dropdown>
+							<a href="" class="dropdown-toggle" uib-dropdown-toggle>About</a>
+							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+								<li role="presentation">
+									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="/#/philosophy"> Philosophy</a>
+								</li>
+								<li role="presentation" class="divider"></li>
+								<li role="presentation">
+									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="/#/staff"> Staff</a>
+								</li>
+								<li role="presentation" class="divider"></li>
+								<li role="presentation">
+									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="/#/history"> History</a>
+								</li>
+							</ul>
+						</li>
+						<li uib-dropdown>
+							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Music</a>
+							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/schedule"> Schedule</a></li>
+								<li role="presentation" class="divider"></li>
+								<!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#"> Playlist</a></li>
+								<li role="presentation" class="divider"></li> -->
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/charts"> Charting</a></li>
+							</ul>
+						</li>
+						<li uib-dropdown>
+							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Production</a>
+							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/equipment"> Equipment Rentals</a></li>
+								<li role="presentation" class="divider"></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/recording"> Recording</a></li>
+								<li role="presentation" class="divider"></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/booking"> Booking</a></li>
+								<!--<li role="presentation" class="divider"></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="#"> Live Sessions</a></li>-->
+							</ul>
+						</li>
+						<li>
+							<a role="menuitem" tabindex="-1" href="https://cualumni.clemson.edu/give/wsbf" target="_blank">Donate</a>
+						</li>
+						<li>
+							<a role="menuitem" tabindex="-1" href="/#/blog">Blog</a>
+						</li>
+						<li uib-dropdown>
+							<a href="" class="dropdown-toggle" uib-dropdown-toggle>CONTACT</a>
+							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/join"> Join WSBF</a></li>
+								<li role="presentation" class="divider"></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/underwriting"> Underwriting & Promotion</a></li>
+								<li role="presentation" class="divider"></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/psa"> Public Service Announcements</a></li>
+								<li role="presentation" class="divider"></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/contact"> Contact</a></li>
+							</ul>
+						</li>
+						<li class="buy">
+							<a role="menuitem" tabindex="-1" href="https://secure.touchnet.net/C20569_ustores/web/store_cat.jsp?STOREID=59&CATID=96" target="_blank"><i class="fa fa-shopping-cart"></i> Buy</a>
+						</li>
+						<li class="listen">
+							<a role="menuitem" tabindex="-1" href="#"><i class="fa fa-headphones live-icon"></i> Listen Live</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container slider-container">
+			<div class="row">
+				<div class="col-md-8">
+					<div ng-view></div>
+				</div>
+
+				<div class="col-md-4 padding-reset-small media" ng-controller="PlaylistCtrl">
+					<div class="grid2">
+						<!-- Begin playlist.home -->
+						<h1>PLAYLIST <small><button class="btn btn-default pull-right">VIEW DAILY PLAYLIST</button></small></h1>
+						<hr>
+						<div class="items-container">
+							<div class="items-pane inner-content-div playlist-container">
+								<div class="views-row" ng-repeat="p in playlist">
+									<div class="views-field field-icon">
+										<div class="field-content">
+											<img class="song-art" alt="album art" src="images/media_small.png" width="60" height="60"/>
+										</div>
+									</div>
+									<div class="views-field views-field-time">
+										<span class="field-content time">07:00 - 11:00</span>
+									</div>
+									<div class="views-field views-field-title">
+										<span class="field-content song-artist">First Song</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- End playlist.home -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row media">
+				<div class="col-md-4 padding-reset-small">
+					<div class="grid1">
+						<!-- Begin schedule.home -->
+						<h1>SCHEDULE <small class="pull-right schedule-current-day">THU 05/06</small></h1>
+						<hr>
+						<div class="items-container">
+							<div class="items-pane inner-content-div schedule-current">
+							   <!-- <div class="views-row">
+									<div class="views-field field-icon">
+										<div class="field-content">
+											<img typeof="foaf:Image" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="54" height="54" alt="">
+										</div>
+									</div>
+									<div class="views-field views-field-time">
+										<span class="field-content">07:00 - 11:00</span>
+									</div>
+									<div class="views-field views-field-title">
+										<span class="field-content">Morning Coffee Tunes</span>
+									</div>
+								</div> -->
+							</div>
+						</div>
+						<!-- End schedule.home -->
+					</div>
+				</div>
+
+				<div class="col-md-4 padding-reset-small">
+					<div class="grid2">
+						<!-- Begin chart.home -->
+						<h1>CHARTS <small><button class="btn btn-default pull-right">VIEW MORE</button></small></h1>
+						<hr>
+						<div class="items-container">
+							<div class="items-pane inner-content-div">
+								<div class="chart-home">
+									<table class="table-striped">
+									</table>
+								</div>
+							</div>
+						</div>
+						<!-- End chart.home -->
+					</div>
+				</div>
+
+				<div class="col-md-4 padding-reset-small">
+					<div class="grid3 social-stream-widget">
+						<!-- Begin socialstream.home -->
+						<h1>SOCIAL STREAM <!--<small><button class="btn btn-default pull-right">VIEW ALL</button></small>--></h1>
+						<hr>
+						<div class="items-container">
+							<a class="twitter-timeline" 
+							   href="https://twitter.com/WSBF_FM" 
+							   data-widget-id="494896788252282880"
+							   width="360"
+							   height="300"
+							   border-color="none"
+							   data-chrome="noheader noborders noscrollbar">
+								Tweets by @WSBF_FM
+							</a>
+							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+						</div>
+						<!-- End socialstream.home -->
+					</div>
+				</div>
+			</div>
+
+			<div class="row blog">
+				<!-- Begin blogpreview.home -->
+				<!-- <div ng-include="'views/blog_preview.html'"></div> -->
+				<!-- End blogpreview.home -->
+			</div>
+		</div>
+
+		<section id="footer">
+			<div class="overlay">
+				<div class="container footer">
+					<div>
+						<div class="footer-nav-unit">
+							<h5>Who we are</h5>
+							<ul class="footer-links">
+								<li><a href="/#/staff"> Staff</a></li>
+								<li><a href="/#/history"> History</a></li>
+								<li><a href="/#/contact"> Contact</a></li>
+								<li><a href="https://cualumni.clemson.edu/give/wsbf" target="_blank"> Donate</a></li>
+							</ul>
+						</div>
+
+						<div class="footer-nav-unit">
+							<h5>Music</h5>
+							<ul class="footer-links">
+								<li><a href="/#/philosophy"> Philosophy</a></li>
+								<!--<li><a href="#"> Playlist</a></li>-->
+								<li><a href="/#/schedule"> Schedule</a></li>
+								<li><a href="/#/charts"> Charting</a></li>
+								<!--<li><a href="#"> Submit</a></li>
+								<li><a href="#"> Library</a></li>
+								<li><a href="#"> Live Sessions</a></li>-->
+							</ul>
+						</div>
+<!--
+						<div class="footer-nav-unit">
+							<h5>Listen</h5>
+							<ul class="footer-links">
+								<li><a href="#"> Internet</a></li>
+								<li><a href="#"> Mobile</a></li>
+								<li><a href="#"> Radio</a></li>
+								<li><a href="/#/schedule"> Schedule</a></li>
+								<li><a href="#"> Archive</a></li>
+							</ul>
+						</div>
+-->
+						<div class="footer-nav-unit">
+							<h5>Production</h5>
+							<ul class="footer-links">
+								<li><a href="/#/equipment"> Equipment Rental</a></li>
+								<!--<li><a href="#"> Deejay Rental</a></li>-->
+								<li><a href="/#/recording"> Recording</a></li>
+								<li><a href="/#/booking"> Booking</a></li>
+							</ul>
+						</div>
+
+						<div class="footer-nav-unit">
+							<h5>Other</h5>
+							<ul class="footer-links">
+								<li><a href="/#/join"> Join WSBF</a></li>
+								<li><a href="/#/underwriting"> Underwriting & Promotion</a></li>
+								<li><a href="/#/psa"> Public Service Announcements</a></li>
+							</ul>
+						</div>
+
+						<div class="footer-nav-unit">
+							<h5>Get In touch</h5>
+							<div class="social">
+								<a href="https://www.facebook.com/wsbf881?ref=br_tf"><i class="fa fa-facebook"></i></a>
+								<a href="https://twitter.com/WSBF_FM"><i class="fa fa-twitter"></i></a>
+								<a href="http://instagram.com/wsbf_fm"><i class="fa fa-instagram"></i></a>
+							</div>
+						</div>
+					</div>
+
+					<div class="copy pull-right"> Handcrafted with <i class="fa fa-heart"></i> in Clemson | &COPY; WSBF CLEMSON 2014 All rights reserved</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Begin mediawidget (currently hidden) -->
+		<div class="media-widget-small hidden">
+			<div class="media-widget-wrapper">
+				<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+				<div id="jp_container_1" class="jp-audio">
+					<div class="jp-type-multiple">
+						<div class="jp-gui jp-interface">
+							<ul class="jp-controls">
+								<li><a href="javascript:;" class="jp-play" tabindex="1"><i class="icon icon-play live-icon"></i></a></li>
+								<li><a href="javascript:;" class="jp-pause" tabindex="1"><i class="icon icon-pause live-icon"></i></a></li>
+								<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+								<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+							</ul>
+							<div class="jp-info">
+								<img class="clearfix songart" typeof="foaf:Image" src="images/media_small.png" width="50" height="50">
+								<span id="nowPlaying"><strong class="track_name"> -- </strong> by <strong class="artist_name"> -- </strong></span>
+								<!--<a href="#"><i class="fa fa-music"></i>go to media center</a>-->
+							</div>
+						</div>
+
+						<div class="jp-no-solution">
+							<span>Update Required</span>
+							To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End mediawidget -->
+
+		<!-- Begin page.dialog (currently hidden) -->
+		<div class="modal fade hidden" id="pageDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<button class="close-page-dialog" data-dismiss="modal">
+				<i class="fa fa-times"></i>
+			</button>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body"></div>
+				</div>
+			</div>
+		</div>
+		<!-- End page.dialog -->
+
+<!--
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script type="text/javascript" src="js/libs/responsiveslides/responsiveslides.min.js"></script>
+		<script type="text/javascript" src="js/libs/jQuery.jPlayer.2.6.0/jquery.jplayer.min.js"></script>
+		<script type="text/javascript" src="js/libs/jquery-slimscroll/jquery.slimscroll.js"></script>
+		<script type="text/javascript" src="js/libs/bootstrap-libs/hover-dropdown/bootstrap-hover-dropdown.js"></script>
+		<script type="text/javascript" src="js/libs/jQuery.LazyJaxDavis-0.2.2/lib/davis.min.js"></script>
+		<script type="text/javascript" src="js/libs/jQuery.LazyJaxDavis-0.2.2/jquery.lazyjaxdavis.min.js"></script>
+		<script type="text/javascript" src="js/libs/moment/moment.js"></script>
+		<script type="text/javascript" src="js/libs/underscore/underscore-min.js"></script>
+		<script type="text/javascript" src="js/libs/imagesloaded/imagesloaded.pkgd.min.js"></script>
+		<script type="text/javascript" src="js/libs/masonry/masonry.pkgd.min.js"></script>
+		<script type="text/javascript" src="js/app/ui/social_stream.js"></script>
+		<script type="text/javascript" src="js/app/ui/application-ui.js"></script>
+		<script type="text/javascript" src="js/app/ui/responsive.js"></script>
+		<script type="text/javascript" src="js/app/ui/notifications.js"></script>
+		<script type="text/javascript" src="js/libs/jquery-easing/jquery.easing.min.js"></script>
+		<script type="text/javascript" src="js/libs/jquery-cookie/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/libs/jgrowl/jquery.jgrowl.min.js"></script>
+		<script type="text/javascript" src="js/libs/content_scroller/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="js/libs/content_scroller/jquery.contentcarousel.js"></script>
+		<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d8a40474ac913e"></script>
+		<script type="text/javascript">
+			$('#ca-container').contentcarousel();
+		</script>
+-->
+	</body>
+</html>

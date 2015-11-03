@@ -1,0 +1,13 @@
+{
+  "name": "wsbf-angular",
+  "description": "WSBF website, written in Angular.",
+  "authors": [
+    "Benjamin Shealy"
+  ],
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "angular-bootstrap": "~0.14.3",
+    "angular": "~1.4.7"
+  }
+}

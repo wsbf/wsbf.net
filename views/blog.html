@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<div id="blog">
+	<div class="row">
+		<div class="col-md-6">
+			<h2 class="page-head">WSBF BLOG</h2>
+		</div>
+
+		<div class="col-md-3">
+			<div class="search-control">
+				filter by: <a href="#" class="news"> <i class="fa fa-tag"></i> News</a> <a href="#" class="music"> <i class="fa fa-tag"></i> Music</a> 
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="search-control">
+				<input type="text" placeholder="search" name="q" class="col-md-3 form-control"/>
+			</div>
+		</div>
+	</div>
+
+	<div class="row grid blog-boxes">
+<!--
+		<?php
+			$posts = get_posts('numberposts=20&order=DESC&orderby=date');
+			foreach ($posts as $post) : setup_postdata( $post ); ?>
+			
+			<div class="blog-item my-col n-2-5">  
+				<div class="blog-box">
+					<figure class="rollover">
+						<?php
+							if ( get_the_post_thumbnail() != '' ) {
+
+								echo '<a href="showpost.php?p='. get_the_ID() .'" class="thumbnail-wrapper">';
+								 the_post_thumbnail();
+								echo '</a>';
+
+							  } else if(catch_that_image($post)!='') {
+
+							   echo '<a href="showpost.php?p='. get_the_ID() .'" class="thumbnail-wrapper">';
+							   echo '<img src="';
+							   echo catch_that_image($post);
+							   echo '" alt="" />';
+							   echo '</a>';
+
+							  }
+						?>
+					</figure>
+					<div class="info">
+						<h3 class="blog-title">
+							<?php
+								echo '<a href="showpost.php?p='. get_the_ID() .'">';
+								 the_title();
+								echo '</a>';
+							?>
+						</h3>
+						<div class="category">
+							
+							<strong><?php echo get_the_category_list(); ?></strong>
+						</div>
+						<div class="mini-row date"><?php the_date("j F");?></div>
+					</div>
+				</div>
+			</div>
+		<?php endforeach; ?>
+-->
+	</div>
+</div>
