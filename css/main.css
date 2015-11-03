@@ -102,10 +102,11 @@ body {
 }
 .items-container img {
 	border: 2px solid #5f9a18;
-	border-radius: 40px;
-	-moz-border-radius: 40px;
-	-webkit-border-radius: 40px;
 	margin-right: 10px;
+}
+
+table.chart-home>tbody>tr>td {
+    vertical-align: middle;
 }
 
 #footer{

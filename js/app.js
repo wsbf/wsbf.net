@@ -32,3 +32,38 @@ app.controller("PlaylistCtrl", ["$scope", "$http", function($scope, $http) {
 
 	getPlaylist();
 }]);
+
+app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
+	$scope.today = Date.now();
+	$scope.schedule = [];
+
+	var getSchedule = function() {
+		$http.get("/api/schedule/schedule.php")
+			.then(function(res) {
+				$scope.schedule = res.data;
+			});
+	};
+
+	getSchedule();
+}]);
+
+app.controller("ChartCtrl", ["$scope", "$http", function($scope, $http) {
+	$scope.charts = [];
+
+	var getCharts = function() {
+		$http.get("/api/charts/charts.php")
+			.then(function(res) {
+				$scope.charts = [];
+
+				Object.keys(res.data).forEach(function(key) {
+					$scope.charts.push(res.data[key]);
+				});
+
+				$scope.charts.sort(function(a, b) {
+					return a.rank - b.rank;
+				});
+			});
+	};
+
+	getCharts();
+}]);
