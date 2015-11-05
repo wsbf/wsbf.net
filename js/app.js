@@ -21,14 +21,23 @@ app.config(["$routeProvider", function($routeProvider) {
 }]);
 
 app.controller("SliderCtrl", ["$scope", "$http", function($scope, $http) {
-	$scope.posts = [];
+	$scope.previews = [];
+
+	var getBlogPreviews = function() {
+		$http.get("api/blog_preview.php")
+			.then(function(res) {
+				$scope.previews = res.data;
+			});
+	};
+
+	getBlogPreviews();
 }]);
 
 app.controller("PlaylistCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.playlist = [];
 
 	var getPlaylist = function() {
-		$http.get("/api/playlist/current.php")
+		$http.get("api/playlist/current.php")
 			.then(function(res) {
 				$scope.playlist = res.data;
 			});
@@ -42,7 +51,7 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.schedule = [];
 
 	var getSchedule = function() {
-		$http.get("/api/schedule/schedule.php")
+		$http.get("api/schedule/schedule.php")
 			.then(function(res) {
 				$scope.schedule = res.data;
 			});
@@ -54,8 +63,9 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 app.controller("ChartCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.charts = [];
 
+	// should retrieve only the top 10 albums
 	var getCharts = function() {
-		$http.get("/api/charts/charts.php")
+		$http.get("api/charts/charts.php")
 			.then(function(res) {
 				$scope.charts = [];
 
