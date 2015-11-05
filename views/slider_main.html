@@ -2,9 +2,8 @@
 <div class="slider">
 	<!-- <?php $query = new WP_Query( 'tag=featured' );?> -->
 	<ul class="rslides">
+		<li ng-repeat="p in posts">
 <!--
-		<?php while($query->have_posts()) : $query->the_post(); ?>
-		<li>
 			<div class="caption">
 				<a href=<?php echo '"showpost.php?p='.  get_the_ID().'"'; ?>>
 					<h4><?php the_title(); ?></h4>
@@ -12,8 +11,7 @@
 				</a>
 			</div>
 			<img src=<?php echo '"'.catch_that_image(get_post()).'"';?> alt="">
-		</li>
-		<?php endwhile;?>
 -->
+		</li>
 	</ul>
 </div>

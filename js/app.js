@@ -3,7 +3,7 @@ var app = angular.module("app", ["ngRoute", "ui.bootstrap"]);
 
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
-		.when("/", { templateUrl: "views/slider_main.html" })
+		.when("/", { templateUrl: "views/slider_main.html", controller: "SliderCtrl" })
 		.when("/philosophy", { templateUrl: "views/philosophy.html" })
 		.when("/staff", { templateUrl: "views/staff.html" })
 		.when("/history", { templateUrl: "views/history.html" })
@@ -18,6 +18,10 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/psa", { templateUrl: "views/psa.html" })
 		.when("/contact", { templateUrl: "views/contact.html" })
 		.otherwise("/");
+}]);
+
+app.controller("SliderCtrl", ["$scope", "$http", function($scope, $http) {
+	$scope.posts = [];
 }]);
 
 app.controller("PlaylistCtrl", ["$scope", "$http", function($scope, $http) {
