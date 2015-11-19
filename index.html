@@ -49,7 +49,7 @@
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="/#/" title="WSBF.net">
+					<a class="navbar-brand" href="#/" title="WSBF.net">
 						<img class="img-responsive" src="images/logo.png" alt="WSBF logo"/>
 					</a>
 
@@ -74,36 +74,36 @@
 							<a href="" class="dropdown-toggle" uib-dropdown-toggle>About</a>
 							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 								<li role="presentation">
-									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="/#/philosophy"> Philosophy</a>
+									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="#/philosophy"> Philosophy</a>
 								</li>
 								<li role="presentation" class="divider"></li>
 								<li role="presentation">
-									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="/#/staff"> Staff</a>
+									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="#/staff"> Staff</a>
 								</li>
 								<li role="presentation" class="divider"></li>
 								<li role="presentation">
-									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="/#/history"> History</a>
+									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="#/history"> History</a>
 								</li>
 							</ul>
 						</li>
 						<li uib-dropdown>
 							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Music</a>
 							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/schedule"> Schedule</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/schedule"> Schedule</a></li>
 								<li role="presentation" class="divider"></li>
 								<!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#"> Playlist</a></li>
 								<li role="presentation" class="divider"></li> -->
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/charts"> Charting</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/charts"> Charting</a></li>
 							</ul>
 						</li>
 						<li uib-dropdown>
 							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Production</a>
 							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/equipment"> Equipment Rentals</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/equipment"> Equipment Rentals</a></li>
 								<li role="presentation" class="divider"></li>
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/recording"> Recording</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/recording"> Recording</a></li>
 								<li role="presentation" class="divider"></li>
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/booking"> Booking</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/booking"> Booking</a></li>
 								<!--<li role="presentation" class="divider"></li>
 								<li role="presentation"><a role="menuitem" tabindex="-1" href="#"> Live Sessions</a></li>-->
 							</ul>
@@ -112,18 +112,18 @@
 							<a role="menuitem" tabindex="-1" href="https://cualumni.clemson.edu/give/wsbf" target="_blank">Donate</a>
 						</li>
 						<li>
-							<a role="menuitem" tabindex="-1" href="/#/blog">Blog</a>
+							<a role="menuitem" tabindex="-1" href="#/blog">Blog</a>
 						</li>
 						<li uib-dropdown>
 							<a href="" class="dropdown-toggle" uib-dropdown-toggle>CONTACT</a>
 							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/join"> Join WSBF</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/join"> Join WSBF</a></li>
 								<li role="presentation" class="divider"></li>
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/underwriting"> Underwriting & Promotion</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/underwriting"> Underwriting & Promotion</a></li>
 								<li role="presentation" class="divider"></li>
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/psa"> Public Service Announcements</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/psa"> Public Service Announcements</a></li>
 								<li role="presentation" class="divider"></li>
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="/#/contact"> Contact</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/contact"> Contact</a></li>
 							</ul>
 						</li>
 						<li class="buy">
@@ -137,13 +137,13 @@
 			</div>
 		</nav>
 
-		<div class="container slider-container">
-			<div class="row">
+		<div class="container">
+			<div class="row media">
 				<div class="col-md-8">
-					<div ng-view></div>
+					<div class="grid1" ng-view></div>
 				</div>
 
-				<div class="col-md-4 padding-reset-small media">
+				<div class="col-md-4">
 					<div class="grid2" ng-controller="PlaylistCtrl">
 						<!-- Begin playlist.home -->
 						<h1>PLAYLIST <small><button class="btn btn-default pull-right">VIEW DAILY PLAYLIST</button></small></h1>
@@ -163,7 +163,7 @@
 
 		<div class="container">
 			<div class="row media">
-				<div class="col-md-4 padding-reset-small">
+				<div class="col-md-4">
 					<div class="grid1" ng-controller="ScheduleCtrl">
 						<!-- Begin schedule.home -->
 						<h1>SCHEDULE <small class="pull-right">{{today | date:'EEE MM/dd' | uppercase}}</small></h1>
@@ -182,7 +182,7 @@
 					</div>
 				</div>
 
-				<div class="col-md-4 padding-reset-small">
+				<div class="col-md-4">
 					<div class="grid2" ng-controller="ChartCtrl">
 						<!-- Begin chart.home -->
 						<h1>CHARTS <small><button class="btn btn-default pull-right">VIEW MORE</button></small></h1>
@@ -206,7 +206,7 @@
 					</div>
 				</div>
 
-				<div class="col-md-4 padding-reset-small">
+				<div class="col-md-4">
 					<div class="grid3 social-stream-widget">
 						<!-- Begin socialstream.home -->
 						<h1>SOCIAL STREAM <!--<small><button class="btn btn-default pull-right">VIEW ALL</button></small>--></h1>
@@ -229,6 +229,7 @@
 			</div>
 		</div>
 
+		<!-- TODO: honestly we could just get rid of the nav links in footer -->
 		<section id="footer">
 			<div class="overlay">
 				<div class="container footer">
@@ -236,9 +237,9 @@
 						<div class="footer-nav-unit">
 							<h5>Who we are</h5>
 							<ul class="footer-links">
-								<li><a href="/#/staff"> Staff</a></li>
-								<li><a href="/#/history"> History</a></li>
-								<li><a href="/#/contact"> Contact</a></li>
+								<li><a href="#/staff"> Staff</a></li>
+								<li><a href="#/history"> History</a></li>
+								<li><a href="#/contact"> Contact</a></li>
 								<li><a href="https://cualumni.clemson.edu/give/wsbf" target="_blank"> Donate</a></li>
 							</ul>
 						</div>
@@ -246,10 +247,10 @@
 						<div class="footer-nav-unit">
 							<h5>Music</h5>
 							<ul class="footer-links">
-								<li><a href="/#/philosophy"> Philosophy</a></li>
+								<li><a href="#/philosophy"> Philosophy</a></li>
 								<!--<li><a href="#"> Playlist</a></li>-->
-								<li><a href="/#/schedule"> Schedule</a></li>
-								<li><a href="/#/charts"> Charting</a></li>
+								<li><a href="#/schedule"> Schedule</a></li>
+								<li><a href="#/charts"> Charting</a></li>
 								<!--<li><a href="#"> Submit</a></li>
 								<li><a href="#"> Library</a></li>
 								<li><a href="#"> Live Sessions</a></li>-->
@@ -262,7 +263,7 @@
 								<li><a href="#"> Internet</a></li>
 								<li><a href="#"> Mobile</a></li>
 								<li><a href="#"> Radio</a></li>
-								<li><a href="/#/schedule"> Schedule</a></li>
+								<li><a href="#/schedule"> Schedule</a></li>
 								<li><a href="#"> Archive</a></li>
 							</ul>
 						</div>
@@ -270,19 +271,19 @@
 						<div class="footer-nav-unit">
 							<h5>Production</h5>
 							<ul class="footer-links">
-								<li><a href="/#/equipment"> Equipment Rental</a></li>
+								<li><a href="#/equipment"> Equipment Rental</a></li>
 								<!--<li><a href="#"> Deejay Rental</a></li>-->
-								<li><a href="/#/recording"> Recording</a></li>
-								<li><a href="/#/booking"> Booking</a></li>
+								<li><a href="#/recording"> Recording</a></li>
+								<li><a href="#/booking"> Booking</a></li>
 							</ul>
 						</div>
 
 						<div class="footer-nav-unit">
 							<h5>Other</h5>
 							<ul class="footer-links">
-								<li><a href="/#/join"> Join WSBF</a></li>
-								<li><a href="/#/underwriting"> Underwriting & Promotion</a></li>
-								<li><a href="/#/psa"> Public Service Announcements</a></li>
+								<li><a href="#/join"> Join WSBF</a></li>
+								<li><a href="#/underwriting"> Underwriting & Promotion</a></li>
+								<li><a href="#/psa"> Public Service Announcements</a></li>
 							</ul>
 						</div>
 
