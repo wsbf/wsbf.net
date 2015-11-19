@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<div class="slider">
-	<!-- <?php $query = new WP_Query( 'tag=featured' );?> -->
-	<ul class="rslides">
-		<li ng-repeat="p in previews">
-			<div class="caption">
-				<a ng-href="showpost.php?p={{p.id}}">
-					<h4>{{p.title}}</h4>
-					<p>{{p.excerpt}}</p>
-				</a>
-			</div>
-			<img class="img-responsive" ng-src="{{p.imageUrl}}"/>
-		</li>
-	</ul>
-</div>
+<!-- <?php $query = new WP_Query( 'tag=featured' );?> -->
+<!-- TODO: finish styling and move styles to classes in main.css -->
+<uib-carousel interval="5000">
+	<uib-slide ng-repeat="p in previews">
+		<img ng-src="{{p.imageUrl}}" style="margin: auto; width: 100%;"/>
+		<div class="carousel-caption" style="background-color: rgba(0, 0, 0, 0.6);">
+			<a ng-href="showpost.php?p={{p.id}}" style="color: #FFFFFF; text-decoration: none;">
+				<h4>{{p.title}}</h4>
+				<p>{{p.excerpt}}</p>
+			</a>
+		</div>
+	</uib-slide>
+</uib-carousel>
