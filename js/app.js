@@ -3,7 +3,7 @@ var app = angular.module("app", ["ngRoute", "ui.bootstrap"]);
 
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
-		.when("/", { templateUrl: "views/slider_main.html", controller: "SliderCtrl" })
+		.when("/", { templateUrl: "views/slider_main.html", controller: "BlogPreviewCtrl" })
 		.when("/philosophy", { templateUrl: "views/philosophy.html" })
 		.when("/staff", { templateUrl: "views/staff.html" })
 		.when("/history", { templateUrl: "views/history.html" })
@@ -12,7 +12,19 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/equipment", { templateUrl: "views/equipment.html" })
 		.when("/recording", { templateUrl: "views/recording.html" })
 		.when("/booking", { templateUrl: "views/booking.html" })
-		.when("/blog", { templateUrl: "views/blog.html" })
+		.when("/blog", { templateUrl: "views/blog.html", controller: "BlogPreviewCtrl" })
+		.when("/blogpost/:id", {
+			templateUrl: "views/blogpost.html",
+			controller: "BlogCtrl",
+			resolve: {
+				post: ["$route", "$http", function($route, $http) {
+					return $http.get("api/blog_post.php?p=" + $route.current.params.id)
+						.then(function(res) {
+							return res.data;
+						});
+				}]
+			}
+		})
 		.when("/join", { templateUrl: "views/join.html" })
 		.when("/underwriting", { templateUrl: "views/underwriting.html" })
 		.when("/psa", { templateUrl: "views/psa.html" })
@@ -20,7 +32,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.otherwise("/");
 }]);
 
-app.controller("SliderCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("BlogPreviewCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.previews = [];
 
 	var getBlogPreviews = function() {
@@ -31,6 +43,10 @@ app.controller("SliderCtrl", ["$scope", "$http", function($scope, $http) {
 	};
 
 	getBlogPreviews();
+}]);
+
+app.controller("BlogCtrl", ["$scope", "post", function($scope, post) {
+	$scope.post = post;
 }]);
 
 app.controller("PlaylistCtrl", ["$scope", "$http", function($scope, $http) {

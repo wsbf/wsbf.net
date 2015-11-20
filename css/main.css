@@ -2,6 +2,7 @@ body {
 	padding-top: 115px;
 }
 
+/* Navbar */
 .navbar {
 	height: 115px;
 	background: #ffffff;
@@ -18,6 +19,7 @@ body {
 	font-family: 'Fjalla One', sans-serif;
 }
 
+/* Social icons (Facebook, Twitter, Instagram, etc.) */
 .social{
 	margin: 2px 0px 2px 0px;
 	text-align: right;
@@ -38,6 +40,7 @@ body {
 	margin-right: 0;
 }
 
+/* "Buy" and "Listen Live" buttons */
 .buy, .buy-small{
 	margin-right: 10px;
 }
@@ -65,33 +68,35 @@ body {
 	background-color: #A53E4A !important;
 }
 
-.media h1{
+/* Headers for media blocks (playlist, schedule, charts, etc.) */
+.media h1 {
 	font-size: 36px;
 	font-family: 'Fjalla One', sans-serif;
-
+	text-transform: uppercase;
 }
-.media h1 small{
+.media h1 small {
 	font-weight: bold;
 	font-family: 'Fjalla One', sans-serif;
 	margin-top: 5px;
 }
-.media h1 small .btn{
-	border-radius: 0;
+.media h1 small .btn {
 	border-radius: 0px;
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
 }
 
-.grid1{
+/* Top borders for media blocks */
+.grid1 {
 	border-top: 3px solid #5f9a18;
 }
-.grid2{
+.grid2 {
 	border-top: 3px solid #5542B9;
 }
-.grid3{
+.grid3 {
 	border-top: 3px solid #973232;
 }
 
+/* Scrollbar, other rules for media blocks */
 .items-container {
 	overflow-y: scroll;
 	max-height: 300px;
@@ -100,7 +105,7 @@ body {
 	height: 70px;
 	clear: both;
 }
-.items-container img {
+.items-container .item img {
 	border: 2px solid #5f9a18;
 	margin-right: 10px;
 }
@@ -109,6 +114,57 @@ table.chart-home>tbody>tr>td {
     vertical-align: middle;
 }
 
+/* Blog rules */
+#blog .search-control {
+    margin-top: 20px;
+}
+#blog .search-control a {
+    text-decoration: none;
+    line-height: 2.5;
+}
+#blog .search-control .music {
+    color: #FF3333;
+    margin-left: 10px;
+}
+#blog .search-control .news {
+    color: #A0BD2B;
+    margin-left: 10px;
+}
+#blog .search-control .music:hover,
+#blog .search-control .news:hover {
+    font-weight: bold;
+}
+
+#blog .blog-box {
+    padding: 20px;
+    border: 1px solid #d2d6d5;
+	margin-bottom: 10px;
+}
+#blog .blog-box a {
+	font-family: 'Patua One';
+}
+#blog .blog-box a {
+    text-decoration: none;
+    -webkit-transition: color .25s ease-out;
+    -moz-transition: color .25s ease-out;
+    -ms-transition: color .25s ease-out;
+    transition: color .25s ease-out;
+}
+
+#blogpost h1 {
+	font-family: 'Patua One';
+	text-transform: none;
+}
+#blogpost .list-inline li {
+    border-right: 1px solid #EEEEEE;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+#blog .list-inline li:last-child{
+    border-right: none;
+}
+
+/* Footer rules */
 #footer{
 	background: url("../images/footer/dsfgds.jpg") center right no-repeat;
 	background-size: cover;
@@ -166,9 +222,8 @@ table.chart-home>tbody>tr>td {
 	color:#FF0000;
 }
 
-.copy{
+/* Copyright */
+.copy {
 	margin-top:150px;
 	color: #868484;
 }
-
-

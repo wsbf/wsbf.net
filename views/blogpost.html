@@ -1,0 +1,21 @@
+<div id="blogpost">
+	<h1>{{post.title}}</h1>
+
+	<!-- Go to www.addthis.com/dashboard to customize your tools -->
+	<div class="addthis_sharing_toolbox"></div>
+	
+	<hr>
+
+	<ul class="list-inline">
+		<li>{{post.date | date:'MMMM d'}}</li>
+		<li>By <strong>{{post.author}}</strong></li>
+		<li class="text-muted">In <strong>{{post.category || 'Uncategorized'}}</strong></li>
+	</ul>
+
+	<!-- TODO: add image -->
+	<div>{{post.content}}</div>
+
+	<!-- Go to www.addthis.com/dashboard to customize your tools -->
+	<div class="pull-left" style="margin-right:20px;">Share this article: </div>
+	<div class="addthis_sharing_toolbox"></div>
+</div>

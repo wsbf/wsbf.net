@@ -1,67 +1,40 @@
 <!DOCTYPE html>
 <div id="blog">
+	<!-- TODO: add functionality to filters and search -->
 	<div class="row">
-		<div class="col-md-6">
-			<h2 class="page-head">WSBF BLOG</h2>
+		<div class="col-md-5">
+			<h1 class="page-head">WSBF Blog</h1>
 		</div>
 
-		<div class="col-md-3">
+		<div class="col-md-4">
 			<div class="search-control">
-				filter by: <a href="#" class="news"> <i class="fa fa-tag"></i> News</a> <a href="#" class="music"> <i class="fa fa-tag"></i> Music</a> 
+				<span>filter by: </span>
+				<a href="#" class="news"><i class="fa fa-tag"></i> News</a>
+				<a href="#" class="music"> <i class="fa fa-tag"></i> Music</a> 
 			</div>
 		</div>
 
 		<div class="col-md-3">
 			<div class="search-control">
-				<input type="text" placeholder="search" name="q" class="col-md-3 form-control"/>
+				<input class="col-md-3 form-control" type="text" name="q" placeholder="search"/>
 			</div>
 		</div>
 	</div>
 
-	<div class="row grid blog-boxes">
-<!--
-		<?php
-			$posts = get_posts('numberposts=20&order=DESC&orderby=date');
-			foreach ($posts as $post) : setup_postdata( $post ); ?>
-			
-			<div class="blog-item my-col n-2-5">  
-				<div class="blog-box">
-					<figure class="rollover">
-						<?php
-							if ( get_the_post_thumbnail() != '' ) {
-
-								echo '<a href="showpost.php?p='. get_the_ID() .'" class="thumbnail-wrapper">';
-								 the_post_thumbnail();
-								echo '</a>';
-
-							  } else if(catch_that_image($post)!='') {
-
-							   echo '<a href="showpost.php?p='. get_the_ID() .'" class="thumbnail-wrapper">';
-							   echo '<img src="';
-							   echo catch_that_image($post);
-							   echo '" alt="" />';
-							   echo '</a>';
-
-							  }
-						?>
-					</figure>
-					<div class="info">
-						<h3 class="blog-title">
-							<?php
-								echo '<a href="showpost.php?p='. get_the_ID() .'">';
-								 the_title();
-								echo '</a>';
-							?>
-						</h3>
-						<div class="category">
-							
-							<strong><?php echo get_the_category_list(); ?></strong>
-						</div>
-						<div class="mini-row date"><?php the_date("j F");?></div>
-					</div>
+	<div class="row items-container">
+		<div class="col-md-4" ng-repeat="p in previews">
+			<div class="blog-box">
+				<a ng-href="#/blogpost/{{p.id}}" class="thumbnail-wrapper">
+					<img ng-src="{{p.imageUrl}}" style="margin: auto; width: 100%;"/>
+				</a>
+				<div>
+					<h3>
+						<a ng-href="#/blogpost/{{p.id}}">{{p.title}}</a>
+					</h3>
+					<strong class="text-muted">{{p.category || 'Uncategorized'}}</strong>
+					<div>{{p.date | date:'MMMM d'}}</div>
 				</div>
 			</div>
-		<?php endforeach; ?>
--->
+		</div>
 	</div>
 </div>

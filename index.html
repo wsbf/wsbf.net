@@ -20,18 +20,17 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fjalla+One">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Patua+One">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/main.css">
+
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/angular-route/angular-route.js"></script>
 		<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 		<script src="js/app.js"></script>
 
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fjalla+One">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="css/main.css">
-
 <!--
-		<script src="js/libs/pace/pace.min.js"></script>
-		<link href='https://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
 		<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
 		<link href='https://fonts.googleapis.com/css?family=Coustard:900' rel='stylesheet' type='text/css' />
 		<link href='https://fonts.googleapis.com/css?family=Rochester' rel='stylesheet' type='text/css' />
@@ -146,7 +145,7 @@
 				<div class="col-md-4">
 					<div class="grid2" ng-controller="PlaylistCtrl">
 						<!-- Begin playlist.home -->
-						<h1>PLAYLIST <small><button class="btn btn-default pull-right">VIEW DAILY PLAYLIST</button></small></h1>
+						<h1>Playlist <small><button class="btn btn-default pull-right">VIEW DAILY PLAYLIST</button></small></h1>
 						<hr>
 						<div class="items-container">
 							<div class="item" ng-repeat="p in playlist">
@@ -166,7 +165,7 @@
 				<div class="col-md-4">
 					<div class="grid1" ng-controller="ScheduleCtrl">
 						<!-- Begin schedule.home -->
-						<h1>SCHEDULE <small class="pull-right">{{today | date:'EEE MM/dd' | uppercase}}</small></h1>
+						<h1>Schedule <small class="pull-right">{{today | date:'EEE MM/dd' | uppercase}}</small></h1>
 						<hr>
 						<div class="items-container">
 							<div class="schedule-current">
@@ -185,7 +184,7 @@
 				<div class="col-md-4">
 					<div class="grid2" ng-controller="ChartCtrl">
 						<!-- Begin chart.home -->
-						<h1>CHARTS <small><button class="btn btn-default pull-right">VIEW MORE</button></small></h1>
+						<h1>Charts <small><button class="btn btn-default pull-right">VIEW MORE</button></small></h1>
 						<hr>
 						<div class="items-container">
 							<table class="chart-home table table-striped">
@@ -209,7 +208,7 @@
 				<div class="col-md-4">
 					<div class="grid3 social-stream-widget">
 						<!-- Begin socialstream.home -->
-						<h1>SOCIAL STREAM <!--<small><button class="btn btn-default pull-right">VIEW ALL</button></small>--></h1>
+						<h1>Social Stream <!--<small><button class="btn btn-default pull-right">VIEW ALL</button></small>--></h1>
 						<hr>
 						<div class="items-container">
 							<a class="twitter-timeline" 
