@@ -53,7 +53,7 @@
 					</a>
 
 					<a class="navbar-toggle collapsed" ng-click="navCollapsed = !navCollapsed">
-						<span class="menuIcon fa-stack">
+						<span class="fa-stack">
 							<i class="fa fa-circle-thin fa-stack-2x"></i>
 							<i class="fa fa-bars fa-stack-1x"></i>
 						</span>
@@ -67,44 +67,62 @@
 						<a href="https://www.instagram.com/wsbf_fm"><i class="fa fa-instagram"></i></a>
 					</div>
 
-					<!-- Angular UI currently doesn't have hover directive, will need a custom hack -->
+					<!-- TODO: look into hover directive, Angular UI doesn't have one -->
 					<ul class="nav navbar-nav navbar-right">
 						<li uib-dropdown>
 							<a href="" class="dropdown-toggle" uib-dropdown-toggle>About</a>
 							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 								<li role="presentation">
-									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="#/philosophy"> Philosophy</a>
+									<a role="menuitem" tabindex="-1" href="#/philosophy">Philosophy</a>
 								</li>
 								<li role="presentation" class="divider"></li>
 								<li role="presentation">
-									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="#/staff"> Staff</a>
+									<a role="menuitem" tabindex="-1" href="#/staff">Staff</a>
 								</li>
 								<li role="presentation" class="divider"></li>
 								<li role="presentation">
-									<a class="inpage page-embed" role="menuitem" tabindex="-1" href="#/history"> History</a>
+									<a role="menuitem" tabindex="-1" href="#/history">History</a>
 								</li>
 							</ul>
 						</li>
 						<li uib-dropdown>
 							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Music</a>
 							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/schedule"> Schedule</a></li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#/schedule">Schedule</a>
+								</li>
 								<li role="presentation" class="divider"></li>
-								<!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#"> Playlist</a></li>
-								<li role="presentation" class="divider"></li> -->
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/charts"> Charting</a></li>
+								<!--
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#"> Playlist</a>
+								</li>
+								<li role="presentation" class="divider"></li>
+								-->
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#/charts">Charting</a>
+								</li>
 							</ul>
 						</li>
 						<li uib-dropdown>
 							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Production</a>
 							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/equipment"> Equipment Rentals</a></li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#/equipment">Equipment Rentals</a>
+								</li>
 								<li role="presentation" class="divider"></li>
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/recording"> Recording</a></li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#/recording">Recording</a>
+								</li>
 								<li role="presentation" class="divider"></li>
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/booking"> Booking</a></li>
-								<!--<li role="presentation" class="divider"></li>
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="#"> Live Sessions</a></li>-->
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#/booking">Booking</a>
+								</li>
+								<!--
+								<li role="presentation" class="divider"></li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#"> Live Sessions</a>
+								</li>
+								-->
 							</ul>
 						</li>
 						<li>
@@ -114,22 +132,36 @@
 							<a role="menuitem" tabindex="-1" href="#/blog">Blog</a>
 						</li>
 						<li uib-dropdown>
-							<a href="" class="dropdown-toggle" uib-dropdown-toggle>CONTACT</a>
+							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Contact</a>
 							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/join"> Join WSBF</a></li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#/join">Join WSBF</a>
+								</li>
 								<li role="presentation" class="divider"></li>
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/underwriting"> Underwriting & Promotion</a></li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#/underwriting">Underwriting & Promotion</a>
+								</li>
 								<li role="presentation" class="divider"></li>
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/psa"> Public Service Announcements</a></li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#/psa">Public Service Announcements</a>
+								</li>
 								<li role="presentation" class="divider"></li>
-								<li role="presentation"><a role="menuitem" tabindex="-1" href="#/contact"> Contact</a></li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#/contact">Contact</a>
+								</li>
 							</ul>
 						</li>
 						<li class="buy">
-							<a role="menuitem" tabindex="-1" href="https://secure.touchnet.net/C20569_ustores/web/store_cat.jsp?STOREID=59&CATID=96" target="_blank"><i class="fa fa-shopping-cart"></i> Buy</a>
+							<a role="menuitem" tabindex="-1" href="https://secure.touchnet.net/C20569_ustores/web/store_cat.jsp?STOREID=59&CATID=96" target="_blank">
+								<i class="fa fa-shopping-cart"></i>
+								<span class="hidden-sm"> Buy</span>
+							</a>
 						</li>
 						<li class="listen">
-							<a role="menuitem" tabindex="-1" href="#"><i class="fa fa-headphones live-icon"></i> Listen Live</a>
+							<a role="menuitem" tabindex="-1" href="#">
+								<i class="fa fa-headphones live-icon"></i>
+								<span class="hidden-sm"> Listen Live</span>
+							</a>
 						</li>
 					</ul>
 				</div>
@@ -158,9 +190,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="container">
 			<div class="row media">
 				<div class="col-md-4">
 					<div class="grid1" ng-controller="ScheduleCtrl">
@@ -364,9 +394,6 @@
 		<script type="text/javascript" src="js/libs/content_scroller/jquery.mousewheel.js"></script>
 		<script type="text/javascript" src="js/libs/content_scroller/jquery.contentcarousel.js"></script>
 		<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d8a40474ac913e"></script>
-		<script type="text/javascript">
-			$('#ca-container').contentcarousel();
-		</script>
 -->
 	</body>
 </html>

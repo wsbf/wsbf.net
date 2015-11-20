@@ -5,22 +5,30 @@ body {
 /* Navbar */
 .navbar {
 	height: 115px;
-	background: #ffffff;
+	background-color: #FFFFFF;
+}
+.navbar > .container {
+	background-color: #FFFFFF;
 }
 .navbar-brand img {
 	height: 90px;
 }
-.navbar-default .navbar-nav>li>a {
+.navbar .navbar-nav>li>a {
 	color: #000000;
 	text-decoration: none;
-	font-size: 16px;
 	text-transform: uppercase;
-	font-weight: bold;
 	font-family: 'Fjalla One', sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+}
+.navbar-toggle {
+	font-size: 2em;
+	color: #000000;
+	cursor: pointer;
 }
 
 /* Social icons (Facebook, Twitter, Instagram, etc.) */
-.social{
+.social {
 	margin: 2px 0px 2px 0px;
 	text-align: right;
 	-webkit-transition: all 0.3s ease 0s;
@@ -28,44 +36,46 @@ body {
 	transition: all 0.3s ease 0s;
 	font-size: 1.2em;
 }
-.social a{
+.social a {
 	text-decoration: none;
 	color: #A0BD2B;
 	margin-right: 10px;
 }
-.social a:hover{
+.social a:hover {
 	color: #f90303;
 }
-.social a:last-child{
+.social a:last-child {
 	margin-right: 0;
 }
 
 /* "Buy" and "Listen Live" buttons */
-.buy, .buy-small{
+.navbar-nav > li.buy {
 	margin-right: 10px;
 }
-.buy a, .buy-small a{
-	height:40px;
+.navbar-nav > li.buy > a {
+	margin-top: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	background-color: #468D1D;
-	font-size: 16px;
-	color:#FFFFFF !important;
-	padding-top:10px !important;
-	padding-bottom:10px !important;
+	color: #FFFFFF;
 }
-.buy a:hover, .buy-small a:hover{
-	background-color: #177726 !important;
+.navbar-nav > li.buy > a:hover {
+	background-color: #177726;
+	color: #FFFFFF;
 }
-
-.listen a, .listen-small a{
-	height:40px;
-	padding-top: 10px !important;
-	padding-bottom: 10px !important;
+.navbar-nav > li.listen {
+	margin-right: 15px;
+}
+.navbar-nav > li.listen > a {
+	margin-top: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	background-color: #E80200;
-	font-size:16px;
-	color:#FFFFFF !important;
+	color: #FFFFFF;
 }
-.listen a:hover, .listen-small a:hover {
-	background-color: #A53E4A !important;
+.navbar-nav > li.listen > a:hover {
+	background-color: #A53E4A;
+	color: #FFFFFF;
 }
 
 /* Headers for media blocks (playlist, schedule, charts, etc.) */
@@ -100,6 +110,7 @@ body {
 .items-container {
 	overflow-y: scroll;
 	max-height: 300px;
+	margin-bottom: 30px;
 }
 .items-container .item {
 	height: 70px;
@@ -160,7 +171,7 @@ table.chart-home>tbody>tr>td {
     padding-right: 15px;
     padding-left: 15px;
 }
-#blog .list-inline li:last-child{
+#blogpost .list-inline li:last-child{
     border-right: none;
 }
 
