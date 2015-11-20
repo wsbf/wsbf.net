@@ -32,6 +32,15 @@ app.config(["$routeProvider", function($routeProvider) {
 		.otherwise("/");
 }]);
 
+app.controller("MainCtrl", ["$scope", "$uibModal", function($scope, $uibModal) {
+	$scope.openMediaCenter = function() {
+		$uibModal.open({
+			templateUrl: "views/mediacenter.html",
+			size: "lg"
+		});
+	};
+}]);
+
 app.controller("BlogPreviewCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.previews = [];
 
