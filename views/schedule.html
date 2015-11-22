@@ -1,25 +1,37 @@
 <!DOCTYPE html>
-<h1 class="page-head">Schedule</h1>
+<h1>Schedule</h1>
 <hr>
-<div class="items-container">
-	<div class="row">
-		<div class="col-md-12">
-		    <ul class="this-week">
-		        <li><h4>This Week</h4></li>
-		        <li><a id="1" class="apply-nolazy" href="#">MON</a></li>
-		        <li><a id="2" class="apply-nolazy" href="#">TUE</a></li>
-		        <li><a id="3" class="apply-nolazy" href="#">WED</a></li>
-		        <li><a id="4" class="apply-nolazy" href="#">THU</a></li>
-		        <li><a id="5" class="apply-nolazy" href="#">FRI</a></li>
-		        <li><a id="6" class="apply-nolazy" href="#">SAT</a></li>
-		        <li><a id="0" class="apply-nolazy" href="#">SUN</a></li>
-		    </ul>
-		</div>
-	</div>
+<div class="items-container h4" id="schedule" ng-controller="ScheduleCtrl">
+	<ul class="list-inline text-center">
+		<li ng-click="getSchedule(1)" ng-class="{ active: day == 1 }">
+			<span>MON</span>
+		</li>
+		<li ng-click="getSchedule(2)" ng-class="{ active: day == 2 }">
+			<span>TUE</span>
+		</li>
+		<li ng-click="getSchedule(3)" ng-class="{ active: day == 3 }">
+			<span>WED</span>
+		</li>
+		<li ng-click="getSchedule(4)" ng-class="{ active: day == 4 }">
+			<span>THU</span>
+		</li>
+		<li ng-click="getSchedule(5)" ng-class="{ active: day == 5 }">
+			<span>FRI</span>
+		</li>
+		<li ng-click="getSchedule(6)" ng-class="{ active: day == 6 }">
+			<span>SAT</span>
+		</li>
+		<li ng-click="getSchedule(0)" ng-class="{ active: day == 0 }">
+			<span>SUN</span>
+		</li>
+	</ul>
 
-	<div class="row">
-		<div class="col-md-12 programs">
-		    <h4 class="date_header"></h4>
-		</div>
+	<h4><strong>{{today | date:'MMMM d'}}</strong></h4>
+
+	<div class="clearfix program" ng-repeat="s in schedule">
+		<img class="img-circle pull-left" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="96" height="96"/>
+		<p>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</p>
+		<p>{{s.show_name}}</p>
+		<p><strong>{{s.preferred_name}}</strong></p>
 	</div>
 </div>

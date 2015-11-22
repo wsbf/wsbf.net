@@ -101,17 +101,19 @@ app.controller("PlaylistCtrl", ["$scope", "$http", "$q", function($scope, $http,
 }]);
 
 app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
-	$scope.today = Date.now();
+	$scope.today = new Date();
+	$scope.day = $scope.today.getDay();
 	$scope.schedule = [];
 
-	var getSchedule = function() {
-		$http.get("api/schedule/schedule.php")
+	$scope.getSchedule = function(day) {
+		$http.get("api/schedule/schedule.php", { params: { day: day } })
 			.then(function(res) {
 				$scope.schedule = res.data;
+				$scope.day = day;
 			});
 	};
 
-	getSchedule();
+	$scope.getSchedule($scope.day);
 }]);
 
 // TODO: try to combine chart controllers

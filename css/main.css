@@ -122,44 +122,67 @@ body {
 }
 
 table.chart-home>tbody>tr>td {
-    vertical-align: middle;
+	vertical-align: middle;
+}
+
+/* Schedule rules */
+#schedule ul > li {
+	margin-left: 5px;
+	padding-top: 20px;
+	height: 60px;
+	width: 60px;
+	border: 1px solid #333;
+	border-radius: 100%;
+	font-family: 'Fjalla One', sans-serif;
+	cursor: pointer;
+}
+#schedule ul > li.active {
+	background-color: #E80200;
+	color: #FFFFFF;
+}
+
+#schedule .program {
+	margin-top: 30px;
+	padding: 10px 20px;
+	border-left: 6px solid #E80200;
+	background-color: #F0F0F0;
 }
 
 /* Blog rules */
 #blog .search-control {
-    margin-top: 20px;
+	margin-top: 20px;
 }
 #blog .search-control a {
-    text-decoration: none;
-    line-height: 2.5;
+	text-decoration: none;
+	line-height: 2.5;
 }
 #blog .search-control .music {
-    color: #FF3333;
-    margin-left: 10px;
+	color: #FF3333;
+	margin-left: 10px;
 }
 #blog .search-control .news {
-    color: #A0BD2B;
-    margin-left: 10px;
+	color: #A0BD2B;
+	margin-left: 10px;
 }
 #blog .search-control .music:hover,
 #blog .search-control .news:hover {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 #blog .blog-box {
-    padding: 20px;
-    border: 1px solid #d2d6d5;
+	padding: 20px;
+	border: 1px solid #d2d6d5;
 	margin-bottom: 10px;
 }
 #blog .blog-box a {
 	font-family: 'Patua One';
 }
 #blog .blog-box a {
-    text-decoration: none;
-    -webkit-transition: color .25s ease-out;
-    -moz-transition: color .25s ease-out;
-    -ms-transition: color .25s ease-out;
-    transition: color .25s ease-out;
+	text-decoration: none;
+	-webkit-transition: color .25s ease-out;
+	-moz-transition: color .25s ease-out;
+	-ms-transition: color .25s ease-out;
+	transition: color .25s ease-out;
 }
 
 #blogpost h1 {
@@ -167,12 +190,12 @@ table.chart-home>tbody>tr>td {
 	text-transform: none;
 }
 #blogpost .list-inline li {
-    border-right: 1px solid #EEEEEE;
-    padding-right: 15px;
-    padding-left: 15px;
+	border-right: 1px solid #EEEEEE;
+	padding-right: 15px;
+	padding-left: 15px;
 }
 #blogpost .list-inline li:last-child{
-    border-right: none;
+	border-right: none;
 }
 
 /* Media widget rules */
