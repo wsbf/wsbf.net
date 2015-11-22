@@ -4,71 +4,47 @@
 </div>
 <div class="modal-body">
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-5">
 			<!-- begin now playing -->
-			<div class="wsbf-player">
+			<div ng-controller="NowPlayingCtrl">
 				<h2>Now Playing</h2>
-				<div class="wsbf-player-widget">
-					<div class="song-info">
-						<div class="thumbnail">
-							<img class="song-art" data-src="" alt="..." src="images/media_large.png">
-							<div class="caption">
-								<div class="cap-info">
-									<strong>Track/Album: </strong>
-									<span class="info-val song-album"> -- / -- </span>
-								</div>
-								<div class="cap-info">
-									<strong>Artist: </strong>
-									<span class="info-val artist-name"> -- </span>
-								</div>
-								<div class="cap-info">
-									<strong>Show: </strong>
-									<span class="info-val show-name"> -- </span>
-									<strong>Host: </strong>
-									<span class="info-val show-host"> -- </span>
-								</div>
+				<div class="thumbnail">
+					<img class="img-rounded" ng-src="{{song.imageUrl || 'images/media_large.png'}}" width="174" height="174"/>
+					<div class="caption">
+						<div class="row">
+							<div class="col-xs-6 text-right">
+								<div><strong>Track:</strong></div>
+								<div><strong>Album:</strong></div>
+								<div><strong>Artist:</strong></div>
+								<div><strong>Show:</strong></div>
+								<div><strong>Host:</strong></div>
+							</div>
+							<div class="col-xs-6">
+								<div>{{song.lb_track_name || '--'}}</div>
+								<div>{{song.lb_album || '--'}}</div>
+								<div>{{song.lb_artist || '--'}}</div>
+								<div>{{song.show_name || '--'}}</div>
+								<div>{{song.show_host || '--'}}</div>
 							</div>
 						</div>
-					</div>
-					<div class="wsbf-player-controls">
-						<div class="media-control-wrapper">
-							<div id="jquery_jplayer_2" class="jp-jplayer"></div>
-							<div id="jp_container_2" class="jp-audio">
-								<div class="jp-type-single">
-									<div class="jp-gui jp-interface">
-										<ul class="jp-controls">
-											<li><a href="javascript:;" class="jp-play" tabindex="1"><i class="icon icon-play live-icon"></i></a></li>
-											<li><a href="javascript:;" class="jp-pause" tabindex="1"><i class="icon icon-pause live-icon"></i></a></li>
-											<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute </a> </li>
-											<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute </a> </li>
-										</ul>
-										<div class="jp-volume-bar">
-											<div class="jp-volume-bar-value"></div>
-										</div>
-									</div>
-									<div class="jp-no-solution">
-										<span>Update Required</span>
-										To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-									</div>
-								</div>
-							</div>
-						</div>
+						<br/>
+
+						<!-- TODO: explore /v8 option and others -->
+						<audio class="center-block" src="http://stream.wsbf.net:8000/high" controls preload></audio>
 					</div>
 				</div>
 			</div>
 			<!-- end now playing -->
 
 			<!-- begin playlist -->
-			<div class="playlist">
-				<div class="grid2" ng-controller="PlaylistCtrl">
-					<h1>Playlist</h1>
-					<hr>
-					<div class="items-container">
-						<div class="item" ng-repeat="p in playlist">
-							<img class="img-circle pull-left" src="images/media_small.png" width="60" height="60"/>
-							<div>{{p.start_time | date:'shortTime'}}</div>
-							<div>{{p.lb_track_name}} - {{p.lb_artist}}</div>
-						</div>
+			<div ng-controller="PlaylistCtrl">
+				<h1>Playlist</h1>
+				<hr>
+				<div class="items-container">
+					<div class="item" ng-repeat="p in playlist">
+						<img class="img-circle pull-left" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="60" height="60"/>
+						<div>{{p.start_time | date:'shortTime'}}</div>
+						<div>{{p.lb_track_name}} - {{p.lb_artist}}</div>
 					</div>
 				</div>
 			</div>
@@ -77,15 +53,16 @@
 
 		<div class="col-md-4">
 			<!-- begin webcam -->
-			<div class="webcam">
-				<h3>Studio WebCam</h3>
-				<img class="clearall" src="" id="webcam" alt="Webcam"/>
+			<!-- TODO: image should update every 5 s -->
+			<div>
+				<h2>Studio WebCam</h2>
+				<img class="img-responsive img-rounded" src="http://wsbf.net/camera/studioa.jpg" alt="Webcam"/>
 			</div>
 			<!-- end webcam -->
 
 			<!-- begin chat -->
-			<div class="chat-widget">
-				<h3>WSBF Chat</h3>	
+			<div>
+				<h2>WSBF Chat</h2>
 				<div class="textwidget">
 					<script id="sid0010000019982581110">
 <!--
@@ -123,7 +100,7 @@
 			<!-- end playlist -->
 		</div>
 
-		<div class="col-md-3 col-md-offset-1">
+		<div class="col-md-3">
 			<div class="ad">
 				<h2>Ads love it here!</h2>
 			</div>

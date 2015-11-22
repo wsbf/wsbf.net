@@ -175,6 +175,18 @@ table.chart-home>tbody>tr>td {
     border-right: none;
 }
 
+/* Media widget rules */
+#media-widget {
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	width: 400px;
+	height: 90px;
+	padding: 20px 20px;
+	background-color: #111111;
+	color: #FFFFFF;
+}
+
 /* Footer rules */
 #footer{
 	background: url("../images/footer/dsfgds.jpg") center right no-repeat;

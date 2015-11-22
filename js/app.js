@@ -58,16 +58,45 @@ app.controller("BlogCtrl", ["$scope", "post", function($scope, post) {
 	$scope.post = post;
 }]);
 
-app.controller("PlaylistCtrl", ["$scope", "$http", function($scope, $http) {
+// TODO: move some of these controllers into services to prevent duplication
+app.controller("PlaylistCtrl", ["$scope", "$http", "$q", function($scope, $http, $q) {
 	$scope.playlist = [];
 
+	var getAlbumInfo = function(artist, album) {
+		var url = "http://ws.audioscrobbler.com/2.0/?api_key=74e3ab782313ff6e306a5f52a0e043ab&format=json&method=album.getinfo"
+				+ "&artist=" + artist
+				+ "&album=" + album;
+
+		return $http.get(url);
+	};
+
 	var getPlaylist = function() {
+		var playlist;
+
 		$http.get("api/playlist/current.php")
 			.then(function(res) {
-				$scope.playlist = res.data;
+				var promises = [];
+
+				playlist = res.data;
+
+				for ( var i = 0; i < playlist.length; i++ ) {
+					promises.push(getAlbumInfo(playlist[i].lb_artist, playlist[i].lb_album));
+				}
+
+				return $q.all(promises);
+			})
+			.then(function(array) {
+				for ( var i = 0; i < playlist.length; i++ ) {
+					if ( !array[i].data.error ) {
+						playlist[i].imageUrl = array[i].data.album.image[1]["#text"];
+					}
+				}
+
+				$scope.playlist = playlist;
 			});
 	};
 
+	// playlist should update every 60 s
 	getPlaylist();
 }]);
 
@@ -105,4 +134,34 @@ app.controller("ChartCtrl", ["$scope", "$http", function($scope, $http) {
 	};
 
 	getCharts();
+}]);
+
+app.controller("NowPlayingCtrl", ["$scope", "$http", function($scope, $http) {
+	$scope.song = {};
+
+	var getAlbumInfo = function(artist, album) {
+		var url = "http://ws.audioscrobbler.com/2.0/?api_key=74e3ab782313ff6e306a5f52a0e043ab&format=json&method=album.getinfo"
+				+ "&artist=" + artist
+				+ "&album=" + album;
+
+		return $http.get(url);
+	};
+
+	var getNowPlaying = function() {
+		var song;
+
+		$http.get("api/playlist/now.php")
+			.then(function(res) {
+				song = res.data;
+
+				return getAlbumInfo(song.lb_artist, song.lb_album);
+			})
+			.then(function(res) {
+				song.imageUrl = res.data.album.image[2]["#text"];
+				$scope.song = song;
+			});
+	};
+
+	// now playing should update every 10 s
+	getNowPlaying();
 }]);
