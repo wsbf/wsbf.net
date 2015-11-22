@@ -1,69 +1,50 @@
 <!DOCTYPE html>
-<h1 class="page-head-2">Weekly Charts</h1>
+<h1 class="page-head">Weekly Charts</h1>
 <hr>
-<div class="items-container chart-main">
-    <div class="row">
-        <div class="col-md-3 pull-left week-date">
-			<h3><span>Thur. 07/19</span> - <span>Wed. 07/26</span></h3>
+<div class="items-container container-fluid" ng-controller="ChartCtrl">
+	<div class="row">
+		<div class="col-md-5">
+			<span class="h3">{{date1 | date:'EEE MM/dd'}} - {{date2 | date:'EEE MM/dd'}}</span>
 		</div>
-        <div class="col-md-4 pull-right">
-            <div class="dropdown pull-left">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown">
-                    jump to
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#1">1 - 25</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#25">25 - 50</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#50">50 - 75</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#75">75 - 100</a></li>
-                </ul>
-            </div>
-            <div class="pull-right">
-                <button class="prev-wk btn btn-sm">prev week</button>
-                <button class="next-wk btn btn-sm" disabled>next week</button>
-                <button class="curr-wk btn btn-sm" disabled>current</button>
-            </div>
-        </div> 
-    </div>
+		<div class="col-md-2">
+			<select class="form-control" ng-model="count" ng-options="c for c in [10, 30, 50, 100, 200]"></select>
+		</div>
+		<div class="col-md-5">
+			<div class="pull-right">
+				<button class="btn btn-sm" ng-click="getPrevWeek()">prev week</button>
+				<button class="btn btn-sm" ng-click="getNextWeek()" ng-disabled="!hasNextWeek()">next week</button>
+				<button class="btn btn-sm" ng-click="getCurrWeek()">current</button>
+			</div>
+		</div>
+	</div>
+	<br>
 
-    <div class="row tableDiv">
-        <div class="col-md-9">
-            <table class="table charts-table">
-                <tr class="chart-table-head">
-                    <th>Rank</th>
-                    <th>Change</th>
-                    <th>Plays</th>
-                    <th>Album info</th>
-                </tr>
-            </table>
-        </div>
-        <div class="col-md-3">
-            <table class="legend-table table table-bordered">
-                <tr>
-                    <th class="legend-head">
-                        Chart Legend
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                        <i class="fa fa-long-arrow-up"></i>
-                        Position increased relative to last week
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <i class="fa fa-long-arrow-down"></i>
-                        Position dropped relative to last week
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <i class="fa fa-minus"></i>
-                        Position stayed the same relative to last week
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
+	<table class="table">
+		<tr>
+			<th>Code</th>
+			<th>Rank</th>
+			<th>Change</th>
+			<th>Plays</th>
+			<th>Artist</th>
+			<th>Album</th>
+			<th>Label</th>
+		</tr>
+
+		<tr ng-repeat="c in charts">
+			<td>{{c.albumID}}</td>
+			<td>{{c.rank}}</td>
+			<td>
+				{{c.change}}
+				<!--
+				<i class="fa fa-long-arrow-up" ng-show="c.change > 0"></i>
+				<i class="fa fa-long-arrow-down" ng-show="c.change < 0"></i>
+				<i class="fa fa-minus" ng-show="c.change == 0"></i>
+				-->
+			</td>
+			<td>{{c.count}}</td>
+			<td>{{c.artist}}</td>
+			<td>{{c.album}}</td>
+			<td>{{c.label}}</td>
+		</tr>
+	</table>
 </div>

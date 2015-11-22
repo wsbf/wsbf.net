@@ -114,7 +114,66 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 	getSchedule();
 }]);
 
+// TODO: try to combine chart controllers
+// TODO: what should be the date ranges?
 app.controller("ChartCtrl", ["$scope", "$http", "$q", function($scope, $http, $q) {
+	var day = 24 * 3600 * 1000;
+	var week = 7 * day;
+
+	$scope.today = Date.now();
+	$scope.date1 = $scope.today - week - day;
+	$scope.date2 = $scope.today - day;
+	$scope.count = 30;
+	$scope.charts = [];
+
+	var getCharts = function(count, date1, date2) {
+		var charts = [];
+
+		$http.get("api/charts/charts.php")
+			.then(function(res) {
+				// temporary code to transform map into array
+				Object.keys(res.data).forEach(function(key) {
+					charts.push(res.data[key]);
+				});
+
+				// temporary code to sort array
+				charts.sort(function(a, b) {
+					return a.rank - b.rank;
+				});
+
+				$scope.charts = charts.slice(0, count);
+			});
+	};
+
+	$scope.getPrevWeek = function() {
+		$scope.date1 -= week;
+		$scope.date2 -= week;
+
+		getCharts($scope.count, $scope.date1, $scope.date2);
+	};
+
+	$scope.hasNextWeek = function() {
+		return $scope.date2 + week <= $scope.today;
+	};
+
+	$scope.getNextWeek = function() {
+		$scope.date1 += week;
+		$scope.date2 += week;
+
+		getCharts($scope.count, $scope.date1, $scope.date2);
+	};
+
+	$scope.getCurrWeek = function() {
+		$scope.date1 = $scope.today - week - day;
+		$scope.date2 = $scope.today - day;
+
+		getCharts($scope.count, $scope.date1, $scope.date2);
+	};
+
+	getCharts($scope.count, $scope.date1, $scope.date2);
+}]);
+
+app.controller("ChartWidgetCtrl", ["$scope", "$http", "$q", function($scope, $http, $q) {
 	$scope.charts = [];
 
 	var getAlbumInfo = function(artist, album) {
