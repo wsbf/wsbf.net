@@ -114,22 +114,51 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 	getSchedule();
 }]);
 
-app.controller("ChartCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("ChartCtrl", ["$scope", "$http", "$q", function($scope, $http, $q) {
 	$scope.charts = [];
+
+	var getAlbumInfo = function(artist, album) {
+		var url = "http://ws.audioscrobbler.com/2.0/?api_key=74e3ab782313ff6e306a5f52a0e043ab&format=json&method=album.getinfo"
+				+ "&artist=" + artist
+				+ "&album=" + album;
+
+		return $http.get(url);
+	};
 
 	// should retrieve only the top 10 albums
 	var getCharts = function() {
+		var charts = [];
+
 		$http.get("api/charts/charts.php")
 			.then(function(res) {
-				$scope.charts = [];
-
+				// temporary code to transform map into array
 				Object.keys(res.data).forEach(function(key) {
-					$scope.charts.push(res.data[key]);
+					charts.push(res.data[key]);
 				});
 
-				$scope.charts.sort(function(a, b) {
+				// temporary code to sort array
+				charts.sort(function(a, b) {
 					return a.rank - b.rank;
 				});
+
+				// temporary code to retrieve top 10 albums
+				charts = charts.slice(0, 10);
+
+				var promises = [];
+				for ( var i = 0; i < charts.length; i++ ) {
+					promises.push(getAlbumInfo(charts[i].artist, charts[i].album));
+				}
+
+				return $q.all(promises);
+			})
+			.then(function(array) {
+				for ( var i = 0; i < charts.length; i++ ) {
+					if ( !array[i].data.error ) {
+						charts[i].imageUrl = array[i].data.album.image[1]["#text"];
+					}
+				}
+
+				$scope.charts = charts;
 			});
 	};
 
@@ -164,4 +193,15 @@ app.controller("NowPlayingCtrl", ["$scope", "$http", function($scope, $http) {
 
 	// now playing should update every 10 s
 	getNowPlaying();
+}]);
+
+app.controller("WebcamCtrl", ["$scope", "$interval", function($scope, $interval) {
+	var baseUrl = "http://wsbf.net/camera/studioa.jpg";
+
+	$scope.webcamUrl = baseUrl;
+
+	/* append time parameter to webcam url to force a reload */
+	$interval(function() {
+		$scope.webcamUrl = baseUrl + "?" + Date.now();
+	}, 5000);
 }]);

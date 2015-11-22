@@ -2,7 +2,7 @@
 <html lang="en" ng-app="app" ng-strict-di>
 	<head>
 		<!--[if lt IE 9]>
-		<script src="js/dist/html5shiv.js"></script>
+		<script src="bower_components/html5shiv/dist/html5shiv.js"></script>
 		<![endif]-->
 
 <!--
@@ -25,6 +25,14 @@
 		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="css/main.css">
 
+		<!--
+			Angular uses a minimal version of jQuery called jqLite, but jQuery
+			is needed currently to load scripts in ng-view templates, such as
+			the addthis widget in blog posts and the chat in the media center.
+			If jQuery is loaded before Angular, then Angular will use that
+			version of jQuery instead of jqLite.
+		-->
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/angular-route/angular-route.js"></script>
 		<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
@@ -34,18 +42,14 @@
 		<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
 		<link href='https://fonts.googleapis.com/css?family=Coustard:900' rel='stylesheet' type='text/css' />
 		<link href='https://fonts.googleapis.com/css?family=Rochester' rel='stylesheet' type='text/css' />
-		<link rel="stylesheet" href="js/libs/jgrowl/jquery.jgrowl.min.css">
-		<link rel="stylesheet" href="css/responsive.css">
 		<link rel="stylesheet" href="css/social.css">
-		<link rel="stylesheet" href="css/wsbf.slider.css">
 		<link rel="stylesheet" href="css/media.css">
 		<link rel="stylesheet" href="js/libs/animate/animate.css">
-		<link rel="stylesheet" type="text/css" href="css/content_scroller.css" />
-		<link rel="stylesheet" type="text/css" href="css/jquery.jscrollpane.css" media="all" />
 -->
 	</head>
 	<body ng-controller="MainCtrl">
 		<!-- TODO: decide which views to put into a modal instead of ng-view -->
+		<!-- TODO: get all of the scroll bars to appear in the right places -->
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
@@ -176,13 +180,14 @@
 				</div>
 
 				<div class="col-md-4">
+					<!-- TODO: small button should link to /#/schedule ? -->
 					<div class="grid2" ng-controller="PlaylistCtrl">
 						<!-- Begin playlist.home -->
 						<h1>Playlist <small><button class="btn btn-default pull-right">VIEW DAILY PLAYLIST</button></small></h1>
 						<hr>
 						<div class="items-container">
 							<div class="item" ng-repeat="p in playlist">
-								<img class="img-circle pull-left" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="60" height="60"/>
+								<img class="img-circle pull-left" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
 								<div>{{p.start_time | date:'shortTime'}}</div>
 								<div>{{p.lb_track_name}} - {{p.lb_artist}}</div>
 							</div>
@@ -202,7 +207,7 @@
 						<div class="items-container">
 							<div class="schedule-current">
 							   <div class="item" ng-repeat="s in schedule">
-									<img class="img-circle pull-left" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="60" height="60"/>
+									<img class="img-circle pull-left" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="64" height="64"/>
 									<div>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</div>
 									<div><strong>{{s.show_name}}</strong></div>
 									<div><strong>{{s.preferred_name}}</strong></div>
@@ -214,6 +219,7 @@
 				</div>
 
 				<div class="col-md-4">
+					<!-- TODO: "View More" button should link to /#/charts or open modal -->
 					<div class="grid2" ng-controller="ChartCtrl">
 						<!-- Begin chart.home -->
 						<h1>Charts <small><button class="btn btn-default pull-right">VIEW MORE</button></small></h1>
@@ -223,8 +229,8 @@
 								<tr ng-repeat="c in charts">
 									<td class="h3">{{c.rank}}</td>
 									<td class="h3">{{c.change}}</td>
-									<td class="artwork">
-										<img class="img-rounded pull-left" src="images/media_small.png" width="60" height="60"/>
+									<td>
+										<img class="img-rounded pull-left" ng-src="{{c.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
 									</td>
 									<td>
 										<h4>{{c.album}}</h4>
@@ -240,7 +246,7 @@
 				<div class="col-md-4">
 					<div class="grid3 social-stream-widget">
 						<!-- Begin socialstream.home -->
-						<h1>Social Stream <!--<small><button class="btn btn-default pull-right">VIEW ALL</button></small>--></h1>
+						<h1>Social Stream</h1>
 						<hr>
 						<div class="items-container">
 							<a class="twitter-timeline" 
@@ -265,60 +271,60 @@
 				<div class="container footer">
 					<div>
 						<div class="footer-nav-unit">
-							<h5>Who we are</h5>
+							<h5>Who We Are</h5>
 							<ul class="footer-links">
-								<li><a href="#/staff"> Staff</a></li>
-								<li><a href="#/history"> History</a></li>
-								<li><a href="#/contact"> Contact</a></li>
-								<li><a href="https://cualumni.clemson.edu/give/wsbf" target="_blank"> Donate</a></li>
+								<li><a href="#/staff">Staff</a></li>
+								<li><a href="#/history">History</a></li>
+								<li><a href="#/contact">Contact</a></li>
+								<li><a href="https://cualumni.clemson.edu/give/wsbf" target="_blank">Donate</a></li>
 							</ul>
 						</div>
 
 						<div class="footer-nav-unit">
 							<h5>Music</h5>
 							<ul class="footer-links">
-								<li><a href="#/philosophy"> Philosophy</a></li>
-								<!--<li><a href="#"> Playlist</a></li>-->
-								<li><a href="#/schedule"> Schedule</a></li>
-								<li><a href="#/charts"> Charting</a></li>
-								<!--<li><a href="#"> Submit</a></li>
-								<li><a href="#"> Library</a></li>
-								<li><a href="#"> Live Sessions</a></li>-->
+								<li><a href="#/philosophy">Philosophy</a></li>
+								<!--<li><a href="#">Playlist</a></li>-->
+								<li><a href="#/schedule">Schedule</a></li>
+								<li><a href="#/charts">Charting</a></li>
+								<!--<li><a href="#">Submit</a></li>
+								<li><a href="#">Library</a></li>
+								<li><a href="#">Live Sessions</a></li>-->
 							</ul>
 						</div>
 <!--
 						<div class="footer-nav-unit">
 							<h5>Listen</h5>
 							<ul class="footer-links">
-								<li><a href="#"> Internet</a></li>
-								<li><a href="#"> Mobile</a></li>
-								<li><a href="#"> Radio</a></li>
-								<li><a href="#/schedule"> Schedule</a></li>
-								<li><a href="#"> Archive</a></li>
+								<li><a href="#">Internet</a></li>
+								<li><a href="#">Mobile</a></li>
+								<li><a href="#">Radio</a></li>
+								<li><a href="#/schedule">Schedule</a></li>
+								<li><a href="#">Archive</a></li>
 							</ul>
 						</div>
 -->
 						<div class="footer-nav-unit">
 							<h5>Production</h5>
 							<ul class="footer-links">
-								<li><a href="#/equipment"> Equipment Rental</a></li>
-								<!--<li><a href="#"> Deejay Rental</a></li>-->
-								<li><a href="#/recording"> Recording</a></li>
-								<li><a href="#/booking"> Booking</a></li>
+								<li><a href="#/equipment">Equipment Rental</a></li>
+								<!--<li><a href="#">Deejay Rental</a></li>-->
+								<li><a href="#/recording">Recording</a></li>
+								<li><a href="#/booking">Booking</a></li>
 							</ul>
 						</div>
 
 						<div class="footer-nav-unit">
 							<h5>Other</h5>
 							<ul class="footer-links">
-								<li><a href="#/join"> Join WSBF</a></li>
-								<li><a href="#/underwriting"> Underwriting & Promotion</a></li>
-								<li><a href="#/psa"> Public Service Announcements</a></li>
+								<li><a href="#/join">Join WSBF</a></li>
+								<li><a href="#/underwriting">Underwriting & Promotion</a></li>
+								<li><a href="#/psa">Public Service Announcements</a></li>
 							</ul>
 						</div>
 
 						<div class="footer-nav-unit">
-							<h5>Get In touch</h5>
+							<h5>Get In Touch</h5>
 							<div class="social">
 								<a href="https://www.facebook.com/wsbf881?ref=br_tf"><i class="fa fa-facebook"></i></a>
 								<a href="https://twitter.com/WSBF_FM"><i class="fa fa-twitter"></i></a>
@@ -327,7 +333,7 @@
 						</div>
 					</div>
 
-					<div class="copy pull-right"> Handcrafted with <i class="fa fa-heart"></i> in Clemson | &COPY; WSBF CLEMSON 2014 All rights reserved</div>
+					<div class="copy pull-right">Handcrafted with <i class="fa fa-heart"></i> in Clemson | &COPY; WSBF-FM Clemson 2015 All rights reserved</div>
 				</div>
 			</div>
 		</section>
@@ -339,33 +345,17 @@
 				<strong>{{song.lb_track_name || '--'}}</strong> by <strong>{{song.lb_artist || '--'}}</strong>
 			</span>
 
-			<!-- TODO: explore /v8 option and others -->
-			<audio class="pull-right" src="http://stream.wsbf.net:8000/high" controls preload></audio>
+			<!-- TODO: explore /v8 option, custom player styling -->
+			<audio class="pull-right" src="http://stream.wsbf.net:8000/high" type="audio/mpeg" controls preload></audio>
 		</div>
 		<!-- End mediawidget -->
 
-		<!-- TODO: figure out how to use addthis widget -->
 <!--
-		<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d8a40474ac913e"></script>
--->
-
-<!--
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-		<script type="text/javascript" src="js/libs/responsiveslides/responsiveslides.min.js"></script>
-		<script type="text/javascript" src="js/libs/jQuery.jPlayer.2.6.0/jquery.jplayer.min.js"></script>
 		<script type="text/javascript" src="js/libs/jquery-slimscroll/jquery.slimscroll.js"></script>
 		<script type="text/javascript" src="js/libs/bootstrap-libs/hover-dropdown/bootstrap-hover-dropdown.js"></script>
-		<script type="text/javascript" src="js/libs/underscore/underscore-min.js"></script>
-		<script type="text/javascript" src="js/libs/imagesloaded/imagesloaded.pkgd.min.js"></script>
 		<script type="text/javascript" src="js/libs/masonry/masonry.pkgd.min.js"></script>
 		<script type="text/javascript" src="js/app/ui/social_stream.js"></script>
 		<script type="text/javascript" src="js/app/ui/application-ui.js"></script>
-		<script type="text/javascript" src="js/app/ui/responsive.js"></script>
-		<script type="text/javascript" src="js/app/ui/notifications.js"></script>
-		<script type="text/javascript" src="js/libs/jquery-easing/jquery.easing.min.js"></script>
-		<script type="text/javascript" src="js/libs/jquery-cookie/jquery.cookie.js"></script>
-		<script type="text/javascript" src="js/libs/jgrowl/jquery.jgrowl.min.js"></script>
-		<script type="text/javascript" src="js/libs/content_scroller/jquery.mousewheel.js"></script>
 -->
 	</body>
 </html>

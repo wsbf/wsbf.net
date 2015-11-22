@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body">
 	<div class="row">
-		<div class="col-md-5">
+		<div class="col-md-6">
 			<!-- begin now playing -->
 			<div ng-controller="NowPlayingCtrl">
 				<h2>Now Playing</h2>
@@ -42,7 +42,7 @@
 				<hr>
 				<div class="items-container">
 					<div class="item" ng-repeat="p in playlist">
-						<img class="img-circle pull-left" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="60" height="60"/>
+						<img class="img-circle pull-left" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
 						<div>{{p.start_time | date:'shortTime'}}</div>
 						<div>{{p.lb_track_name}} - {{p.lb_artist}}</div>
 					</div>
@@ -51,12 +51,11 @@
 			<!-- end playlist -->
 		</div>
 
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<!-- begin webcam -->
-			<!-- TODO: image should update every 5 s -->
-			<div>
+			<div ng-controller="WebcamCtrl">
 				<h2>Studio WebCam</h2>
-				<img class="img-responsive img-rounded" src="http://wsbf.net/camera/studioa.jpg" alt="Webcam"/>
+				<img class="img-responsive img-rounded" ng-src="{{webcamUrl}}"/>
 			</div>
 			<!-- end webcam -->
 
@@ -64,8 +63,9 @@
 			<div>
 				<h2>WSBF Chat</h2>
 				<div class="textwidget">
+					<!-- TODO: customize chatbox style, do we have an account for this? -->
 					<script id="sid0010000019982581110">
-<!--
+					<!--
 						(function() {
 							function async_load() {
 								s.id = "cid0010000019982581110";
@@ -93,17 +93,11 @@
 								async_load();
 							}
 						})();
--->
+					-->
 					</script>
 				</div>
 			</div>
 			<!-- end playlist -->
-		</div>
-
-		<div class="col-md-3">
-			<div class="ad">
-				<h2>Ads love it here!</h2>
-			</div>
 		</div>
 	</div>
 </div>

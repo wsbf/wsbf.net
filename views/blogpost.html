@@ -1,9 +1,6 @@
 <div id="blogpost">
 	<h1>{{post.title}}</h1>
 
-	<!-- Go to www.addthis.com/dashboard to customize your tools -->
-	<div class="addthis_sharing_toolbox"></div>
-	
 	<hr>
 
 	<ul class="list-inline">
@@ -11,11 +8,17 @@
 		<li>By <strong>{{post.author}}</strong></li>
 		<li class="text-muted">In <strong>{{post.category || 'Uncategorized'}}</strong></li>
 	</ul>
+	<br>
 
-	<!-- TODO: add image -->
+	<img class="img-responsive" ng-src="{{post.imageUrl}}"/>
+	<br>
+
 	<div>{{post.content}}</div>
+	<br>
+
+	<script src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d8a40474ac913e"></script>
 
 	<!-- Go to www.addthis.com/dashboard to customize your tools -->
-	<div class="pull-left" style="margin-right:20px;">Share this article: </div>
+	<div>Share this article: </div>
 	<div class="addthis_sharing_toolbox"></div>
 </div>
