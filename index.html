@@ -188,7 +188,7 @@
 						<div class="items-container">
 							<div class="item" ng-repeat="p in playlist">
 								<img class="img-circle pull-left" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
-								<div>{{p.start_time | date:'shortTime'}}</div>
+								<div>{{p.time_played | date:'shortTime'}}</div>
 								<div>{{p.lb_track_name}} - {{p.lb_artist}}</div>
 							</div>
 						</div>
@@ -342,7 +342,7 @@
 		<div id="media-widget" ng-controller="NowPlayingCtrl">
 			<img class="img-rounded pull-left" ng-src="{{song.imageUrl || 'images/media_small.png'}}" width="50" height="50"/>
 			<span class="pull-right">
-				<strong>{{song.lb_track_name || '--'}}</strong> by <strong>{{song.lb_artist || '--'}}</strong>
+				<strong>{{song.lb_track_name || '--'}}</strong> by <strong>{{song.lb_artist_name || '--'}}</strong>
 			</span>
 
 			<!-- TODO: explore /v8 option, custom player styling -->

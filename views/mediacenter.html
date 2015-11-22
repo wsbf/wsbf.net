@@ -22,7 +22,7 @@
 							<div class="col-xs-6">
 								<div>{{song.lb_track_name || '--'}}</div>
 								<div>{{song.lb_album || '--'}}</div>
-								<div>{{song.lb_artist || '--'}}</div>
+								<div>{{song.lb_artist_name || '--'}}</div>
 								<div>{{song.show_name || '--'}}</div>
 								<div>{{song.show_host || '--'}}</div>
 							</div>
@@ -43,7 +43,7 @@
 				<div class="items-container">
 					<div class="item" ng-repeat="p in playlist">
 						<img class="img-circle pull-left" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
-						<div>{{p.start_time | date:'shortTime'}}</div>
+						<div>{{p.time_played | date:'shortTime'}}</div>
 						<div>{{p.lb_track_name}} - {{p.lb_artist}}</div>
 					</div>
 				</div>

@@ -26,8 +26,6 @@
 		</li>
 	</ul>
 
-	<h4><strong>{{today | date:'MMMM d'}}</strong></h4>
-
 	<div class="clearfix program" ng-repeat="s in schedule">
 		<img class="img-circle pull-left" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="96" height="96"/>
 		<p>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</p>

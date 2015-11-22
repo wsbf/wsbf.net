@@ -59,7 +59,7 @@ app.controller("BlogCtrl", ["$scope", "post", function($scope, post) {
 }]);
 
 // TODO: move some of these controllers into services to prevent duplication
-app.controller("PlaylistCtrl", ["$scope", "$http", "$q", function($scope, $http, $q) {
+app.controller("PlaylistCtrl", ["$scope", "$http", "$q", "$interval", function($scope, $http, $q, $interval) {
 	$scope.playlist = [];
 
 	var getAlbumInfo = function(artist, album) {
@@ -98,6 +98,8 @@ app.controller("PlaylistCtrl", ["$scope", "$http", "$q", function($scope, $http,
 
 	// playlist should update every 60 s
 	getPlaylist();
+
+	$interval(getPlaylist, 60000);
 }]);
 
 app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
@@ -226,7 +228,7 @@ app.controller("ChartWidgetCtrl", ["$scope", "$http", "$q", function($scope, $ht
 	getCharts();
 }]);
 
-app.controller("NowPlayingCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("NowPlayingCtrl", ["$scope", "$http", "$interval", function($scope, $http, $interval) {
 	$scope.song = {};
 
 	var getAlbumInfo = function(artist, album) {
@@ -254,6 +256,8 @@ app.controller("NowPlayingCtrl", ["$scope", "$http", function($scope, $http) {
 
 	// now playing should update every 10 s
 	getNowPlaying();
+
+	$interval(getNowPlaying, 10000);
 }]);
 
 app.controller("WebcamCtrl", ["$scope", "$interval", function($scope, $interval) {
