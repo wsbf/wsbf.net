@@ -59,15 +59,22 @@ app.controller("BlogCtrl", ["$scope", "post", function($scope, post) {
 }]);
 
 // TODO: move some of these controllers into services to prevent duplication
+// TODO: should not request album art if album property is blank
 app.controller("PlaylistCtrl", ["$scope", "$http", "$q", "$interval", function($scope, $http, $q, $interval) {
 	$scope.playlist = [];
 
 	var getAlbumInfo = function(artist, album) {
-		var url = "http://ws.audioscrobbler.com/2.0/?api_key=74e3ab782313ff6e306a5f52a0e043ab&format=json&method=album.getinfo"
-				+ "&artist=" + artist
-				+ "&album=" + album;
+		var config = {
+			params: {
+				api_key: "74e3ab782313ff6e306a5f52a0e043ab",
+				format: "json",
+				method: "album.getinfo",
+				artist: artist,
+				album: album
+			}
+		};
 
-		return $http.get(url);
+		return $http.get("http://ws.audioscrobbler.com/2.0/", config);
 	};
 
 	var getPlaylist = function() {
@@ -90,6 +97,12 @@ app.controller("PlaylistCtrl", ["$scope", "$http", "$q", "$interval", function($
 					if ( !array[i].data.error ) {
 						playlist[i].imageUrl = array[i].data.album.image[1]["#text"];
 					}
+					else {
+						console.log({
+							artist: playlist[i].lb_artist,
+							album: playlist[i].lb_album
+						});
+					}
 				}
 
 				$scope.playlist = playlist;
@@ -107,6 +120,7 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.day = $scope.today.getDay();
 	$scope.schedule = [];
 
+	// TODO: combine shows with multiple hosts
 	$scope.getSchedule = function(day) {
 		$http.get("api/schedule/schedule.php", { params: { day: day } })
 			.then(function(res) {
@@ -131,22 +145,14 @@ app.controller("ChartCtrl", ["$scope", "$http", "$q", function($scope, $http, $q
 	$scope.charts = [];
 
 	var getCharts = function(count, date1, date2) {
-		var charts = [];
-
-		$http.get("api/charts/charts.php")
-			.then(function(res) {
-				// temporary code to transform map into array
-				Object.keys(res.data).forEach(function(key) {
-					charts.push(res.data[key]);
-				});
-
-				// temporary code to sort array
-				charts.sort(function(a, b) {
-					return a.rank - b.rank;
-				});
-
-				$scope.charts = charts.slice(0, count);
-			});
+		$http.get("api/charts/charts.php", {
+			params: {
+				date1: date1,
+				date2: date2
+			}
+		}).then(function(res) {
+			$scope.charts = res.data.slice(0, count);
+		});
 	};
 
 	$scope.getPrevWeek = function() {
@@ -178,65 +184,83 @@ app.controller("ChartCtrl", ["$scope", "$http", "$q", function($scope, $http, $q
 }]);
 
 app.controller("ChartWidgetCtrl", ["$scope", "$http", "$q", function($scope, $http, $q) {
+	var day = 24 * 3600 * 1000;
+	var week = 7 * day;
+
+	var today = Date.now();
+	var date1 = today - week - day;
+	var date2 = today - day;
+	var count = 10;
 	$scope.charts = [];
 
 	var getAlbumInfo = function(artist, album) {
-		var url = "http://ws.audioscrobbler.com/2.0/?api_key=74e3ab782313ff6e306a5f52a0e043ab&format=json&method=album.getinfo"
-				+ "&artist=" + artist
-				+ "&album=" + album;
+		var config = {
+			params: {
+				api_key: "74e3ab782313ff6e306a5f52a0e043ab",
+				format: "json",
+				method: "album.getinfo",
+				artist: artist,
+				album: album
+			}
+		};
 
-		return $http.get(url);
+		return $http.get("http://ws.audioscrobbler.com/2.0/", config);
 	};
 
 	// should retrieve only the top 10 albums
-	var getCharts = function() {
+	var getCharts = function(count, date1, date2) {
 		var charts = [];
 
-		$http.get("api/charts/charts.php")
-			.then(function(res) {
-				// temporary code to transform map into array
-				Object.keys(res.data).forEach(function(key) {
-					charts.push(res.data[key]);
-				});
+		$http.get("api/charts/charts.php", {
+			params: {
+				date1: date1,
+				date2: date2
+			}
+		}).then(function(res) {
+			// temporary code to retrieve top 10 albums
+			charts = res.data.slice(0, count);
 
-				// temporary code to sort array
-				charts.sort(function(a, b) {
-					return a.rank - b.rank;
-				});
+			var promises = [];
+			for ( var i = 0; i < charts.length; i++ ) {
+				promises.push(getAlbumInfo(charts[i].lb_artist, charts[i].lb_album));
+			}
 
-				// temporary code to retrieve top 10 albums
-				charts = charts.slice(0, 10);
-
-				var promises = [];
-				for ( var i = 0; i < charts.length; i++ ) {
-					promises.push(getAlbumInfo(charts[i].artist, charts[i].album));
+			return $q.all(promises);
+		}).then(function(array) {
+			for ( var i = 0; i < charts.length; i++ ) {
+				if ( !array[i].data.error ) {
+					charts[i].imageUrl = array[i].data.album.image[1]["#text"];
 				}
-
-				return $q.all(promises);
-			})
-			.then(function(array) {
-				for ( var i = 0; i < charts.length; i++ ) {
-					if ( !array[i].data.error ) {
-						charts[i].imageUrl = array[i].data.album.image[1]["#text"];
-					}
+				else {
+					console.log({
+						artist: playlist[i].lb_artist,
+						album: playlist[i].lb_album
+					});
 				}
+			}
 
-				$scope.charts = charts;
-			});
+			$scope.charts = charts;
+		});
 	};
 
-	getCharts();
+	getCharts(count, date1, date2);
 }]);
 
 app.controller("NowPlayingCtrl", ["$scope", "$http", "$interval", function($scope, $http, $interval) {
 	$scope.song = {};
 
 	var getAlbumInfo = function(artist, album) {
-		var url = "http://ws.audioscrobbler.com/2.0/?api_key=74e3ab782313ff6e306a5f52a0e043ab&format=json&method=album.getinfo"
-				+ "&artist=" + artist
-				+ "&album=" + album;
+		var config = {
+			params: {
+				api_key: "74e3ab782313ff6e306a5f52a0e043ab",
+				format: "json",
+				method: "album.getinfo",
+				artist: artist,
+				album: album
+			}
+		};
 
-		return $http.get(url);
+		return $http.get("http://ws.audioscrobbler.com/2.0/", config);
 	};
 
 	var getNowPlaying = function() {
@@ -249,7 +273,15 @@ app.controller("NowPlayingCtrl", ["$scope", "$http", "$interval", function($scop
 				return getAlbumInfo(song.lb_artist, song.lb_album);
 			})
 			.then(function(res) {
-				song.imageUrl = res.data.album.image[2]["#text"];
+				if ( !res.data.error ) {
+					song.imageUrl = res.data.album.image[2]["#text"];
+				}
+				else {
+					console.log({
+						artist: song.lb_artist,
+						album: song.lb_album
+					});
+				}
 				$scope.song = song;
 			});
 	};

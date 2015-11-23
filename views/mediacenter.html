@@ -12,19 +12,19 @@
 					<img class="img-rounded" ng-src="{{song.imageUrl || 'images/media_large.png'}}" width="174" height="174"/>
 					<div class="caption">
 						<div class="row">
-							<div class="col-xs-6 text-right">
+							<div class="col-xs-4 text-right">
 								<div><strong>Track:</strong></div>
 								<div><strong>Album:</strong></div>
 								<div><strong>Artist:</strong></div>
 								<div><strong>Show:</strong></div>
 								<div><strong>Host:</strong></div>
 							</div>
-							<div class="col-xs-6">
+							<div class="col-xs-8">
 								<div>{{song.lb_track_name || '--'}}</div>
 								<div>{{song.lb_album || '--'}}</div>
-								<div>{{song.lb_artist_name || '--'}}</div>
+								<div>{{song.lb_artist || '--'}}</div>
 								<div>{{song.show_name || '--'}}</div>
-								<div>{{song.show_host || '--'}}</div>
+								<div>{{song.preferred_name || '--'}}</div>
 							</div>
 						</div>
 						<br/>

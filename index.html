@@ -227,14 +227,14 @@
 						<div class="items-container">
 							<table class="chart-home table table-striped">
 								<tr ng-repeat="c in charts">
-									<td class="h3">{{c.rank}}</td>
+									<td class="h3">{{$index + 1}}</td>
 									<td class="h3">{{c.change}}</td>
 									<td>
 										<img class="img-rounded pull-left" ng-src="{{c.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
 									</td>
 									<td>
-										<h4>{{c.album}}</h4>
-										<h5 class="text-muted">{{c.artist}}</h5>
+										<h4>{{c.lb_album}}</h4>
+										<h5 class="text-muted">{{c.lb_artist}}</h5>
 									</td>
 								</tr>
 							</table>
@@ -342,11 +342,11 @@
 		<div id="media-widget" ng-controller="NowPlayingCtrl">
 			<img class="img-rounded pull-left" ng-src="{{song.imageUrl || 'images/media_small.png'}}" width="50" height="50"/>
 			<span class="pull-right">
-				<strong>{{song.lb_track_name || '--'}}</strong> by <strong>{{song.lb_artist_name || '--'}}</strong>
+				<strong>{{song.lb_track_name || '--'}}</strong> by <strong>{{song.lb_artist || '--'}}</strong>
 			</span>
 
 			<!-- TODO: explore /v8 option, custom player styling -->
-			<audio class="pull-right" src="http://stream.wsbf.net:8000/high" type="audio/mpeg" controls preload></audio>
+			<audio src="http://stream.wsbf.net:8000/high" type="audio/mpeg" controls preload></audio>
 		</div>
 		<!-- End mediawidget -->
 
