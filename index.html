@@ -158,13 +158,13 @@
 						</li>
 						<li class="buy">
 							<a role="menuitem" tabindex="-1" href="https://secure.touchnet.net/C20569_ustores/web/store_cat.jsp?STOREID=59&CATID=96" target="_blank">
-								<i class="fa fa-shopping-cart"></i>
+								<i class="fa fa-shopping-cart hidden-xs"></i>
 								<span class="hidden-sm">Buy</span>
 							</a>
 						</li>
 						<li class="listen">
 							<a role="menuitem" tabindex="-1" href="" ng-click="openMediaCenter()">
-								<i class="fa fa-headphones"></i>
+								<i class="fa fa-headphones hidden-xs"></i>
 								<span class="hidden-sm">Listen Live</span>
 							</a>
 						</li>
@@ -205,13 +205,11 @@
 						<h1>Schedule <small class="pull-right">{{today | date:'EEE MM/dd' | uppercase}}</small></h1>
 						<hr>
 						<div class="items-container">
-							<div class="schedule-current">
-							   <div class="item" ng-repeat="s in schedule">
-									<img class="img-circle pull-left" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="64" height="64"/>
-									<div>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</div>
-									<div><strong>{{s.show_name}}</strong></div>
-									<div><strong>{{s.preferred_name}}</strong></div>
-								</div>
+						   <div class="item" ng-repeat="s in schedule">
+								<img class="img-circle pull-left" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="64" height="64"/>
+								<div>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</div>
+								<div><strong>{{s.show_name}}</strong></div>
+								<div>{{s.preferred_name}}</div>
 							</div>
 						</div>
 						<!-- End schedule.home -->
@@ -227,10 +225,15 @@
 						<div class="items-container">
 							<table class="chart-home table table-striped">
 								<tr ng-repeat="c in charts">
-									<td class="h3">{{$index + 1}}</td>
-									<td class="h3">{{c.change}}</td>
-									<td>
-										<img class="img-rounded pull-left" ng-src="{{c.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
+									<td class="h3 text-right">{{$index + 1}}</td>
+									<td class="h4 text-center">
+										<i ng-show="c.change > 0" class="fa fa-long-arrow-up"></i>
+										<i ng-show="c.change < 0" class="fa fa-long-arrow-down"></i>
+										<i ng-show="c.change === 0" class="fa fa-minus"></i>
+										<span ng-show="c.change === undefined">NEW!</span>
+									</td>
+									<td class="text-center">
+										<img class="img-rounded" ng-src="{{c.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
 									</td>
 									<td>
 										<h4>{{c.lb_album}}</h4>
@@ -244,7 +247,7 @@
 				</div>
 
 				<div class="col-md-4">
-					<div class="grid3 social-stream-widget">
+					<div class="grid3">
 						<!-- Begin socialstream.home -->
 						<h1>Social Stream</h1>
 						<hr>

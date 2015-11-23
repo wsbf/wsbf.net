@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <h1>Schedule</h1>
 <hr>
-<div class="items-container h4" id="schedule" ng-controller="ScheduleCtrl">
-	<ul class="list-inline text-center">
+<div class="items-container" id="schedule" ng-controller="ScheduleCtrl">
+	<ul class="list-inline text-center h4">
 		<li ng-click="getSchedule(1)" ng-class="{ active: day == 1 }">
 			<span>MON</span>
 		</li>
@@ -26,10 +26,12 @@
 		</li>
 	</ul>
 
-	<div class="clearfix program" ng-repeat="s in schedule">
-		<img class="img-circle pull-left" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="96" height="96"/>
+	<div class="program center-block h4" ng-repeat="s in schedule">
+		<img class="img-circle pull-left" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="80" height="80"/>
 		<p>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</p>
-		<p>{{s.show_name}}</p>
-		<p><strong>{{s.preferred_name}}</strong></p>
+		<p><strong>{{s.show_name}}</strong></p>
+		<p>{{s.preferred_name}}</p>
+
+		<div class="clearfix"></div>
 	</div>
 </div>

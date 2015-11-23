@@ -34,12 +34,10 @@
 			<td>{{c.lb_album_code}}</td>
 			<td>{{$index + 1}}</td>
 			<td>
-				{{c.change}}
-				<!--
-				<i class="fa fa-long-arrow-up" ng-show="c.change > 0"></i>
-				<i class="fa fa-long-arrow-down" ng-show="c.change < 0"></i>
-				<i class="fa fa-minus" ng-show="c.change == 0"></i>
-				-->
+				<i ng-show="c.change > 0" class="fa fa-long-arrow-up"></i>
+				<i ng-show="c.change < 0" class="fa fa-long-arrow-down"></i>
+				<i ng-show="c.change === 0" class="fa fa-minus"></i>
+				<span ng-show="c.change !== 0">{{c.change}}</span>
 			</td>
 			<td>{{c.count}}</td>
 			<td>{{c.lb_artist}}</td>

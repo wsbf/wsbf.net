@@ -80,7 +80,7 @@ app.controller("PlaylistCtrl", ["$scope", "$http", "$q", "$interval", function($
 	var getPlaylist = function() {
 		var playlist;
 
-		$http.get("api/playlist/current.php")
+		$http.get("api/playlist/playlist.php")
 			.then(function(res) {
 				var promises = [];
 
@@ -88,6 +88,9 @@ app.controller("PlaylistCtrl", ["$scope", "$http", "$q", "$interval", function($
 
 				for ( var i = 0; i < playlist.length; i++ ) {
 					promises.push(getAlbumInfo(playlist[i].lb_artist, playlist[i].lb_album));
+
+					// temporary code to parse dates
+					playlist[i].time_played = Date.parse(playlist[i].time_played);
 				}
 
 				return $q.all(promises);
@@ -120,11 +123,30 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.day = $scope.today.getDay();
 	$scope.schedule = [];
 
-	// TODO: combine shows with multiple hosts
 	$scope.getSchedule = function(day) {
 		$http.get("api/schedule/schedule.php", { params: { day: day } })
 			.then(function(res) {
-				$scope.schedule = res.data;
+				var schedule = res.data;
+
+				// combine shows with multiple hosts
+				schedule = schedule.reduce(function(array, s) {
+					var i = 0;
+					while ( i < array.length
+							&& array[i].start_time !== s.start_time ) {
+						i++;
+					}
+
+					if ( i == array.length ) {
+						array.push(s);
+					}
+					else {
+						array[i].preferred_name += ", " + s.preferred_name;
+					}
+
+					return array;
+				}, []);
+
+				$scope.schedule = schedule;
 				$scope.day = day;
 			});
 	};

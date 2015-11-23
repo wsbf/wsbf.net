@@ -1,17 +1,17 @@
 body {
-	padding-top: 115px;
+	padding-top: 100px;
 }
 
 /* Navbar */
 .navbar {
-	height: 115px;
+	height: 100px;
 	background-color: #FFFFFF;
 }
 .navbar > .container {
 	background-color: #FFFFFF;
 }
 .navbar-brand img {
-	height: 90px;
+	height: 70px;
 }
 .navbar .navbar-nav>li>a {
 	color: #000000;
@@ -21,10 +21,14 @@ body {
 	font-size: 16px;
 	font-weight: bold;
 }
-.navbar-toggle {
+.navbar-default .navbar-toggle {
+    border-color: #FFFFFF;
 	font-size: 2em;
 	color: #000000;
 	cursor: pointer;
+}
+.navbar-default .navbar-toggle:hover {
+	background-color: inherit;
 }
 
 /* Social icons (Facebook, Twitter, Instagram, etc.) */
@@ -49,33 +53,36 @@ body {
 }
 
 /* "Buy" and "Listen Live" buttons */
-.navbar-nav > li.buy {
-	margin-right: 10px;
-}
-.navbar-nav > li.buy > a {
-	margin-top: 5px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	background-color: #468D1D;
-	color: #FFFFFF;
-}
-.navbar-nav > li.buy > a:hover {
-	background-color: #177726;
-	color: #FFFFFF;
-}
-.navbar-nav > li.listen {
-	margin-right: 15px;
-}
-.navbar-nav > li.listen > a {
-	margin-top: 5px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	background-color: #E80200;
-	color: #FFFFFF;
-}
-.navbar-nav > li.listen > a:hover {
-	background-color: #A53E4A;
-	color: #FFFFFF;
+/* custom rules should only apply when navbar is not collapsed */
+@media (min-width: 768px) {
+	.navbar-nav > li.buy {
+		margin-right: 10px;
+	}
+	.navbar-nav > li.buy > a {
+		margin-top: 5px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		background-color: #468D1D;
+		color: #FFFFFF;
+	}
+	.navbar-nav > li.buy > a:hover {
+		background-color: #177726;
+		color: #FFFFFF;
+	}
+	.navbar-nav > li.listen {
+		margin-right: 15px;
+	}
+	.navbar-nav > li.listen > a {
+		margin-top: 5px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		background-color: #E80200;
+		color: #FFFFFF;
+	}
+	.navbar-nav > li.listen > a:hover {
+		background-color: #A53E4A;
+		color: #FFFFFF;
+	}
 }
 
 /* Headers for media blocks (playlist, schedule, charts, etc.) */
@@ -121,7 +128,7 @@ body {
 	margin-right: 10px;
 }
 
-table.chart-home>tbody>tr>td {
+table.chart-home > tbody > tr > td {
 	vertical-align: middle;
 }
 
@@ -142,11 +149,15 @@ table.chart-home>tbody>tr>td {
 }
 
 #schedule .program {
-	margin-top: 30px;
-	padding: 10px 20px;
-	max-width: 50%;
+	margin-top: 20px;
+	padding: 10px;
+	max-width: 75%;
 	border-left: 6px solid #E80200;
 	background-color: #F0F0F0;
+}
+#schedule .program img {
+	border: 2px solid #5f9a18;
+	margin-right: 10px;
 }
 
 /* Blog rules */
