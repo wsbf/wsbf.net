@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!--
+<?php
+	/** File name: form_edit_profile.php 
+	 *  Author: Edward Sullivan (ELSULLI@g.clemson.edu, 240 383 0498)
+	 *  Date: 30 August, 2012
+	 *  Purpose: Form to allow DJs to edit their personal information
+	 *           (email address, preferred name, phone number, status, etc.)
+	 *           as well as info for each of their active shows (show name, alias
+	 *           for the show hosts, show description, etc.). This form
+	 *           posts to submit_edit_profile.php.  
+	 *
+	 */
+
+   /* Ensure that we don't already have a session */
+   if(!session_id())
+   session_start();
+
+   require_once("../connect.php"); // Connecting to the database
+   
+   /* Check to make sure user is logged in */
+   if(empty($_SESSION['username'])){  
+      die ('You need to login first!<br><a href="/login">' +
+           'Click here to login!</a>');
+   }
+
+   /* If user is logged in, save username, pref_name, statusID */
+   else{  
+      $username = $_SESSION['username'];
+      $pref_name = $_SESSION['preferred_name'];
+      $statusID = $_SESSION['statusID'];
+   }
+   
+   /* Blocking people banned for life */
+   if($statusID == 7){ 
+      die ("Like we'd let $pref_name edit profile information?  Skedaddle.");
+   }
+
+   /* Defining mysql query to get current info about the user (name, preferred name, phone number, email address */
+   $DJ_profile_query = sprintf("SELECT first_name, last_name, preferred_name,
+                           phone_number, email_addr,
+                           sms_recv, username, profile_paragraph
+                           FROM users
+                           WHERE username = '%s'", $username);
+
+   /* Submitting the query */
+   $DJ_profile = mysql_query($DJ_profile_query, $link);
+            
+   /* Getting a associative row of results from the query (there should be just
+      one row here in this case */
+   $user_info = mysql_fetch_assoc($DJ_profile);
+
+	$keys = array(
+		"s.scheduleID",
+		"h.schedule_alias",
+		"s.description",
+		"s.show_name",
+		"s.description",
+		"s.genre",
+		"s.start_time",
+		"s.end_time"
+	);
+
+	/* Define mysql query to get info about the user's active shows */
+	$show_query = "SELECT " . implode(",", $keys) . " "
+			. "FROM schedule AS s, schedule_hosts AS h "
+			. "WHERE h.username=$username AND s.scheduleID=h.scheduleID AND s.active=1";
+
+	/* Execute the query */
+	$show_results = mysql_query($show_query, $link);
+?>
+-->
+<form class="form-horizontal" name="form" action="submit_edit_profile.php" method="POST">
+	<div class="form-group">
+		<div class="col-sm-offset-3 col-sm-6">
+			<h3>DJ Profile</h3>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Username</label>
+		<div class="col-sm-6">
+			<p class="form-control-static">{{user.username}}</p>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.first_name.$touched && form.first_name.$invalid}">
+		<label class="col-sm-3 control-label">First Name</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="first_name" ng-model="user.first_name" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.last_name.$touched && form.last_name.$invalid}">
+		<label class="col-sm-3 control-label">Last Name</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="last_name" ng-model="user.last_name" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.preferred_name.$touched && form.preferred_name.$invalid}">
+		<label class="col-sm-3 control-label">Preferred Name</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="preferred_name" ng-model="user.preferred_name" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.email_addr.$touched && form.email_addr.$invalid}">
+		<label class="col-sm-3 control-label">Email Address</label>
+		<div class="col-sm-6">
+			<input class="form-control" type="email" name="email_addr" ng-model="user.email_addr" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.phone_number.$touched && form.phone_number.$invalid}">
+		<label class="col-sm-3 control-label">Phone Number</label>
+		<div class="col-sm-6">
+			<input class="form-control" type="tel" name="phone_number" ng-model="user.phone_number"/>
+		</div>
+	</div>
+
+	<!-- Note: sms_recv is stored as 0 or 1 -->
+	<div class="form-group">
+		<div class="col-sm-offset-3 col-sm-6 checkbox">
+			<label>
+				<input type="checkbox" ng-model="user.sms_recv"/>
+				<span>Receive text messages</span>
+			</label>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.statusID.$touched && form.statusID.$invalid}">
+		<label class="col-sm-3 control-label">Status</label>
+		<div class="col-sm-6">
+			<!-- enable if status is in (0, 1, 2, 4) -->
+			<select class="form-control" name="statusID" ng-model="user.statusID" required>
+				<option value="0">Active at WSBF</option>
+				<option value="1">Semi-active at WSBF</option>
+				<option value="2">Inactive at WSBF</option>
+				<option value="4">Alumnus/Alumna</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.profile_paragraph.$invalid}">
+		<label class="col-sm-3 control-label">About You</label>
+		<div class="col-sm-6">
+			<textarea class="form-control" name="profile_paragraph" ng-model="user.profile_paragraph" rows="5" maxlength="2500"></textarea>
+			<samp class="help-block">{{user.profile_paragraph.length || 0}} characters entered and {{2500 - user.profile_paragraph.length}} characters remaining.</samp>
+		</div>
+	</div>
+
+	<!-- TODO: figure out how to upload files, enforce file size/type -->
+	<!-- currently only supports png -->
+	<!-- show if status is in (0, 1, 2, 4) -->
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Profile Picture</label>
+		<div class="col-sm-6">
+			<p class="form-control-static" ng-show="!user.has_picture">No current profile picture</p>
+
+			<img ng-src="images/users/{{user.username}}.png" ng-show="user.has_picture"/>
+
+			<input type="file" name="profile_picture" accept="image/*"/>
+			<p class="help-block">(Max size = 1 MB)</p>
+		</div>
+	</div>
+
+	<!-- shwo if user has a profile picture -->
+	<div class="form-group" ng-show="user.has_picture">
+		<div class="col-sm-offset-3 col-sm-6 checkbox">
+			<label>
+				<input type="checkbox" ng-model="user.delete_picture"/>
+				<span>Delete current profile picture</span>
+			</label>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-offset-3 col-sm-6">
+			<h3>Active Shows</h3>
+		</div>
+	</div>
+
+	<div ng-repeat="s in user.shows">
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-6">
+				<pre>Show {{$index + 1}}: {{days[s.dayID]}} @ {{s.start_time}} - {{s.end_time}}</pre>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Show Name</label>
+			<div class="col-sm-6">
+				<input class="form-control" ng-model="s.show_name" required maxlength="255"/>
+				<samp class="help-block">{{s.show_name.length || 0}} characters entered and {{255 - s.show_name.length}} characters remaining.</samp>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">DJ Alias</label>
+			<div class="col-sm-6">
+				<input class="form-control" ng-model="s.schedule_alias" maxlength="45"/>
+				<samp class="help-block">{{s.schedule_alias.length || 0}} characters entered and {{45 - s.schedule_alias.length}} characters remaining.</samp>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Description</label>
+			<div class="col-sm-6">
+				<textarea class="form-control" ng-model="s.description" rows="5" maxlength="255"></textarea>
+				<samp class="help-block">{{s.description.length || 0}} characters entered and {{2500 - s.description.length}} characters remaining.</samp>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Show Genre</label>
+			<div class="col-sm-6">
+				<select class="form-control" name="genre" ng-model="s.genre">
+					<option></option>
+					<option value="Rock">Rock</option>
+					<option value="Loud Rock/Metal">Loud Rock/Metal</option>
+					<option value="Hip-Hop/Rap">Hip-Hop/Rap</option>
+					<option value="Indie">Indie</option>
+					<option value="Electronic">Electronic</option>
+					<option value="Folk/Americana/Bluegrass">Folk/Americana/Bluegrass</option>
+					<option value="Punk">Punk</option>
+					<option value="Pop">Pop</option>
+					<option value="Jazz/Blues/Soul">Jazz/Blues/Soul</option>
+					<option value="World">World</option>
+					<option value="R&B/Reggae">R&B/Reggae</option>
+					<option value="Dance">Dance</option>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group text-center">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid">Save</button>
+			<a class="btn btn-default" href="#/">Cancel</a>
+		</div>
+	</div>
+</form>
