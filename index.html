@@ -21,8 +21,8 @@
 
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fjalla+One">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Patua+One">
-		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="css/main.css">
 
 		<!--
@@ -32,16 +32,15 @@
 			If jQuery is loaded before Angular, then Angular will use that
 			version of jQuery instead of jqLite.
 		-->
-		<script src="bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="bower_components/angular/angular.js"></script>
-		<script src="bower_components/angular-route/angular-route.js"></script>
-		<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="/bower_components/angular/angular.js"></script>
+		<script src="/bower_components/angular-route/angular-route.js"></script>
+		<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 		<script src="js/app.js"></script>
 
 <!--
 		<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Coustard:900' rel='stylesheet' type='text/css' />
-		<link href='https://fonts.googleapis.com/css?family=Rochester' rel='stylesheet' type='text/css' />
+		<link href='https://fonts.googleapis.com/css?family=Coustard:900' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="css/social.css">
 		<link rel="stylesheet" href="css/media.css">
 		<link rel="stylesheet" href="js/libs/animate/animate.css">
@@ -217,10 +216,9 @@
 				</div>
 
 				<div class="col-md-4">
-					<!-- TODO: "View More" button should link to /#/charts or open modal -->
 					<div class="grid2" ng-controller="ChartWidgetCtrl">
 						<!-- Begin chart.home -->
-						<h1>Charts <small><button class="btn btn-default pull-right">VIEW MORE</button></small></h1>
+						<h1>Charts <small><a class="btn btn-default pull-right" href="#/charts">VIEW MORE</a></small></h1>
 						<hr>
 						<div class="items-container">
 							<table class="chart-home table table-striped">
@@ -358,7 +356,6 @@
 		<script type="text/javascript" src="js/libs/bootstrap-libs/hover-dropdown/bootstrap-hover-dropdown.js"></script>
 		<script type="text/javascript" src="js/libs/masonry/masonry.pkgd.min.js"></script>
 		<script type="text/javascript" src="js/app/ui/social_stream.js"></script>
-		<script type="text/javascript" src="js/app/ui/application-ui.js"></script>
 -->
 	</body>
 </html>
