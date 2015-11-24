@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+<?php	
+	require_once("header.php");
+	require_once("hash_functions.php");
+	require_once("position_check.php");
+	require_once("connect.php");
+
+	if ( empty($_SESSION['username']) && $_POST ) {
+		$login = Login();
+		$var = $login[0];
+		$message = $login[1];
+
+		if ( !$var ) {
+			die("$message<br><a href=\"/login\">Try again!</a>");
+		}
+	}
+?>
+-->
+<html lang="en" ng-app="app" ng-strict-di>
+	<head>
+		<title>WSBF-FM Clemson | The Upstate's Only True Alternative Radio</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+		<script src="/bower_components/angular/angular.js"></script>
+		<script src="/bower_components/angular-route/angular-route.js"></script>
+		<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+		<script src="js/app.js"></script>
+	</head>
+	<body class="container" ng-controller="MainCtrl">
+		<h1 class="text-center">WSBF-FM Clemson</h1>
+		<h3 class="text-center">Welcome, {{user.preferred_name}}!</h3>
+
+		<div ng-view></div>
+	</body>
+</html>
