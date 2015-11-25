@@ -5,11 +5,19 @@ app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
 		.when("/", { templateUrl: "views/home.html" })
 		.when("/user", { templateUrl: "views/user.html" })
-		.when("/schedule", { templateUrl: "views/schedule.html" })
+		.when("/schedule", { templateUrl: "views/schedule.html", controller: "ScheduleCtrl" })
+		.when("/archives", { templateUrl: "views/archives.html", controller: "ArchivesCtrl" })
 		.otherwise("/");
 }]);
 
-app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
+/**
+ * Currently, controllers and views are being developed by hard-coding
+ * data that will eventually be provided by the server. Eventually a
+ * "database" or "api" service should be developed to abstract the use
+ * of $http in controllers.
+ */
+app.controller("MainCtrl", ["$scope", function($scope) {
+	// temporary object for days
 	$scope.days = [
 		"Sunday",
 		"Monday",
@@ -40,8 +48,21 @@ app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 			}
 		]
 	};
+}]);
 
-	// temporary code for loading schedule
+app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
+	// temporary object for days
+	$scope.days = [
+		"Sunday",
+		"Monday",
+		"Tuesday",
+		"Wednesday",
+		"Thursday",
+		"Friday",
+		"Saturday"
+	];
+
+	// temporary code for show schedule times
 	// TODO: we should make a `def_show_times` table!
 	$scope.start_times = [
 		"01:00:00",
@@ -90,4 +111,30 @@ app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 	for ( var i = 0; i < 7; i++ ) {
 		getSchedule(i);
 	}
+}]);
+
+app.controller("ArchivesCtrl", ["$scope", function($scope) {
+	// temporary array of show types
+	$scope.show_types = [
+		"Rotation",
+		"Specialty",
+		"Jazz",
+		"Sports/Talk",
+		"Rotating Specialty",
+		"Special Programming",
+		"Live Sessions",
+		"Free Form",
+		"Automation"
+	];
+
+	// temporary array of archives
+	$scope.archives = [
+		{
+			showID: "24063",
+			show_hosts: ["Otto Mation"],
+			show_name: "",
+			start_time: 1448316000000,
+			end_time: 1448325000000
+		}
+	];
 }]);

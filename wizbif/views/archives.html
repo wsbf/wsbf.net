@@ -1,0 +1,26 @@
+<h2 class="text-center">Show Archives</h2>
+
+<a href="#/">Home</a>
+
+<table class="table">
+	<thead>
+		<th>ID</th>
+		<th>Hosts</th>
+		<th>Show Name</th>
+		<th>Date</th>
+	</thead>
+
+	<tbody>
+		<tr ng-repeat="a in archives">
+			<td>
+				<!-- TODO: adjust href when archive file names are resolved -->
+				<a ng-href="ZAutoLib/archives/{{a.showID}} (1).mp3" target="_blank">{{a.showID}}</a>
+			</td>
+			<td>
+				<div ng-repeat="n in a.show_hosts">{{n}}</div>
+			</td>
+			<td>{{a.show_name}}</td>
+			<td>{{a.start_time | date:'short'}} - {{a.end_time | date:'short'}}</td>
+		</tr>
+	</tbody>
+</table>
