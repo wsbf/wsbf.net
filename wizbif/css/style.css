@@ -1,0 +1,17 @@
+/* rules for various show types */
+.show-type-0 {
+	/* rotation */
+	color: #39436d;
+}
+.show-type-1, .show-type-4, .show-type-6 {
+	/* specialty */
+	color: #58595f;
+}
+.show-type-2 {
+	/* jazz */
+	color: #A64B00;
+}
+.show-type-3 {
+	/* sports/talk */
+	color: #1b5e3f;
+}

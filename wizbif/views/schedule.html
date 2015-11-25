@@ -1,0 +1,26 @@
+<p>
+	<strong>Legend:</strong>
+	<span class="show-type-0">Rotation</span>
+	<span class="show-type-1">Specialty</span>
+	<span class="show-type-2">Jazz</span>
+	<span class="show-type-3">Sports/Talk</span>
+</p>
+
+<!-- TODO: add links to show description, maybe in a modal -->
+<table class="table">
+	<thead>
+		<th></th>
+		<th class="text-center" ng-repeat="d in days">{{d}}</th>
+	</thead>
+
+	<tbody>
+		<tr ng-repeat="t in start_times" ng-init="$timeIndex = $index">
+			<td>{{t}}</td>
+
+			<td class="text-center small show-type-{{schedule[$index][$timeIndex].show_typeID}}" ng-repeat="d in days">
+				<em>{{schedule[$index][$timeIndex].show_name}}</em>
+				<div ng-repeat="n in schedule[$index][$timeIndex].preferred_name">{{n}}</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
