@@ -218,11 +218,11 @@
 				<div class="col-md-4">
 					<div class="grid2" ng-controller="ChartWidgetCtrl">
 						<!-- Begin chart.home -->
-						<h1>Charts <small><a class="btn btn-default pull-right" href="#/charts">VIEW MORE</a></small></h1>
+						<h1>Chart <small><a class="btn btn-default pull-right" href="#/charts">VIEW MORE</a></small></h1>
 						<hr>
 						<div class="items-container">
 							<table class="chart-home table table-striped">
-								<tr ng-repeat="c in charts">
+								<tr ng-repeat="c in chart">
 									<td class="h3 text-right">{{$index + 1}}</td>
 									<td class="h4 text-center">
 										<i ng-show="c.change > 0" class="fa fa-long-arrow-up"></i>

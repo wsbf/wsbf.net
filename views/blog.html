@@ -24,12 +24,12 @@
 	<div class="row items-container">
 		<div class="col-md-4" ng-repeat="p in previews">
 			<div class="blog-box">
-				<a ng-href="#/blogpost/{{p.id}}" class="thumbnail-wrapper">
+				<a ng-href="#/blog/{{p.id}}" class="thumbnail-wrapper">
 					<img ng-src="{{p.imageUrl}}" style="margin: auto; width: 100%;"/>
 				</a>
 				<div>
 					<h3>
-						<a ng-href="#/blogpost/{{p.id}}">{{p.title}}</a>
+						<a ng-href="#/blog/{{p.id}}">{{p.title}}</a>
 					</h3>
 					<strong class="text-muted">{{p.category || 'Uncategorized'}}</strong>
 					<div>{{p.date | date:'MMMM d'}}</div>

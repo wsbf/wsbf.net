@@ -1,6 +1,36 @@
 "use strict";
+
+/**
+ * Out module is called "app" and it depends on the
+ * module "ngRoute" for routing views and "ui.bootstrap" for
+ * directives that control Bootstrap components (Carousel,
+ * Dropdown, etc.).
+ *
+ * Visit docs.angularjs.org for Angular documentation.
+ */
 var app = angular.module("app", ["ngRoute", "ui.bootstrap"]);
 
+/**
+ * The first part of our module is a "config" block, which is a function
+ * that will be run when the app is initiated (see the Angular docs for
+ * more details about the differences between "run" and "config" blocks).
+ *
+ * This block maps routes to views and controllers; our app will
+ * watch the current URL and load a particular HTML template into the <div>
+ * in index.html with the "ng-view" directive. Now, instead of reloading
+ * the entire page every time a particular page is viewed, each page is
+ * reduced to a "view" that is loaded in place of the blog carousel.
+ *
+ * Some important things to notice about the syntax here:
+ * - The arguments of the config function are dependencies that Angular
+ *   will provide at runtime (see "Dependency Injection" in Angular docs)
+ * - The argument names are also given as strings so that Angular can
+ *   still inject the right dependencies when this code is minified
+ * - For a config block, dependencies are always providers, but for other
+ *   components they can be services, factories, constants, etc.
+ *
+ * @param $routeProvider  provider in module ngRoute
+ */
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
 		.when("/", { templateUrl: "views/slider_main.html", controller: "BlogPreviewCtrl" })
@@ -13,12 +43,14 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/recording", { templateUrl: "views/recording.html" })
 		.when("/booking", { templateUrl: "views/booking.html" })
 		.when("/blog", { templateUrl: "views/blog.html", controller: "BlogPreviewCtrl" })
-		.when("/blogpost/:id", {
+		.when("/blog/:id", {
 			templateUrl: "views/blogpost.html",
 			controller: "BlogCtrl",
 			resolve: {
 				post: ["$route", "$http", function($route, $http) {
-					return $http.get("api/blog_post.php?p=" + $route.current.params.id)
+					return $http.get("api/blog_post.php", {
+						params: { p: $route.current.params.id }
+					})
 						.then(function(res) {
 							return res.data;
 						});
@@ -30,6 +62,159 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/psa", { templateUrl: "views/psa.html" })
 		.when("/contact", { templateUrl: "views/contact.html" })
 		.otherwise("/");
+}]);
+
+/**
+ * Our first "object" in this module is a service, which is very similar
+ * to a class. The service is called "db", and the function is the
+ * constructor.
+ *
+ * The Database service provides a single interface to server-side data.
+ * The entire server API is implemented here so that every controller
+ * uses this service instead of $http, which is an Angular service
+ * that provides low-level HTTP operations.
+ *
+ * This service uses Promises, which are an abstraction of callbacks
+ * that make asynchronous programming a little better.
+ *
+ * @param $http  service in module ng
+ * @param $q     service in module ng
+ */
+app.service("db", ["$http", "$q", function($http, $q) {
+
+	/**
+	 * Get the artwork for an album through the last.fm API.
+	 *
+	 * @param artist
+	 * @param album
+	 * @return Promise of HTTP request
+	 */
+	var getAlbumInfo = function(artist, album) {
+		var config = {
+			params: {
+				api_key: "74e3ab782313ff6e306a5f52a0e043ab",
+				format: "json",
+				method: "album.getinfo",
+				artist: artist,
+				album: album
+			}
+		};
+
+		return $http.get("http://ws.audioscrobbler.com/2.0/", config);
+	};
+
+	/**
+	 * Get album art for an array of tracks or albums.
+	 *
+	 * size parameter is based on last.fm API
+	 *  1: 64 x 64
+	 *  2: 174 x 174
+	 * 
+	 * @param array
+	 * @param size
+	 * @return Promise of updated array
+	 */
+	this.getAlbumArt = function(array, size) {
+		var promises = array.map(function(elem) {
+			return getAlbumInfo(elem.lb_artist, elem.lb_album);
+		});
+
+		return $q.all(promises)
+			.then(function(albums) {
+				for ( var i = 0; i < array.length; i++ ) {
+					if ( !albums[i].data.error ) {
+						array[i].imageUrl = albums[i].data.album.image[size]["#text"];
+					}
+					else {
+						// temporary code to report albums with no art
+						// usually just tracks with blank "lb_album"
+						console.log({
+							artist: array[i].lb_artist,
+							album: array[i].lb_album
+						});
+					}
+				}
+
+				return array;
+			});
+	};
+
+	/**
+	 * Get album charting over a period of time.
+	 *
+	 * @param count  size of chart in albums
+	 * @param date1  start date timestamp
+	 * @param date2  end date timestamp
+	 * @return Promise of chart array
+	 */
+	this.getChart = function(count, date1, date2) {
+		return $http.get("api/charts/charts.php", {
+			params: {
+				date1: date1,
+				date2: date2
+			}
+		}).then(function(res) {
+			return res.data.slice(0, count);
+		});
+	};
+
+	/**
+	 * Get the current playlist.
+	 *
+	 * @return Promise of playlist array
+	 */
+	this.getPlaylist = function() {
+		return $http.get("api/playlist/playlist.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Get the current track.
+	 *
+	 * @return Promise of track object
+	 */
+	this.getNowPlaying = function() {
+		return $http.get("api/playlist/now.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Get the schedule for a day of the week.
+	 *
+	 * @param day  day of the week (0 is Sunday, etc.)
+	 * @return Promise of schedule array
+	 */
+	this.getSchedule = function(day) {
+		return $http.get("api/schedule/schedule.php", { params: { day: day } })
+			.then(function(res) {
+				var schedule = res.data;
+
+				// combine shows with multiple hosts
+				// server should be able to do this (GROUP CONCAT?)
+				schedule = schedule.reduce(function(array, s) {
+					var i = 0;
+					while ( i < array.length
+							&& array[i].start_time !== s.start_time ) {
+						i++;
+					}
+
+					if ( i == array.length ) {
+						array.push(s);
+					}
+					else {
+						array[i].preferred_name += ", " + s.preferred_name;
+					}
+
+					return array;
+				}, []);
+
+				return schedule;
+			});
+	};
 }]);
 
 app.controller("MainCtrl", ["$scope", "$uibModal", function($scope, $uibModal) {
@@ -58,130 +243,60 @@ app.controller("BlogCtrl", ["$scope", "post", function($scope, post) {
 	$scope.post = post;
 }]);
 
-// TODO: move some of these controllers into services to prevent duplication
-// TODO: should not request album art if album property is blank
-app.controller("PlaylistCtrl", ["$scope", "$http", "$q", "$interval", function($scope, $http, $q, $interval) {
+app.controller("PlaylistCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
 	$scope.playlist = [];
 
-	var getAlbumInfo = function(artist, album) {
-		var config = {
-			params: {
-				api_key: "74e3ab782313ff6e306a5f52a0e043ab",
-				format: "json",
-				method: "album.getinfo",
-				artist: artist,
-				album: album
-			}
-		};
-
-		return $http.get("http://ws.audioscrobbler.com/2.0/", config);
-	};
-
 	var getPlaylist = function() {
-		var playlist;
-
-		$http.get("api/playlist/playlist.php")
-			.then(function(res) {
-				var promises = [];
-
-				playlist = res.data;
-
-				for ( var i = 0; i < playlist.length; i++ ) {
-					promises.push(getAlbumInfo(playlist[i].lb_artist, playlist[i].lb_album));
-
-					// temporary code to parse dates
-					playlist[i].time_played = Date.parse(playlist[i].time_played);
-				}
-
-				return $q.all(promises);
+		db.getPlaylist()
+			.then(function(playlist) {
+				return db.getAlbumArt(playlist, 1);
 			})
-			.then(function(array) {
-				for ( var i = 0; i < playlist.length; i++ ) {
-					if ( !array[i].data.error ) {
-						playlist[i].imageUrl = array[i].data.album.image[1]["#text"];
-					}
-					else {
-						console.log({
-							artist: playlist[i].lb_artist,
-							album: playlist[i].lb_album
-						});
-					}
-				}
-
+			.then(function(playlist) {
 				$scope.playlist = playlist;
 			});
-	};
+	}
 
-	// playlist should update every 60 s
+	// update playlist every 60 s
 	getPlaylist();
-
 	$interval(getPlaylist, 60000);
 }]);
 
-app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
 	$scope.today = new Date();
 	$scope.day = $scope.today.getDay();
 	$scope.schedule = [];
 
 	$scope.getSchedule = function(day) {
-		$http.get("api/schedule/schedule.php", { params: { day: day } })
-			.then(function(res) {
-				var schedule = res.data;
-
-				// combine shows with multiple hosts
-				schedule = schedule.reduce(function(array, s) {
-					var i = 0;
-					while ( i < array.length
-							&& array[i].start_time !== s.start_time ) {
-						i++;
-					}
-
-					if ( i == array.length ) {
-						array.push(s);
-					}
-					else {
-						array[i].preferred_name += ", " + s.preferred_name;
-					}
-
-					return array;
-				}, []);
-
-				$scope.schedule = schedule;
+		db.getSchedule(day)
+			.then(function(schedule) {
 				$scope.day = day;
+				$scope.schedule = schedule;
 			});
 	};
 
 	$scope.getSchedule($scope.day);
 }]);
 
-// TODO: try to combine chart controllers
-// TODO: what should be the date ranges?
-app.controller("ChartCtrl", ["$scope", "$http", "$q", function($scope, $http, $q) {
+app.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
 	var day = 24 * 3600 * 1000;
 	var week = 7 * day;
 
 	$scope.today = Date.now();
-	$scope.date1 = $scope.today - week - day;
-	$scope.date2 = $scope.today - day;
 	$scope.count = 30;
-	$scope.charts = [];
+	$scope.chart = [];
 
-	var getCharts = function(count, date1, date2) {
-		$http.get("api/charts/charts.php", {
-			params: {
-				date1: date1,
-				date2: date2
-			}
-		}).then(function(res) {
-			$scope.charts = res.data.slice(0, count);
-		});
+	var getChart = function(count, date1, date2) {
+		db.getChart(count, date1, date2)
+			.then(function(chart) {
+				$scope.chart = chart;
+			});
 	};
 
 	$scope.getPrevWeek = function() {
 		$scope.date1 -= week;
 		$scope.date2 -= week;
 
-		getCharts($scope.count, $scope.date1, $scope.date2);
+		getChart($scope.count, $scope.date1, $scope.date2);
 	};
 
 	$scope.hasNextWeek = function() {
@@ -192,20 +307,23 @@ app.controller("ChartCtrl", ["$scope", "$http", "$q", function($scope, $http, $q
 		$scope.date1 += week;
 		$scope.date2 += week;
 
-		getCharts($scope.count, $scope.date1, $scope.date2);
+		getChart($scope.count, $scope.date1, $scope.date2);
 	};
 
+	// TODO: what should be the default date ranges?
 	$scope.getCurrWeek = function() {
 		$scope.date1 = $scope.today - week - day;
 		$scope.date2 = $scope.today - day;
 
-		getCharts($scope.count, $scope.date1, $scope.date2);
+		getChart($scope.count, $scope.date1, $scope.date2);
 	};
 
-	getCharts($scope.count, $scope.date1, $scope.date2);
+	$scope.getCurrWeek();
 }]);
 
-app.controller("ChartWidgetCtrl", ["$scope", "$http", "$q", function($scope, $http, $q) {
+// TODO: try to combine chart controllers
+// chart widget also loads image URLs into chart array
+app.controller("ChartWidgetCtrl", ["$scope", "db", function($scope, db) {
 	var day = 24 * 3600 * 1000;
 	var week = 7 * day;
 
@@ -213,102 +331,35 @@ app.controller("ChartWidgetCtrl", ["$scope", "$http", "$q", function($scope, $ht
 	var date1 = today - week - day;
 	var date2 = today - day;
 	var count = 10;
-	$scope.charts = [];
+	$scope.chart = [];
 
-	var getAlbumInfo = function(artist, album) {
-		var config = {
-			params: {
-				api_key: "74e3ab782313ff6e306a5f52a0e043ab",
-				format: "json",
-				method: "album.getinfo",
-				artist: artist,
-				album: album
-			}
-		};
-
-		return $http.get("http://ws.audioscrobbler.com/2.0/", config);
-	};
-
-	// should retrieve only the top 10 albums
-	var getCharts = function(count, date1, date2) {
-		var charts = [];
-
-		$http.get("api/charts/charts.php", {
-			params: {
-				date1: date1,
-				date2: date2
-			}
-		}).then(function(res) {
-			// temporary code to retrieve top 10 albums
-			charts = res.data.slice(0, count);
-
-			var promises = [];
-			for ( var i = 0; i < charts.length; i++ ) {
-				promises.push(getAlbumInfo(charts[i].lb_artist, charts[i].lb_album));
-			}
-
-			return $q.all(promises);
-		}).then(function(array) {
-			for ( var i = 0; i < charts.length; i++ ) {
-				if ( !array[i].data.error ) {
-					charts[i].imageUrl = array[i].data.album.image[1]["#text"];
-				}
-				else {
-					console.log({
-						artist: playlist[i].lb_artist,
-						album: playlist[i].lb_album
-					});
-				}
-			}
-
-			$scope.charts = charts;
-		});
-	};
-
-	getCharts(count, date1, date2);
-}]);
-
-app.controller("NowPlayingCtrl", ["$scope", "$http", "$interval", function($scope, $http, $interval) {
-	$scope.song = {};
-
-	var getAlbumInfo = function(artist, album) {
-		var config = {
-			params: {
-				api_key: "74e3ab782313ff6e306a5f52a0e043ab",
-				format: "json",
-				method: "album.getinfo",
-				artist: artist,
-				album: album
-			}
-		};
-
-		return $http.get("http://ws.audioscrobbler.com/2.0/", config);
-	};
-
-	var getNowPlaying = function() {
-		var song;
-
-		$http.get("api/playlist/now.php")
-			.then(function(res) {
-				song = res.data;
-
-				return getAlbumInfo(song.lb_artist, song.lb_album);
+	var getChart = function(count, date1, date2) {
+		db.getChart(count, date1, date2)
+			.then(function(chart) {
+				return db.getAlbumArt(chart, 1);
 			})
-			.then(function(res) {
-				if ( !res.data.error ) {
-					song.imageUrl = res.data.album.image[2]["#text"];
-				}
-				else {
-					console.log({
-						artist: song.lb_artist,
-						album: song.lb_album
-					});
-				}
-				$scope.song = song;
+			.then(function(chart) {
+				$scope.chart = chart;
 			});
 	};
 
-	// now playing should update every 10 s
+	getChart(count, date1, date2);
+}]);
+
+app.controller("NowPlayingCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
+	$scope.song = {};
+
+	var getNowPlaying = function() {
+		db.getNowPlaying()
+			.then(function(song) {
+				return db.getAlbumArt([song], 2);
+			})
+			.then(function(array) {
+				$scope.song = array[0];
+			});
+	};
+
+	// update now playing every 10 s
 	getNowPlaying();
 
 	$interval(getNowPlaying, 10000);
