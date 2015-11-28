@@ -1,0 +1,87 @@
+<h3 class="text-center">CD Library</h3>
+
+<table class="table table-bordered">
+	<th ng-class="{ 'bg-success': rotation == 7 }">
+		<a href="" ng-click="getLibrary(7)">Recently Reviewed</a>
+	</th>
+	<th ng-class="{ 'bg-success': rotation == 1 }">
+		<a href="" ng-click="getLibrary(1)">New</a>
+	</th>
+	<th ng-class="{ 'bg-success': rotation == 2 }">
+		<a href="" ng-click="getLibrary(2)">Heavy</a>
+	</th>
+	<th ng-class="{ 'bg-success': rotation == 3 }">
+		<a href="" ng-click="getLibrary(3)">Medium</a>
+	</th>
+	<th ng-class="{ 'bg-success': rotation == 4 }">
+		<a href="" ng-click="getLibrary(4)">Light</a>
+	</th>
+	<th ng-class="{ 'bg-success': rotation == 5 }">
+		<a href="" ng-click="getLibrary(5)">Optional</a>
+	</th>
+	<th ng-class="{ 'bg-success': rotation == 6 }">
+		<a href="" ng-click="getLibrary(6)">Jazz</a>
+	</th>
+</table>	
+
+<table class="table">
+	<thead>
+		<th>Album ID</th>
+		<th>Album Code</th>
+		<th>Album</th>
+		<th>Artist</th>
+		<th>Reviewer</th>
+		<th>Review Date</th>
+	</thead>
+
+	<tbody>
+		<tr ng-repeat="a in albums">
+			<td>{{a.albumID}}</td>
+			<td>
+				<a ng-href="#/library/{{a.albumID}}">{{a.album_code}}</a>
+			</td>
+			<td>{{a.album_name}}</td>
+			<td>{{a.artist_name}}</td>
+			<td>{{a.reviewer}}</td>
+			<td>{{a.review_date | date}}</td>
+		</tr>
+	</tbody>
+</table>
+
+<!--
+<?php
+	//Query to get albums by rotationID
+    if ($rot != 0)
+    {
+     $query = sprintf("SELECT `libalbum`.`albumID`, `album_code`, `artist_name`, `album_name`, `review_date`, `first_name`,`last_name` FROM `libalbum`, `libartist`, `libreview`,`users` WHERE `rotationID` = '%d' AND `libalbum`.`artistID` = `libartist`.`artistID` AND `libalbum`.`albumID` = `libreview`.`albumID` AND `users`.`username` = `libreview`.`username`", mysql_real_escape_string($rot));
+    }
+    else 
+    {
+     $query = sprintf("SELECT `libalbum`.`albumID`, `album_code`, `artist_name`, `album_name` FROM `libalbum`, `libartist` WHERE `rotationID` = '%d' AND `libalbum`.`artistID` = `libartist`.`artistID`", mysql_real_escape_string($rot));
+    }
+	
+	//Submit Query
+	$list = mysql_query($query, $link);
+	//If query returns FALSE, no albums were returned.  Die with error
+	if (!$list) {
+			die ('No albums returned: ' . mysql_error());
+	}
+	
+	//Check to see whether session is for music director.
+	//True if so, false otherwise
+	$md_ret_value = MD_check();
+	//Get row from SQL Query, populate tables with albums
+	while($row = mysql_fetch_assoc($list)) {
+		if($album_code == $albumID){
+			$a_code = "<a href=\"review.php?albumID=$albumID\">REVIEW THIS!</a>";
+		}
+		else{
+			$a_code = "<a href=\"read_review.php?albumID=$albumID\">$album_code</a>";
+			//If user is music director, show extra link to edit a review
+			if($md_ret_value)
+				$a_code .= "<br><a href=\"review.php?albumID=$albumID&edit=1\">Edit Review</a>";
+		}
+
+	}
+?>
+-->

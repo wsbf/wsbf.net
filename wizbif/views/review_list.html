@@ -1,0 +1,21 @@
+<h3 class="text-center">To Be Reviewed</h3>
+
+<table class="table">
+	<thead>
+		<th>Album ID</th>
+		<th>Album Code</th>
+		<th>Album</th>
+		<th>Artist</th>
+	</thead>
+
+	<tbody>
+		<tr ng-repeat="a in albums">
+			<td>{{a.albumID}}</td>
+			<td>
+				<a ng-href="#/review/{{a.albumID}}">{{a.album_code}}</a>
+			</td>
+			<td>{{a.album_name}}</td>
+			<td>{{a.artist_name}}</td>
+		</tr>
+	</tbody>
+</table>

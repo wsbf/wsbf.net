@@ -1,12 +1,48 @@
 "use strict";
 var app = angular.module("app", ["ngRoute", "ui.bootstrap"]);
 
+// TODO: move temp objects into dummy php files, add $http calls
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
 		.when("/", { templateUrl: "views/home.html" })
 		.when("/user", { templateUrl: "views/user.html" })
 		.when("/schedule", { templateUrl: "views/schedule.html", controller: "ScheduleCtrl" })
+		.when("/charts", { templateUrl: "views/charts.html", controller: "ChartsCtrl" })
 		.when("/archives", { templateUrl: "views/archives.html", controller: "ArchivesCtrl" })
+		.when("/library", { templateUrl: "views/library.html", controller: "LibraryCtrl" })
+		.when("/library/:albumID", {
+			templateUrl: "views/library_item.html",
+			controller: "LibraryItemCtrl",
+			resolve: {
+				album: ["$route", "$http", function($route, $http) {
+					var config = {
+						params: { albumID: $route.current.params.albumID }
+					};
+
+					return $http.get("api/library/album.php", config)
+						.then(function(res) {
+							return res.data;
+						});
+				}]
+			}
+		})
+		.when("/review", { templateUrl: "views/review_list.html", controller: "ReviewListCtrl" })
+		.when("/review/:albumID", {
+			templateUrl: "views/review.html",
+			controller: "ReviewCtrl",
+			resolve: {
+				album: ["$route", "$http", function($route, $http) {
+					var config = {
+						params: { albumID: $route.current.params.albumID }
+					};
+
+					return $http.get("api/review/album.php", config)
+						.then(function(res) {
+							return res.data;
+						});
+				}]
+			}
+		})
 		.otherwise("/");
 }]);
 
@@ -16,7 +52,7 @@ app.config(["$routeProvider", function($routeProvider) {
  * "database" or "api" service should be developed to abstract the use
  * of $http in controllers.
  */
-app.controller("MainCtrl", ["$scope", function($scope) {
+app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 	// temporary object for days
 	$scope.days = [
 		"Sunday",
@@ -27,27 +63,16 @@ app.controller("MainCtrl", ["$scope", function($scope) {
 		"Friday",
 		"Saturday"
 	];
+	$scope.user = {};
 
-	// temporary object for user
-	$scope.user = {
-		username: "Automation",
-		first_name: "Otto",
-		last_name: "Mation",
-		preferred_name: "Otto Mation",
-		statusID: 0,
-		has_picture: 1,
-		shows: [
-			{
-				scheduleID: -1,
-				show_name: "The Best of WSBF",
-				dayID: 1,
-				start_time: "03:00:00",
-				end_time: "05:00:00",
-				show_typeID: 8,
-				description: "It's really late."
-			}
-		]
+	var getUser = function() {
+		$http.get("api/user.php")
+			.then(function(res) {
+				$scope.user = res.data;
+			});
 	};
+
+	getUser();
 }]);
 
 app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
@@ -113,7 +138,20 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 	}
 }]);
 
-app.controller("ArchivesCtrl", ["$scope", function($scope) {
+app.controller("ChartsCtrl", ["$scope", "$http", function($scope, $http) {
+	$scope.songs = [];
+
+	var getTracks = function() {
+		$http.get("api/charts/tracks.php")
+			.then(function(res) {
+				$scope.songs = res.data;
+			});
+	};
+
+	getTracks();
+}]);
+
+app.controller("ArchivesCtrl", ["$scope", "$http", function($scope, $http) {
 	// temporary array of show types
 	$scope.show_types = [
 		"Rotation",
@@ -127,14 +165,53 @@ app.controller("ArchivesCtrl", ["$scope", function($scope) {
 		"Automation"
 	];
 
-	// temporary array of archives
-	$scope.archives = [
-		{
-			showID: "24063",
-			show_hosts: ["Otto Mation"],
-			show_name: "",
-			start_time: 1448316000000,
-			end_time: 1448325000000
-		}
-	];
+	$scope.archives = [];
+
+	var getArchives = function() {
+		$http.get("api/archives/archives.php")
+			.then(function(res) {
+				$scope.archives = res.data;
+			});
+	};
+
+	getArchives();
+}]);
+
+app.controller("LibraryCtrl", ["$scope", "$http", function($scope, $http) {
+	$scope.rotation = 7;
+	$scope.albums = [];
+
+	$scope.getLibrary = function(rotation) {
+		$http.get("api/library/library.php", { params: { rotation: rotation } })
+			.then(function(res) {
+				$scope.rotation = rotation;
+				$scope.albums = res.data;
+			});
+	};
+
+	$scope.getLibrary($scope.rotation);
+}]);
+
+app.controller("LibraryItemCtrl", ["$scope", "album", function($scope, album) {
+	$scope.album = album;
+
+	// TODO: use echonest API to get similar artists (maybe do from backend)
+	$scope.similar_artists = [];
+}]);
+
+app.controller("ReviewListCtrl", ["$scope", "$http", function($scope, $http) {
+	$scope.albums = [];
+
+	var getAlbums = function() {
+		$http.get("api/review/album_list.php")
+			.then(function(res) {
+				$scope.albums = res.data;
+			});
+	};
+
+	getAlbums();
+}]);
+
+app.controller("ReviewCtrl", ["$scope", "album", function($scope, album) {
+	$scope.album = album;
 }]);

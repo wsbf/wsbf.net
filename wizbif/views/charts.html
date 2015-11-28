@@ -1,0 +1,27 @@
+<h3 class="text-center">Weekly Top 20 Tracks</h3>
+
+<em>All charts include albums in rotation that are played by DJs (not Automation).</em>
+
+<table class="table">
+	<thead>
+		<th>Rank</th>
+		<th>Song</th>
+		<th>Artist</th>
+		<th>Album</th>
+		<th>Album Code</th>
+		<th>Rotation</th>
+		<th>Plays</th>
+	</thead>
+
+	<tbody>
+		<tr ng-repeat="s in songs">
+			<td>{{$index + 1}}</td>
+			<td>{{s.lb_track_name}}</td>
+			<td>{{s.lb_artist}}</td>
+			<td>{{s.lb_album}}</td>
+			<td>{{s.lb_album_code}}</td>
+			<td>{{s.lb_rotation}}</td>
+			<td>{{s.plays}}</td>
+		</tr>
+	</tbody>
+</table>

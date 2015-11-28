@@ -1,0 +1,129 @@
+<h3 class="text-center">CD Review</h3>
+
+<form class="form-horizontal" name="form">
+	<div class="form-group">
+		<div class="col-sm-offset-3 col-sm-6">
+			<strong>NOTES</strong>
+			<ul>
+				<li>If the album artist is various artists, put "Various Artists" and make the track artist the name of the artist who performed each track.</li>
+				<li>If one artist performed all the tracks, leave the track artists alone.</li>
+				<li>If an album is by an artist, but has tracks featuring other artists, you can change the track artist to say "Album Artist feat. Another Artist."</li>
+				<li>If an album has remixes, and titles like "Track Name remixed by Artist Name," you should enter the track as "Track Name (Remix)" and make the track artist the name of the artist who did the remix.</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.artist_name.$touched && form.artist_name.$invalid}">
+		<label class="col-sm-3 control-label">Artist</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="artist_name" ng-model="album.artist_name" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.album_name.$touched && form.album_name.$invalid}">
+		<label class="col-sm-3 control-label">Album</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="album_name" ng-model="album.album_name" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.label.$touched && form.label.$invalid}">
+		<label class="col-sm-3 control-label">Label</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="label" ng-model="album.label" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.genre.$touched && form.genre.$invalid}">
+		<label class="col-sm-3 control-label">Genre</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="genre" ng-model="album.genre" required/>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">General Genre</label>
+		<div class="col-sm-6">
+			<select class="form-control" name="general_genre" ng-model="album.general_genre" disabled>
+				<option></option>
+				<option value="Rock">Rock</option>
+				<option value="Loud Rock/Metal">Loud Rock/Metal</option>
+				<option value="Hip-Hop/Rap">Hip-Hop/Rap</option>
+				<option value="Indie">Indie</option>
+				<option value="Electronic">Electronic</option>
+				<option value="Folk/Americana/Bluegrass">Folk/Americana/Bluegrass</option>
+				<option value="Punk">Punk</option>
+				<option value="Pop">Pop</option>
+				<option value="Jazz/Blues/Soul">Jazz/Blues/Soul</option>
+				<option value="World">World</option>
+				<option value="R&B/Reggae">R&B/Reggae</option>
+				<option value="Dance">Dance</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.username.$touched && form.username.$invalid}">
+		<label class="col-sm-3 control-label">Username</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="username" ng-model="album.username" required/>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Reviewer</label>
+		<div class="col-sm-6">
+			<p class="form-control-static">{{album.reviewer}}</p>
+		</div>
+	</div>
+
+	<table class="table">
+		<thead>
+			<th>Disc No.</th>
+			<th>Track No.</th>
+			<th>Name</th>
+			<th>Artist</th>
+			<th>Airability</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="t in album.tracks">
+				<td>{{t.disc_num}}</td>
+				<td>{{t.track_num}}</td>
+				<td>
+					<input ng-model="t.track_name"/>
+				</td>
+				<td>
+					<input ng-model="t.artist_name"/>
+				</td>
+				<td>
+					<select ng-model="t.airabilityID">
+						<option value="0">FCC Clean</option>
+						<option value="2">No Air</option>
+						<option value="1">Recommended</option>
+						<option value="3">Silence After Track</option>
+					</select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="form-group">
+		<p class="col-sm-12">IF ANY OF THE TRACKS ARE MISSING, DON'T REVIEW THE ALBUM.<br>You'll need to email the music director at <a href="mailto:music@wsbf.net">music@wsbf.net</a> and tell them the name and artist of the CD and that they need to re-rip it, you can include your review in the email as well and they can put it in for you. You also need to make sure you actually give them the CD so they can re-rip it.</p>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Review</label>
+		<div class="col-sm-6">
+			<samp class="help-block">{{750 - album.review.length}} characters remaining.</samp>
+			<textarea class="form-control" ng-model="album.review" rows="12" maxlength="750" required></textarea>
+		</div>
+	</div>
+
+	<div class="form-group text-center">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid">Submit Review</button>
+			<a class="btn btn-default" href="#/review">Cancel</a>
+		</div>
+	</div>
+	<!-- TODO: complete (review.php) -->
+</form>
