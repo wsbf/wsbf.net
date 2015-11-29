@@ -1,0 +1,51 @@
+<h3 class="text-center">Show Sub Request</h3>
+
+<form class="form-horizontal" name="form">
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Requested By</label>
+		<div class="col-sm-6">
+			<p class="form-control-static">{{user.preferred_name}}</p>
+		</div>
+	</div>
+
+	<!-- TODO: date should match m-d-yy (get that datepicker) -->
+	<!-- DJ should pick valid date for a show, get the rest from db -->
+	<div class="form-group" ng-class="{'has-error': form.date.$touched && form.date.$invalid}">
+		<label class="col-sm-3 control-label">Date</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="date" ng-model="request.date" required/>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Start Time</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="start_time" ng-model="request.start_time"/>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">End Time</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="end_time" ng-model="request.end_time"/>
+		</div>
+	</div>
+
+	<!-- show type omitted due to redundancy-->
+
+	<!-- show name omitted due to redundancy -->
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Reason/Comments</label>
+		<div class="col-sm-6">
+			<textarea class="form-control" name="reason" ng-model="request.reason" rows="3"></textarea>
+		</div>
+	</div>
+
+	<div class="form-group text-center">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid">Submit</button>
+			<a class="btn btn-default" href="#/showsub">Cancel</a>
+		</div>
+	</div>
+</form>

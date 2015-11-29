@@ -1,7 +1,8 @@
 "use strict";
 var app = angular.module("app", ["ngRoute", "ui.bootstrap"]);
 
-// TODO: move temp objects into dummy php files, add $http calls
+// TODO: create 'db' service to abstract $http usage
+// and implement all of those server scripts!
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
 		.when("/", { templateUrl: "views/home.html" })
@@ -43,15 +44,11 @@ app.config(["$routeProvider", function($routeProvider) {
 				}]
 			}
 		})
+		.when("/showsub", { templateUrl: "views/showsub.html", controller: "ShowSubCtrl" })
+		.when("/showsub/request", { templateUrl: "views/showsub_request.html", controller: "ShowSubRequestCtrl" })
 		.otherwise("/");
 }]);
 
-/**
- * Currently, controllers and views are being developed by hard-coding
- * data that will eventually be provided by the server. Eventually a
- * "database" or "api" service should be developed to abstract the use
- * of $http in controllers.
- */
 app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 	// temporary object for days
 	$scope.days = [
@@ -177,6 +174,7 @@ app.controller("ArchivesCtrl", ["$scope", "$http", function($scope, $http) {
 	getArchives();
 }]);
 
+// TODO: add searching/sorting by DJs
 app.controller("LibraryCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.rotation = 7;
 	$scope.albums = [];
@@ -214,4 +212,50 @@ app.controller("ReviewListCtrl", ["$scope", "$http", function($scope, $http) {
 
 app.controller("ReviewCtrl", ["$scope", "album", function($scope, album) {
 	$scope.album = album;
+}]);
+
+app.controller("ShowSubCtrl", ["$scope", "$http", function($scope, $http) {
+	$scope.requests = [];
+
+	var getRequests = function() {
+		$http.get("api/showsub/request_list.php")
+			.then(function(res) {
+				$scope.requests = res.data;
+			});
+	};
+
+	$scope.fillRequest = function() {
+		// confirm action
+		// post to api/showsub/fill.php (see show_sub/show_sub_fill.php)
+	};
+
+	$scope.removeRequest = function() {
+		// confirm action
+		// post to api/showsub/remove.php (see show_sub/show_sub_remove.php)
+	};
+
+	getRequests();
+}]);
+
+app.controller("ShowSubRequestCtrl", ["$scope", "$http", function($scope, $http) {
+	// temporary code for show schedule times
+	$scope.show_times = [
+		"01:00:00",
+		"03:00:00",
+		"05:00:00",
+		"07:00:00",
+		"09:00:00",
+		"11:00:00",
+		"12:30:00",
+		"14:00:00",
+		"15:30:00",
+		"17:00:00",
+		"19:00:00",
+		"21:00:00",
+		"23:00:00",
+	];
+
+	$scope.request = {
+		username: $scope.$parent.user.username
+	};
 }]);

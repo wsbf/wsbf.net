@@ -11,19 +11,18 @@
 	<li><a href="#/library">CD Library</a></li>
 	<li><a href="#/review">Review a CD</a></li>
 	<li><a href="fishbowl/fishbowl_app.php">Fishbowl Application</a></li>
-	<li><a href="show_sub/show_sub.php">Request or Fill a show sub</a></li>
+	<li><a href="#/showsub">Show Sub Requests</a></li>
 	<li><a href="#/archives">Archives</a></li>
-	<li><a href="reviewsByActiveDJs.php">Who's done their CD reviews?</a></li>
 
 	<!-- show if user has music director priviledges -->
-	<li><a href="rotation_control.php">Print Labels or Move Rotation</a></li>
-	<li><a href="import/import_main.php">Import Music</a></li>
+	<li ng-show="false"><a href="rotation_control.php">Print Labels or Move Rotation</a></li>
+	<li ng-show="false"><a href="import/import_main.php">Import Music</a></li>
 
 	<!-- show if user is senior staff -->
-	<li><a href="schedule_addshow.php">Add shows to the schedule</a></li>
+	<li ng-show="false"><a href="schedule_addshow.php">Add shows to the schedule</a></li>
 
 	<!-- show to chief/computer/equipment engineer, promo director -->
-	<li><a href="">Write new Engineering Blog entry</a></li>
+	<li ng-show="false"><a href="">Write new Engineering Blog entry</a></li>
 
 	<li><a href="logout.php">Log out!</a></li>
 </ul>
