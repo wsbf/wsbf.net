@@ -55,7 +55,7 @@
 		"h.schedule_alias",
 		"s.description",
 		"s.show_name",
-		"s.description",
+		"s.show_typeID",
 		"s.genre",
 		"s.start_time",
 		"s.end_time"
@@ -150,7 +150,7 @@
 		</div>
 	</div>
 
-	<!-- TODO: figure out how to upload files, enforce file size/type -->
+	<!-- TODO: figure out how to upload files, enforce file size/type/extension -->
 	<!-- currently only supports png -->
 	<!-- show if status is in (0, 1, 2, 4) -->
 	<div class="form-group">
@@ -158,7 +158,7 @@
 		<div class="col-sm-6">
 			<p class="form-control-static" ng-show="!user.has_picture">No current profile picture</p>
 
-			<img ng-src="images/users/{{user.username}}.png" ng-show="user.has_picture"/>
+			<img ng-src="images/users/{{user.username}}" ng-show="user.has_picture"/>
 
 			<input type="file" name="profile_picture" accept="image/*"/>
 			<p class="help-block">(Max size = 1 MB)</p>
@@ -195,6 +195,8 @@
 				<samp class="help-block">{{s.show_name.length || 0}} characters entered and {{255 - s.show_name.length}} characters remaining.</samp>
 			</div>
 		</div>
+
+		<!-- TODO: add static field for show type -->
 
 		<div class="form-group">
 			<label class="col-sm-3 control-label">DJ Alias</label>

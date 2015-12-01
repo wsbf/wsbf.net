@@ -1,22 +1,5 @@
 <!DOCTYPE html>
-<!--
-<?php	
-	require_once("header.php");
-	require_once("hash_functions.php");
-	require_once("position_check.php");
-	require_once("connect.php");
-
-	if ( empty($_SESSION['username']) && $_POST ) {
-		$login = Login();
-		$var = $login[0];
-		$message = $login[1];
-
-		if ( !$var ) {
-			die("$message<br><a href=\"/login\">Try again!</a>");
-		}
-	}
-?>
--->
+<!-- TODO: design the arrangement of login/register pages, authentication -->
 <html lang="en" ng-app="app" ng-strict-di>
 	<head>
 		<title>WSBF-FM Clemson | The Upstate's Only True Alternative Radio</title>
