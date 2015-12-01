@@ -1,22 +1,43 @@
-<html>
+<html lang="en">
 	<head>
 		<title>WSBF Login</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
 	</head>
-	<body>
-		<h1>Login to WSBF</h1>
+	<body class="container">
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-4">
+				<div class="page-header text-center">
+					<h1>Login to WSBF</h1>
+				</div>
 
-		<form id="login" action="submit_login.php" method="post">
-			<input type="hidden" name="submitted" id="submitted" value="1"/>
+				<div class="panel panel-default">
+					<form class="panel-body" action="api/login.php" method="post">
+						<!-- TODO: is this for CSRF? -->
+						<input type="hidden" name="submitted" value="1"/>
 
-			<label for="username">Username:</label>
-			<input type="text" name="username" id="username" maxlength="50"/>
+						<div class="form-group">
+							<input class="form-control" type="text" name="username" required maxlength="50" placeholder="Username"/>
+						</div>
 
-			<label for="password">Password:</label>
-			<input type="password" name="password" id="password" maxlength="50"/>
+						<div class="form-group">
+							<input class="form-control" type="password" name="password" required maxlength="50" placeholder="Password"/>
+						</div>
 
-			<input type="submit" name="Submit" value="Submit"/>
-		</form>
+						<div class="text-center">
+							<button class="btn btn-default" type="submit">Login</button>
+						</div>
+					</form>
+				</div>
 
-		<a href="register.html">Register</a>
+				<hr>
+
+				<div class="text-center">
+					<a href="register.html">Register</a>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>
