@@ -2,7 +2,7 @@
 <html lang="en" ng-app="app" ng-strict-di>
 	<head>
 		<!--[if lt IE 9]>
-		<script src="bower_components/html5shiv/dist/html5shiv.js"></script>
+		<script src="/bower_components/html5shiv/dist/html5shiv.js"></script>
 		<![endif]-->
 
 <!--
@@ -36,14 +36,16 @@
 		<script src="/bower_components/angular/angular.js"></script>
 		<script src="/bower_components/angular-route/angular-route.js"></script>
 		<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+		<script src="/bower_components/lodash/lodash.min.js"></script>
 		<script src="js/app.js"></script>
 
+		<!-- TODO: look at old website for animations with animate.css -->
 <!--
-		<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Coustard:900' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="css/social.css">
-		<link rel="stylesheet" href="css/media.css">
 		<link rel="stylesheet" href="js/libs/animate/animate.css">
+
+		<script type="text/javascript" src="js/libs/jquery-slimscroll/jquery.slimscroll.js"></script>
+		<script type="text/javascript" src="js/libs/bootstrap-libs/hover-dropdown/bootstrap-hover-dropdown.js"></script>
+		<script type="text/javascript" src="js/libs/masonry/masonry.pkgd.min.js"></script>
 -->
 	</head>
 	<body ng-controller="MainCtrl">
@@ -172,7 +174,7 @@
 			</div>
 		</nav>
 
-		<div class="container">
+		<section class="container">
 			<div class="row media">
 				<div class="col-md-8">
 					<div class="grid1" ng-view></div>
@@ -184,11 +186,17 @@
 						<!-- Begin playlist.home -->
 						<h1>Playlist <small><button class="btn btn-default pull-right">VIEW DAILY PLAYLIST</button></small></h1>
 						<hr>
-						<div class="items-container">
-							<div class="item" ng-repeat="p in playlist">
-								<img class="img-circle pull-left" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
-								<div>{{p.time_played | date:'shortTime'}}</div>
-								<div>{{p.lb_track_name}} - {{p.lb_artist}}</div>
+						<div class="container-fluid items-container">
+							<div class="row" ng-repeat="p in playlist">
+								<div class="col-xs-3 text-center">
+									<img class="img-circle img-border" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
+								</div>
+
+								<div class="col-xs-9">
+									<div>{{p.time_played | date:'shortTime'}}</div>
+									<div><strong>{{p.lb_track_name}}</strong></div>
+									<div>{{p.lb_artist}}</div>
+								</div>
 							</div>
 						</div>
 						<!-- End playlist.home -->
@@ -203,12 +211,17 @@
 						<!-- Begin schedule.home -->
 						<h1>Schedule <small class="pull-right">{{today | date:'EEE MM/dd' | uppercase}}</small></h1>
 						<hr>
-						<div class="items-container">
-						   <div class="item" ng-repeat="s in schedule">
-								<img class="img-circle pull-left" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="64" height="64"/>
-								<div>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</div>
-								<div><strong>{{s.show_name}}</strong></div>
-								<div>{{s.preferred_name}}</div>
+						<div class="container-fluid items-container">
+							<div class="row" ng-repeat="s in schedule">
+								<div class="col-xs-3 text-center">
+									<img class="img-circle img-border" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="64" height="64"/>
+								</div>
+
+								<div class="col-xs-9">
+									<div>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</div>
+									<div><strong>{{s.show_name}}</strong></div>
+									<div ng-repeat="n in s.preferred_name">{{n}}</div>
+								</div>
 							</div>
 						</div>
 						<!-- End schedule.home -->
@@ -249,13 +262,11 @@
 						<!-- Begin socialstream.home -->
 						<h1>Social Stream</h1>
 						<hr>
-						<div class="items-container">
+						<div class="items-container text-center">
 							<a class="twitter-timeline" 
 							   href="https://twitter.com/WSBF_FM" 
 							   data-widget-id="494896788252282880"
-							   width="360"
-							   height="300"
-							   border-color="none"
+							   height="295"
 							   data-chrome="noheader noborders noscrollbar">
 								Tweets by @WSBF_FM
 							</a>
@@ -265,7 +276,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 
 		<section id="footer">
 			<div class="overlay">
@@ -350,12 +361,5 @@
 			<audio src="http://stream.wsbf.net:8000/high" type="audio/mpeg" controls></audio>
 		</div>
 		<!-- End mediawidget -->
-
-<!--
-		<script type="text/javascript" src="js/libs/jquery-slimscroll/jquery.slimscroll.js"></script>
-		<script type="text/javascript" src="js/libs/bootstrap-libs/hover-dropdown/bootstrap-hover-dropdown.js"></script>
-		<script type="text/javascript" src="js/libs/masonry/masonry.pkgd.min.js"></script>
-		<script type="text/javascript" src="js/app/ui/social_stream.js"></script>
--->
 	</body>
 </html>

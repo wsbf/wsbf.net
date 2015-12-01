@@ -26,12 +26,15 @@
 		</li>
 	</ul>
 
-	<div class="program center-block h4" ng-repeat="s in schedule">
-		<img class="img-circle pull-left" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="80" height="80"/>
-		<p>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</p>
-		<p><strong>{{s.show_name}}</strong></p>
-		<p>{{s.preferred_name}}</p>
+	<div class="row center-block h4 program" ng-repeat="s in schedule">
+		<div class="col-xs-3 text-center">
+			<img class="img-circle img-border" src="http://www.offradio.gr/sites/default/files/icon_18.png" width="80" height="80"/>
+		</div>
 
-		<div class="clearfix"></div>
+		<div class="col-xs-9">
+			<p>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</p>
+			<p><strong>{{s.show_name}}</strong></p>
+			<div ng-repeat="n in s.preferred_name">{{n}}</div>
+		</div>
 	</div>
 </div>

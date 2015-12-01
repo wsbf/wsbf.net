@@ -115,17 +115,15 @@ body {
 
 /* Scrollbar, other rules for media blocks */
 .items-container {
-	overflow-y: scroll;
+	overflow-y: auto;
 	max-height: 300px;
 	margin-bottom: 30px;
 }
-.items-container .item {
-	height: 70px;
-	clear: both;
+.items-container > .row {
+	margin-top: 15px;
 }
-.items-container .item img {
+.img-border {
 	border: 2px solid #5f9a18;
-	margin-right: 10px;
 }
 
 table.chart-home > tbody > tr > td {
@@ -133,7 +131,7 @@ table.chart-home > tbody > tr > td {
 }
 
 /* Schedule rules */
-#schedule ul > li {
+#schedule > ul > li {
 	margin-left: 5px;
 	padding-top: 20px;
 	height: 60px;
@@ -143,21 +141,16 @@ table.chart-home > tbody > tr > td {
 	font-family: 'Fjalla One', sans-serif;
 	cursor: pointer;
 }
-#schedule ul > li.active {
+#schedule > ul > li.active {
 	background-color: #E80200;
 	color: #FFFFFF;
 }
 
-#schedule .program {
-	margin-top: 20px;
-	padding: 10px;
+#schedule > .program {
+	padding: 10px 0px;
 	max-width: 75%;
 	border-left: 6px solid #E80200;
 	background-color: #F0F0F0;
-}
-#schedule .program img {
-	border: 2px solid #5f9a18;
-	margin-right: 10px;
 }
 
 /* Blog rules */

@@ -48,7 +48,7 @@ app.config(["$routeProvider", function($routeProvider) {
 			controller: "BlogCtrl",
 			resolve: {
 				post: ["$route", "$http", function($route, $http) {
-					return $http.get("api/blog_post.php", {
+					return $http.get("api/blog/post.php", {
 						params: { p: $route.current.params.id }
 					})
 						.then(function(res) {
@@ -64,6 +64,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.otherwise("/");
 }]);
 
+// TODO: move blog $http calls into db service
 /**
  * Our first "object" in this module is a service, which is very similar
  * to a class. The service is called "db", and the function is the
@@ -90,7 +91,7 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 * @return Promise of HTTP request
 	 */
 	var getAlbumInfo = function(artist, album) {
-		var config = {
+		return $http.get("http://ws.audioscrobbler.com/2.0/", {
 			params: {
 				api_key: "74e3ab782313ff6e306a5f52a0e043ab",
 				format: "json",
@@ -98,9 +99,7 @@ app.service("db", ["$http", "$q", function($http, $q) {
 				artist: artist,
 				album: album
 			}
-		};
-
-		return $http.get("http://ws.audioscrobbler.com/2.0/", config);
+		});
 	};
 
 	/**
@@ -110,32 +109,28 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 *  1: 64 x 64
 	 *  2: 174 x 174
 	 * 
-	 * @param array
-	 * @param size
-	 * @return Promise of updated array
+	 * @param items  array of tracks or albums
+	 * @param size   size of album art
+	 * @return Promise of updated items
 	 */
-	this.getAlbumArt = function(array, size) {
-		var promises = array.map(function(elem) {
-			return getAlbumInfo(elem.lb_artist, elem.lb_album);
+	this.getAlbumArt = function(items, size) {
+		/* request album art if 'lb_album' is not empty */
+		var promises = items.map(function(item) {
+			return item.lb_album !== ""
+				? getAlbumInfo(item.lb_artist, item.lb_album)
+				: $q.resolve(null);
 		});
 
+		/* add each image URL to items */
 		return $q.all(promises)
-			.then(function(albums) {
-				for ( var i = 0; i < array.length; i++ ) {
-					if ( !albums[i].data.error ) {
-						array[i].imageUrl = albums[i].data.album.image[size]["#text"];
-					}
-					else {
-						// temporary code to report albums with no art
-						// usually just tracks with blank "lb_album"
-						console.log({
-							artist: array[i].lb_artist,
-							album: array[i].lb_album
-						});
+			.then(function(resArray) {
+				for ( var i = 0; i < items.length; i++ ) {
+					if ( resArray[i] && !resArray[i].data.error ) {
+						items[i].imageUrl = resArray[i].data.album.image[size]["#text"];
 					}
 				}
 
-				return array;
+				return items;
 			});
 	};
 
@@ -196,17 +191,14 @@ app.service("db", ["$http", "$q", function($http, $q) {
 				// combine shows with multiple hosts
 				// server should be able to do this (GROUP CONCAT?)
 				schedule = schedule.reduce(function(array, s) {
-					var i = 0;
-					while ( i < array.length
-							&& array[i].start_time !== s.start_time ) {
-						i++;
-					}
+					var i = _.findIndex(array, { start_time: s.start_time });
 
-					if ( i == array.length ) {
+					if ( i === -1 ) {
+						s.preferred_name = [s.preferred_name];
 						array.push(s);
 					}
 					else {
-						array[i].preferred_name += ", " + s.preferred_name;
+						array[i].preferred_name.push(s.preferred_name);
 					}
 
 					return array;
@@ -230,7 +222,7 @@ app.controller("BlogPreviewCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.previews = [];
 
 	var getBlogPreviews = function() {
-		$http.get("api/blog_preview.php")
+		$http.get("api/blog/preview.php")
 			.then(function(res) {
 				$scope.previews = res.data;
 			});
