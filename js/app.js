@@ -43,20 +43,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/recording", { templateUrl: "views/recording.html" })
 		.when("/booking", { templateUrl: "views/booking.html" })
 		.when("/blog", { templateUrl: "views/blog.html", controller: "BlogPreviewCtrl" })
-		.when("/blog/:id", {
-			templateUrl: "views/blogpost.html",
-			controller: "BlogCtrl",
-			resolve: {
-				post: ["$route", "$http", function($route, $http) {
-					return $http.get("api/blog/post.php", {
-						params: { p: $route.current.params.id }
-					})
-						.then(function(res) {
-							return res.data;
-						});
-				}]
-			}
-		})
+		.when("/blog/:postID", { templateUrl: "views/blog_post.html", controller: "BlogPostCtrl" })
 		.when("/join", { templateUrl: "views/join.html" })
 		.when("/underwriting", { templateUrl: "views/underwriting.html" })
 		.when("/psa", { templateUrl: "views/psa.html" })
@@ -64,7 +51,6 @@ app.config(["$routeProvider", function($routeProvider) {
 		.otherwise("/");
 }]);
 
-// TODO: move blog $http calls into db service
 /**
  * Our first "object" in this module is a service, which is very similar
  * to a class. The service is called "db", and the function is the
@@ -207,6 +193,18 @@ app.service("db", ["$http", "$q", function($http, $q) {
 				return schedule;
 			});
 	};
+
+	/**
+	 * Get previews of the most recent blog posts.
+	 *
+	 * @return Promise of blog preview array
+	 */
+	this.getBlogPreviews = function() {
+		return $http.get("api/blog/preview.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
 }]);
 
 app.controller("MainCtrl", ["$scope", "$uibModal", function($scope, $uibModal) {
@@ -218,21 +216,29 @@ app.controller("MainCtrl", ["$scope", "$uibModal", function($scope, $uibModal) {
 	};
 }]);
 
-app.controller("BlogPreviewCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("BlogPreviewCtrl", ["$scope", "db", function($scope, db) {
 	$scope.previews = [];
 
 	var getBlogPreviews = function() {
-		$http.get("api/blog/preview.php")
-			.then(function(res) {
-				$scope.previews = res.data;
-			});
+		db.getBlogPreviews().then(function(previews) {
+			$scope.previews = previews;
+		});
 	};
 
 	getBlogPreviews();
 }]);
 
-app.controller("BlogCtrl", ["$scope", "post", function($scope, post) {
-	$scope.post = post;
+app.controller("BlogPostCtrl", ["$scope", "$routeParams", "db", function($scope, $routeParams, db) {
+	$scope.postID = parseInt($routeParams.postID);
+
+	// TODO: consider allowing preview.php to return only one preview
+	var getBlogPost = function() {
+		db.getBlogPreviews().then(function(previews) {
+			$scope.post = _.find(previews, { id: $scope.postID });
+		});
+	};
+
+	getBlogPost();
 }]);
 
 app.controller("PlaylistCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
@@ -302,7 +308,6 @@ app.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
 		getChart($scope.count, $scope.date1, $scope.date2);
 	};
 
-	// TODO: what should be the default date ranges?
 	$scope.getCurrWeek = function() {
 		$scope.date1 = $scope.today - week - day;
 		$scope.date2 = $scope.today - day;

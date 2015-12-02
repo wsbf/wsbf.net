@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<div id="blog">
+<div class="container-fluid" id="blog">
 	<!-- TODO: add functionality to filters and search -->
 	<div class="row">
 		<div class="col-md-5">
@@ -21,17 +20,20 @@
 		</div>
 	</div>
 
-	<div class="row items-container">
+	<!-- TODO: pull blog previews to the left -->
+	<div class="row">
 		<div class="col-md-4" ng-repeat="p in previews">
-			<div class="blog-box">
-				<a ng-href="#/blog/{{p.id}}" class="thumbnail-wrapper">
-					<img ng-src="{{p.imageUrl}}" style="margin: auto; width: 100%;"/>
+			<div class="thumbnail">
+				<a ng-href="#/blog/{{p.id}}">
+					<img class="img-responsive" ng-src="{{p.imageUrl}}"/>
 				</a>
-				<div>
+				<div class="caption">
 					<h3>
 						<a ng-href="#/blog/{{p.id}}">{{p.title}}</a>
 					</h3>
-					<strong class="text-muted">{{p.category || 'Uncategorized'}}</strong>
+					<h6>
+						<strong class="text-muted">{{p.category || 'Uncategorized'}}</strong>
+					</h6>
 					<div>{{p.date | date:'MMMM d'}}</div>
 				</div>
 			</div>

@@ -51,7 +51,7 @@
 	<body ng-controller="MainCtrl">
 		<!-- TODO: decide which views to put into a modal instead of ng-view -->
 		<!-- TODO: get all of the scroll bars to appear in the right places -->
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<nav class="navbar navbar-default navbar-static-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
 					<a class="navbar-brand" href="#/" title="WSBF.net">
@@ -67,11 +67,11 @@
 				</div>
 
 				<div class="navbar-collapse" uib-collapse="!navCollapsed">
-					<div class="social">
-						<a href="https://www.facebook.com/wsbf881?ref=br_tf"><i class="fa fa-facebook"></i></a>
-						<a href="https://www.twitter.com/WSBF_FM"><i class="fa fa-twitter"></i></a>
-						<a href="https://www.instagram.com/wsbf_fm"><i class="fa fa-instagram"></i></a>
-					</div>
+					<ul class="list-inline text-right social">
+						<li><a href="https://www.facebook.com/wsbf881?ref=br_tf"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="https://www.twitter.com/WSBF_FM"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="https://www.instagram.com/wsbf_fm"><i class="fa fa-instagram"></i></a></li>
+					</ul>
 
 					<!-- TODO: look into hover directive, Angular UI doesn't have one -->
 					<ul class="nav navbar-nav navbar-right">
@@ -175,16 +175,17 @@
 		</nav>
 
 		<section class="container">
-			<div class="row media">
+			<div class="row">
+				<!-- TODO: try opening ng-view height, pull media blocks right -->
 				<div class="col-md-8">
 					<div class="grid1" ng-view></div>
 				</div>
 
 				<div class="col-md-4">
-					<!-- TODO: small button should link to /#/schedule ? -->
+					<!-- TODO: small button should link to playlist page -->
 					<div class="grid2" ng-controller="PlaylistCtrl">
 						<!-- Begin playlist.home -->
-						<h1>Playlist <small><button class="btn btn-default pull-right">VIEW DAILY PLAYLIST</button></small></h1>
+						<h1>Playlist <small><a class="btn btn-default pull-right" href="">View Daily Playlist</a></small></h1>
 						<hr>
 						<div class="container-fluid items-container">
 							<div class="row" ng-repeat="p in playlist">
@@ -202,14 +203,12 @@
 						<!-- End playlist.home -->
 					</div>
 				</div>
-			</div>
 
-			<div class="row media">
 				<!-- TODO: start using DJ-defined profile pics -->
 				<div class="col-md-4">
 					<div class="grid1" ng-controller="ScheduleCtrl">
 						<!-- Begin schedule.home -->
-						<h1>Schedule <small class="pull-right">{{today | date:'EEE MM/dd' | uppercase}}</small></h1>
+						<h1>Schedule <small class="pull-right">{{today | date:'EEE MM/dd'}}</small></h1>
 						<hr>
 						<div class="container-fluid items-container">
 							<div class="row" ng-repeat="s in schedule">
@@ -231,12 +230,11 @@
 				<div class="col-md-4">
 					<div class="grid2" ng-controller="ChartWidgetCtrl">
 						<!-- Begin chart.home -->
-						<h1>Chart <small><a class="btn btn-default pull-right" href="#/charts">VIEW MORE</a></small></h1>
+						<h1>Charting <small><a class="btn btn-default pull-right" href="#/charts">View More</a></small></h1>
 						<hr>
 						<div class="items-container">
 							<table class="chart-home table table-striped">
 								<tr ng-repeat="c in chart">
-									<td class="h3 text-right">{{$index + 1}}</td>
 									<td class="h4 text-center">
 										<i ng-show="c.change > 0" class="fa fa-long-arrow-up"></i>
 										<i ng-show="c.change < 0" class="fa fa-long-arrow-down"></i>
@@ -278,13 +276,13 @@
 			</div>
 		</section>
 
-		<section id="footer">
+		<footer>
 			<div class="overlay">
-				<div class="container footer">
-					<div>
-						<div class="footer-nav-unit">
-							<h5>Who We Are</h5>
-							<ul class="footer-links">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<h4>Who We Are</h4>
+							<ul class="list-unstyled h4">
 								<li><a href="#/staff">Staff</a></li>
 								<li><a href="#/history">History</a></li>
 								<li><a href="#/contact">Contact</a></li>
@@ -292,9 +290,9 @@
 							</ul>
 						</div>
 
-						<div class="footer-nav-unit">
-							<h5>Music</h5>
-							<ul class="footer-links">
+						<div class="col-xs-2">
+							<h4>Music</h4>
+							<ul class="list-unstyled h4">
 								<li><a href="#/philosophy">Philosophy</a></li>
 								<!--<li><a href="#">Playlist</a></li>-->
 								<li><a href="#/schedule">Schedule</a></li>
@@ -305,9 +303,9 @@
 							</ul>
 						</div>
 <!--
-						<div class="footer-nav-unit">
-							<h5>Listen</h5>
-							<ul class="footer-links">
+						<div class="col-xs-2">
+							<h4>Listen</h4>
+							<ul class="list-unstyled h4">
 								<li><a href="#">Internet</a></li>
 								<li><a href="#">Mobile</a></li>
 								<li><a href="#">Radio</a></li>
@@ -316,9 +314,9 @@
 							</ul>
 						</div>
 -->
-						<div class="footer-nav-unit">
-							<h5>Production</h5>
-							<ul class="footer-links">
+						<div class="col-xs-2">
+							<h4>Production</h4>
+							<ul class="list-unstyled h4">
 								<li><a href="#/equipment">Equipment Rental</a></li>
 								<!--<li><a href="#">Deejay Rental</a></li>-->
 								<li><a href="#/recording">Recording</a></li>
@@ -326,29 +324,29 @@
 							</ul>
 						</div>
 
-						<div class="footer-nav-unit">
-							<h5>Other</h5>
-							<ul class="footer-links">
+						<div class="col-xs-3">
+							<h4>Other</h4>
+							<ul class="list-unstyled h4">
 								<li><a href="#/join">Join WSBF</a></li>
 								<li><a href="#/underwriting">Underwriting & Promotion</a></li>
 								<li><a href="#/psa">Public Service Announcements</a></li>
 							</ul>
 						</div>
 
-						<div class="footer-nav-unit">
-							<h5>Get In Touch</h5>
-							<div class="social">
-								<a href="https://www.facebook.com/wsbf881?ref=br_tf"><i class="fa fa-facebook"></i></a>
-								<a href="https://twitter.com/WSBF_FM"><i class="fa fa-twitter"></i></a>
-								<a href="http://instagram.com/wsbf_fm"><i class="fa fa-instagram"></i></a>
-							</div>
+						<div class="col-xs-2">
+							<h4>Get In Touch</h4>
+							<ul class="list-inline social">
+								<li><a href="https://www.facebook.com/wsbf881?ref=br_tf"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="https://twitter.com/WSBF_FM"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="http://instagram.com/wsbf_fm"><i class="fa fa-instagram"></i></a></li>
+							</ul>
 						</div>
 					</div>
 
-					<div class="copy pull-right">Handcrafted with <i class="fa fa-heart"></i> in Clemson | &COPY; WSBF-FM Clemson 2015 All rights reserved</div>
+					<div class="pull-right copyright">Handcrafted with <i class="fa fa-heart"></i> in Clemson | &COPY; WSBF-FM Clemson 2015 All rights reserved</div>
 				</div>
 			</div>
-		</section>
+		</footer>
 
 		<!-- Begin mediawidget -->
 		<div id="media-widget" ng-controller="NowPlayingCtrl">
@@ -357,7 +355,7 @@
 				<strong>{{song.lb_track_name || '--'}}</strong> by <strong>{{song.lb_artist || '--'}}</strong>
 			</span>
 
-			<!-- TODO: explore /v8 option, custom player styling -->
+			<!-- TODO: use /8.ogg when mpeg is not supported -->
 			<audio src="http://stream.wsbf.net:8000/high" type="audio/mpeg" controls></audio>
 		</div>
 		<!-- End mediawidget -->

@@ -7,30 +7,53 @@
 		<div class="col-md-6">
 			<!-- begin now playing -->
 			<div ng-controller="NowPlayingCtrl">
-				<h2>Now Playing</h2>
+				<h2 class="text-center">Now Playing</h2>
 				<div class="thumbnail">
 					<img class="img-rounded" ng-src="{{song.imageUrl || 'images/media_large.png'}}" width="174" height="174"/>
 					<div class="caption">
 						<div class="row">
 							<div class="col-xs-4 text-right">
 								<div><strong>Track:</strong></div>
-								<div><strong>Album:</strong></div>
-								<div><strong>Artist:</strong></div>
-								<div><strong>Show:</strong></div>
-								<div><strong>Host:</strong></div>
 							</div>
 							<div class="col-xs-8">
 								<div>{{song.lb_track_name || '--'}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4 text-right">
+								<div><strong>Album:</strong></div>
+							</div>
+							<div class="col-xs-8">
 								<div>{{song.lb_album || '--'}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4 text-right">
+								<div><strong>Artist:</strong></div>
+							</div>
+							<div class="col-xs-8">
 								<div>{{song.lb_artist || '--'}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4 text-right">
+								<div><strong>Show:</strong></div>
+							</div>
+							<div class="col-xs-8">
 								<div>{{song.show_name || '--'}}</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4 text-right">
+								<div><strong>Host:</strong></div>
+							</div>
+							<div class="col-xs-8">
 								<div>{{song.preferred_name || '--'}}</div>
 							</div>
 						</div>
 						<br/>
 
-						<!-- TODO: explore /v8 option and others -->
-						<audio class="center-block" src="http://stream.wsbf.net:8000/high" controls></audio>
+						<audio class="center-block" src="http://stream.wsbf.net:8000/high" type="audio/mpeg" controls></audio>
 					</div>
 				</div>
 			</div>
@@ -38,13 +61,19 @@
 
 			<!-- begin playlist -->
 			<div ng-controller="PlaylistCtrl">
-				<h1>Playlist</h1>
+				<h2 class="text-center">Playlist</h2>
 				<hr>
-				<div class="items-container">
-					<div class="item" ng-repeat="p in playlist">
-						<img class="img-circle pull-left" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
-						<div>{{p.time_played | date:'shortTime'}}</div>
-						<div>{{p.lb_track_name}} - {{p.lb_artist}}</div>
+				<div class="container-fluid items-container">
+					<div class="row" ng-repeat="p in playlist">
+						<div class="col-xs-3 text-center">
+							<img class="img-circle img-border" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
+						</div>
+
+						<div class="col-xs-9">
+							<div>{{p.time_played | date:'shortTime'}}</div>
+							<div><strong>{{p.lb_track_name}}</strong></div>
+							<div>{{p.lb_artist}}</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -54,14 +83,14 @@
 		<div class="col-md-6">
 			<!-- begin webcam -->
 			<div ng-controller="WebcamCtrl">
-				<h2>Studio WebCam</h2>
+				<h2 class="text-center">Studio WebCam</h2>
 				<img class="img-responsive img-rounded" ng-src="{{webcamUrl}}"/>
 			</div>
 			<!-- end webcam -->
 
 			<!-- begin chat -->
 			<div>
-				<h2>WSBF Chat</h2>
+				<h2 class="text-center">WSBF Chat</h2>
 				<div class="textwidget">
 					<!-- TODO: customize chatbox style, do we have an account for this? -->
 					<script id="sid0010000019982581110">

@@ -1,29 +1,16 @@
-<!DOCTYPE html>
 <h1>Schedule</h1>
+
 <hr>
-<div class="items-container" id="schedule" ng-controller="ScheduleCtrl">
-	<ul class="list-inline text-center h4">
-		<li ng-click="getSchedule(1)" ng-class="{ active: day == 1 }">
-			<span>MON</span>
-		</li>
-		<li ng-click="getSchedule(2)" ng-class="{ active: day == 2 }">
-			<span>TUE</span>
-		</li>
-		<li ng-click="getSchedule(3)" ng-class="{ active: day == 3 }">
-			<span>WED</span>
-		</li>
-		<li ng-click="getSchedule(4)" ng-class="{ active: day == 4 }">
-			<span>THU</span>
-		</li>
-		<li ng-click="getSchedule(5)" ng-class="{ active: day == 5 }">
-			<span>FRI</span>
-		</li>
-		<li ng-click="getSchedule(6)" ng-class="{ active: day == 6 }">
-			<span>SAT</span>
-		</li>
-		<li ng-click="getSchedule(0)" ng-class="{ active: day == 0 }">
-			<span>SUN</span>
-		</li>
+
+<div id="schedule" ng-controller="ScheduleCtrl">
+	<ul class="list-inline text-center h4 text-uppercase">
+		<li ng-click="getSchedule(1)" ng-class="{ active: day == 1 }">Mon</li>
+		<li ng-click="getSchedule(2)" ng-class="{ active: day == 2 }">Tue</li>
+		<li ng-click="getSchedule(3)" ng-class="{ active: day == 3 }">Wed</li>
+		<li ng-click="getSchedule(4)" ng-class="{ active: day == 4 }">Thu</li>
+		<li ng-click="getSchedule(5)" ng-class="{ active: day == 5 }">Fri</li>
+		<li ng-click="getSchedule(6)" ng-class="{ active: day == 6 }">Sat</li>
+		<li ng-click="getSchedule(0)" ng-class="{ active: day == 0 }">Sun</li>
 	</ul>
 
 	<div class="row center-block h4 program" ng-repeat="s in schedule">

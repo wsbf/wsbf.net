@@ -1,5 +1,6 @@
-body {
-	padding-top: 100px;
+h1, h2, h3 {
+	font-family: 'Fjalla One', sans-serif;
+	text-transform: uppercase;
 }
 
 /* Navbar */
@@ -13,9 +14,8 @@ body {
 .navbar-brand img {
 	height: 70px;
 }
-.navbar .navbar-nav>li>a {
+.navbar .navbar-nav > li > a {
 	color: #000000;
-	text-decoration: none;
 	text-transform: uppercase;
 	font-family: 'Fjalla One', sans-serif;
 	font-size: 16px;
@@ -33,23 +33,16 @@ body {
 
 /* Social icons (Facebook, Twitter, Instagram, etc.) */
 .social {
-	margin: 2px 0px 2px 0px;
-	text-align: right;
 	-webkit-transition: all 0.3s ease 0s;
 	-moz-transition: all 0.3s ease 0s;
 	transition: all 0.3s ease 0s;
 	font-size: 1.2em;
 }
-.social a {
-	text-decoration: none;
+.navbar-default .social a {
 	color: #A0BD2B;
-	margin-right: 10px;
 }
-.social a:hover {
-	color: #f90303;
-}
-.social a:last-child {
-	margin-right: 0;
+.navbar-default .social a:hover {
+	color: #E80200;
 }
 
 /* "Buy" and "Listen Live" buttons */
@@ -83,23 +76,6 @@ body {
 		background-color: #A53E4A;
 		color: #FFFFFF;
 	}
-}
-
-/* Headers for media blocks (playlist, schedule, charts, etc.) */
-.media h1 {
-	font-size: 36px;
-	font-family: 'Fjalla One', sans-serif;
-	text-transform: uppercase;
-}
-.media h1 small {
-	font-weight: bold;
-	font-family: 'Fjalla One', sans-serif;
-	margin-top: 5px;
-}
-.media h1 small .btn {
-	border-radius: 0px;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
 }
 
 /* Top borders for media blocks */
@@ -153,7 +129,7 @@ table.chart-home > tbody > tr > td {
 	background-color: #F0F0F0;
 }
 
-/* Blog rules */
+/* Blog preview rules */
 #blog .search-control {
 	margin-top: 20px;
 }
@@ -174,32 +150,32 @@ table.chart-home > tbody > tr > td {
 	font-weight: bold;
 }
 
-#blog .blog-box {
-	padding: 20px;
-	border: 1px solid #d2d6d5;
-	margin-bottom: 10px;
+#blog .thumbnail {
+	padding: 10px;
 }
-#blog .blog-box a {
+#blog .thumbnail a {
 	font-family: 'Patua One';
-}
-#blog .blog-box a {
-	text-decoration: none;
+	text-transform: none;
 	-webkit-transition: color .25s ease-out;
 	-moz-transition: color .25s ease-out;
 	-ms-transition: color .25s ease-out;
 	transition: color .25s ease-out;
 }
+#blog .thumbnail a:hover {
+	text-decoration: none;
+}
 
-#blogpost h1 {
+/* Blog post rules */
+#blog-post h1 {
 	font-family: 'Patua One';
 	text-transform: none;
 }
-#blogpost .list-inline li {
+#blog-post .post-info > li {
 	border-right: 1px solid #EEEEEE;
 	padding-right: 15px;
 	padding-left: 15px;
 }
-#blogpost .list-inline li:last-child{
+#blog-post .post-info > li:last-child{
 	border-right: none;
 }
 
@@ -216,65 +192,38 @@ table.chart-home > tbody > tr > td {
 }
 
 /* Footer rules */
-#footer{
+footer {
 	background: url("../images/footer/dsfgds.jpg") center right no-repeat;
 	background-size: cover;
-	width:100%;
-	height: 650px;
-}
-.overlay {
-	height: 100%;
-	min-height: 100%;
 	width: 100%;
-	max-width: none !important;
+	height: 650px;
+	color: #E7E7E7;
+}
+footer .overlay {
+	padding-top: 200px;
+	height: 100%;
 	background-color: rgba(0,0,0,0.85);
 }
-.footer{
-	padding-top: 200px;
-	height:auto;
-	color:#E7E7E7;
-	background: transparent;
-}
-.footer h5{
+footer .row {
 	font-family: 'Fjalla One', sans-serif;
-	color:#72861F;
-	font-weight: bolder;
+}
+footer h4 {
+	color: #72861F;
+	font-weight: bold;
 	text-transform: uppercase;
-	font-size: 18px;
 }
-.footer-nav-unit{
-	float:left;
-	margin-right:70px;
-}
-.footer-links{
-	list-style-type: none;
-	margin: 0;
-	padding:0;
-}
-.footer-links li a{
-	text-decoration: none;
-	color:#AAAAAA;
-	font-family: 'Fjalla One', sans-serif;
+footer ul > li > a {
 	line-height: 30px;
-	font-size: 18px;
+	color: #AAAAAA;
 }
-.footer-links li a:hover{
-	color:#FF0000;
+footer ul > li > a:hover {
+	text-decoration: none;
+	color: #E80200;
 }
-
-.footer .social a{
-	color:#AAAAAA;
-	font-size:15px;
-}
-.footer .social a:hover{
-	color:#FF0000;
-}
-.footer .fa-heart{
-	color:#FF0000;
-}
-
-/* Copyright */
-.copy {
-	margin-top:150px;
+footer .copyright {
+	margin-top: 150px;
 	color: #868484;
+}
+footer .fa-heart {
+	color: #E80200;
 }
