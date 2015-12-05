@@ -14,6 +14,7 @@ This repository is an attempt to integrate all of the various fragments of WSBF'
 7. Mobile site [m.wsbf.net](m.wsbf.net)
 8. Studio A webcam
 9. ZAutomate
+10. RDS Program
 
 The ultimate goal is to bring all of these resources into one "WSBF" service for end users, DJs, and senior staff.
 
@@ -25,3 +26,5 @@ Right now, the web server is somewhat cluttered with directories, so a proposed 
 	└── wsbf/
 		├── api/
 		└── wizbif/
+
+TODO: when this repository can be moved to dev.wsbf.net, commit all PHP scripts under /api and /wizbif/api. From there, frontend development can be done locally or through webserver, and backend development can be done on webserver, but both environments should push and pull from github, and they should be in sync before deploying to wsbf.net.

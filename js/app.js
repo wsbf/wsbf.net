@@ -100,24 +100,26 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 * @return Promise of updated items
 	 */
 	this.getAlbumArt = function(items, size) {
-		/* request album art if 'lb_album' is not empty */
+		/* request album art for each item */
 		var promises = items.map(function(item) {
-			return item.lb_album !== ""
-				? getAlbumInfo(item.lb_artist, item.lb_album)
-				: $q.resolve(null);
+			// TODO: request artist photo?
+			if ( item.lb_album === "" ) {
+				return $q.resolve(item);
+			}
+
+			/* add image URL to each item */
+			return getAlbumInfo(item.lb_artist, item.lb_album)
+				.then(function(res) {
+					if ( !res.data.error ) {
+						item.imageUrl = res.data.album.image[size]["#text"];
+					}
+
+					return item;
+				});
 		});
 
-		/* add each image URL to items */
-		return $q.all(promises)
-			.then(function(resArray) {
-				for ( var i = 0; i < items.length; i++ ) {
-					if ( resArray[i] && !resArray[i].data.error ) {
-						items[i].imageUrl = resArray[i].data.album.image[size]["#text"];
-					}
-				}
-
-				return items;
-			});
+		/* return promise that resolves when every item is resolved */
+		return $q.all(promises);
 	};
 
 	/**
@@ -147,7 +149,14 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	this.getPlaylist = function() {
 		return $http.get("api/playlist/playlist.php")
 			.then(function(res) {
-				return res.data;
+				// temporary code to parse dates
+				var playlist = res.data;
+
+				for ( var i = 0; i < playlist.length; i++ ) {
+					playlist[i].time_played = Date.parse(playlist[i].time_played);
+				}
+
+				return playlist;
 			});
 	};
 

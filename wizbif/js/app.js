@@ -12,7 +12,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/archives", { templateUrl: "views/archives.html", controller: "ArchivesCtrl" })
 		.when("/library", { templateUrl: "views/library.html", controller: "LibraryCtrl" })
 		.when("/library/:albumID", {
-			templateUrl: "views/library_item.html",
+			templateUrl: "views/library_album.html",
 			controller: "LibraryItemCtrl",
 			resolve: {
 				album: ["$route", "$http", function($route, $http) {
@@ -27,9 +27,9 @@ app.config(["$routeProvider", function($routeProvider) {
 				}]
 			}
 		})
-		.when("/review", { templateUrl: "views/review_list.html", controller: "ReviewListCtrl" })
+		.when("/review", { templateUrl: "views/review.html", controller: "ReviewListCtrl" })
 		.when("/review/:albumID", {
-			templateUrl: "views/review.html",
+			templateUrl: "views/review_album.html",
 			controller: "ReviewCtrl",
 			resolve: {
 				album: ["$route", "$http", function($route, $http) {
@@ -50,6 +50,13 @@ app.config(["$routeProvider", function($routeProvider) {
 }]);
 
 app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
+	// temporary position/status arrays
+	var validEditProfile = [0, 1, 2, 4];
+	var validReviewer = [0, 1, 5];
+	var validSeniorStaff = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+	var validMusicDirector = [0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20];
+	var validEngineer = [1, 5, 6, 8, 10];
+
 	// temporary object for days
 	$scope.days = [
 		"Sunday",
@@ -65,8 +72,40 @@ app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 	var getUser = function() {
 		$http.get("api/user.php")
 			.then(function(res) {
+				// temporary code to convert some properties
+				res.data.statusID = parseInt(res.data.statusID);
+				res.data.positionID = parseInt(res.data.positionID);
+
 				$scope.user = res.data;
 			});
+	};
+
+	/**
+	 * Check whether the user can edit profile. Includes the following
+	 * statuses:
+	 *  0: Active
+	 *  1: Semi-Active
+	 *  2: Inactive
+	 *  4: Alumni
+	 */
+	$scope.checkEditProfile = function() {
+		return validEditProfile.indexOf($scope.user.statusID) !== -1;
+	};
+
+	$scope.checkReviewer = function() {
+		return validReviewer.indexOf($scope.user.statusID) !== -1;
+	};
+
+	$scope.checkSeniorStaff = function() {
+		return validSeniorStaff.indexOf($scope.user.positionID) !== -1;
+	};
+
+	$scope.checkMusicDirector = function() {
+		return validMusicDirector.indexOf($scope.user.positionID) !== -1;
+	};
+
+	$scope.checkEngineer = function() {
+		return validEngineer.indexOf($scope.user.positionID) !== -1;
 	};
 
 	getUser();
@@ -85,7 +124,6 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 	];
 
 	// temporary code for show schedule times
-	// TODO: we should make a `def_show_times` table!
 	$scope.start_times = [
 		"01:00:00",
 		"03:00:00",
@@ -191,6 +229,30 @@ app.controller("LibraryCtrl", ["$scope", "$http", function($scope, $http) {
 }]);
 
 app.controller("LibraryItemCtrl", ["$scope", "album", function($scope, album) {
+	// temporary code for general genres
+	$scope.general_genres = [
+		"Rock",
+		"Loud Rock/Metal",
+		"Hip-Hop/Rap",
+		"Indie",
+		"Electronic",
+		"Folk/Americana/Bluegrass",
+		"Punk",
+		"Pop",
+		"Jazz/Blues/Soul",
+		"World",
+		"R&B/Reggae",
+		"Dance"
+	];
+
+	// temporary code for airability
+	$scope.airability = [
+		"FCC Clean",
+		"Recommended",
+		"No Air",
+		"Silence After Track"
+	];
+
 	$scope.album = album;
 
 	// TODO: use echonest API to get similar artists (maybe do from backend)

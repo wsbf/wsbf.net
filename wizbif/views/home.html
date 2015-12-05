@@ -1,28 +1,44 @@
-<h3 class="text-center">Welcome, {{user.preferred_name}}!</h3>
+<h3 class="text-center">Welcome, {{user.first_name}}!</h3>
 
-<ul class="list-unstyled">
-	<li><a href="#/charts">Weekly Charts</a></li>
-	<li><a href="#/schedule">Show Schedule</a></li>
+<a href="#/charts">Weekly Charts</a>
+<br>
+<a href="#/schedule">Show Schedule</a>
+<br>
 
-	<!-- show if status is in (0, 1, 2, 4) -->
-	<li><a href="#/user">Profile</a></li>
+<div ng-show="checkEditProfile()">
+	<a href="#/user">Profile</a>
+	<br>
+</div>
 
-	<!-- show if user has review priviledges (reviewCheck()) -->
-	<li><a href="#/library">CD Library</a></li>
-	<li><a href="#/review">Review a CD</a></li>
-	<li><a href="fishbowl/fishbowl_app.php">Fishbowl Application</a></li>
-	<li><a href="#/showsub">Show Sub Requests</a></li>
-	<li><a href="#/archives">Archives</a></li>
+<div ng-show="checkReviewer()">
+	<a href="#/library">CD Library</a>
+	<br>
+	<a href="#/review">Review a CD</a>
+	<br>
+	<a href="fishbowl/fishbowl_app.php">Fishbowl Application</a>
+	<br>
+	<a href="#/showsub">Show Sub Requests</a>
+	<br>
+	<a href="#/archives">Archives</a>
+	<br>
+</div>
 
-	<!-- show if user has music director priviledges -->
-	<li ng-show="false"><a href="rotation_control.php">Print Labels or Move Rotation</a></li>
-	<li ng-show="false"><a href="import/import_main.php">Import Music</a></li>
+<div ng-show="checkMusicDirector()">
+	<a href="rotation_control.php">Print Labels or Move Rotation</a>
+	<br>
+	<a href="import/import_main.php">Import Music</a>
+	<br>
+</div>
 
-	<!-- show if user is senior staff -->
-	<li ng-show="false"><a href="schedule_addshow.php">Add shows to the schedule</a></li>
+<div ng-show="checkSeniorStaff()">
+	<a href="schedule_addshow.php">Add shows to the schedule</a>
+	<br>
+</div>
 
-	<!-- show to chief/computer/equipment engineer, promo director -->
-	<li ng-show="false"><a href="">Write new Engineering Blog entry</a></li>
+<div ng-show="checkEngineer()">
+	<a href="">Write new Engineering Blog entry</a>
+	<br>
+</div>
 
-	<li><a href="api/logout.php">Log out</a></li>
-</ul>
+<a href="api/logout.php">Log out</a>
+<br>

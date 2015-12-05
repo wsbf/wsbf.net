@@ -24,6 +24,7 @@
 	</th>
 </table>	
 
+<!-- TODO: add searching, sorting, genres -->
 <table class="table">
 	<thead>
 		<th>Album ID</th>
@@ -50,27 +51,9 @@
 
 <!--
 <?php
-	//Query to get albums by rotationID
-    if ($rot != 0)
-    {
-     $query = sprintf("SELECT `libalbum`.`albumID`, `album_code`, `artist_name`, `album_name`, `review_date`, `first_name`,`last_name` FROM `libalbum`, `libartist`, `libreview`,`users` WHERE `rotationID` = '%d' AND `libalbum`.`artistID` = `libartist`.`artistID` AND `libalbum`.`albumID` = `libreview`.`albumID` AND `users`.`username` = `libreview`.`username`", mysql_real_escape_string($rot));
-    }
-    else 
-    {
-     $query = sprintf("SELECT `libalbum`.`albumID`, `album_code`, `artist_name`, `album_name` FROM `libalbum`, `libartist` WHERE `rotationID` = '%d' AND `libalbum`.`artistID` = `libartist`.`artistID`", mysql_real_escape_string($rot));
-    }
-	
-	//Submit Query
-	$list = mysql_query($query, $link);
-	//If query returns FALSE, no albums were returned.  Die with error
-	if (!$list) {
-			die ('No albums returned: ' . mysql_error());
-	}
-	
 	//Check to see whether session is for music director.
-	//True if so, false otherwise
 	$md_ret_value = MD_check();
-	//Get row from SQL Query, populate tables with albums
+
 	while($row = mysql_fetch_assoc($list)) {
 		if($album_code == $albumID){
 			$a_code = "<a href=\"review.php?albumID=$albumID\">REVIEW THIS!</a>";
