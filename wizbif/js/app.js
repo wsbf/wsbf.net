@@ -6,7 +6,7 @@ var app = angular.module("app", ["ngRoute", "ui.bootstrap"]);
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
 		.when("/", { templateUrl: "views/home.html" })
-		.when("/user", { templateUrl: "views/user.html" })
+		.when("/user", { templateUrl: "views/user.html", controller: "UserCtrl" })
 		.when("/schedule", { templateUrl: "views/schedule.html", controller: "ScheduleCtrl" })
 		.when("/charts", { templateUrl: "views/charts.html", controller: "ChartsCtrl" })
 		.when("/archives", { templateUrl: "views/archives.html", controller: "ArchivesCtrl" })
@@ -109,6 +109,15 @@ app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 	};
 
 	getUser();
+}]);
+
+app.controller("UserCtrl", ["$scope", "$http", "$location", function($scope, $http, $location) {
+	$scope.save = function() {
+		$http.post("api/user.php", $scope.user)
+			.then(function(res) {
+				$location.url("/");
+			});
+	}
 }]);
 
 app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {

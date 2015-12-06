@@ -1,76 +1,5 @@
 <!DOCTYPE html>
-<!--
-<?php
-	/** File name: form_edit_profile.php 
-	 *  Author: Edward Sullivan (ELSULLI@g.clemson.edu, 240 383 0498)
-	 *  Date: 30 August, 2012
-	 *  Purpose: Form to allow DJs to edit their personal information
-	 *           (email address, preferred name, phone number, status, etc.)
-	 *           as well as info for each of their active shows (show name, alias
-	 *           for the show hosts, show description, etc.). This form
-	 *           posts to submit_edit_profile.php.  
-	 *
-	 */
-
-   /* Ensure that we don't already have a session */
-   if(!session_id())
-   session_start();
-
-   require_once("../connect.php"); // Connecting to the database
-   
-   /* Check to make sure user is logged in */
-   if(empty($_SESSION['username'])){  
-      die ('You need to login first!<br><a href="/login">' +
-           'Click here to login!</a>');
-   }
-
-   /* If user is logged in, save username, pref_name, statusID */
-   else{  
-      $username = $_SESSION['username'];
-      $pref_name = $_SESSION['preferred_name'];
-      $statusID = $_SESSION['statusID'];
-   }
-   
-   /* Blocking people banned for life */
-   if($statusID == 7){ 
-      die ("Like we'd let $pref_name edit profile information?  Skedaddle.");
-   }
-
-   /* Defining mysql query to get current info about the user (name, preferred name, phone number, email address */
-   $DJ_profile_query = sprintf("SELECT first_name, last_name, preferred_name,
-                           phone_number, email_addr,
-                           sms_recv, username, profile_paragraph
-                           FROM users
-                           WHERE username = '%s'", $username);
-
-   /* Submitting the query */
-   $DJ_profile = mysql_query($DJ_profile_query, $link);
-            
-   /* Getting a associative row of results from the query (there should be just
-      one row here in this case */
-   $user_info = mysql_fetch_assoc($DJ_profile);
-
-	$keys = array(
-		"s.scheduleID",
-		"h.schedule_alias",
-		"s.description",
-		"s.show_name",
-		"s.show_typeID",
-		"s.genre",
-		"s.start_time",
-		"s.end_time"
-	);
-
-	/* Define mysql query to get info about the user's active shows */
-	$show_query = "SELECT " . implode(",", $keys) . " "
-			. "FROM schedule AS s, schedule_hosts AS h "
-			. "WHERE h.username=$username AND s.scheduleID=h.scheduleID AND s.active=1";
-
-	/* Execute the query */
-	$show_results = mysql_query($show_query, $link);
-?>
--->
-<form class="form-horizontal" name="form" action="submit_edit_profile.php" method="POST">
+<form class="form-horizontal" name="form">
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
 			<h3>DJ Profile</h3>
@@ -84,17 +13,17 @@
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.first_name.$touched && form.first_name.$invalid}">
+	<div class="form-group">
 		<label class="col-sm-3 control-label">First Name</label>
 		<div class="col-sm-6">
-			<input class="form-control" name="first_name" ng-model="user.first_name" required/>
+			<p class="form-control-static">{{user.first_name}}</p>
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.last_name.$touched && form.last_name.$invalid}">
+	<div class="form-group">
 		<label class="col-sm-3 control-label">Last Name</label>
 		<div class="col-sm-6">
-			<input class="form-control" name="last_name" ng-model="user.last_name" required/>
+			<p class="form-control-static">{{user.last_name}}</p>
 		</div>
 	</div>
 
@@ -119,7 +48,6 @@
 		</div>
 	</div>
 
-	<!-- Note: sms_recv is stored as 0 or 1 -->
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6 checkbox">
 			<label>
@@ -132,7 +60,6 @@
 	<div class="form-group" ng-class="{'has-error': form.statusID.$touched && form.statusID.$invalid}">
 		<label class="col-sm-3 control-label">Status</label>
 		<div class="col-sm-6">
-			<!-- enable if status is in (0, 1, 2, 4) -->
 			<select class="form-control" name="statusID" ng-model="user.statusID" required>
 				<option value="0">Active at WSBF</option>
 				<option value="1">Semi-active at WSBF</option>
@@ -165,7 +92,6 @@
 		</div>
 	</div>
 
-	<!-- shwo if user has a profile picture -->
 	<div class="form-group" ng-show="user.has_picture">
 		<div class="col-sm-offset-3 col-sm-6 checkbox">
 			<label>
@@ -238,7 +164,7 @@
 
 	<div class="form-group text-center">
 		<div class="btn-group">
-			<button type="button" class="btn btn-default" ng-disabled="form.$invalid">Save</button>
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="save()">Save</button>
 			<a class="btn btn-default" href="#/">Cancel</a>
 		</div>
 	</div>
