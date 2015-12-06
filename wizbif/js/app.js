@@ -1,5 +1,5 @@
 "use strict";
-var app = angular.module("app", ["ngRoute", "ui.bootstrap"]);
+var app = angular.module("app", ["ngRoute", "ui.bootstrap", "ngFileUpload"]);
 
 // TODO: create 'db' service to abstract $http usage
 // and implement all of those server scripts!
@@ -51,8 +51,8 @@ app.config(["$routeProvider", function($routeProvider) {
 
 app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 	// temporary position/status arrays
-	var validEditProfile = [0, 1, 2, 4];
-	var validReviewer = [0, 1, 5];
+	var validEditProfile = ["0", "1", "2", "4"];
+	var validReviewer = ["0", "1", "5"];
 	var validSeniorStaff = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 	var validMusicDirector = [0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20];
 	var validEngineer = [1, 5, 6, 8, 10];
@@ -72,10 +72,6 @@ app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 	var getUser = function() {
 		$http.get("api/user.php")
 			.then(function(res) {
-				// temporary code to convert some properties
-				res.data.statusID = parseInt(res.data.statusID);
-				res.data.positionID = parseInt(res.data.positionID);
-
 				$scope.user = res.data;
 			});
 	};
@@ -111,7 +107,9 @@ app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 	getUser();
 }]);
 
-app.controller("UserCtrl", ["$scope", "$http", "$location", function($scope, $http, $location) {
+app.controller("UserCtrl", ["$scope", "$http", "$location", "Upload", function($scope, $http, $location, Upload) {
+	// TODO: implement image upload
+
 	$scope.save = function() {
 		$http.post("api/user.php", $scope.user)
 			.then(function(res) {
