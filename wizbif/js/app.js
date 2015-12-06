@@ -76,14 +76,6 @@ app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 			});
 	};
 
-	/**
-	 * Check whether the user can edit profile. Includes the following
-	 * statuses:
-	 *  0: Active
-	 *  1: Semi-Active
-	 *  2: Inactive
-	 *  4: Alumni
-	 */
 	$scope.checkEditProfile = function() {
 		return validEditProfile.indexOf($scope.user.statusID) !== -1;
 	};
@@ -279,8 +271,15 @@ app.controller("ReviewListCtrl", ["$scope", "$http", function($scope, $http) {
 	getAlbums();
 }]);
 
-app.controller("ReviewCtrl", ["$scope", "album", function($scope, album) {
+app.controller("ReviewCtrl", ["$scope", "$http", "$location", "album", function($scope, $http, $location, album) {
 	$scope.album = album;
+
+	$scope.review = function() {
+		$http.post("api/review/album.php", $scope.album)
+			.then(function(res) {
+				$location.url("/review");
+			});
+	};
 }]);
 
 app.controller("ShowSubCtrl", ["$scope", "$http", function($scope, $http) {

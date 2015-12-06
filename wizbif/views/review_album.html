@@ -35,13 +35,6 @@
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.genre.$touched && form.genre.$invalid}">
-		<label class="col-sm-3 control-label">Genre</label>
-		<div class="col-sm-6">
-			<input class="form-control" name="genre" ng-model="album.genre" required/>
-		</div>
-	</div>
-
 	<div class="form-group">
 		<label class="col-sm-3 control-label">General Genre</label>
 		<div class="col-sm-6">
@@ -63,17 +56,10 @@
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.username.$touched && form.username.$invalid}">
-		<label class="col-sm-3 control-label">Username</label>
+	<div class="form-group" ng-class="{'has-error': form.genre.$touched && form.genre.$invalid}">
+		<label class="col-sm-3 control-label">Genre</label>
 		<div class="col-sm-6">
-			<input class="form-control" name="username" ng-model="album.username" required/>
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label class="col-sm-3 control-label">Reviewer</label>
-		<div class="col-sm-6">
-			<p class="form-control-static">{{album.reviewer}}</p>
+			<input class="form-control" name="genre" ng-model="album.genre" required/>
 		</div>
 	</div>
 
@@ -91,13 +77,13 @@
 				<td>{{t.disc_num}}</td>
 				<td>{{t.track_num}}</td>
 				<td>
-					<input class="form-control" ng-model="t.track_name"/>
+					<input class="form-control" ng-model="t.track_name" required/>
 				</td>
 				<td>
-					<input class="form-control" ng-model="t.artist_name"/>
+					<input class="form-control" ng-model="t.artist_name" required/>
 				</td>
 				<td>
-					<select class="form-control" ng-model="t.airabilityID">
+					<select class="form-control" ng-model="t.airabilityID" required>
 						<option value="0">FCC Clean</option>
 						<option value="2">No Air</option>
 						<option value="1">Recommended</option>
@@ -108,19 +94,18 @@
 		</tbody>
 	</table>
 
-	<div class="form-group">
+	<div class="form-group" ng-class="{'has-error': form.review.$touched && form.review.$invalid}">
 		<label class="col-sm-3 control-label">Review</label>
 		<div class="col-sm-6">
 			<samp class="help-block">{{750 - album.review.length}} characters remaining.</samp>
-			<textarea class="form-control" ng-model="album.review" rows="12" maxlength="750" required></textarea>
+			<textarea class="form-control" name="review" ng-model="album.review" rows="12" maxlength="750" required></textarea>
 		</div>
 	</div>
 
 	<div class="form-group text-center">
 		<div class="btn-group">
-			<button type="button" class="btn btn-default" ng-disabled="form.$invalid">Submit Review</button>
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="review()">Submit Review</button>
 			<a class="btn btn-default" href="#/review">Cancel</a>
 		</div>
 	</div>
-	<!-- TODO: complete (review.php) -->
 </form>
