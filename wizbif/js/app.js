@@ -1,8 +1,7 @@
 "use strict";
 var app = angular.module("app", ["ngRoute", "ui.bootstrap", "ngFileUpload"]);
 
-// TODO: create 'db' service to abstract $http usage
-// and implement all of those server scripts!
+// TODO: implement all of those server scripts!
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
 		.when("/", { templateUrl: "views/home.html" })
@@ -11,45 +10,169 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/charts", { templateUrl: "views/charts.html", controller: "ChartsCtrl" })
 		.when("/archives", { templateUrl: "views/archives.html", controller: "ArchivesCtrl" })
 		.when("/library", { templateUrl: "views/library.html", controller: "LibraryCtrl" })
-		.when("/library/:albumID", {
-			templateUrl: "views/library_album.html",
-			controller: "LibraryItemCtrl",
-			resolve: {
-				album: ["$route", "$http", function($route, $http) {
-					var config = {
-						params: { albumID: $route.current.params.albumID }
-					};
-
-					return $http.get("api/library/album.php", config)
-						.then(function(res) {
-							return res.data;
-						});
-				}]
-			}
-		})
+		.when("/library/:albumID", { templateUrl: "views/library_album.html", controller: "LibraryAlbumCtrl" })
 		.when("/review", { templateUrl: "views/review.html", controller: "ReviewListCtrl" })
-		.when("/review/:albumID", {
-			templateUrl: "views/review_album.html",
-			controller: "ReviewCtrl",
-			resolve: {
-				album: ["$route", "$http", function($route, $http) {
-					var config = {
-						params: { albumID: $route.current.params.albumID }
-					};
-
-					return $http.get("api/review/album.php", config)
-						.then(function(res) {
-							return res.data;
-						});
-				}]
-			}
-		})
+		.when("/review/:albumID", { templateUrl: "views/review_album.html", controller: "ReviewAlbumCtrl" })
 		.when("/showsub", { templateUrl: "views/showsub.html", controller: "ShowSubCtrl" })
 		.when("/showsub/request", { templateUrl: "views/showsub_request.html", controller: "ShowSubRequestCtrl" })
 		.otherwise("/");
 }]);
 
-app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
+app.service("db", ["$http", function($http) {
+
+	/**
+	 * Get the current user.
+	 *
+	 * @return Promise of user object
+	 */
+	this.getUser = function() {
+		return $http.get("api/user.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Save the current user.
+	 *
+	 * @param user
+	 * @return Promise of http response
+	 */
+	this.saveUser = function(user) {
+		return $http.post("api/user.php", user);
+	};
+
+	/**
+	 * Get the show schedule for a day of the week.
+	 *
+	 * @param day  day of the week (0: Sunday, etc.)
+	 * @return Promise of schedule array
+	 */
+	this.getSchedule = function(day) {
+		return $http.get("/api/schedule/schedule.php", { params: { day: day } })
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Get the top tracks over a period of time.
+	 *
+	 * @param date1  start timestamp
+	 * @param date2  end timestamp
+	 * @return Promise of tracks array
+	 */
+	this.getTopTracks = function(date1, date2) {
+		return $http.get("api/charts/tracks.php", {
+			params: {
+				date1: date1,
+				date2: date2
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Get a list of show archives.
+	 *
+	 * TODO: align with playlists view, add "page" param
+	 *
+	 * @return Promise of archives array
+	 */
+	this.getArchives = function() {
+		return $http.get("api/archives/archives.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Get a rotation of the album library.
+	 *
+	 * @param rotation  index of rotation
+	 * @return Promise of albums array
+	 */
+	this.getLibrary = function(rotation) {
+		return $http.get("api/library/library.php", {
+			params: {
+				rotation: rotation
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Get an album in the library.
+	 *
+	 * @param albumID  album ID
+	 * @return Promise of album object
+	 */
+	this.getLibraryAlbum = function(albumID) {
+		return $http.get("api/library/album.php", {
+			params: {
+				albumID: albumID
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Get the list of albums available for review.
+	 *
+	 * TODO: try to merge with getLibrary()
+	 *
+	 * @return Promise of albums array
+	 */
+	this.getToBeReviewed = function() {
+		return $http.get("api/review/album_list.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Get an album that is available for review.
+	 *
+	 * @param albumID  album ID
+	 * @return Promise of album object
+	 */
+	this.getToBeReviewedAlbum = function(albumID) {
+		return $http.get("api/review/album.php", {
+			params: {
+				albumID: albumID
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Submit an album review.
+	 *
+	 * @param album  album review
+	 * @return Promise of http response
+	 */
+	this.reviewAlbum = function(album) {
+		return $http.post("api/review/album.php", album);
+	};
+
+	/**
+	 * Get the list of show sub requests.
+	 *
+	 * @return Promise of requests array
+	 */
+	this.getShowSubRequests = function() {
+		return $http.get("api/showsub/request_list.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+}]);
+
+app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 	// temporary position/status arrays
 	var validEditProfile = ["0", "1", "2", "4"];
 	var validReviewer = ["0", "1", "5"];
@@ -70,10 +193,9 @@ app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.user = {};
 
 	var getUser = function() {
-		$http.get("api/user.php")
-			.then(function(res) {
-				$scope.user = res.data;
-			});
+		db.getUser().then(function(user) {
+			$scope.user = user;
+		});
 	};
 
 	$scope.checkEditProfile = function() {
@@ -99,18 +221,17 @@ app.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 	getUser();
 }]);
 
-app.controller("UserCtrl", ["$scope", "$http", "$location", "Upload", function($scope, $http, $location, Upload) {
+app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($scope, db, $location, Upload) {
 	// TODO: implement image upload
 
 	$scope.save = function() {
-		$http.post("api/user.php", $scope.user)
-			.then(function(res) {
-				$location.url("/");
-			});
+		db.saveUser($scope.user).then(function(res) {
+			$location.url("/");
+		});
 	}
 }]);
 
-app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
 	// temporary object for days
 	$scope.days = [
 		"Sunday",
@@ -141,15 +262,13 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.schedule = [];
 
 	var getSchedule = function(day) {
-		$http.get("/api/schedule/schedule.php", { params: { day: day } })
-			.then(function(res) {
-				var schedule = res.data;
+		db.getSchedule(day).then(function(schedule) {
 
-				// temporary code to transform schedule from api to table
-				$scope.schedule[day] = $scope.show_times.map(function(show_time) {
-					return _.find(schedule, { start_time: show_time });
-				});
+			// temporary code to transform schedule from api to table
+			$scope.schedule[day] = $scope.show_times.map(function(show_time) {
+				return _.find(schedule, { start_time: show_time });
 			});
+		});
 	};
 
 	for ( var i = 0; i < 7; i++ ) {
@@ -157,7 +276,7 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 	}
 }]);
 
-app.controller("ChartsCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("ChartsCtrl", ["$scope", "db", function($scope, db) {
 	var day = 24 * 3600 * 1000;
 	var week = 7 * day;
 
@@ -167,20 +286,15 @@ app.controller("ChartsCtrl", ["$scope", "$http", function($scope, $http) {
 		var date1 = Date.now() - week - day;
 		var date2 = Date.now() - day;
 
-		$http.get("api/charts/tracks.php", {
-			params: {
-				date1: date1,
-				date2: date2
-			}
-		}).then(function(res) {
-			$scope.tracks = res.data;
+		db.getTopTracks(date1, date2).then(function(tracks) {
+			$scope.tracks = tracks;
 		});
 	};
 
 	getTracks();
 }]);
 
-app.controller("ArchivesCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
 	// temporary array of show types
 	$scope.show_types = [
 		"Rotation",
@@ -197,32 +311,30 @@ app.controller("ArchivesCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.archives = [];
 
 	var getArchives = function() {
-		$http.get("api/archives/archives.php")
-			.then(function(res) {
-				$scope.archives = res.data;
-			});
+		db.getArchives().then(function(archives) {
+			$scope.archives = archives;
+		});
 	};
 
 	getArchives();
 }]);
 
 // TODO: add searching/sorting by DJs
-app.controller("LibraryCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
 	$scope.rotation = 7;
 	$scope.albums = [];
 
 	$scope.getLibrary = function(rotation) {
-		$http.get("api/library/library.php", { params: { rotation: rotation } })
-			.then(function(res) {
-				$scope.rotation = rotation;
-				$scope.albums = res.data;
-			});
+		db.getLibrary(rotation).then(function(albums) {
+			$scope.rotation = rotation;
+			$scope.albums = albums;
+		});
 	};
 
 	$scope.getLibrary($scope.rotation);
 }]);
 
-app.controller("LibraryItemCtrl", ["$scope", "album", function($scope, album) {
+app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "db", function($scope, $routeParams, db) {
 	// temporary code for general genres
 	$scope.general_genres = [
 		"Rock",
@@ -247,44 +359,57 @@ app.controller("LibraryItemCtrl", ["$scope", "album", function($scope, album) {
 		"Silence After Track"
 	];
 
-	$scope.album = album;
-
-	// TODO: use echonest API to get similar artists (maybe do from backend)
+	$scope.album = {};
 	$scope.similar_artists = [];
+
+	var getAlbum = function() {
+		db.getLibraryAlbum($routeParams.albumID).then(function(album) {
+			$scope.album = album;
+
+			// TODO: use echonest API to get similar artists
+		});
+	};
+
+	getAlbum();
 }]);
 
-app.controller("ReviewListCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("ReviewListCtrl", ["$scope", "db", function($scope, db) {
 	$scope.albums = [];
 
 	var getAlbums = function() {
-		$http.get("api/review/album_list.php")
-			.then(function(res) {
-				$scope.albums = res.data;
-			});
+		db.getToBeReviewed().then(function(albums) {
+			$scope.albums = albums;
+		});
 	};
 
 	getAlbums();
 }]);
 
-app.controller("ReviewCtrl", ["$scope", "$http", "$location", "album", function($scope, $http, $location, album) {
-	$scope.album = album;
+app.controller("ReviewAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
+	$scope.album = {};
+
+	var getAlbum = function() {
+		db.getToBeReviewedAlbum($routeParams.albumID).then(function(album) {
+			$scope.album = album;
+		});
+	};
 
 	$scope.review = function() {
-		$http.post("api/review/album.php", $scope.album)
-			.then(function(res) {
-				$location.url("/review");
-			});
+		db.reviewAlbum($scope.album).then(function(res) {
+			$location.url("/review");
+		});
 	};
+
+	getAlbum();
 }]);
 
-app.controller("ShowSubCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("ShowSubCtrl", ["$scope", "db", function($scope, db) {
 	$scope.requests = [];
 
 	var getRequests = function() {
-		$http.get("api/showsub/request_list.php")
-			.then(function(res) {
-				$scope.requests = res.data;
-			});
+		db.getShowSubRequests().then(function(requests) {
+			$scope.requests = requests;
+		});
 	};
 
 	$scope.fillRequest = function() {
@@ -300,7 +425,7 @@ app.controller("ShowSubCtrl", ["$scope", "$http", function($scope, $http) {
 	getRequests();
 }]);
 
-app.controller("ShowSubRequestCtrl", ["$scope", "$http", function($scope, $http) {
+app.controller("ShowSubRequestCtrl", ["$scope", "db", function($scope, db) {
 	// temporary code for show schedule times
 	$scope.show_times = [
 		"01:00:00",
