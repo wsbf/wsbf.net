@@ -129,6 +129,20 @@ table.chart-home > tbody > tr > td {
 	background-color: #F0F0F0;
 }
 
+/* Carousel rules */
+#carousel img {
+	width: 100%;
+}
+
+#carousel .carousel-caption {
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+#carousel .carousel-caption a {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
 /* Blog preview rules */
 #blog .search-control {
 	margin-top: 20px;

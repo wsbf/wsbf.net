@@ -28,3 +28,5 @@ Right now, the web server is somewhat cluttered with directories, so a proposed 
 		└── wizbif/
 
 TODO: when this repository can be moved to dev.wsbf.net, commit all PHP scripts under /api and /wizbif/api. From there, frontend development can be done locally or through webserver, and backend development can be done on webserver, but both environments should push and pull from github, and they should be in sync before deploying to wsbf.net.
+
+TODO: Use gulp to create automated build.

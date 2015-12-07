@@ -1,9 +1,8 @@
-<!-- TODO: finish styling and move styles to classes in main.css -->
-<uib-carousel interval="5000">
+<uib-carousel id="carousel" interval="5000">
 	<uib-slide ng-repeat="p in previews">
-		<img ng-src="{{p.imageUrl}}" style="margin: auto; width: 100%;"/>
-		<div class="carousel-caption" style="background-color: rgba(0, 0, 0, 0.6);">
-			<a ng-href="#/blog/{{p.id}}" style="color: #FFFFFF; text-decoration: none;">
+		<img class="center-block" ng-src="{{p.imageUrl}}"/>
+		<div class="carousel-caption">
+			<a ng-href="#/blog/{{p.id}}">
 				<h4>{{p.title}}</h4>
 				<p>{{p.excerpt}}</p>
 			</a>
