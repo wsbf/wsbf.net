@@ -5,7 +5,7 @@
 <table class="table">
 	<thead>
 		<th>Rank</th>
-		<th>Song</th>
+		<th>Track Name</th>
 		<th>Artist</th>
 		<th>Album</th>
 		<th>Album Code</th>
@@ -14,14 +14,14 @@
 	</thead>
 
 	<tbody>
-		<tr ng-repeat="s in songs">
+		<tr ng-repeat="t in tracks">
 			<td>{{$index + 1}}</td>
-			<td>{{s.lb_track_name}}</td>
-			<td>{{s.lb_artist}}</td>
-			<td>{{s.lb_album}}</td>
-			<td>{{s.lb_album_code}}</td>
-			<td>{{s.lb_rotation}}</td>
-			<td>{{s.plays}}</td>
+			<td>{{t.lb_track_name}}</td>
+			<td>{{t.lb_artist}}</td>
+			<td>{{t.lb_album}}</td>
+			<td>{{t.lb_album_code}}</td>
+			<td>{{t.lb_rotation}}</td>
+			<td>{{t.plays}}</td>
 		</tr>
 	</tbody>
 </table>

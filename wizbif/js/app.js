@@ -158,13 +158,23 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 }]);
 
 app.controller("ChartsCtrl", ["$scope", "$http", function($scope, $http) {
-	$scope.songs = [];
+	var day = 24 * 3600 * 1000;
+	var week = 7 * day;
+
+	$scope.tracks = [];
 
 	var getTracks = function() {
-		$http.get("api/charts/tracks.php")
-			.then(function(res) {
-				$scope.songs = res.data;
-			});
+		var date1 = Date.now() - week - day;
+		var date2 = Date.now() - day;
+
+		$http.get("api/charts/tracks.php", {
+			params: {
+				date1: date1,
+				date2: date2
+			}
+		}).then(function(res) {
+			$scope.tracks = res.data;
+		});
 	};
 
 	getTracks();
