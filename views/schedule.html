@@ -19,9 +19,9 @@
 		</div>
 
 		<div class="col-xs-9">
-			<p>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</p>
+			<p>{{s.start_time}} - {{s.end_time}}</p>
 			<p><strong>{{s.show_name}}</strong></p>
-			<div ng-repeat="n in s.preferred_name">{{n}}</div>
+			<div ng-repeat="h in s.hosts">{{h}}</div>
 		</div>
 	</div>
 </div>

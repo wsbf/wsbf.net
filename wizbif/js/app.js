@@ -123,7 +123,7 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 	];
 
 	// temporary code for show schedule times
-	$scope.start_times = [
+	$scope.show_times = [
 		"01:00:00",
 		"03:00:00",
 		"05:00:00",
@@ -145,24 +145,9 @@ app.controller("ScheduleCtrl", ["$scope", "$http", function($scope, $http) {
 			.then(function(res) {
 				var schedule = res.data;
 
-				// combine shows with multiple hosts (into array instead of string)
-				schedule = schedule.reduce(function(array, s) {
-					var i = _.findIndex(array, { start_time: s.start_time });
-
-					if ( i === -1 ) {
-						s.preferred_name = [s.preferred_name];
-						array.push(s);
-					}
-					else {
-						array[i].preferred_name.push(s.preferred_name);
-					}
-
-					return array;
-				}, []);
-
 				// temporary code to transform schedule from api to table
-				$scope.schedule[day] = $scope.start_times.map(function(start_time) {
-					return _.find(schedule, { start_time: start_time });
+				$scope.schedule[day] = $scope.show_times.map(function(show_time) {
+					return _.find(schedule, { start_time: show_time });
 				});
 			});
 	};

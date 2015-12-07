@@ -37,13 +37,15 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/philosophy", { templateUrl: "views/philosophy.html" })
 		.when("/staff", { templateUrl: "views/staff.html" })
 		.when("/history", { templateUrl: "views/history.html" })
+		.when("/playlists", { templateUrl: "views/show_list.html" })
+		.when("/playlists/:showID", { templateUrl: "views/show.html" })
 		.when("/schedule", { templateUrl: "views/schedule.html" })
 		.when("/charts", { templateUrl: "views/charts.html" })
 		.when("/equipment", { templateUrl: "views/equipment.html" })
 		.when("/recording", { templateUrl: "views/recording.html" })
 		.when("/booking", { templateUrl: "views/booking.html" })
-		.when("/blog", { templateUrl: "views/blog.html", controller: "BlogPreviewCtrl" })
-		.when("/blog/:postID", { templateUrl: "views/blog_post.html", controller: "BlogPostCtrl" })
+		.when("/blog", { templateUrl: "views/blog.html" })
+		.when("/blog/:postID", { templateUrl: "views/blog_post.html" })
 		.when("/join", { templateUrl: "views/join.html" })
 		.when("/underwriting", { templateUrl: "views/underwriting.html" })
 		.when("/psa", { templateUrl: "views/psa.html" })
@@ -142,22 +144,36 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	};
 
 	/**
-	 * Get the current playlist.
+	 * Get a list of shows.
 	 *
+	 * @param page  page count from most recent
+	 * @return Promise of show array
+	 */
+	this.getShows = function(page) {
+		return $http.get("api/shows/shows.php", {
+			params: {
+				page: page
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Get the playlist for a show, or the current
+	 * show if no show ID is provided.
+	 *
+	 * @param showID  show ID
 	 * @return Promise of playlist array
 	 */
-	this.getPlaylist = function() {
-		return $http.get("api/playlist/playlist.php")
-			.then(function(res) {
-				// temporary code to parse dates
-				var playlist = res.data;
-
-				for ( var i = 0; i < playlist.length; i++ ) {
-					playlist[i].time_played = Date.parse(playlist[i].time_played);
-				}
-
-				return playlist;
-			});
+	this.getPlaylist = function(showID) {
+		return $http.get("api/shows/playlist.php", {
+			params: {
+				showID: showID
+			}
+		}).then(function(res) {
+			return res.data;
+		});
 	};
 
 	/**
@@ -166,7 +182,7 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 * @return Promise of track object
 	 */
 	this.getNowPlaying = function() {
-		return $http.get("api/playlist/now.php")
+		return $http.get("api/shows/now.php")
 			.then(function(res) {
 				return res.data;
 			});
@@ -181,25 +197,7 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	this.getSchedule = function(day) {
 		return $http.get("api/schedule/schedule.php", { params: { day: day } })
 			.then(function(res) {
-				var schedule = res.data;
-
-				// combine shows with multiple hosts
-				// server should be able to do this (GROUP CONCAT?)
-				schedule = schedule.reduce(function(array, s) {
-					var i = _.findIndex(array, { start_time: s.start_time });
-
-					if ( i === -1 ) {
-						s.preferred_name = [s.preferred_name];
-						array.push(s);
-					}
-					else {
-						array[i].preferred_name.push(s.preferred_name);
-					}
-
-					return array;
-				}, []);
-
-				return schedule;
+				return res.data;
 			});
 	};
 
@@ -248,6 +246,38 @@ app.controller("BlogPostCtrl", ["$scope", "$routeParams", "db", function($scope,
 	};
 
 	getBlogPost();
+}]);
+
+app.controller("ShowListCtrl", ["$scope", "db", function($scope, db) {
+	$scope.page = 0;
+	$scope.shows = [];
+
+	var getShows = function(page) {
+		db.getShows(page).then(function(shows) {
+			$scope.shows = shows;
+		});
+	};
+
+	$scope.getNewer = function() {
+		$scope.page--;
+		getShows($scope.page);
+	};
+
+	$scope.getOlder = function() {
+		$scope.page++;
+		getShows($scope.page);
+	};
+
+	getShows($scope.page);
+}]);
+
+app.controller("ShowCtrl", ["$scope", "$routeParams", "db", function($scope, $routeParams, db) {
+	$scope.playlist = [];
+
+	db.getPlaylist($routeParams.showID)
+		.then(function(playlist) {
+			$scope.playlist = playlist;
+		});
 }]);
 
 app.controller("PlaylistCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
@@ -353,15 +383,15 @@ app.controller("ChartWidgetCtrl", ["$scope", "db", function($scope, db) {
 }]);
 
 app.controller("NowPlayingCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
-	$scope.song = {};
+	$scope.track = {};
 
 	var getNowPlaying = function() {
 		db.getNowPlaying()
-			.then(function(song) {
-				return db.getAlbumArt([song], 2);
+			.then(function(track) {
+				return db.getAlbumArt([track], 2);
 			})
 			.then(function(array) {
-				$scope.song = array[0];
+				$scope.track = array[0];
 			});
 	};
 

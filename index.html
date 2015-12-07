@@ -69,9 +69,10 @@
 
 				<div class="navbar-collapse" uib-collapse="!navCollapsed">
 					<ul class="list-inline text-right social">
-						<li><a href="https://www.facebook.com/wsbf881?ref=br_tf"><i class="fa fa-facebook"></i></a></li>
-						<li><a href="https://www.twitter.com/WSBF_FM"><i class="fa fa-twitter"></i></a></li>
-						<li><a href="https://www.instagram.com/wsbf_fm"><i class="fa fa-instagram"></i></a></li>
+						<li><a href="https://www.youtube.com/channel/UCG3Blh_SMHacTo_aq3Ikvqw" target="_blank"><i class="fa fa-youtube"></i></a></li>
+						<li><a href="https://www.facebook.com/wsbf881?ref=br_tf" target="_blank"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="https://www.twitter.com/WSBF_FM" target="_blank"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="https://www.instagram.com/wsbf_fm" target="_blank"><i class="fa fa-instagram"></i></a></li>
 					</ul>
 
 					<!-- TODO: look into hover directive, Angular UI doesn't have one -->
@@ -84,11 +85,11 @@
 								</li>
 								<li role="presentation" class="divider"></li>
 								<li role="presentation">
-									<a role="menuitem" tabindex="-1" href="#/staff">Staff</a>
+									<a role="menuitem" tabindex="-1" href="#/history">History</a>
 								</li>
 								<li role="presentation" class="divider"></li>
 								<li role="presentation">
-									<a role="menuitem" tabindex="-1" href="#/history">History</a>
+									<a role="menuitem" tabindex="-1" href="#/staff">Staff</a>
 								</li>
 							</ul>
 						</li>
@@ -99,12 +100,10 @@
 									<a role="menuitem" tabindex="-1" href="#/schedule">Schedule</a>
 								</li>
 								<li role="presentation" class="divider"></li>
-								<!--
 								<li role="presentation">
-									<a role="menuitem" tabindex="-1" href="#"> Playlist</a>
+									<a role="menuitem" tabindex="-1" href="#/playlists">Playlists</a>
 								</li>
 								<li role="presentation" class="divider"></li>
-								-->
 								<li role="presentation">
 									<a role="menuitem" tabindex="-1" href="#/charts">Charting</a>
 								</li>
@@ -114,7 +113,7 @@
 							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Production</a>
 							<ul class="uib-dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 								<li role="presentation">
-									<a role="menuitem" tabindex="-1" href="#/equipment">Equipment Rentals</a>
+									<a role="menuitem" tabindex="-1" href="#/equipment">Rentals</a>
 								</li>
 								<li role="presentation" class="divider"></li>
 								<li role="presentation">
@@ -124,12 +123,12 @@
 								<li role="presentation">
 									<a role="menuitem" tabindex="-1" href="#/booking">Booking</a>
 								</li>
-								<!--
+							<!--
 								<li role="presentation" class="divider"></li>
 								<li role="presentation">
-									<a role="menuitem" tabindex="-1" href="#"> Live Sessions</a>
+									<a role="menuitem" tabindex="-1" href="">Live Sessions</a>
 								</li>
-								-->
+							-->
 							</ul>
 						</li>
 						<li>
@@ -177,16 +176,14 @@
 
 		<section class="container">
 			<div class="row">
-				<!-- TODO: try opening ng-view height, pull media blocks right -->
 				<div class="col-md-8">
 					<div class="grid1" ng-view></div>
 				</div>
 
 				<div class="col-md-4">
-					<!-- TODO: small button should link to playlist page -->
 					<div class="grid2" ng-controller="PlaylistCtrl">
 						<!-- Begin playlist.home -->
-						<h1>Playlist <small><a class="btn btn-default pull-right" href="">View Daily Playlist</a></small></h1>
+						<h1>Playlist <small><a class="btn btn-default pull-right" href="#/playlists">View Show Playlists</a></small></h1>
 						<hr>
 						<div class="container-fluid items-container">
 							<div class="row" ng-repeat="p in playlist">
@@ -218,9 +215,9 @@
 								</div>
 
 								<div class="col-xs-9">
-									<div>{{s.start_time | date:'shortTime'}} - {{s.end_time | date:'shortTime'}}</div>
+									<div>{{s.start_time}} - {{s.end_time}}</div>
 									<div><strong>{{s.show_name}}</strong></div>
-									<div ng-repeat="n in s.preferred_name">{{n}}</div>
+									<div ng-repeat="h in s.hosts">{{h}}</div>
 								</div>
 							</div>
 						</div>
@@ -283,11 +280,11 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-2">
-							<h4>Who We Are</h4>
+							<h4>About Us</h4>
 							<ul class="list-unstyled h4">
-								<li><a href="#/staff">Staff</a></li>
+								<li><a href="#/philosophy">Philosophy</a></li>
 								<li><a href="#/history">History</a></li>
-								<li><a href="#/contact">Contact</a></li>
+								<li><a href="#/staff">Staff</a></li>
 								<li><a href="https://cualumni.clemson.edu/give/wsbf" target="_blank">Donate</a></li>
 							</ul>
 						</div>
@@ -295,40 +292,40 @@
 						<div class="col-xs-2">
 							<h4>Music</h4>
 							<ul class="list-unstyled h4">
-								<li><a href="#/philosophy">Philosophy</a></li>
-								<!--<li><a href="#">Playlist</a></li>-->
 								<li><a href="#/schedule">Schedule</a></li>
+								<li><a href="#/playlists">Playlists</a></li>
 								<li><a href="#/charts">Charting</a></li>
-								<!--<li><a href="#">Submit</a></li>
+							<!--
+								<li><a href="#">Submit</a></li>
 								<li><a href="#">Library</a></li>
-								<li><a href="#">Live Sessions</a></li>-->
+								<li><a href="#">Live Sessions</a></li>
+							-->
 							</ul>
 						</div>
-<!--
+					<!--
 						<div class="col-xs-2">
 							<h4>Listen</h4>
 							<ul class="list-unstyled h4">
 								<li><a href="#">Internet</a></li>
 								<li><a href="#">Mobile</a></li>
 								<li><a href="#">Radio</a></li>
-								<li><a href="#/schedule">Schedule</a></li>
 								<li><a href="#">Archive</a></li>
 							</ul>
 						</div>
--->
+					-->
 						<div class="col-xs-2">
 							<h4>Production</h4>
 							<ul class="list-unstyled h4">
-								<li><a href="#/equipment">Equipment Rental</a></li>
-								<!--<li><a href="#">Deejay Rental</a></li>-->
+								<li><a href="#/equipment">Rentals</a></li>
 								<li><a href="#/recording">Recording</a></li>
 								<li><a href="#/booking">Booking</a></li>
 							</ul>
 						</div>
 
 						<div class="col-xs-3">
-							<h4>Other</h4>
+							<h4>Get In Touch</h4>
 							<ul class="list-unstyled h4">
+								<li><a href="#/contact">Contact</a></li>
 								<li><a href="#/join">Join WSBF</a></li>
 								<li><a href="#/underwriting">Underwriting & Promotion</a></li>
 								<li><a href="#/psa">Public Service Announcements</a></li>
@@ -336,11 +333,12 @@
 						</div>
 
 						<div class="col-xs-2">
-							<h4>Get In Touch</h4>
+							<h4>Social Media</h4>
 							<ul class="list-inline social">
-								<li><a href="https://www.facebook.com/wsbf881?ref=br_tf"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="https://twitter.com/WSBF_FM"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="http://instagram.com/wsbf_fm"><i class="fa fa-instagram"></i></a></li>
+								<li><a href="https://www.youtube.com/channel/UCG3Blh_SMHacTo_aq3Ikvqw" target="_blank"><i class="fa fa-youtube"></i></a></li>
+								<li><a href="https://www.facebook.com/wsbf881?ref=br_tf" target="_blank"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="https://www.twitter.com/WSBF_FM" target="_blank"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="https://www.instagram.com/wsbf_fm" target="_blank"><i class="fa fa-instagram"></i></a></li>
 							</ul>
 						</div>
 					</div>
@@ -352,9 +350,9 @@
 
 		<!-- Begin mediawidget -->
 		<div id="media-widget" ng-controller="NowPlayingCtrl">
-			<img class="img-rounded pull-left" ng-src="{{song.imageUrl || 'images/media_small.png'}}" width="50" height="50"/>
+			<img class="img-rounded pull-left" ng-src="{{track.imageUrl || 'images/media_small.png'}}" width="50" height="50"/>
 			<span class="pull-right">
-				<strong>{{song.lb_track_name || '--'}}</strong> by <strong>{{song.lb_artist || '--'}}</strong>
+				<strong>{{track.lb_track_name || '--'}}</strong> by <strong>{{track.lb_artist || '--'}}</strong>
 			</span>
 
 			<!-- TODO: use /8.ogg when mpeg is not supported -->
