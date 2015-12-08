@@ -1,25 +1,29 @@
 <h2 class="text-center">Show Archives</h2>
 
-<a href="#/">Home</a>
+<button class="btn btn-sm" ng-click="page > 0 && getNewer()" ng-disabled="page == 0">newer</button>
+<button class="btn btn-sm" ng-click="getOlder()">older</button>
 
 <table class="table">
 	<thead>
 		<th>ID</th>
 		<th>Hosts</th>
 		<th>Show Name</th>
+		<th>Show Type</th>
 		<th>Date</th>
 	</thead>
 
 	<tbody>
 		<tr ng-repeat="a in archives">
 			<td>
-				<!-- TODO: adjust href when archive file names are resolved -->
-				<a ng-href="ZAutoLib/archives/{{a.showID}} (1).mp3" target="_blank">{{a.showID}}</a>
+				<div ng-repeat="f in a.files">
+					<a ng-href="{{f}}" target="_blank">{{a.showID}}{{$index > 0 ? (' (' + $index + ')') : ''}}</a>
+				</div>
 			</td>
 			<td>
 				<div ng-repeat="n in a.show_hosts">{{n}}</div>
 			</td>
 			<td>{{a.show_name}}</td>
+			<td>{{show_types[a.show_typeID]}}</td>
 			<td>{{a.start_time | date:'short'}} - {{a.end_time | date:'short'}}</td>
 		</tr>
 	</tbody>
