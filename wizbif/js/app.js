@@ -11,6 +11,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/archives", { templateUrl: "views/archives.html", controller: "ArchivesCtrl" })
 		.when("/library", { templateUrl: "views/library.html", controller: "LibraryCtrl" })
 		.when("/library/:albumID", { templateUrl: "views/library_album.html", controller: "LibraryAlbumCtrl" })
+		.when("/library/:albumID/edit", { templateUrl: "views/library_album_edit.html", controller: "LibraryAlbumCtrl" })
 		.when("/review", { templateUrl: "views/review.html", controller: "ReviewListCtrl" })
 		.when("/review/:albumID", { templateUrl: "views/review_album.html", controller: "ReviewAlbumCtrl" })
 		.when("/showsub", { templateUrl: "views/showsub.html", controller: "ShowSubCtrl" })
@@ -143,6 +144,16 @@ app.service("db", ["$http", function($http) {
 	};
 
 	/**
+	 * Save an album.
+	 *
+	 * @param album  album
+	 * @return Promise of http response
+	 */
+	this.saveAlbum = function(album) {
+		return $http.post("api/library/album.php", album);
+	};
+
+	/**
 	 * Get the list of albums available for review.
 	 *
 	 * TODO: try to merge with getLibrary()
@@ -173,7 +184,7 @@ app.service("db", ["$http", function($http) {
 	};
 
 	/**
-	 * Submit an album review.
+	 * Submit a new album review.
 	 *
 	 * @param album  album review
 	 * @return Promise of http response
@@ -214,33 +225,23 @@ app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 		"Saturday"
 	];
 	$scope.user = {};
+	$scope.check = {};
 
 	var getUser = function() {
 		db.getUser().then(function(user) {
 			$scope.user = user;
+
+			$scope.check = {
+				editProfile: validEditProfile.indexOf(user.statusID) !== -1,
+				reviewer: validReviewer.indexOf(user.statusID) !== -1,
+				seniorStaff: validSeniorStaff.indexOf(user.positionID) !== -1,
+				musicDirector: validMusicDirector.indexOf(user.positionID) !== -1,
+				engineer: validEngineer.indexOf(user.positionID) !== -1
+			};
 		});
 	};
 
-	$scope.checkEditProfile = function() {
-		return validEditProfile.indexOf($scope.user.statusID) !== -1;
-	};
-
-	$scope.checkReviewer = function() {
-		return validReviewer.indexOf($scope.user.statusID) !== -1;
-	};
-
-	$scope.checkSeniorStaff = function() {
-		return validSeniorStaff.indexOf($scope.user.positionID) !== -1;
-	};
-
-	$scope.checkMusicDirector = function() {
-		return validMusicDirector.indexOf($scope.user.positionID) !== -1;
-	};
-
-	$scope.checkEngineer = function() {
-		return validEngineer.indexOf($scope.user.positionID) !== -1;
-	};
-
+	// initialize
 	getUser();
 }]);
 
@@ -294,6 +295,7 @@ app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
 		});
 	};
 
+	// initialize
 	for ( var i = 0; i < 7; i++ ) {
 		getSchedule(i);
 	}
@@ -314,6 +316,7 @@ app.controller("ChartsCtrl", ["$scope", "db", function($scope, db) {
 		});
 	};
 
+	// initialize
 	getTracks();
 }]);
 
@@ -339,6 +342,7 @@ app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
 		});
 	};
 
+	// initialize
 	getArchives();
 }]);
 
@@ -354,10 +358,11 @@ app.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
 		});
 	};
 
+	// initialize
 	$scope.getLibrary($scope.rotation);
 }]);
 
-app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "db", function($scope, $routeParams, db) {
+app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
 	// temporary code for general genres
 	$scope.general_genres = [
 		"Rock",
@@ -397,6 +402,13 @@ app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "db", function($sc
 			});
 	};
 
+	$scope.save = function() {
+		db.saveAlbum($scope.album).then(function(res) {
+			$location.url("/library");
+		});
+	};
+
+	// initialize
 	getAlbum();
 }]);
 
@@ -409,6 +421,7 @@ app.controller("ReviewListCtrl", ["$scope", "db", function($scope, db) {
 		});
 	};
 
+	// initialize
 	getAlbums();
 }]);
 
@@ -427,6 +440,7 @@ app.controller("ReviewAlbumCtrl", ["$scope", "$routeParams", "$location", "db", 
 		});
 	};
 
+	// initialize
 	getAlbum();
 }]);
 
@@ -449,6 +463,7 @@ app.controller("ShowSubCtrl", ["$scope", "db", function($scope, db) {
 		// post to api/showsub/remove.php (see show_sub/show_sub_remove.php)
 	};
 
+	// initialize
 	getRequests();
 }]);
 

@@ -30,16 +30,16 @@
 
 <div class="row">
 	<div class="col-xs-6 text-right">
-		<strong>Genre</strong>
+		<strong>General Genre</strong>
 	</div>
-	<div class="col-xs-6">{{album.genre}}</div>
+	<div class="col-xs-6">{{general_genres[album.general_genreID]}}</div>
 </div>
 
 <div class="row">
 	<div class="col-xs-6 text-right">
-		<strong>General Genre</strong>
+		<strong>Genre</strong>
 	</div>
-	<div class="col-xs-6">{{general_genres[album.general_genreID]}}</div>
+	<div class="col-xs-6">{{album.genre}}</div>
 </div>
 
 <div class="row">
@@ -75,12 +75,7 @@
 	</tbody>
 </table>
 
-<div ng-show="similar_artists.length !== 0">
-	<div>
-		<strong>Similar Artists to {{album.artist_name}}:</strong>
-	</div>
-
-	<div ng-repeat="a in similar_artists">{{a}}</div>
-</div>
+<strong>Similar Artists to {{album.artist_name}}:</strong>
 
 <div ng-show="similar_artists.length === 0">No similar artists to {{album.artist_name}} found.</div>
+<div ng-repeat="a in similar_artists">{{a}}</div>

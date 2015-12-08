@@ -5,12 +5,12 @@
 <a href="#/schedule">Show Schedule</a>
 <br>
 
-<div ng-show="checkEditProfile()">
+<div ng-show="check.editProfile">
 	<a href="#/user">Profile</a>
 	<br>
 </div>
 
-<div ng-show="checkReviewer()">
+<div ng-show="check.reviewer">
 	<a href="#/library">Music Library</a>
 	<br>
 	<a href="#/review">Review an Album</a>
@@ -23,19 +23,19 @@
 	<br>
 </div>
 
-<div ng-show="checkMusicDirector()">
+<div ng-show="check.musicDirector">
 	<a href="rotation_control.php">Print Labels or Move Rotation</a>
 	<br>
 	<a href="import/import_main.php">Import Music</a>
 	<br>
 </div>
 
-<div ng-show="checkSeniorStaff()">
+<div ng-show="check.seniorStaff">
 	<a href="schedule_addshow.php">Add shows to the schedule</a>
 	<br>
 </div>
 
-<div ng-show="checkEngineer()">
+<div ng-show="check.engineer">
 	<a href="">Write new Engineering Blog entry</a>
 	<br>
 </div>

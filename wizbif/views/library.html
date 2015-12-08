@@ -1,4 +1,4 @@
-<h3 class="text-center">CD Library</h3>
+<h3 class="text-center">Music Library</h3>
 
 <table class="table table-bordered">
 	<th ng-class="{ 'bg-success': rotation == 7 }">
@@ -22,13 +22,13 @@
 	<th ng-class="{ 'bg-success': rotation == 6 }">
 		<a href="" ng-click="getLibrary(6)">Jazz</a>
 	</th>
-</table>	
+</table>
 
 <!-- TODO: add searching, sorting, genres -->
 <table class="table">
 	<thead>
 		<th>Album ID</th>
-		<th>Album Code</th>
+		<th colspan="2">Album Code</th>
 		<th>Album</th>
 		<th>Artist</th>
 		<th>Reviewer</th>
@@ -41,6 +41,9 @@
 			<td>
 				<a ng-href="#/library/{{a.albumID}}">{{a.album_code}}</a>
 			</td>
+			<td class="text-right">
+				<a ng-show="check.musicDirector" ng-href="#/library/{{a.albumID}}/edit">Edit</a>
+			</td>
 			<td>{{a.album_name}}</td>
 			<td>{{a.artist_name}}</td>
 			<td>{{a.reviewer}}</td>
@@ -48,23 +51,3 @@
 		</tr>
 	</tbody>
 </table>
-
-<!--
-<?php
-	//Check to see whether session is for music director.
-	$md_ret_value = MD_check();
-
-	while($row = mysql_fetch_assoc($list)) {
-		if($album_code == $albumID){
-			$a_code = "<a href=\"review.php?albumID=$albumID\">REVIEW THIS!</a>";
-		}
-		else{
-			$a_code = "<a href=\"read_review.php?albumID=$albumID\">$album_code</a>";
-			//If user is music director, show extra link to edit a review
-			if($md_ret_value)
-				$a_code .= "<br><a href=\"review.php?albumID=$albumID&edit=1\">Edit Review</a>";
-		}
-
-	}
-?>
--->

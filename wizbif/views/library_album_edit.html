@@ -1,0 +1,117 @@
+<h3 class="text-center">Edit Album</h3>
+
+<div class="text-center" ng-show="!check.musicDirector">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you don't have music director priviledges, so you can't edit albums.</p>
+</div>
+
+<form class="form-horizontal" name="form" ng-show="check.musicDirector">
+	<!-- TODO: can the music director change album codes? -->
+
+	<div class="form-group" ng-class="{'has-error': form.artist_name.$touched && form.artist_name.$invalid}">
+		<label class="col-sm-3 control-label">Artist</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="artist_name" ng-model="album.artist_name" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.album_name.$touched && form.album_name.$invalid}">
+		<label class="col-sm-3 control-label">Album</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="album_name" ng-model="album.album_name" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.label.$touched && form.label.$invalid}">
+		<label class="col-sm-3 control-label">Label</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="label" ng-model="album.label" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.general_genreID.$touched && form.general_genreID.$invalid}">
+		<label class="col-sm-3 control-label">General Genre</label>
+		<div class="col-sm-6">
+			<select class="form-control" name="general_genreID" ng-model="album.general_genreID" required>
+				<option value="0">Rock</option>
+				<option value="1">Loud Rock/Metal</option>
+				<option value="2">Hip-Hop/Rap</option>
+				<option value="3">Indie</option>
+				<option value="4">Electronic</option>
+				<option value="5">Folk/Americana/Bluegrass</option>
+				<option value="6">Punk</option>
+				<option value="7">Pop</option>
+				<option value="8">Jazz/Blues/Soul</option>
+				<option value="9">World</option>
+				<option value="10">R&B/Reggae</option>
+				<option value="11">Dance</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.genre.$touched && form.genre.$invalid}">
+		<label class="col-sm-3 control-label">Genre</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="genre" ng-model="album.genre" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.username.$touched && form.username.$invalid}">
+		<label class="col-sm-3 control-label">Reviewer</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="username" ng-model="album.username" required/>
+			<p class="form-control-static">{{album.reviewer}}</p>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.review.$touched && form.review.$invalid}">
+		<label class="col-sm-3 control-label">Review</label>
+		<div class="col-sm-6">
+			<samp class="help-block">{{750 - album.review.length}} characters remaining.</samp>
+			<textarea class="form-control" name="review" ng-model="album.review" rows="12" maxlength="750" required></textarea>
+		</div>
+	</div>
+
+	<table class="table table-condensed">
+		<thead>
+			<th>Disc No.</th>
+			<th>Track No.</th>
+			<th>Name</th>
+			<th>Artist</th>
+			<th>Airability</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="t in album.tracks">
+				<td>
+					<input class="form-control" type="number" ng-model="t.disc_num" required/>
+				</td>
+				<td>
+					<input class="form-control" type="number" ng-model="t.track_num" required/>
+				</td>
+				<td>
+					<input class="form-control" ng-model="t.track_name" required/>
+				</td>
+				<td>
+					<input class="form-control" ng-model="t.artist_name" required/>
+				</td>
+				<td>
+					<select class="form-control" ng-model="t.airabilityID" required>
+						<option value="0">FCC Clean</option>
+						<option value="2">No Air</option>
+						<option value="1">Recommended</option>
+						<option value="3">Silence After Track</option>
+					</select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="form-group text-center">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="save()">Save</button>
+			<a class="btn btn-default" href="#/library">Cancel</a>
+		</div>
+	</div>
+</form>
