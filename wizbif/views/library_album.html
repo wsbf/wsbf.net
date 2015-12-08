@@ -84,33 +84,3 @@
 </div>
 
 <div ng-show="similar_artists.length === 0">No similar artists to {{album.artist_name}} found.</div>
-
-<!--
-<?php
-	$url = urlencode($artist);
-	
-	$similar_artist_query = "SELECT artist_name FROM libartist WHERE";
-	
-	$jsonurl = "http://developer.echonest.com/api/v4/artist/similar?api_key=4VQZKSD99EUX9ON55&name=$url&format=json&results=100&start=0";
-	$json = file_get_contents($jsonurl);
-	$json_output = json_decode($json, true);
-	$i=0;
-	
-	while(isset($json_output['response']['artists'][$i]['name'])){
-		$similar = mysql_real_escape_string($json_output['response']['artists']["$i"]['name']);
-		$similar_artist_query .= " artist_name LIKE '$similar' OR";
-		$i++;
-	}
-	
-	if($similar_artist_query == "SELECT artist_name FROM libartist WHERE"){
-		echo "<br>No Artists Similar to $artist found.<br>";
-	}
-	else{
-		$similar_artist_query = substr($similar_artist_query, 0, -3);
-		
-		while($row = mysql_fetch_array($artists, MYSQL_NUM)){
-			$similar_artist = $row[0];
-		}
-	}
-?>
--->

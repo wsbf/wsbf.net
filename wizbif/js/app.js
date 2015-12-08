@@ -120,6 +120,29 @@ app.service("db", ["$http", function($http) {
 	};
 
 	/**
+	 * Get a list of similar artists.
+	 *
+	 * @param artist_name  artist name
+	 * @param count        number of similar artists
+	 * @param Promise of similar artists array
+	 */
+	this.getSimilarArtists = function(artist_name, count) {
+		return $http.get("http://developer.echonest.com/api/v4/artist/similar", {
+			params: {
+				api_key: "4VQZKSD99EUX9ON55",
+				format: "json",
+				name: artist_name,
+				results: count,
+				start: 0
+			}
+		}).then(function(res) {
+			return (res.data.response.artists || []).map(function(elem) {
+				return elem.name;
+			});
+		});
+	};
+
+	/**
 	 * Get the list of albums available for review.
 	 *
 	 * TODO: try to merge with getLibrary()
@@ -363,11 +386,15 @@ app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "db", function($sc
 	$scope.similar_artists = [];
 
 	var getAlbum = function() {
-		db.getLibraryAlbum($routeParams.albumID).then(function(album) {
-			$scope.album = album;
+		db.getLibraryAlbum($routeParams.albumID)
+			.then(function(album) {
+				$scope.album = album;
 
-			// TODO: use echonest API to get similar artists
-		});
+				return db.getSimilarArtists(album.artist_name, 10);
+			})
+			.then(function(similar_artists) {
+				$scope.similar_artists = similar_artists;
+			});
 	};
 
 	getAlbum();
