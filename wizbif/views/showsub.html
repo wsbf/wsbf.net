@@ -5,10 +5,10 @@
 <table class="table">
 	<thead>
 		<th>Requested By</th>
+		<th>Request Date</th>
 		<th>Show Name</th>
 		<th>Show Type</th>
 		<th>Show Time</th>
-		<th>Request Date</th>
 		<th>Reason</th>
 		<th>Filled By</th>
 	</thead>
@@ -16,74 +16,16 @@
 	<tbody>
 		<tr ng-repeat="r in requests">
 			<td>{{r.requested_by}}</td>
+			<td>{{r.date}}</td>
 			<td>{{r.show_name}}</td>
 			<td>{{r.show_type}}</td>
 			<td>{{r.day}} {{r.start_time}} - {{r.end_time}}</td>
-			<td>{{r.date}}</td>
 			<td>{{r.reason}}</td>
 			<td>
 				<span ng-show="r.filled_by">{{r.filled_by}}</span>
-				<a ng-show="r.username !== user.username && !r.filled_by" href="" ng-click="fillRequest()">Fill</a>
-				<a ng-show="r.username === user.username" href="" ng-click="removeRequest()">Remove</a>
+				<a ng-show="r.username !== user.username && !r.filled_by" href="" ng-click="fill($index)">Fill</a>
+				<a ng-show="r.username === user.username" href="" ng-click="remove($index)">Remove</a>
 			</td>
 		</tr>
 	</tbody>
 </table>
-
-<!--
-<?php
-	$query = "SELECT r.sub_requestID, u.preferred_name, r.show_name, t.type, d.day, r.start_time, r.end_time, r.date, r.posted_time, r.reason, r.username 
-					 FROM `sub_request` AS r, `users` AS u, `def_days` AS d, `def_show_types` AS t 
-					 WHERE u.username=r.username 
-					 AND d.dayID=r.dayID
-					 AND t.show_typeID=r.show_typeID
-					ORDER BY r.date";
-	
-	//Get row from SQL Query, populate tables with albums
-	while ($row = mysql_fetch_array($list, MYSQL_NUM)){
-
-		$compare_date = strtotime($request_date);
-		$cpr = $request_date." ".$start_time;
-		$cpr = strtotime($cpr);
-		$post_time = strtotime($posted_time);
-		
-		$request_date = date("n-j-y", $compare_date);
-		$posted_time = date("n-j-y g:iA", $post_time);
-		
-		$right_now = strtotime("now");
-		
-		$two_weeks = strtotime ('-2 week' , $right_now);
-		
-		if(($compare_date >= $right_now) | (($compare_date >= $two_weeks) & ($edit))){
-			$fill_query = "SELECT u.preferred_name
-			                 FROM `sub_fill` AS f, `users` AS u
-			                 WHERE u.username=f.username AND f.sub_requestID=$sub_requestID";
-		
-			if(mysql_num_rows($fill)){
-				$fill_ret = mysql_fetch_row($fill);
-				$filled_by = $fill_ret[0];
-			}
-			elseif($username == $sub_request_username){
-				$filled_by = "<input type='button' onclick='confirmation(0,$sub_requestID,\"$request_date\")' value='Remove Request'>";
-			}	
-			else{
-				$filled_by = "<input type='button' onclick='confirmation(1,$sub_requestID,\"$request_date\")' value='Fill Request'>";
-			}
-			
-			echo "<td>$filled_by</td>";
-		
-			if($edit) {
-				$time_before_post = strtotime('+24 hours' , $post_time);
-				if ($cpr <= $time_before_post){
-					
-					echo "<td><font color=\"red\">$posted_time</font></td>";
-				}
-				else{
-					echo "<td>$posted_time</td>";
-				}
-			}
-		}
-		
-	}
-?>
--->

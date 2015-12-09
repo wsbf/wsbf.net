@@ -16,7 +16,7 @@
 		<tr ng-repeat="a in archives">
 			<td>
 				<div ng-repeat="f in a.files">
-					<a ng-href="{{f}}" target="_blank">{{a.showID}}{{$index > 0 ? (' (' + $index + ')') : ''}}</a>
+					<a ng-href="{{f}}" target="_blank">{{a.showID}}{{$index ? (' (' + $index + ')') : ''}}</a>
 				</div>
 			</td>
 			<td>

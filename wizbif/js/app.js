@@ -202,11 +202,39 @@ app.service("db", ["$http", function($http) {
 	 *
 	 * @return Promise of requests array
 	 */
-	this.getShowSubRequests = function() {
+	this.getSubRequests = function() {
 		return $http.get("api/showsub/request_list.php")
 			.then(function(res) {
 				return res.data;
 			});
+	};
+
+	/**
+	 * Fill a sub request.
+	 *
+	 * @param requestID  sub request ID
+	 * @return Promise of http response
+	 */
+	this.fillSubRequest = function(requestID) {
+		return $http.post("api/showsub/fill.php", null, {
+			params: {
+				requestID: requestID
+			}
+		});
+	};
+
+	/**
+	 * Remove a sub request.
+	 *
+	 * @param requestID  sub request ID
+	 * @return Promise of http response
+	 */
+	this.removeSubRequest = function(requestID) {
+		return $http.post("api/showsub/remove.php", null, {
+			params: {
+				requestID: requestID
+			}
+		});
 	};
 }]);
 
@@ -462,24 +490,36 @@ app.controller("ReviewAlbumCtrl", ["$scope", "$routeParams", "$location", "db", 
 app.controller("ShowSubCtrl", ["$scope", "db", function($scope, db) {
 	$scope.requests = [];
 
-	var getRequests = function() {
-		db.getShowSubRequests().then(function(requests) {
+	var getSubRequests = function() {
+		db.getSubRequests().then(function(requests) {
 			$scope.requests = requests;
 		});
 	};
 
-	$scope.fillRequest = function() {
-		// confirm action
-		// post to api/showsub/fill.php (see show_sub/show_sub_fill.php)
+	$scope.fill = function(index) {
+		var req = $scope.requests[index];
+
+		if ( confirm("Are you sure you want to sub this show on " + req.date + "? You will be held responsible if the show is missed.") ) {
+			db.fillSubRequest(req.sub_requestID)
+				.then(function() {
+					req.filled_by = $scope.$parent.user.preferred_name;
+				});
+		}
 	};
 
-	$scope.removeRequest = function() {
-		// confirm action
-		// post to api/showsub/remove.php (see show_sub/show_sub_remove.php)
+	$scope.remove = function(index) {
+		var req = $scope.requests[index];
+
+		if ( confirm("Are you sure you want to remove your sub request? If you request another one less than 24 hours before your show, you will be held responsible for missing your show.") ) {
+			db.removeSubRequest(req.sub_requestID)
+				.then(function() {
+					$scope.requests.splice(index, 1);
+				});
+		}
 	};
 
 	// initialize
-	getRequests();
+	getSubRequests();
 }]);
 
 app.controller("ShowSubRequestCtrl", ["$scope", "db", function($scope, db) {
