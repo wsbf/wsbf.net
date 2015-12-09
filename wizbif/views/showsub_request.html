@@ -8,35 +8,23 @@
 		</div>
 	</div>
 
-	<!-- TODO: date should match m-d-yy (get that datepicker) -->
-	<!-- DJ should pick valid date for a show, get the rest from db -->
+	<!-- TODO: use directive to validate day of week -->
 	<div class="form-group" ng-class="{'has-error': form.date.$touched && form.date.$invalid}">
 		<label class="col-sm-3 control-label">Date</label>
 		<div class="col-sm-6">
-			<input class="form-control" name="date" ng-model="request.date" required/>
+			<input class="form-control" type="date" name="date" ng-model="request.date" required min="{{today | date:'yyyy-MM-dd'}}"/>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label">Start Time</label>
+		<label class="col-sm-3 control-label">Show</label>
 		<div class="col-sm-6">
-			<input class="form-control" name="start_time" ng-model="request.start_time"/>
+			<select class="form-control" name="scheduleID" ng-model="request.scheduleID" ng-options="s.scheduleID as days[s.dayID]+' '+s.start_time+' - '+s.end_time for s in user.shows"></select>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label">End Time</label>
-		<div class="col-sm-6">
-			<input class="form-control" name="end_time" ng-model="request.end_time"/>
-		</div>
-	</div>
-
-	<!-- show type omitted due to redundancy-->
-
-	<!-- show name omitted due to redundancy -->
-
-	<div class="form-group">
-		<label class="col-sm-3 control-label">Reason/Comments</label>
+		<label class="col-sm-3 control-label">Reason</label>
 		<div class="col-sm-6">
 			<textarea class="form-control" name="reason" ng-model="request.reason" rows="3"></textarea>
 		</div>
@@ -44,7 +32,7 @@
 
 	<div class="form-group text-center">
 		<div class="btn-group">
-			<button type="button" class="btn btn-default" ng-disabled="form.$invalid">Submit</button>
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="submit()">Submit</button>
 			<a class="btn btn-default" href="#/showsub">Cancel</a>
 		</div>
 	</div>

@@ -210,6 +210,16 @@ app.service("db", ["$http", function($http) {
 	};
 
 	/**
+	 * Submit a sub request.
+	 *
+	 * @param request
+	 * @return Promise of http response
+	 */
+	this.submitSubRequest = function(request) {
+		return $http.post("api/showsub/add.php", request);
+	};
+
+	/**
 	 * Fill a sub request.
 	 *
 	 * @param requestID  sub request ID
@@ -522,25 +532,13 @@ app.controller("ShowSubCtrl", ["$scope", "db", function($scope, db) {
 	getSubRequests();
 }]);
 
-app.controller("ShowSubRequestCtrl", ["$scope", "db", function($scope, db) {
-	// temporary code for show schedule times
-	$scope.show_times = [
-		"01:00:00",
-		"03:00:00",
-		"05:00:00",
-		"07:00:00",
-		"09:00:00",
-		"11:00:00",
-		"12:30:00",
-		"14:00:00",
-		"15:30:00",
-		"17:00:00",
-		"19:00:00",
-		"21:00:00",
-		"23:00:00",
-	];
+app.controller("ShowSubRequestCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+	$scope.today = Date.now();
+	$scope.request = {};
 
-	$scope.request = {
-		username: $scope.$parent.user.username
+	$scope.submit = function() {
+		db.submitSubRequest($scope.request).then(function() {
+			$location.url("/showsub");
+		});
 	};
 }]);
