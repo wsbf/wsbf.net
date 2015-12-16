@@ -16,6 +16,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/review/:albumID", { templateUrl: "views/review_album.html", controller: "ReviewAlbumCtrl" })
 		.when("/showsub", { templateUrl: "views/showsub.html", controller: "ShowSubCtrl" })
 		.when("/showsub/request", { templateUrl: "views/showsub_request.html", controller: "ShowSubRequestCtrl" })
+		.when("/fishbowl/app", { templateUrl: "views/fishbowl_app.html", controller: "FishbowlAppCtrl" })
 		.otherwise("/");
 }]);
 
@@ -245,6 +246,16 @@ app.service("db", ["$http", function($http) {
 				requestID: requestID
 			}
 		});
+	};
+
+	/**
+	 * Submit a fishbowl application for the current user.
+	 *
+	 * @param app  fishbowl application object
+	 * @return Promise of http response
+	 */
+	this.submitFishbowlApp = function(app) {
+		return $http.post("api/fishbowl/app.php", app);
 	};
 }]);
 
@@ -539,6 +550,16 @@ app.controller("ShowSubRequestCtrl", ["$scope", "$location", "db", function($sco
 	$scope.submit = function() {
 		db.submitSubRequest($scope.request).then(function() {
 			$location.url("/showsub");
+		});
+	};
+}]);
+
+app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+	$scope.app = {};
+
+	$scope.submit = function() {
+		db.submitFishbowlApp($scope.app).then(function() {
+			$location.url("/");
 		});
 	};
 }]);
