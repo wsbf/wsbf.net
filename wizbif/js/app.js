@@ -17,6 +17,8 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/showsub", { templateUrl: "views/showsub.html", controller: "ShowSubCtrl" })
 		.when("/showsub/request", { templateUrl: "views/showsub_request.html", controller: "ShowSubRequestCtrl" })
 		.when("/fishbowl/app", { templateUrl: "views/fishbowl_app.html", controller: "FishbowlAppCtrl" })
+		.when("/fishbowl/admin", { templateUrl: "views/fishbowl_admin.html", controller: "FishbowlAdminCtrl" })
+		.when("/fishbowl/admin/:id", { templateUrl: "views/fishbowl_review.html", controller: "FishbowlReviewCtrl" })
 		.otherwise("/");
 }]);
 
@@ -256,6 +258,49 @@ app.service("db", ["$http", function($http) {
 	 */
 	this.submitFishbowlApp = function(app) {
 		return $http.post("api/fishbowl/app.php", app);
+	};
+
+	/**
+	 * Archive the previous fishbowl.
+	 *
+	 * @return Promise of http response
+	 */
+	this.archiveFishbowl = function() {
+		return $http.post("api/fishbowl/archive.php");
+	};
+
+	/**
+	 * Get the fishbowl.
+	 *
+	 * @return Promise of fishbowl array
+	 */
+	this.getFishbowl = function() {
+		return $http.get("api/fishbowl/fishbowl.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Get a fishbowl review.
+	 *
+	 * @return Promise of fishbowl review object
+	 */
+	this.getFishbowlReview = function() {
+		return $http.get("api/fishbowl/review.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Submit a fishbowl review.
+	 *
+	 * @param app  fishbowl review object
+	 * @return Promise of http response
+	 */
+	this.submitFishbowlReview = function(app) {
+		return $http.post("api/fishbowl/review.php", app);
 	};
 }]);
 
@@ -562,4 +607,73 @@ app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope,
 			$location.url("/");
 		});
 	};
+}]);
+
+app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
+	$scope.fishbowl = [];
+	$scope.bowls = [];
+
+	var getFishbowl = function() {
+		return db.getFishbowl().then(function(fishbowl) {
+			$scope.fishbowl = fishbowl;
+		});
+	};
+
+	$scope.archiveFishbowl = function() {
+		db.archiveFishbowl().then(getFishbowl);
+	};
+
+	var shuffle = function(o) {
+		var j, x, i = o.length;
+
+		while ( i > 0 ) {
+			j = Math.floor(Math.random() * i);
+			x = o[--i];
+			o[i] = o[j];
+			o[j] = x;
+		}
+
+		return o;
+	};
+
+	/**
+	 * Group the current list of fishbowl apps into bowls.
+	 */
+	$scope.getFishbowlResults = function() {
+		var fishbowl = $scope.fishbowl
+			.slice()
+			.sort(function(app1, app2) {
+				return app2.average - app1.average;
+			});
+
+		var NUM_BOWLS = 5;
+		var bowlSize = Math.ceil(fishbowl.length / NUM_BOWLS);
+		var bowls = [];
+
+		for ( var i = 0; i < NUM_BOWLS; i++ ) {
+			bowls[i] = shuffle(fishbowl.splice(0, bowlSize));
+		}
+
+		$scope.bowls = bowls;
+	};
+
+	getFishbowl();
+}]);
+
+app.controller("FishbowlReviewCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
+	$scope.app = {};
+
+	var getFishbowlReview = function() {
+		db.getFishbowlReview().then(function(app) {
+			$scope.app = app;
+		});
+	};
+
+	$scope.submit = function() {
+		db.submitFishbowlReview($scope.app).then(function() {
+			$location.url("/fishbowl/admin");
+		});
+	};
+
+	getFishbowlReview();
 }]);

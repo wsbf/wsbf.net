@@ -1,0 +1,63 @@
+<h3 class="text-center">Review Fishbowl Application</h3>
+
+<div class="text-center" ng-show="!check.seniorStaff">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't on senior staff, so you can't look at the fishbowl.</p>
+</div>
+
+<form name="form" ng-show="check.seniorStaff">
+	<div class="form-group">
+		<p><strong>Number of semesters at the station:</strong> {{app.semesters}}</p>
+	</div>
+
+	<div class="form-group">
+		<p><strong>Number of missed shows:</strong> {{app.missedShows}}</p>
+	</div>
+
+	<div class="form-group">
+		<p><strong>Number of CD reviews this semester:</strong> {{app.num_reviews}}</p>
+	</div>
+
+	<div class="form-group">
+		<strong>Did you help set up for live shows or events? List and describe briefly.</strong>
+		<p>{{app.liveShows}}</p>
+	</div>
+
+	<!-- TODO: show only during fall semester -->
+	<div class="form-group" ng-show="true">
+		<strong>Did you help with the Spring Festival? In what capacity? Tell us about it.</strong>
+		<p>{{app.springFest}}</p>
+	</div>
+
+	<div class="form-group">
+		<p><strong>Previous show was 3-5 AM or 5-7 AM:</strong> {{app.dead_hours ? 'Yes' : 'No'}}</p>
+	</div>
+
+	<div class="form-group">
+		<p><strong>Applying for a specialty show this semester:</strong> {{app.specialty ? 'Yes' : 'No'}}</p>
+	</div>
+
+	<div class="form-group">
+		<strong>Is there anything else that you've done for the station?</strong>
+		<p>{{app.other}}</p>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.rating.$touched && form.rating.$invalid}">
+		<select class="form-control" name="rating" ng-model="app.rating" required>
+			<option value="">Select a rating...</option>
+			<option value="1">&#9733;</option>
+			<option value="2">&#9733;&#9733;</option>
+			<option value="3">&#9733;&#9733;&#9733;</option>
+			<option value="4">&#9733;&#9733;&#9733;&#9733;</option>
+			<option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+		</select>
+	</div>
+
+	<div class="form-group text-center">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="submit()">Submit</button>
+			<a class="btn btn-default" href="#/fishbowl/admin">Cancel</a>
+		</div>
+	</div>
+</form>

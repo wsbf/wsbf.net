@@ -1,0 +1,46 @@
+<h3 class="text-center">Fishbowl Control Panel</h3>
+
+<div class="text-center" ng-show="!check.seniorStaff">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't on senior staff, so you can't look at the fishbowl.</p>
+</div>
+
+<div ng-show="check.seniorStaff">
+	<button class="btn btn-default" ng-click="archiveFishbowl()" ng-disabled="fishbowl.length == 0">Archive</button>
+	<button class="btn btn-default" ng-click="getFishbowlResults()">Print Results</button>
+
+	<table class="table">
+		<thead>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Average</th>
+			<th></th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="f in fishbowl" ng-class="{ 'danger': !f.average }">
+				<td>{{f.id}}</td>
+				<td>{{f.preferred_name}}</td>
+				<td>{{f.average}}</td>
+				<td>
+					<a ng-href="#/fishbowl/admin/{{f.id}}">Review</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="row">
+		<div class="col-sm-3" ng-repeat="b in bowls">
+			<table class="table table-condensed">
+				<thead>
+					<th>Bowl {{$index + 1}}</th>
+				</thead>
+
+				<tr ng-repeat="e in b">
+					<td>{{e.preferred_name}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
