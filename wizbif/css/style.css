@@ -15,3 +15,14 @@
 	/* sports/talk */
 	color: #1b5e3f;
 }
+
+/* rules for array push/splice buttons */
+.button-icon {
+	color: #808080;
+}
+
+.button-icon:hover,
+.button-icon:focus {
+	cursor: pointer;
+	color: #303030;
+}

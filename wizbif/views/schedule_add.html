@@ -1,0 +1,76 @@
+<h3 class="text-center">Add Show to Schedule</h3>
+
+<div class="text-center" ng-show="!check.seniorStaff">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't on senior staff, so you can't add shows.</p>
+</div>
+
+<form class="form-horizontal" name="form" ng-show="check.seniorStaff">
+	<div class="form-group" ng-class="{'has-error': form.dayID.$touched && form.dayID.$invalid}">
+		<label class="col-sm-3 control-label">Day</label>
+		<div class="col-sm-6">
+			<select class="form-control" name="dayID" ng-model="show.dayID" ng-options="d.dayID as d.day for d in days" required></select>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.start_time.$touched && form.start_time.$invalid}">
+		<label class="col-sm-3 control-label">Start Time</label>
+		<div class="col-sm-6">
+			<select class="form-control" name="start_time" ng-model="show.start_time" ng-options="t for t in show_times" required></select>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.end_time.$touched && form.end_time.$invalid}">
+		<label class="col-sm-3 control-label">End Time</label>
+		<div class="col-sm-6">
+			<select class="form-control" name="end_time" ng-model="show.end_time" ng-options="t for t in show_times" required></select>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Show Hosts</label>
+		<div class="col-sm-6">
+			<table class="table">
+				<tr ng-repeat="h in show.hosts">
+					<td>
+						<select class="form-control" ng-model="h" ng-options="u.username as u.preferred_name for u in users"></select>
+					</td>
+					<td class="text-center h3">
+						<span class="button-icon" ng-click="show.hosts.splice($index, 1)">&times;</span>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<select class="form-control" ng-model="newHost" ng-options="u.username as u.preferred_name for u in users"></select>
+					</td>
+					<td class="text-center h3">
+						<span class="button-icon" ng-click="show.hosts.push(newHost); newHost = ''">&plus;</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.show_typeID.$touched && form.show_typeID.$invalid}">
+		<label class="col-sm-3 control-label">Show Type</label>
+		<div class="col-sm-6">
+			<select class="form-control" name="show_typeID" ng-model="show.show_typeID" ng-options="t.show_typeID as t.type for t in show_types" required></select>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Show Name</label>
+		<div class="col-sm-6">
+			<input class="form-control" ng-model="show.show_name"/>
+		</div>
+	</div>
+
+	<div class="form-group text-center">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid || show.hosts.length == 0" ng-click="save()">Save</button>
+			<a class="btn btn-default" href="#/">Cancel</a>
+		</div>
+	</div>
+</form>

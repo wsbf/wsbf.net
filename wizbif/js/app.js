@@ -7,6 +7,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/", { templateUrl: "views/home.html" })
 		.when("/user", { templateUrl: "views/user.html", controller: "UserCtrl" })
 		.when("/schedule", { templateUrl: "views/schedule.html", controller: "ScheduleCtrl" })
+		.when("/schedule/add", { templateUrl: "views/schedule_add.html", controller: "ScheduleAddShowCtrl" })
 		.when("/charts", { templateUrl: "views/charts.html", controller: "ChartsCtrl" })
 		.when("/archives", { templateUrl: "views/archives.html", controller: "ArchivesCtrl" })
 		.when("/library", { templateUrl: "views/library.html", controller: "LibraryCtrl" })
@@ -25,12 +26,24 @@ app.config(["$routeProvider", function($routeProvider) {
 app.service("db", ["$http", function($http) {
 
 	/**
+	 * Get the list of users who can host shows.
+	 *
+	 * @return Promise of user array
+	 */
+	this.getUsers = function() {
+		return $http.get("api/users/hosts.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
 	 * Get the current user.
 	 *
 	 * @return Promise of user object
 	 */
 	this.getUser = function() {
-		return $http.get("api/user.php")
+		return $http.get("api/users/user.php")
 			.then(function(res) {
 				return res.data;
 			});
@@ -43,7 +56,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of http response
 	 */
 	this.saveUser = function(user) {
-		return $http.post("api/user.php", user);
+		return $http.post("api/users/user.php", user);
 	};
 
 	/**
@@ -57,6 +70,16 @@ app.service("db", ["$http", function($http) {
 			.then(function(res) {
 				return res.data;
 			});
+	};
+
+	/**
+	 * Add a show to the schedule.
+	 * 
+	 * @param show  show object
+	 * @return Promise of http response
+	 */
+	this.addShow = function(show) {
+		return $http.post("api/schedule/add.php", show);
 	};
 
 	/**
@@ -607,6 +630,63 @@ app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope,
 			$location.url("/");
 		});
 	};
+}]);
+
+app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+	// temporary code for days
+	$scope.days = [
+		{ dayID: 0, day: "Sunday" },
+		{ dayID: 1, day: "Monday" },
+		{ dayID: 2, day: "Tuesday" },
+		{ dayID: 3, day: "Wednesday" },
+		{ dayID: 4, day: "Thursday" },
+		{ dayID: 5, day: "Friday" },
+		{ dayID: 6, day: "Saturday" }
+	];
+
+	// temporary code for show times
+	$scope.show_times = [
+		"01:00:00",
+		"03:00:00",
+		"05:00:00",
+		"07:00:00",
+		"09:00:00",
+		"11:00:00",
+		"12:30:00",
+		"14:00:00",
+		"15:30:00",
+		"17:00:00",
+		"19:00:00",
+		"21:00:00",
+		"23:00:00",
+	];
+
+	// temporary code for show types
+	$scope.show_types = [
+		{ show_typeID: 0, type: "Rotation" },
+		{ show_typeID: 1, type: "Specialty" },
+		{ show_typeID: 2, type: "Jazz" },
+		{ show_typeID: 3, type: "Talk / Sports" },
+		{ show_typeID: 4, type: "Rotating Specialty" },
+		{ show_typeID: 6, type: "Live Sessions" }
+	];
+
+	$scope.users = [];
+
+	$scope.show = {
+		hosts: []
+	};
+
+	$scope.save = function() {
+		db.addShow($scope.show).then(function() {
+			$location.url("/");
+		});
+	};
+
+	// initialize
+	db.getUsers().then(function(users) {
+		$scope.users = users;
+	});
 }]);
 
 app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
