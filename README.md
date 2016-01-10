@@ -27,6 +27,10 @@ Right now, the web server is somewhat cluttered with directories, so a proposed 
 		├── api/
 		└── wizbif/
 
-TODO: when this repository can be moved to dev.wsbf.net, commit all PHP scripts under /api and /wizbif/api. From there, frontend development can be done locally or through webserver, and backend development can be done on webserver, but both environments should push and pull from github, and they should be in sync before deploying to wsbf.net.
+TODO
+----
 
-TODO: Use gulp to create automated build.
+- when this repository can be moved to dev.wsbf.net, commit all PHP scripts under /api. From there, frontend development can be done locally or through webserver, and backend development can be done on webserver, but both environments should push and pull from github, so that they are in sync before deploying to wsbf.net.
+- wse gulp to create automated build.
+- write script to merge fragmented shows in `shows` table
+- write script to remove automation archives with some minimum age (e.g. 6 months)

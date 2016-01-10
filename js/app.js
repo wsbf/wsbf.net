@@ -8,7 +8,7 @@
  *
  * Visit docs.angularjs.org for Angular documentation.
  */
-var app = angular.module("app", ["ngRoute", "ui.bootstrap"]);
+var app = angular.module("app", ["ngRoute", "ngSanitize", "ui.bootstrap"]);
 
 /**
  * The first part of our module is a "config" block, which is a function
@@ -133,7 +133,7 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 * @return Promise of chart array
 	 */
 	this.getChart = function(count, date1, date2) {
-		return $http.get("api/charts/charts.php", {
+		return $http.get("/api/charts/albums.php", {
 			params: {
 				date1: date1,
 				date2: date2
@@ -150,7 +150,7 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 * @return Promise of show array
 	 */
 	this.getShows = function(page) {
-		return $http.get("api/shows/shows.php", {
+		return $http.get("/api/shows/shows.php", {
 			params: {
 				page: page
 			}
@@ -167,7 +167,7 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 * @return Promise of playlist array
 	 */
 	this.getPlaylist = function(showID) {
-		return $http.get("api/shows/playlist.php", {
+		return $http.get("/api/shows/playlist.php", {
 			params: {
 				showID: showID
 			}
@@ -182,7 +182,7 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 * @return Promise of track object
 	 */
 	this.getNowPlaying = function() {
-		return $http.get("api/shows/now.php")
+		return $http.get("/api/shows/now.php")
 			.then(function(res) {
 				return res.data;
 			});
@@ -195,7 +195,7 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 * @return Promise of schedule array
 	 */
 	this.getSchedule = function(day) {
-		return $http.get("api/schedule/schedule.php", { params: { day: day } })
+		return $http.get("/api/schedule/schedule.php", { params: { day: day } })
 			.then(function(res) {
 				return res.data;
 			});
@@ -207,7 +207,7 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 * @return Promise of blog preview array
 	 */
 	this.getBlogPreviews = function() {
-		return $http.get("api/blog/preview.php")
+		return $http.get("/api/blog/preview.php")
 			.then(function(res) {
 				return res.data;
 			});

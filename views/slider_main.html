@@ -1,10 +1,11 @@
+<!-- TODO: filter posts by "featured" tag -->
 <uib-carousel id="carousel" interval="5000">
 	<uib-slide ng-repeat="p in previews">
-		<img class="center-block" ng-src="{{p.imageUrl}}"/>
+		<img class="center-block" ng-src="{{p.imageUrl || ''}}"/>
 		<div class="carousel-caption">
 			<a ng-href="#/blog/{{p.id}}">
-				<h4>{{p.title}}</h4>
-				<p>{{p.excerpt}}</p>
+				<h4 ng-bind-html="p.title"></h4>
+				<p ng-bind-html="p.excerpt"></p>
 			</a>
 		</div>
 	</uib-slide>

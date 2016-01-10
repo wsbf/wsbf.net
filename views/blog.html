@@ -25,14 +25,14 @@
 		<div class="col-md-4" ng-repeat="p in previews">
 			<div class="thumbnail">
 				<a ng-href="#/blog/{{p.id}}">
-					<img class="img-responsive" ng-src="{{p.imageUrl}}"/>
+					<img class="img-responsive" ng-src="{{p.imageUrl || ''}}"/>
 				</a>
 				<div class="caption">
 					<h3>
-						<a ng-href="#/blog/{{p.id}}">{{p.title}}</a>
+						<a ng-href="#/blog/{{p.id}}" ng-bind-html="p.title"></a>
 					</h3>
 					<h6>
-						<strong class="text-muted">{{p.category || 'Uncategorized'}}</strong>
+						<strong class="text-muted" ng-bind-html="p.category"></strong>
 					</h6>
 					<div>{{p.date | date:'MMMM d'}}</div>
 				</div>

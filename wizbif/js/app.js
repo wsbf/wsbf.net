@@ -31,7 +31,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of user array
 	 */
 	this.getUsers = function() {
-		return $http.get("api/users/hosts.php")
+		return $http.get("/api/users/hosts.php")
 			.then(function(res) {
 				return res.data;
 			});
@@ -43,7 +43,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of user object
 	 */
 	this.getUser = function() {
-		return $http.get("api/users/user.php")
+		return $http.get("/api/users/user.php")
 			.then(function(res) {
 				return res.data;
 			});
@@ -56,7 +56,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of http response
 	 */
 	this.saveUser = function(user) {
-		return $http.post("api/users/user.php", user);
+		return $http.post("/api/users/user.php", user);
 	};
 
 	/**
@@ -79,7 +79,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of http response
 	 */
 	this.addShow = function(show) {
-		return $http.post("api/schedule/add.php", show);
+		return $http.post("/api/schedule/add.php", show);
 	};
 
 	/**
@@ -90,7 +90,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of tracks array
 	 */
 	this.getTopTracks = function(date1, date2) {
-		return $http.get("api/charts/tracks.php", {
+		return $http.get("/api/charts/tracks.php", {
 			params: {
 				date1: date1,
 				date2: date2
@@ -109,7 +109,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of archives array
 	 */
 	this.getArchives = function(page) {
-		return $http.get("api/archives/archives.php", {
+		return $http.get("/api/shows/archives.php", {
 			params: {
 				page: page
 			}
@@ -125,7 +125,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of albums array
 	 */
 	this.getLibrary = function(rotation) {
-		return $http.get("api/library/library.php", {
+		return $http.get("/api/library/library.php", {
 			params: {
 				rotation: rotation
 			}
@@ -141,7 +141,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of album object
 	 */
 	this.getLibraryAlbum = function(albumID) {
-		return $http.get("api/library/album.php", {
+		return $http.get("/api/library/album.php", {
 			params: {
 				albumID: albumID
 			}
@@ -180,7 +180,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of http response
 	 */
 	this.saveAlbum = function(album) {
-		return $http.post("api/library/album.php", album);
+		return $http.post("/api/library/album.php", album);
 	};
 
 	/**
@@ -191,7 +191,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of albums array
 	 */
 	this.getToBeReviewed = function() {
-		return $http.get("api/review/album_list.php")
+		return $http.get("/api/review/album_list.php")
 			.then(function(res) {
 				return res.data;
 			});
@@ -204,7 +204,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of album object
 	 */
 	this.getToBeReviewedAlbum = function(albumID) {
-		return $http.get("api/review/album.php", {
+		return $http.get("/api/review/album.php", {
 			params: {
 				albumID: albumID
 			}
@@ -220,7 +220,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of http response
 	 */
 	this.reviewAlbum = function(album) {
-		return $http.post("api/review/album.php", album);
+		return $http.post("/api/review/album.php", album);
 	};
 
 	/**
@@ -229,7 +229,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of requests array
 	 */
 	this.getSubRequests = function() {
-		return $http.get("api/showsub/request_list.php")
+		return $http.get("/api/showsub/request_list.php")
 			.then(function(res) {
 				return res.data;
 			});
@@ -242,7 +242,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of http response
 	 */
 	this.submitSubRequest = function(request) {
-		return $http.post("api/showsub/add.php", request);
+		return $http.post("/api/showsub/add.php", request);
 	};
 
 	/**
@@ -252,7 +252,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of http response
 	 */
 	this.fillSubRequest = function(requestID) {
-		return $http.post("api/showsub/fill.php", null, {
+		return $http.post("/api/showsub/fill.php", null, {
 			params: {
 				requestID: requestID
 			}
@@ -266,7 +266,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of http response
 	 */
 	this.removeSubRequest = function(requestID) {
-		return $http.post("api/showsub/remove.php", null, {
+		return $http.post("/api/showsub/remove.php", null, {
 			params: {
 				requestID: requestID
 			}
@@ -280,7 +280,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of http response
 	 */
 	this.submitFishbowlApp = function(app) {
-		return $http.post("api/fishbowl/app.php", app);
+		return $http.post("/api/fishbowl/app.php", app);
 	};
 
 	/**
@@ -289,7 +289,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of http response
 	 */
 	this.archiveFishbowl = function() {
-		return $http.post("api/fishbowl/archive.php");
+		return $http.post("/api/fishbowl/archive.php");
 	};
 
 	/**
@@ -298,7 +298,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of fishbowl array
 	 */
 	this.getFishbowl = function() {
-		return $http.get("api/fishbowl/fishbowl.php")
+		return $http.get("/api/fishbowl/fishbowl.php")
 			.then(function(res) {
 				return res.data;
 			});
@@ -310,7 +310,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of fishbowl review object
 	 */
 	this.getFishbowlReview = function() {
-		return $http.get("api/fishbowl/review.php")
+		return $http.get("/api/fishbowl/review.php")
 			.then(function(res) {
 				return res.data;
 			});
@@ -323,7 +323,7 @@ app.service("db", ["$http", function($http) {
 	 * @return Promise of http response
 	 */
 	this.submitFishbowlReview = function(app) {
-		return $http.post("api/fishbowl/review.php", app);
+		return $http.post("/api/fishbowl/review.php", app);
 	};
 }]);
 
@@ -703,19 +703,6 @@ app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
 		db.archiveFishbowl().then(getFishbowl);
 	};
 
-	var shuffle = function(o) {
-		var j, x, i = o.length;
-
-		while ( i > 0 ) {
-			j = Math.floor(Math.random() * i);
-			x = o[--i];
-			o[i] = o[j];
-			o[j] = x;
-		}
-
-		return o;
-	};
-
 	/**
 	 * Group the current list of fishbowl apps into bowls.
 	 */
@@ -731,7 +718,7 @@ app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
 		var bowls = [];
 
 		for ( var i = 0; i < NUM_BOWLS; i++ ) {
-			bowls[i] = shuffle(fishbowl.splice(0, bowlSize));
+			bowls[i] = _.shuffle(fishbowl.splice(0, bowlSize));
 		}
 
 		$scope.bowls = bowls;
