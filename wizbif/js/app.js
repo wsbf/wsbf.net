@@ -685,11 +685,13 @@ app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($sc
 
 	$scope.save = function() {
 		// transform show object from view to server
-		$scope.show.hosts = $scope.show.hosts.map(function(h) {
+		var show = angular.copy($scope.show);
+
+		show.hosts = show.hosts.map(function(h) {
 			return h.username;
 		});
 
-		db.addShow($scope.show).then(function() {
+		db.addShow(show).then(function() {
 			$location.url("/");
 		});
 	};

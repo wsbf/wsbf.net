@@ -41,7 +41,7 @@
 
 				<tr>
 					<td>
-						<input class="form-control" ng-model="newHost" uib-typeahead="u as u.name for u in getUsers($viewValue)" typeahead-min-length="2"/>
+						<input class="form-control" ng-model="newHost" uib-typeahead="u as u.name for u in getUsers($viewValue)" typeahead-min-length="2" typeahead-wait-ms="200"/>
 					</td>
 					<td class="text-center h3">
 						<span class="button-icon" ng-click="show.hosts.push(newHost); newHost = ''">&plus;</span>
