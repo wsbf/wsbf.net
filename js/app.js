@@ -96,7 +96,7 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 * size parameter is based on last.fm API
 	 *  1: 64 x 64
 	 *  2: 174 x 174
-	 * 
+	 *
 	 * @param items  array of tracks or albums
 	 * @param size   size of album art
 	 * @return Promise of updated items
@@ -291,7 +291,7 @@ app.controller("PlaylistCtrl", ["$scope", "$interval", "db", function($scope, $i
 			.then(function(playlist) {
 				$scope.playlist = playlist;
 			});
-	}
+	};
 
 	// update playlist every 60 s
 	getPlaylist();

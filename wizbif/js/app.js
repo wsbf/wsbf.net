@@ -78,7 +78,7 @@ app.service("db", ["$http", function($http) {
 
 	/**
 	 * Add a show to the schedule.
-	 * 
+	 *
 	 * @param show  show object
 	 * @return Promise of http response
 	 */
@@ -377,7 +377,7 @@ app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($sco
 		db.saveUser($scope.user).then(function(res) {
 			$location.url("/");
 		});
-	}
+	};
 }]);
 
 app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
@@ -406,7 +406,7 @@ app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
 		"17:00:00",
 		"19:00:00",
 		"21:00:00",
-		"23:00:00",
+		"23:00:00"
 	];
 	$scope.schedule = [];
 
@@ -662,7 +662,7 @@ app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($sc
 		"17:00:00",
 		"19:00:00",
 		"21:00:00",
-		"23:00:00",
+		"23:00:00"
 	];
 
 	// temporary code for show types

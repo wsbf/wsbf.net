@@ -2,15 +2,19 @@
   "name": "wsbf-angular",
   "version": "0.0.0",
   "description": "The WSBF website, written in Angular.",
+  "repository": "wsbf/wsbf-angular",
   "dependencies": {
     "bower": "^1.7.2"
   },
   "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^0.15.0",
     "http-server": "^0.8.5"
   },
   "scripts": {
     "postinstall": "bower install",
     "start": "http-server",
+    "lint": "gulp lint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Benjamin Shealy",
