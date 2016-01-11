@@ -33,17 +33,15 @@
 		<div class="col-sm-6">
 			<table class="table">
 				<tr ng-repeat="h in show.hosts">
-					<td>
-						<select class="form-control" ng-model="h" ng-options="u.username as u.preferred_name for u in users"></select>
-					</td>
-					<td class="text-center h3">
+					<td>{{h.name}}</td>
+					<td class="text-center">
 						<span class="button-icon" ng-click="show.hosts.splice($index, 1)">&times;</span>
 					</td>
 				</tr>
 
 				<tr>
 					<td>
-						<select class="form-control" ng-model="newHost" ng-options="u.username as u.preferred_name for u in users"></select>
+						<input class="form-control" ng-model="newHost" uib-typeahead="u as u.name for u in getUsers($viewValue)" typeahead-min-length="2"/>
 					</td>
 					<td class="text-center h3">
 						<span class="button-icon" ng-click="show.hosts.push(newHost); newHost = ''">&plus;</span>

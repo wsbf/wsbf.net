@@ -28,13 +28,17 @@ app.service("db", ["$http", function($http) {
 	/**
 	 * Get the list of users who can host shows.
 	 *
+	 * @param term  search term
 	 * @return Promise of user array
 	 */
-	this.getUsers = function() {
-		return $http.get("/api/users/hosts.php")
-			.then(function(res) {
-				return res.data;
-			});
+	this.getUsers = function(term) {
+		return $http.get("/api/users/hosts.php", {
+			params: {
+				term: term
+			}
+		}).then(function(res) {
+			return res.data;
+		});
 	};
 
 	/**
@@ -671,22 +675,24 @@ app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($sc
 		{ show_typeID: 6, type: "Live Sessions" }
 	];
 
-	$scope.users = [];
-
 	$scope.show = {
 		hosts: []
 	};
 
+	$scope.getUsers = function(term) {
+		return db.getUsers(term);
+	};
+
 	$scope.save = function() {
+		// transform show object from view to server
+		$scope.show.hosts = $scope.show.hosts.map(function(h) {
+			return h.username;
+		});
+
 		db.addShow($scope.show).then(function() {
 			$location.url("/");
 		});
 	};
-
-	// initialize
-	db.getUsers().then(function(users) {
-		$scope.users = users;
-	});
 }]);
 
 app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
