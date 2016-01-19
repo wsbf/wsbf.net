@@ -405,8 +405,8 @@ app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
 		db.getSchedule(day).then(function(schedule) {
 
 			// temporary code to transform schedule from api to table
-			$scope.schedule[day] = $scope.show_times.map(function(show_time) {
-				return _.find(schedule, { start_time: show_time });
+			$scope.schedule[day] = $scope.show_times.map(function(t) {
+				return _.find(schedule, { start_time: t.show_time });
 			});
 		});
 	};
@@ -418,11 +418,11 @@ app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
 
 	db.getDefs("show_times").then(function(show_times) {
 		$scope.show_times = show_times;
-	});
 
-	for ( var i = 0; i < 7; i++ ) {
-		getSchedule(i);
-	}
+		for ( var i = 0; i < 7; i++ ) {
+			getSchedule(i);
+		}
+	});
 }]);
 
 app.controller("ChartsCtrl", ["$scope", "db", function($scope, db) {
