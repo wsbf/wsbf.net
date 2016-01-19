@@ -14,7 +14,7 @@
 
 	<tbody>
 		<tr ng-repeat="t in show_times" ng-init="$timeIndex = $index">
-			<td>{{t}}</td>
+			<td>{{t.show_time}}</td>
 
 			<td class="text-center small show-type-{{schedule[$index][$timeIndex].show_typeID}}" ng-repeat="d in days">
 				<strong>{{schedule[$index][$timeIndex].show_name}}</strong>

@@ -17,14 +17,14 @@
 	<div class="form-group" ng-class="{'has-error': form.start_time.$touched && form.start_time.$invalid}">
 		<label class="col-sm-3 control-label">Start Time</label>
 		<div class="col-sm-6">
-			<select class="form-control" name="start_time" ng-model="show.start_time" ng-options="t for t in show_times" required></select>
+			<select class="form-control" name="start_time" ng-model="show.start_time" ng-options="t.show_time for t in show_times" required></select>
 		</div>
 	</div>
 
 	<div class="form-group" ng-class="{'has-error': form.end_time.$touched && form.end_time.$invalid}">
 		<label class="col-sm-3 control-label">End Time</label>
 		<div class="col-sm-6">
-			<select class="form-control" name="end_time" ng-model="show.end_time" ng-options="t for t in show_times" required></select>
+			<select class="form-control" name="end_time" ng-model="show.end_time" ng-options="t.show_time for t in show_times" required></select>
 		</div>
 	</div>
 

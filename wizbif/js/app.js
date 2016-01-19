@@ -398,23 +398,7 @@ app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($sco
 
 app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
 	$scope.days = [];
-
-	// temporary code for show schedule times
-	$scope.show_times = [
-		"01:00:00",
-		"03:00:00",
-		"05:00:00",
-		"07:00:00",
-		"09:00:00",
-		"11:00:00",
-		"12:30:00",
-		"14:00:00",
-		"15:30:00",
-		"17:00:00",
-		"19:00:00",
-		"21:00:00",
-		"23:00:00"
-	];
+	$scope.show_times = [];
 	$scope.schedule = [];
 
 	var getSchedule = function(day) {
@@ -430,6 +414,10 @@ app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
 	// initialize
 	db.getDefs("days").then(function(days) {
 		$scope.days = days;
+	});
+
+	db.getDefs("show_times").then(function(show_times) {
+		$scope.show_times = show_times;
 	});
 
 	for ( var i = 0; i < 7; i++ ) {
@@ -630,23 +618,7 @@ app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope,
 app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
 	$scope.days = [];
 	$scope.show_types = [];
-
-	// temporary code for show times
-	$scope.show_times = [
-		"01:00:00",
-		"03:00:00",
-		"05:00:00",
-		"07:00:00",
-		"09:00:00",
-		"11:00:00",
-		"12:30:00",
-		"14:00:00",
-		"15:30:00",
-		"17:00:00",
-		"19:00:00",
-		"21:00:00",
-		"23:00:00"
-	];
+	$scope.show_times = [];
 
 	$scope.show = {
 		hosts: []
@@ -676,6 +648,10 @@ app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($sc
 
 	db.getDefs("show_types").then(function(show_types) {
 		$scope.show_types = show_types;
+	});
+
+	db.getDefs("show_times").then(function(show_times) {
+		$scope.show_times = show_times;
 	});
 }]);
 
