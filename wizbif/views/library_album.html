@@ -32,7 +32,7 @@
 	<div class="col-xs-6 text-right">
 		<strong>General Genre</strong>
 	</div>
-	<div class="col-xs-6">{{general_genres[album.general_genreID]}}</div>
+	<div class="col-xs-6">{{general_genres[album.general_genreID].genre}}</div>
 </div>
 
 <div class="row">
@@ -70,7 +70,7 @@
 			<td>{{t.track_num}}</td>
 			<td>{{t.track_name}}</td>
 			<td>{{t.artist_name}}</td>
-			<td>{{airability[t.airabilityID]}}</td>
+			<td>{{airability[t.airabilityID].airability}}</td>
 		</tr>
 	</tbody>
 </table>

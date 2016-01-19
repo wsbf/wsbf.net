@@ -23,7 +23,7 @@
 				<div ng-repeat="n in a.show_hosts">{{n}}</div>
 			</td>
 			<td>{{a.show_name}}</td>
-			<td>{{show_types[a.show_typeID]}}</td>
+			<td>{{show_types[a.show_typeID].type}}</td>
 			<td>{{a.start_time | date:'short'}} - {{a.end_time | date:'short'}}</td>
 		</tr>
 	</tbody>

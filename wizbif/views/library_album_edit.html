@@ -33,20 +33,7 @@
 	<div class="form-group" ng-class="{'has-error': form.general_genreID.$touched && form.general_genreID.$invalid}">
 		<label class="col-sm-3 control-label">General Genre</label>
 		<div class="col-sm-6">
-			<select class="form-control" name="general_genreID" ng-model="album.general_genreID" required>
-				<option value="0">Rock</option>
-				<option value="1">Loud Rock/Metal</option>
-				<option value="2">Hip-Hop/Rap</option>
-				<option value="3">Indie</option>
-				<option value="4">Electronic</option>
-				<option value="5">Folk/Americana/Bluegrass</option>
-				<option value="6">Punk</option>
-				<option value="7">Pop</option>
-				<option value="8">Jazz/Blues/Soul</option>
-				<option value="9">World</option>
-				<option value="10">R&B/Reggae</option>
-				<option value="11">Dance</option>
-			</select>
+			<select class="form-control" name="general_genreID" ng-model="album.general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres" required></select>
 		</div>
 	</div>
 
@@ -96,12 +83,7 @@
 					<input class="form-control" ng-model="t.artist_name" required/>
 				</td>
 				<td>
-					<select class="form-control" ng-model="t.airabilityID" required>
-						<option value="0">FCC Clean</option>
-						<option value="2">No Air</option>
-						<option value="1">Recommended</option>
-						<option value="3">Silence After Track</option>
-					</select>
+					<select class="form-control" ng-model="t.airabilityID" ng-options="a.airabilityID as a.airability for a in airability" required></select>
 				</td>
 			</tr>
 		</tbody>

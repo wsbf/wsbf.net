@@ -1,7 +1,6 @@
 "use strict";
 var app = angular.module("app", ["ngRoute", "ui.bootstrap", "ngFileUpload"]);
 
-// TODO: implement all of those server scripts!
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
 		.when("/", { templateUrl: "views/home.html" })
@@ -23,7 +22,27 @@ app.config(["$routeProvider", function($routeProvider) {
 		.otherwise("/");
 }]);
 
-app.service("db", ["$http", function($http) {
+app.service("db", ["$http", "$q", function($http, $q) {
+
+	var defs = {};
+
+	/**
+	 * Get a definitions table.
+	 *
+	 * @param tableName
+	 * @return Promise of table array
+	 */
+	this.getDefs = function(tableName) {
+		return defs[tableName]
+			? $q.resolve(defs[tableName])
+			: $http.get("/api/defs.php", {
+				params: {
+					table: tableName
+				}
+			}).then(function(res) {
+				return (defs[tableName] = res.data);
+			});
+	};
 
 	/**
 	 * Get the list of users who can host shows.
@@ -339,16 +358,6 @@ app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 	var validMusicDirector = [0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20];
 	var validEngineer = [1, 5, 6, 8, 10];
 
-	// temporary object for days
-	$scope.days = [
-		"Sunday",
-		"Monday",
-		"Tuesday",
-		"Wednesday",
-		"Thursday",
-		"Friday",
-		"Saturday"
-	];
 	$scope.user = {};
 	$scope.check = {};
 
@@ -371,6 +380,8 @@ app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 }]);
 
 app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($scope, db, $location, Upload) {
+	$scope.days = [];
+
 	// TODO: implement image upload
 
 	$scope.save = function() {
@@ -378,19 +389,15 @@ app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($sco
 			$location.url("/");
 		});
 	};
+
+	// initialize
+	db.getDefs("days").then(function(days) {
+		$scope.days = days;
+	});
 }]);
 
 app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
-	// temporary object for days
-	$scope.days = [
-		"Sunday",
-		"Monday",
-		"Tuesday",
-		"Wednesday",
-		"Thursday",
-		"Friday",
-		"Saturday"
-	];
+	$scope.days = [];
 
 	// temporary code for show schedule times
 	$scope.show_times = [
@@ -421,6 +428,10 @@ app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
 	};
 
 	// initialize
+	db.getDefs("days").then(function(days) {
+		$scope.days = days;
+	});
+
 	for ( var i = 0; i < 7; i++ ) {
 		getSchedule(i);
 	}
@@ -446,18 +457,7 @@ app.controller("ChartsCtrl", ["$scope", "db", function($scope, db) {
 }]);
 
 app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
-	// temporary array of show types
-	$scope.show_types = [
-		"Rotation",
-		"Specialty",
-		"Jazz",
-		"Sports/Talk",
-		"Rotating Specialty",
-		"Special Programming",
-		"Live Sessions",
-		"Free Form",
-		"Automation"
-	];
+	$scope.show_types = [];
 
 	$scope.page = 0;
 	$scope.archives = [];
@@ -479,6 +479,10 @@ app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
 	};
 
 	// initialize
+	db.getDefs("show_types").then(function(show_types) {
+		$scope.show_types = show_types;
+	});
+
 	getArchives($scope.page);
 }]);
 
@@ -499,29 +503,8 @@ app.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
 }]);
 
 app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
-	// temporary code for general genres
-	$scope.general_genres = [
-		"Rock",
-		"Loud Rock/Metal",
-		"Hip-Hop/Rap",
-		"Indie",
-		"Electronic",
-		"Folk/Americana/Bluegrass",
-		"Punk",
-		"Pop",
-		"Jazz/Blues/Soul",
-		"World",
-		"R&B/Reggae",
-		"Dance"
-	];
-
-	// temporary code for airability
-	$scope.airability = [
-		"FCC Clean",
-		"Recommended",
-		"No Air",
-		"Silence After Track"
-	];
+	$scope.general_genres = [];
+	$scope.airability = [];
 
 	$scope.album = {};
 	$scope.similar_artists = [];
@@ -545,6 +528,14 @@ app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db",
 	};
 
 	// initialize
+	db.getDefs("general_genres").then(function(general_genres) {
+		$scope.general_genres = general_genres;
+	});
+
+	db.getDefs("airability").then(function(airability) {
+		$scope.airability = airability;
+	});
+
 	getAlbum();
 }]);
 
@@ -637,16 +628,8 @@ app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope,
 }]);
 
 app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
-	// temporary code for days
-	$scope.days = [
-		{ dayID: 0, day: "Sunday" },
-		{ dayID: 1, day: "Monday" },
-		{ dayID: 2, day: "Tuesday" },
-		{ dayID: 3, day: "Wednesday" },
-		{ dayID: 4, day: "Thursday" },
-		{ dayID: 5, day: "Friday" },
-		{ dayID: 6, day: "Saturday" }
-	];
+	$scope.days = [];
+	$scope.show_types = [];
 
 	// temporary code for show times
 	$scope.show_times = [
@@ -663,16 +646,6 @@ app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($sc
 		"19:00:00",
 		"21:00:00",
 		"23:00:00"
-	];
-
-	// temporary code for show types
-	$scope.show_types = [
-		{ show_typeID: 0, type: "Rotation" },
-		{ show_typeID: 1, type: "Specialty" },
-		{ show_typeID: 2, type: "Jazz" },
-		{ show_typeID: 3, type: "Talk / Sports" },
-		{ show_typeID: 4, type: "Rotating Specialty" },
-		{ show_typeID: 6, type: "Live Sessions" }
 	];
 
 	$scope.show = {
@@ -695,6 +668,15 @@ app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($sc
 			$location.url("/");
 		});
 	};
+
+	// initialize
+	db.getDefs("days").then(function(days) {
+		$scope.days = days;
+	});
+
+	db.getDefs("show_types").then(function(show_types) {
+		$scope.show_types = show_types;
+	});
 }]);
 
 app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
