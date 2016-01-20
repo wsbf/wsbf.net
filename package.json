@@ -1,8 +1,8 @@
 {
-  "name": "wsbf-angular",
+  "name": "wsbf.net",
   "version": "0.0.0",
   "description": "The WSBF website, written in Angular.",
-  "repository": "wsbf/wsbf-angular",
+  "repository": "wsbf/wsbf.net",
   "dependencies": {
     "bower": "^1.7.2"
   },
