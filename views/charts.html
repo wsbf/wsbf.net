@@ -8,7 +8,7 @@
 			<span class="h3">{{date1 | date:'EEE MM/dd'}} - {{date2 | date:'EEE MM/dd'}}</span>
 		</div>
 		<div class="col-md-2">
-			<select class="form-control" ng-model="count" ng-options="c for c in [10, 30, 50, 100, 200]"></select>
+			<select class="form-control" ng-model="count" ng-options="c for c in [10, 30, 50, 100]"></select>
 		</div>
 		<div class="col-md-5">
 			<div class="pull-right">
@@ -26,7 +26,6 @@
 		<tr>
 			<th>Code</th>
 			<th>Rank</th>
-			<th>Change</th>
 			<th>Plays</th>
 			<th>Artist</th>
 			<th>Album</th>
@@ -36,12 +35,6 @@
 		<tr ng-repeat="c in chart">
 			<td>{{c.lb_album_code}}</td>
 			<td>{{$index + 1}}</td>
-			<td>
-				<i ng-show="c.change > 0" class="fa fa-long-arrow-up"></i>
-				<i ng-show="c.change < 0" class="fa fa-long-arrow-down"></i>
-				<i ng-show="c.change === 0" class="fa fa-minus"></i>
-				<span ng-show="c.change !== 0">{{c.change}}</span>
-			</td>
 			<td>{{c.count}}</td>
 			<td>{{c.lb_artist}}</td>
 			<td>{{c.lb_album}}</td>

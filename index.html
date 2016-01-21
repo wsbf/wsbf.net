@@ -223,12 +223,6 @@
 						<div class="items-container">
 							<table class="chart-home table table-striped">
 								<tr ng-repeat="c in chart">
-									<td class="h4 text-center">
-										<i ng-show="c.change > 0" class="fa fa-long-arrow-up"></i>
-										<i ng-show="c.change < 0" class="fa fa-long-arrow-down"></i>
-										<i ng-show="c.change === 0" class="fa fa-minus"></i>
-										<span ng-show="c.change === undefined">NEW!</span>
-									</td>
 									<td class="text-center">
 										<img class="img-rounded" ng-src="{{c.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
 									</td>
@@ -249,8 +243,8 @@
 						<h1>Social Stream</h1>
 						<hr>
 						<div class="items-container text-center">
-							<a class="twitter-timeline" 
-							   href="https://twitter.com/WSBF_FM" 
+							<a class="twitter-timeline"
+							   href="https://twitter.com/WSBF_FM"
 							   data-widget-id="494896788252282880"
 							   height="295"
 							   data-chrome="noheader noborders noscrollbar">
