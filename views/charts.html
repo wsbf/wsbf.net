@@ -24,21 +24,21 @@
 
 	<table class="table">
 		<tr>
-			<th>Code</th>
 			<th>Rank</th>
+			<th>Code</th>
 			<th>Plays</th>
 			<th>Artist</th>
 			<th>Album</th>
 			<th>Label</th>
 		</tr>
 
-		<tr ng-repeat="c in chart">
-			<td>{{c.lb_album_code}}</td>
-			<td>{{$index + 1}}</td>
-			<td>{{c.count}}</td>
-			<td>{{c.lb_artist}}</td>
-			<td>{{c.lb_album}}</td>
-			<td>{{c.lb_label}}</td>
+		<tr ng-repeat="a in albums | limitTo:count">
+			<td class="text-right">{{$index + 1}}</td>
+			<td class="text-right">{{a.lb_album_code}}</td>
+			<td class="text-right">{{a.count}}</td>
+			<td>{{a.lb_artist}}</td>
+			<td>{{a.lb_album}}</td>
+			<td>{{a.lb_label}}</td>
 		</tr>
 	</table>
 </div>

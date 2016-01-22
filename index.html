@@ -65,7 +65,6 @@
 						<li><a href="https://www.instagram.com/wsbf_fm" target="_blank"><i class="fa fa-instagram"></i></a></li>
 					</ul>
 
-					<!-- TODO: look into hover directive, Angular UI doesn't have one -->
 					<ul class="nav navbar-nav navbar-right">
 						<li uib-dropdown>
 							<a href="" class="dropdown-toggle" uib-dropdown-toggle>About</a>
@@ -222,13 +221,13 @@
 						<hr>
 						<div class="items-container">
 							<table class="chart-home table table-striped">
-								<tr ng-repeat="c in chart">
+								<tr ng-repeat="a in albums">
 									<td class="text-center">
-										<img class="img-rounded" ng-src="{{c.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
+										<img class="img-rounded" ng-src="{{a.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
 									</td>
 									<td>
-										<h4>{{c.lb_album}}</h4>
-										<h5 class="text-muted">{{c.lb_artist}}</h5>
+										<h4>{{a.lb_album}}</h4>
+										<h5 class="text-muted">{{a.lb_artist}}</h5>
 									</td>
 								</tr>
 							</table>
@@ -332,7 +331,7 @@
 		</footer>
 
 		<!-- Begin mediawidget -->
-		<div id="media-widget" ng-controller="NowPlayingCtrl">
+		<div class="hidden-xs" id="media-widget" ng-controller="NowPlayingCtrl">
 			<img class="img-rounded pull-left" ng-src="{{track.imageUrl || 'images/media_small.png'}}" width="50" height="50"/>
 			<span class="pull-right">
 				<strong>{{track.lb_track_name || '--'}}</strong> by <strong>{{track.lb_artist || '--'}}</strong>

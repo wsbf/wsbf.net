@@ -127,19 +127,18 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	/**
 	 * Get album charting over a period of time.
 	 *
-	 * @param count  size of chart in albums
 	 * @param date1  start date timestamp
 	 * @param date2  end date timestamp
 	 * @return Promise of chart array
 	 */
-	this.getChart = function(count, date1, date2) {
+	this.getChart = function(date1, date2) {
 		return $http.get("/api/charts/albums.php", {
 			params: {
 				date1: date1,
 				date2: date2
 			}
 		}).then(function(res) {
-			return res.data.slice(0, count);
+			return res.data;
 		});
 	};
 
@@ -315,71 +314,76 @@ app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
 }]);
 
 app.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
-	var day = 24 * 3600 * 1000;
-	var week = 7 * day;
+	var DAY = 24 * 3600 * 1000;
+	var WEEK = 7 * DAY;
 
 	$scope.today = Date.now();
 	$scope.count = 30;
-	$scope.chart = [];
+	$scope.albums = [];
 
-	var getChart = function(count, date1, date2) {
-		db.getChart(count, date1, date2)
-			.then(function(chart) {
-				$scope.chart = chart;
+	var getChart = function(date1, date2) {
+		db.getChart(date1, date2)
+			.then(function(albums) {
+				$scope.albums = albums;
 			});
 	};
 
 	$scope.getPrevWeek = function() {
-		$scope.date1 -= week;
-		$scope.date2 -= week;
+		$scope.date1 -= WEEK;
+		$scope.date2 -= WEEK;
 
 		getChart($scope.count, $scope.date1, $scope.date2);
 	};
 
 	$scope.hasNextWeek = function() {
-		return $scope.date2 + week <= $scope.today;
+		return $scope.date2 + WEEK <= $scope.today;
 	};
 
 	$scope.getNextWeek = function() {
-		$scope.date1 += week;
-		$scope.date2 += week;
+		$scope.date1 += WEEK;
+		$scope.date2 += WEEK;
 
-		getChart($scope.count, $scope.date1, $scope.date2);
+		getChart($scope.date1, $scope.date2);
 	};
 
 	$scope.getCurrWeek = function() {
-		$scope.date1 = $scope.today - week - day;
-		$scope.date2 = $scope.today - day;
+		$scope.date1 = $scope.today - WEEK - DAY;
+		$scope.date2 = $scope.today - DAY;
 
-		getChart($scope.count, $scope.date1, $scope.date2);
+		getChart($scope.date1, $scope.date2);
 	};
 
 	$scope.getCurrWeek();
 }]);
 
-// TODO: try to combine chart controllers
-// chart widget also loads image URLs into chart array
 app.controller("ChartWidgetCtrl", ["$scope", "db", function($scope, db) {
-	var day = 24 * 3600 * 1000;
-	var week = 7 * day;
+	var DAY = 24 * 3600 * 1000;
+	var WEEK = 7 * DAY;
 
 	var today = Date.now();
-	var date1 = today - week - day;
-	var date2 = today - day;
 	var count = 10;
-	$scope.chart = [];
+	$scope.albums = [];
 
-	var getChart = function(count, date1, date2) {
-		db.getChart(count, date1, date2)
-			.then(function(chart) {
-				return db.getAlbumArt(chart, 1);
+	var getChart = function(date1, date2) {
+		db.getChart(date1, date2)
+			.then(function(albums) {
+				albums = albums.slice(0, count);
+
+				return db.getAlbumArt(albums, 1);
 			})
-			.then(function(chart) {
-				$scope.chart = chart;
+			.then(function(albums) {
+				$scope.albums = albums;
 			});
 	};
 
-	getChart(count, date1, date2);
+	var getCurrWeek = function() {
+		var date1 = today - WEEK - DAY;
+		var date2 = today - DAY;
+
+		getChart(date1, date2);
+	};
+
+	getCurrWeek();
 }]);
 
 app.controller("NowPlayingCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {

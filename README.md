@@ -17,11 +17,9 @@ This repository is an attempt to integrate all of the various fragments of WSBF'
 
 The ultimate goal is to bring all of these resources into one "WSBF" service for end users, DJs, and senior staff.
 
-TODO
-----
+## TODO
 
 - when this repository can be moved to dev.wsbf.net, commit all PHP scripts under /api. From there, frontend development can be done locally or through webserver, and backend development can be done on webserver, but both environments should push and pull from github, so that they are in sync before deploying to wsbf.net.
-- also commit /blog/index.php
 - use gulp to create automated build.
 - write script to merge fragmented shows in `shows` table
-- write script to remove automation archives with some minimum age (e.g. 6 months)
+- write script to remove automation archives older than 6 months
