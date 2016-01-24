@@ -16,13 +16,14 @@
 	color: #1b5e3f;
 }
 
-/* rules for array push/splice buttons */
+/* rules for button icons */
 .button-icon {
 	color: #808080;
 }
 
 .button-icon:hover,
 .button-icon:focus {
+	text-decoration: none;
 	cursor: pointer;
 	color: #303030;
 }

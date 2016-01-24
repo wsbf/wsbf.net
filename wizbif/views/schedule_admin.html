@@ -1,0 +1,38 @@
+<h3 class="text-center">Schedule Control Panel</h3>
+
+<div class="text-center" ng-show="!check.seniorStaff">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't on senior staff, so you can't add shows.</p>
+</div>
+
+<div ng-show="check.seniorStaff">
+	<ul class="list-inline text-center">
+		<li><strong class="show-type-0">Rotation</strong></li>
+		<li><strong class="show-type-1">Specialty</strong></li>
+		<li><strong class="show-type-2">Jazz</strong></li>
+		<li><strong class="show-type-3">Sports/Talk</strong></li>
+	</ul>
+
+	<table class="table">
+		<tr>
+			<th></th>
+			<th class="text-center" ng-repeat="d in days">{{d.day}}</th>
+		</tr>
+
+		<tr ng-repeat="time in schedule" ng-init="timeIndex = $index">
+			<td>{{show_times[$index].show_time}}</td>
+
+			<td ng-repeat="s in time track by $index" class="text-center small show-type-{{s.show_typeID}}">
+				<div ng-show="!s">
+					<a class="button-icon h3" ng-href="#/schedule/admin/add/{{$index}}/{{timeIndex}}">&plus;</a>
+				</div>
+
+				<div ng-show="s">
+					<strong>{{s.show_name}}</strong>
+					<div ng-repeat="h in s.hosts">{{h}}</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>

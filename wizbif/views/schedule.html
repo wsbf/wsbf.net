@@ -1,3 +1,5 @@
+<h3 class="text-center">Show Schedule</h3>
+
 <ul class="list-inline text-center">
 	<li><strong class="show-type-0">Rotation</strong></li>
 	<li><strong class="show-type-1">Specialty</strong></li>
@@ -7,19 +9,17 @@
 
 <!-- TODO: add links to show description, maybe in a modal -->
 <table class="table">
-	<thead>
+	<tr>
 		<th></th>
 		<th class="text-center" ng-repeat="d in days">{{d.day}}</th>
-	</thead>
+	</tr>
 
-	<tbody>
-		<tr ng-repeat="t in show_times" ng-init="$timeIndex = $index">
-			<td>{{t.show_time}}</td>
+	<tr ng-repeat="time in schedule">
+		<td>{{show_times[$index].show_time}}</td>
 
-			<td class="text-center small show-type-{{schedule[$index][$timeIndex].show_typeID}}" ng-repeat="d in days">
-				<strong>{{schedule[$index][$timeIndex].show_name}}</strong>
-				<div ng-repeat="h in schedule[$index][$timeIndex].hosts">{{h}}</div>
-			</td>
-		</tr>
-	</tbody>
+		<td ng-repeat="s in time track by $index" class="text-center small show-type-{{s.show_typeID}}">
+			<strong>{{s.show_name}}</strong>
+			<div ng-repeat="h in s.hosts">{{h}}</div>
+		</td>
+	</tr>
 </table>

@@ -4,21 +4,22 @@ var app = angular.module("app", ["ngResource", "ngRoute", "ui.bootstrap", "ngFil
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
 		.when("/", { templateUrl: "views/home.html" })
-		.when("/user", { templateUrl: "views/user.html", controller: "UserCtrl" })
-		.when("/schedule", { templateUrl: "views/schedule.html", controller: "ScheduleCtrl" })
-		.when("/schedule/add", { templateUrl: "views/schedule_add.html", controller: "ScheduleAddShowCtrl" })
-		.when("/charts", { templateUrl: "views/charts.html", controller: "ChartsCtrl" })
 		.when("/archives", { templateUrl: "views/archives.html", controller: "ArchivesCtrl" })
+		.when("/charts", { templateUrl: "views/charts.html", controller: "ChartsCtrl" })
+		.when("/fishbowl/admin", { templateUrl: "views/fishbowl_admin.html", controller: "FishbowlAdminCtrl" })
+		.when("/fishbowl/admin/:id", { templateUrl: "views/fishbowl_review.html", controller: "FishbowlReviewCtrl" })
+		.when("/fishbowl/app", { templateUrl: "views/fishbowl_app.html", controller: "FishbowlAppCtrl" })
 		.when("/library", { templateUrl: "views/library.html", controller: "LibraryCtrl" })
 		.when("/library/:albumID", { templateUrl: "views/library_album.html", controller: "LibraryAlbumCtrl" })
 		.when("/library/:albumID/edit", { templateUrl: "views/library_album_edit.html", controller: "LibraryAlbumCtrl" })
 		.when("/review", { templateUrl: "views/review.html", controller: "ReviewListCtrl" })
 		.when("/review/:albumID", { templateUrl: "views/review_album.html", controller: "ReviewAlbumCtrl" })
+		.when("/schedule", { templateUrl: "views/schedule.html", controller: "ScheduleCtrl" })
+		.when("/schedule/admin", { templateUrl: "views/schedule_admin.html", controller: "ScheduleCtrl" })
+		.when("/schedule/admin/add/:dayID/:timeID", { templateUrl: "views/schedule_admin_add.html", controller: "ScheduleAddCtrl" })
 		.when("/showsub", { templateUrl: "views/showsub.html", controller: "ShowSubCtrl" })
 		.when("/showsub/request", { templateUrl: "views/showsub_request.html", controller: "ShowSubRequestCtrl" })
-		.when("/fishbowl/app", { templateUrl: "views/fishbowl_app.html", controller: "FishbowlAppCtrl" })
-		.when("/fishbowl/admin", { templateUrl: "views/fishbowl_admin.html", controller: "FishbowlAdminCtrl" })
-		.when("/fishbowl/admin/:id", { templateUrl: "views/fishbowl_review.html", controller: "FishbowlReviewCtrl" })
+		.when("/user", { templateUrl: "views/user.html", controller: "UserCtrl" })
 		.otherwise("/");
 }]);
 
@@ -403,29 +404,6 @@ app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($sco
 	};
 }]);
 
-app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
-	$scope.days = db.getDefs("days");
-	$scope.show_times = db.getDefs("show_times");
-	$scope.schedule = [];
-
-	var getSchedule = function(day) {
-		db.getSchedule(day).then(function(schedule) {
-
-			// temporary code to transform schedule from api to table
-			$scope.schedule[day] = $scope.show_times.map(function(t) {
-				return _.find(schedule, { start_time: t.show_time });
-			});
-		});
-	};
-
-	// initialize
-	$scope.show_times.$promise.then(function() {
-		for ( var i = 0; i < 7; i++ ) {
-			getSchedule(i);
-		}
-	});
-}]);
-
 app.controller("ChartsCtrl", ["$scope", "db", function($scope, db) {
 	var day = 24 * 3600 * 1000;
 	var week = 7 * day;
@@ -608,14 +586,31 @@ app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope,
 	};
 }]);
 
-app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+app.controller("ScheduleCtrl", ["$scope", "$q", "db", function($scope, $q, db) {
 	$scope.days = db.getDefs("days");
-	$scope.show_types = db.getDefs("show_types");
 	$scope.show_times = db.getDefs("show_times");
+	$scope.schedule = [];
 
-	$scope.show = {
-		hosts: []
+	var getSchedule = function() {
+		$q.all($scope.days.map(function(day) {
+			return db.getSchedule(day.dayID);
+		})).then(function(daySchedules) {
+			$scope.schedule = $scope.show_times.map(function(t) {
+				return daySchedules.map(function(day) {
+					return _.find(day, { start_time: t.show_time });
+				});
+			});
+		});
 	};
+
+	// initialize
+	$q.all([$scope.days.$promise, $scope.show_times.$promise]).then(getSchedule);
+}]);
+
+app.controller("ScheduleAddCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
+	$scope.days = db.getDefs("days");
+	$scope.show_times = db.getDefs("show_times");
+	$scope.show_types = db.getDefs("show_types");
 
 	$scope.getUsers = function(term) {
 		return db.getUsers(term);
@@ -630,9 +625,22 @@ app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($sc
 		});
 
 		db.addShow(show).then(function() {
-			$location.url("/");
+			$location.url("/schedule/admin");
 		});
 	};
+
+	// initialize
+	$scope.show_times.$promise.then(function() {
+		var startID = Number.parseInt($routeParams.timeID);
+		var endID = (startID + 1) % $scope.show_times.length;
+
+		$scope.show = {
+			dayID: $routeParams.dayID,
+			start_time: $scope.show_times[startID].show_time,
+			end_time: $scope.show_times[endID].show_time,
+			hosts: []
+		};
+	});
 }]);
 
 app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {

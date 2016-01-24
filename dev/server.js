@@ -43,6 +43,10 @@ app.get("/api/logout.php", function(req, res) {
 	res.redirect("/login.html")
 });
 
+app.post("/api/schedule/add.php", function(req, res) {
+	res.status(200).end();
+});
+
 app.get("/api/users/user.php", function(req, res, next) {
 	if ( !authenticated ) {
 		res.status(401).end();
