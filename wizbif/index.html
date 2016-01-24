@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!-- TODO: design the arrangement of login/register pages, authentication -->
-<!-- move login.html and register.html to public site -->
-<!-- password protect /wizbif? -->
-<!-- emulate any necessary php behavior in express for development -->
+<!-- TODO: add server-side authentication/redirect to /wizbif -->
 <html lang="en" ng-app="app" ng-strict-di>
 	<head>
 		<title>WSBF-FM Clemson | The Upstate's Only True Alternative Radio</title>
@@ -24,12 +21,18 @@
 	<body class="container" ng-controller="MainCtrl">
 		<h1 class="text-center">WSBF-FM Clemson</h1>
 
-		<div class="row">
+		<div class="text-center" ng-show="!user">
+			<h3><strong>Nah.</strong></h3>
+
+			<p>It would seem that you aren't logged in, so go <a href="/login.html">log in</a>!</p>
+		</div>
+
+		<div class="row" ng-show="user">
 			<div class="col-sm-3">
 				<p class="text-muted">Signed in as {{user.preferred_name}}</p>
 
 				<!-- TODO: move to public website -->
-				<a href="#/charts">Weekly Charts</a>
+				<a href="#/charts">Weekly Top 20 Tracks</a>
 				<br>
 				<a href="#/schedule">Show Schedule</a>
 				<br>

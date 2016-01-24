@@ -14,6 +14,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // define routes
+var authenticated = false;
+
 app.get("/api/defs.php", function(req, res, next) {
 	var tablePath = path.join(__dirname, "api/defs", req.query.table);
 
@@ -28,15 +30,26 @@ app.get("/api/defs.php", function(req, res, next) {
 
 app.post("/api/login.php", function(req, res) {
 	if ( req.body.username && req.body.password ) {
+		authenticated = true;
 		res.redirect("/wizbif/");
 	}
 	else {
-		res.redirect("/wizbif/login.html")
+		res.redirect("/login.html")
 	}
 });
 
 app.get("/api/logout.php", function(req, res) {
-	res.redirect("/wizbif/login.html")
+	authenticated = false;
+	res.redirect("/login.html")
+});
+
+app.get("/api/users/user.php", function(req, res, next) {
+	if ( !authenticated ) {
+		res.status(404).end();
+	}
+	else {
+		next();
+	}
 });
 
 app.use("/api", express.static(path.join(__dirname, "api")));

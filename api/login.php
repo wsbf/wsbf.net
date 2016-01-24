@@ -48,7 +48,7 @@ if ( empty($_POST["username"]) || empty($_POST["password"]) ) {
 	// header("HTTP/1.1 401 Unauthorized");
 	// exit("Username and/or password is empty.");
 
-	header("Location: /wizbif/login.html");
+	header("Location: /login.html");
 	exit;
 }
 
@@ -66,7 +66,7 @@ if ( !isset($hash) || !validate_password($password, $hash) ) {
 	// header("HTTP/1.1 401 Unauthorized");
 	// exit("Invalid credentials.");
 
-	header("Location: /wizbif/login.html");
+	header("Location: /login.html");
 	exit;
 }
 

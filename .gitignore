@@ -1,5 +1,5 @@
-blog
-bower_components
-node_modules
-wizbif/ZAutoLib
+/blog
+/bower_components
+/node_modules
+/wizbif/ZAutoLib
 npm-debug.log

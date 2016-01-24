@@ -382,6 +382,8 @@ app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 			}), _.mapValues(positionSets, function(set) {
 				return set.indexOf(user.positionID) !== -1;
 			}));
+		}, function() {
+			$scope.user = null;
 		});
 	};
 

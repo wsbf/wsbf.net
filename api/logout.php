@@ -11,6 +11,6 @@
 session_start();
 session_destroy();
 
-header("Location: /wizbif/login.html");
+header("Location: /login.html");
 exit;
 ?>
