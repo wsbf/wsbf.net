@@ -1,18 +1,20 @@
 {
-  "name": "wsbf-angular",
-  "description": "WSBF website, written in Angular.",
+  "name": "wsbf.net",
+  "description": "The WSBF website, written in Angular.",
   "authors": [
     "Benjamin Shealy"
   ],
   "license": "ISC",
   "private": true,
   "dependencies": {
+    "angular": "^1.4.9",
     "angular-bootstrap": "~0.14.3",
-    "angular": "~1.4.7",
+    "angular-resource": "^1.4.9",
+    "angular-route": "^1.4.9",
+    "angular-sanitize": "^1.4.9",
     "font-awesome": "fontawesome#~4.4.0",
     "html5shiv": "~3.7.3",
     "lodash": "~3.10.1",
-    "ng-file-upload": "~10.1.8",
-    "angular-sanitize": "~1.4.8"
+    "ng-file-upload": "~10.1.8"
   }
 }

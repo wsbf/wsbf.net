@@ -1,5 +1,5 @@
 "use strict";
-var app = angular.module("app", ["ngRoute", "ui.bootstrap", "ngFileUpload"]);
+var app = angular.module("app", ["ngResource", "ngRoute", "ui.bootstrap", "ngFileUpload"]);
 
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
@@ -22,26 +22,31 @@ app.config(["$routeProvider", function($routeProvider) {
 		.otherwise("/");
 }]);
 
-app.service("db", ["$http", "$q", function($http, $q) {
+/**
+ * The Database service provides an interface to server-side data.
+ * The entire server API is implemented here so that every controller
+ * uses this service instead of using HTTP requests directly.
+ *
+ * This service uses Promises, which are an abstraction of callbacks
+ * that make asynchronous programming a little better.
+ *
+ * @param $http      service in module ng
+ * @param $resource  service in module ngResource
+ */
+app.service("db", ["$http", "$resource", function($http, $resource) {
 
-	var defs = {};
+	var Defs = $resource("/api/defs.php", {}, {
+		get: { method: "GET", isArray: true, cache: true }
+	});
 
 	/**
 	 * Get a definitions table.
 	 *
 	 * @param tableName
-	 * @return Promise of table array
+	 * @return table array
 	 */
 	this.getDefs = function(tableName) {
-		return defs[tableName]
-			? $q.resolve(defs[tableName])
-			: $http.get("/api/defs.php", {
-				params: {
-					table: tableName
-				}
-			}).then(function(res) {
-				return (defs[tableName] = res.data);
-			});
+		return Defs.get({ table: tableName });
 	};
 
 	/**
@@ -173,27 +178,29 @@ app.service("db", ["$http", "$q", function($http, $q) {
 		});
 	};
 
+	var SimilarArtists = $resource("http://developer.echonest.com/api/v4/artist/similar", {
+		api_key: "4VQZKSD99EUX9ON55",
+		format: "json",
+		start: 0
+	}, {
+		get: { method: "GET", cache: true }
+	});
+
 	/**
 	 * Get a list of similar artists.
 	 *
 	 * @param artist_name  artist name
 	 * @param count        number of similar artists
-	 * @param Promise of similar artists array
+	 * @return Promise of similar artists array
 	 */
 	this.getSimilarArtists = function(artist_name, count) {
-		return $http.get("http://developer.echonest.com/api/v4/artist/similar", {
-			params: {
-				api_key: "4VQZKSD99EUX9ON55",
-				format: "json",
-				name: artist_name,
-				results: count,
-				start: 0
-			}
-		}).then(function(res) {
-			return (res.data.response.artists || []).map(function(elem) {
-				return elem.name;
+		return SimilarArtists.get({ name: artist_name, results: count })
+			.$promise
+			.then(function(data) {
+				return (data.response.artists || []).map(function(a) {
+					return a.name;
+				});
 			});
-		});
 	};
 
 	/**
@@ -351,12 +358,17 @@ app.service("db", ["$http", "$q", function($http, $q) {
 }]);
 
 app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
-	// temporary position/status arrays
-	var validEditProfile = ["0", "1", "2", "4"];
-	var validReviewer = ["0", "1", "5"];
-	var validSeniorStaff = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-	var validMusicDirector = [0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20];
-	var validEngineer = [1, 5, 6, 8, 10];
+	// temporary status/position sets
+	var statusSets = {
+		editProfile: ["0", "1", "2", "4"],
+		reviewer: ["0", "1", "5"]
+	};
+
+	var positionSets = {
+		seniorStaff: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+		musicDirector: [0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20],
+		engineer: [1, 5, 6, 8, 10]
+	};
 
 	$scope.user = {};
 	$scope.check = {};
@@ -365,13 +377,11 @@ app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 		db.getUser().then(function(user) {
 			$scope.user = user;
 
-			$scope.check = {
-				editProfile: validEditProfile.indexOf(user.statusID) !== -1,
-				reviewer: validReviewer.indexOf(user.statusID) !== -1,
-				seniorStaff: validSeniorStaff.indexOf(user.positionID) !== -1,
-				musicDirector: validMusicDirector.indexOf(user.positionID) !== -1,
-				engineer: validEngineer.indexOf(user.positionID) !== -1
-			};
+			_.assign($scope.check, _.mapValues(statusSets, function(set) {
+				return set.indexOf(user.statusID) !== -1;
+			}), _.mapValues(positionSets, function(set) {
+				return set.indexOf(user.positionID) !== -1;
+			}));
 		});
 	};
 
@@ -380,7 +390,7 @@ app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 }]);
 
 app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($scope, db, $location, Upload) {
-	$scope.days = [];
+	$scope.days = db.getDefs("days");
 
 	// TODO: implement image upload
 
@@ -389,16 +399,11 @@ app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($sco
 			$location.url("/");
 		});
 	};
-
-	// initialize
-	db.getDefs("days").then(function(days) {
-		$scope.days = days;
-	});
 }]);
 
 app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
-	$scope.days = [];
-	$scope.show_times = [];
+	$scope.days = db.getDefs("days");
+	$scope.show_times = db.getDefs("show_times");
 	$scope.schedule = [];
 
 	var getSchedule = function(day) {
@@ -412,13 +417,7 @@ app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
 	};
 
 	// initialize
-	db.getDefs("days").then(function(days) {
-		$scope.days = days;
-	});
-
-	db.getDefs("show_times").then(function(show_times) {
-		$scope.show_times = show_times;
-
+	$scope.show_times.$promise.then(function() {
 		for ( var i = 0; i < 7; i++ ) {
 			getSchedule(i);
 		}
@@ -445,7 +444,7 @@ app.controller("ChartsCtrl", ["$scope", "db", function($scope, db) {
 }]);
 
 app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
-	$scope.show_types = [];
+	$scope.show_types = db.getDefs("show_types");
 
 	$scope.page = 0;
 	$scope.archives = [];
@@ -467,10 +466,6 @@ app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
 	};
 
 	// initialize
-	db.getDefs("show_types").then(function(show_types) {
-		$scope.show_types = show_types;
-	});
-
 	getArchives($scope.page);
 }]);
 
@@ -491,8 +486,8 @@ app.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
 }]);
 
 app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
-	$scope.general_genres = [];
-	$scope.airability = [];
+	$scope.general_genres = db.getDefs("general_genres");
+	$scope.airability = db.getDefs("airability");
 
 	$scope.album = {};
 	$scope.similar_artists = [];
@@ -516,14 +511,6 @@ app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db",
 	};
 
 	// initialize
-	db.getDefs("general_genres").then(function(general_genres) {
-		$scope.general_genres = general_genres;
-	});
-
-	db.getDefs("airability").then(function(airability) {
-		$scope.airability = airability;
-	});
-
 	getAlbum();
 }]);
 
@@ -596,6 +583,7 @@ app.controller("ShowSubCtrl", ["$scope", "db", function($scope, db) {
 
 app.controller("ShowSubRequestCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
 	$scope.today = Date.now();
+	$scope.days = db.getDefs("days");
 	$scope.request = {};
 
 	$scope.submit = function() {
@@ -616,9 +604,9 @@ app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope,
 }]);
 
 app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
-	$scope.days = [];
-	$scope.show_types = [];
-	$scope.show_times = [];
+	$scope.days = db.getDefs("days");
+	$scope.show_types = db.getDefs("show_types");
+	$scope.show_times = db.getDefs("show_times");
 
 	$scope.show = {
 		hosts: []
@@ -640,19 +628,6 @@ app.controller("ScheduleAddShowCtrl", ["$scope", "$location", "db", function($sc
 			$location.url("/");
 		});
 	};
-
-	// initialize
-	db.getDefs("days").then(function(days) {
-		$scope.days = days;
-	});
-
-	db.getDefs("show_types").then(function(show_types) {
-		$scope.show_types = show_types;
-	});
-
-	db.getDefs("show_times").then(function(show_times) {
-		$scope.show_times = show_times;
-	});
 }]);
 
 app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
@@ -666,7 +641,9 @@ app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
 	};
 
 	$scope.archiveFishbowl = function() {
-		db.archiveFishbowl().then(getFishbowl);
+		if ( confirm("Are you sure you want to archive the fishbowl?") ) {
+			db.archiveFishbowl().then(getFishbowl);
+		}
 	};
 
 	/**

@@ -8,7 +8,7 @@
  *
  * Visit docs.angularjs.org for Angular documentation.
  */
-var app = angular.module("app", ["ngRoute", "ngSanitize", "ui.bootstrap"]);
+var app = angular.module("app", ["ngResource", "ngRoute", "ngSanitize", "ui.bootstrap"]);
 
 /**
  * The first part of our module is a "config" block, which is a function
@@ -66,29 +66,25 @@ app.config(["$routeProvider", function($routeProvider) {
  * This service uses Promises, which are an abstraction of callbacks
  * that make asynchronous programming a little better.
  *
- * @param $http  service in module ng
- * @param $q     service in module ng
+ * @param $http      service in module ng
+ * @param $q         service in module ng
+ * @param $resource  service in module ngResource
  */
-app.service("db", ["$http", "$q", function($http, $q) {
+app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 
 	/**
-	 * Get the artwork for an album through the last.fm API.
+	 * Get album info through the last.fm API.
 	 *
 	 * @param artist
 	 * @param album
-	 * @return Promise of HTTP request
 	 */
-	var getAlbumInfo = function(artist, album) {
-		return $http.get("http://ws.audioscrobbler.com/2.0/", {
-			params: {
-				api_key: "74e3ab782313ff6e306a5f52a0e043ab",
-				format: "json",
-				method: "album.getinfo",
-				artist: artist,
-				album: album
-			}
-		});
-	};
+	var AlbumInfo = $resource("http://ws.audioscrobbler.com/2.0/", {
+		api_key: "74e3ab782313ff6e306a5f52a0e043ab",
+		format: "json",
+		method: "album.getinfo"
+	}, {
+		get: { method: "GET", cache: true }
+	});
 
 	/**
 	 * Get album art for an array of tracks or albums.
@@ -102,26 +98,24 @@ app.service("db", ["$http", "$q", function($http, $q) {
 	 * @return Promise of updated items
 	 */
 	this.getAlbumArt = function(items, size) {
-		/* request album art for each item */
-		var promises = items.map(function(item) {
+		return $q.all(items.map(function(item) {
 			// TODO: request artist photo?
 			if ( item.lb_album === "" ) {
 				return $q.resolve(item);
 			}
 
 			/* add image URL to each item */
-			return getAlbumInfo(item.lb_artist, item.lb_album)
-				.then(function(res) {
-					if ( !res.data.error ) {
-						item.imageUrl = res.data.album.image[size]["#text"];
-					}
+			return AlbumInfo.get({
+				artist: item.lb_artist,
+				album: item.lb_album
+			}).$promise.then(function(info) {
+				if ( !info.error ) {
+					item.imageUrl = info.album.image[size]["#text"];
+				}
 
-					return item;
-				});
-		});
-
-		/* return promise that resolves when every item is resolved */
-		return $q.all(promises);
+				return item;
+			});
+		}));
 	};
 
 	/**

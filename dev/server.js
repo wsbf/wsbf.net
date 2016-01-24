@@ -14,11 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // define routes
-var index = express.Router();
-index.use("/", express.static("./"));
-
-var api = express.Router();
-api.get("/defs.php", function(req, res, next) {
+app.get("/api/defs.php", function(req, res, next) {
 	var tablePath = path.join(__dirname, "api/defs", req.query.table);
 
 	fs.readFile(tablePath, "utf-8", function(err, data) {
@@ -29,10 +25,22 @@ api.get("/defs.php", function(req, res, next) {
 		res.send(data);
 	});
 });
-api.use("/", express.static(path.join(__dirname, "api")));
 
-app.use("/api", api);
-app.use("/", index);
+app.post("/api/login.php", function(req, res) {
+	if ( req.body.username && req.body.password ) {
+		res.redirect("/wizbif/");
+	}
+	else {
+		res.redirect("/wizbif/login.html")
+	}
+});
+
+app.get("/api/logout.php", function(req, res) {
+	res.redirect("/wizbif/login.html")
+});
+
+app.use("/api", express.static(path.join(__dirname, "api")));
+app.use("/", express.static("./"));
 
 // define 404 handler
 app.use(function(req, res, next) {

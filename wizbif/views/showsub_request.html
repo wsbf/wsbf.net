@@ -19,7 +19,9 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label">Show</label>
 		<div class="col-sm-6">
-			<select class="form-control" name="scheduleID" ng-model="request.scheduleID" ng-options="s.scheduleID as days[s.dayID]+' '+s.start_time+' - '+s.end_time for s in user.shows"></select>
+			<select class="form-control" name="scheduleID" ng-model="request.scheduleID">
+				<option ng-repeat="s in user.shows" ng-value="s.scheduleID">{{days[s.dayID].day}} {{s.start_time}} - {{s.end_time}}</option>
+			</select>
 		</div>
 	</div>
 
