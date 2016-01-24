@@ -45,7 +45,7 @@ app.get("/api/logout.php", function(req, res) {
 
 app.get("/api/users/user.php", function(req, res, next) {
 	if ( !authenticated ) {
-		res.status(404).end();
+		res.status(401).end();
 	}
 	else {
 		next();

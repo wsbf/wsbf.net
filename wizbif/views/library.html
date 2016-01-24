@@ -1,53 +1,61 @@
 <h3 class="text-center">Music Library</h3>
 
-<table class="table table-bordered">
-	<th ng-class="{ 'bg-success': rotation == 7 }">
-		<a href="" ng-click="getLibrary(7)">Recently Reviewed</a>
-	</th>
-	<th ng-class="{ 'bg-success': rotation == 1 }">
-		<a href="" ng-click="getLibrary(1)">New</a>
-	</th>
-	<th ng-class="{ 'bg-success': rotation == 2 }">
-		<a href="" ng-click="getLibrary(2)">Heavy</a>
-	</th>
-	<th ng-class="{ 'bg-success': rotation == 3 }">
-		<a href="" ng-click="getLibrary(3)">Medium</a>
-	</th>
-	<th ng-class="{ 'bg-success': rotation == 4 }">
-		<a href="" ng-click="getLibrary(4)">Light</a>
-	</th>
-	<th ng-class="{ 'bg-success': rotation == 5 }">
-		<a href="" ng-click="getLibrary(5)">Optional</a>
-	</th>
-	<th ng-class="{ 'bg-success': rotation == 6 }">
-		<a href="" ng-click="getLibrary(6)">Jazz</a>
-	</th>
-</table>
+<div class="text-center" ng-show="!check.reviewer">
+	<h3><strong>Nah.</strong></h3>
 
-<!-- TODO: add searching, sorting, genres -->
-<table class="table">
-	<thead>
-		<th>Album ID</th>
-		<th colspan="2">Album Code</th>
-		<th>Album</th>
-		<th>Artist</th>
-		<th>Reviewer</th>
-		<th>Review Date</th>
-	</thead>
+	<p>It would seem that you aren't allowed to view the music library.</p>
+</div>
 
-	<tbody>
-		<tr ng-repeat="a in albums">
-			<td>{{a.albumID}}</td>
-			<td>
-				<a ng-href="#/library/{{a.albumID}}">{{a.album_code}}</a>
-			</td>
-			<td class="text-right">
-				<a ng-show="check.musicDirector" ng-href="#/library/{{a.albumID}}/edit">Edit</a>
-			</td>
-			<td>{{a.album_name}}</td>
-			<td>{{a.artist_name}}</td>
-			<td>{{a.reviewer}}</td>
-			<td>{{a.review_date | date}}</td>
-		</tr>
-	</tbody>
-</table>
+<div ng-show="check.reviewer">
+	<table class="table table-bordered">
+		<th ng-class="{ 'bg-success': rotation == 7 }">
+			<a href="" ng-click="getLibrary(7)">Recently Reviewed</a>
+		</th>
+		<th ng-class="{ 'bg-success': rotation == 1 }">
+			<a href="" ng-click="getLibrary(1)">New</a>
+		</th>
+		<th ng-class="{ 'bg-success': rotation == 2 }">
+			<a href="" ng-click="getLibrary(2)">Heavy</a>
+		</th>
+		<th ng-class="{ 'bg-success': rotation == 3 }">
+			<a href="" ng-click="getLibrary(3)">Medium</a>
+		</th>
+		<th ng-class="{ 'bg-success': rotation == 4 }">
+			<a href="" ng-click="getLibrary(4)">Light</a>
+		</th>
+		<th ng-class="{ 'bg-success': rotation == 5 }">
+			<a href="" ng-click="getLibrary(5)">Optional</a>
+		</th>
+		<th ng-class="{ 'bg-success': rotation == 6 }">
+			<a href="" ng-click="getLibrary(6)">Jazz</a>
+		</th>
+	</table>
+
+	<!-- TODO: add searching, sorting, genres -->
+	<table class="table">
+		<thead>
+			<th>Album ID</th>
+			<th colspan="2">Album Code</th>
+			<th>Album</th>
+			<th>Artist</th>
+			<th>Reviewer</th>
+			<th>Review Date</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="a in albums">
+				<td>{{a.albumID}}</td>
+				<td>
+					<a ng-href="#/library/{{a.albumID}}">{{a.album_code}}</a>
+				</td>
+				<td class="text-right">
+					<a ng-show="check.musicDirector" ng-href="#/library/{{a.albumID}}/edit">Edit</a>
+				</td>
+				<td>{{a.album_name}}</td>
+				<td>{{a.artist_name}}</td>
+				<td>{{a.reviewer}}</td>
+				<td>{{a.review_date | date}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

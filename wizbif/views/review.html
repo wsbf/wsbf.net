@@ -1,22 +1,31 @@
 <h3 class="text-center">To Be Reviewed</h3>
 
-<!-- TODO: add searching, sorting, genres -->
-<table class="table">
-	<thead>
-		<th>Album ID</th>
-		<th>Album Code</th>
-		<th>Album</th>
-		<th>Artist</th>
-	</thead>
+<div class="text-center" ng-show="!check.reviewer">
+	<h3><strong>Nah.</strong></h3>
 
-	<tbody>
-		<tr ng-repeat="a in albums">
-			<td>{{a.albumID}}</td>
-			<td>
-				<a ng-href="#/review/{{a.albumID}}">{{a.album_code}}</a>
-			</td>
-			<td>{{a.album_name}}</td>
-			<td>{{a.artist_name}}</td>
-		</tr>
-	</tbody>
-</table>
+	<p>It would seem that you aren't allowed to view the music library.</p>
+</div>
+
+<div ng-show="check.reviewer">
+	<!-- TODO: add searching, sorting, genres -->
+
+	<table class="table">
+		<thead>
+			<th>Album ID</th>
+			<th>Album Code</th>
+			<th>Album</th>
+			<th>Artist</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="a in albums">
+				<td>{{a.albumID}}</td>
+				<td>
+					<a ng-href="#/review/{{a.albumID}}">{{a.album_code}}</a>
+				</td>
+				<td>{{a.album_name}}</td>
+				<td>{{a.artist_name}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

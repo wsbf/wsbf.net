@@ -530,6 +530,9 @@ app.controller("ReviewListCtrl", ["$scope", "db", function($scope, db) {
 }]);
 
 app.controller("ReviewAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
+	$scope.general_genres = db.getDefs("general_genres");
+	$scope.airability = db.getDefs("airability");
+
 	$scope.album = {};
 
 	var getAlbum = function() {

@@ -33,7 +33,7 @@ var app = angular.module("app", ["ngResource", "ngRoute", "ngSanitize", "ui.boot
  */
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
-		.when("/", { templateUrl: "views/slider_main.html", controller: "BlogPreviewCtrl" })
+		.when("/", { templateUrl: "views/slider_main.html", controller: "BlogCtrl" })
 		.when("/philosophy", { templateUrl: "views/philosophy.html" })
 		.when("/staff", { templateUrl: "views/staff.html" })
 		.when("/history", { templateUrl: "views/history.html" })
@@ -216,7 +216,7 @@ app.controller("MainCtrl", ["$scope", "$uibModal", function($scope, $uibModal) {
 	};
 }]);
 
-app.controller("BlogPreviewCtrl", ["$scope", "db", function($scope, db) {
+app.controller("BlogCtrl", ["$scope", "db", function($scope, db) {
 	$scope.previews = [];
 
 	var getBlogPreviews = function() {

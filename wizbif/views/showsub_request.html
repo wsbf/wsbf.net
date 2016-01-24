@@ -1,6 +1,12 @@
 <h3 class="text-center">Show Sub Request</h3>
 
-<form class="form-horizontal" name="form">
+<div class="text-center" ng-show="!check.reviewer">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't allowed to request show subs.</p>
+</div>
+
+<form class="form-horizontal" name="form" ng-show="check.reviewer">
 	<div class="form-group">
 		<label class="col-sm-3 control-label">Requested By</label>
 		<div class="col-sm-6">

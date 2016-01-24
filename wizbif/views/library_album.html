@@ -1,81 +1,89 @@
 <h3 class="text-center">Album Info</h3>
 
-<div class="row">
-	<div class="col-xs-6 text-right">
-		<strong>Album Code</strong>
+<div class="text-center" ng-show="!check.reviewer">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't allowed to view the music library.</p>
+</div>
+
+<div ng-show="check.reviewer">
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<strong>Album Code</strong>
+		</div>
+		<div class="col-xs-6">{{album.album_code}}</div>
 	</div>
-	<div class="col-xs-6">{{album.album_code}}</div>
-</div>
 
-<div class="row">
-	<div class="col-xs-6 text-right">
-		<strong>Artist</strong>
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<strong>Artist</strong>
+		</div>
+		<div class="col-xs-6">{{album.artist_name}}</div>
 	</div>
-	<div class="col-xs-6">{{album.artist_name}}</div>
-</div>
 
-<div class="row">
-	<div class="col-xs-6 text-right">
-		<strong>Album</strong>
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<strong>Album</strong>
+		</div>
+		<div class="col-xs-6">{{album.album_name}}</div>
 	</div>
-	<div class="col-xs-6">{{album.album_name}}</div>
-</div>
 
-<div class="row">
-	<div class="col-xs-6 text-right">
-		<strong>Label</strong>
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<strong>Label</strong>
+		</div>
+		<div class="col-xs-6">{{album.label}}</div>
 	</div>
-	<div class="col-xs-6">{{album.label}}</div>
-</div>
 
-<div class="row">
-	<div class="col-xs-6 text-right">
-		<strong>General Genre</strong>
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<strong>General Genre</strong>
+		</div>
+		<div class="col-xs-6">{{general_genres[album.general_genreID].genre}}</div>
 	</div>
-	<div class="col-xs-6">{{general_genres[album.general_genreID].genre}}</div>
-</div>
 
-<div class="row">
-	<div class="col-xs-6 text-right">
-		<strong>Genre</strong>
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<strong>Genre</strong>
+		</div>
+		<div class="col-xs-6">{{album.genre}}</div>
 	</div>
-	<div class="col-xs-6">{{album.genre}}</div>
-</div>
 
-<div class="row">
-	<div class="col-xs-6 text-right">
-		<strong>Reviewer</strong>
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<strong>Reviewer</strong>
+		</div>
+		<div class="col-xs-6">{{album.reviewer}}</div>
 	</div>
-	<div class="col-xs-6">{{album.reviewer}}</div>
+
+	<div>
+		<strong>Review</strong>
+	</div>
+
+	<p>{{album.review}}</p>
+
+	<table class="table">
+		<thead>
+			<th>Disc No.</th>
+			<th>Track No.</th>
+			<th>Name</th>
+			<th>Artist</th>
+			<th>Airability</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="t in album.tracks" ng-class="{ 'text-success': t.airabilityID == 1, 'text-danger': t.airabilityID == 2, 'text-warning': t.airabilityID == 3 }">
+				<td>{{t.disc_num}}</td>
+				<td>{{t.track_num}}</td>
+				<td>{{t.track_name}}</td>
+				<td>{{t.artist_name}}</td>
+				<td>{{airability[t.airabilityID].airability}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<strong>Similar Artists to {{album.artist_name}}:</strong>
+
+	<div ng-show="similar_artists.length === 0">No similar artists found.</div>
+	<div ng-repeat="a in similar_artists">{{a}}</div>
 </div>
-
-<div>
-	<strong>Review</strong>
-</div>
-
-<p>{{album.review}}</p>
-
-<table class="table">
-	<thead>
-		<th>Disc No.</th>
-		<th>Track No.</th>
-		<th>Name</th>
-		<th>Artist</th>
-		<th>Airability</th>
-	</thead>
-
-	<tbody>
-		<tr ng-repeat="t in album.tracks" ng-class="{ 'text-success': t.airabilityID == 1, 'text-danger': t.airabilityID == 2, 'text-warning': t.airabilityID == 3 }">
-			<td>{{t.disc_num}}</td>
-			<td>{{t.track_num}}</td>
-			<td>{{t.track_name}}</td>
-			<td>{{t.artist_name}}</td>
-			<td>{{airability[t.airabilityID].airability}}</td>
-		</tr>
-	</tbody>
-</table>
-
-<strong>Similar Artists to {{album.artist_name}}:</strong>
-
-<div ng-show="similar_artists.length === 0">No similar artists found.</div>
-<div ng-repeat="a in similar_artists">{{a}}</div>
