@@ -130,17 +130,17 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 
 	/**
-	 * Get a list of show archives.
+	 * Get a list of show archives by page or DJ name.
 	 *
-	 * TODO: align with playlists view
-	 *
-	 * @param page  page count from most recent
+	 * @param page  page offset
+	 * @param term  search term
 	 * @return Promise of archives array
 	 */
-	this.getArchives = function(page) {
+	this.getArchives = function(page, term) {
 		return $http.get("/api/shows/archives.php", {
 			params: {
-				page: page
+				page: page,
+				term: term
 			}
 		}).then(function(res) {
 			return res.data;
@@ -436,8 +436,8 @@ app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
 	$scope.page = 0;
 	$scope.archives = [];
 
-	var getArchives = function(page) {
-		db.getArchives(page).then(function(archives) {
+	var getArchives = function(page, term) {
+		db.getArchives(page, term).then(function(archives) {
 			$scope.archives = archives;
 		});
 	};
@@ -450,6 +450,10 @@ app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
 	$scope.getOlder = function() {
 		$scope.page++;
 		getArchives($scope.page);
+	};
+
+	$scope.search = function(term) {
+		getArchives(null, term);
 	};
 
 	// initialize

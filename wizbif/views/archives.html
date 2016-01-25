@@ -7,8 +7,22 @@
 </div>
 
 <div ng-show="check.reviewer">
-	<button class="btn btn-sm" ng-click="page > 0 && getNewer()" ng-disabled="page == 0">newer</button>
-	<button class="btn btn-sm" ng-click="getOlder()">older</button>
+	<p><em>Note: when searching by name, use the person's full name.</em></p>
+
+	<div class="row">
+		<div class="col-xs-6">
+			<button class="btn btn-sm" ng-click="page > 0 && getNewer()" ng-disabled="page == 0">newer</button>
+			<button class="btn btn-sm" ng-click="getOlder()">older</button>
+		</div>
+
+		<div class="col-xs-4">
+			<input class="form-control" ng-model="searchTerm" placeholder="DJ Name"/>
+		</div>
+
+		<div class="col-xs-2">
+			<button class="btn btn-sm btn-default" ng-click="search(searchTerm)" ng-disabled="!searchTerm || searchTerm.length < 3">search</button>
+		</div>
+	</div>
 
 	<table class="table">
 		<thead>
