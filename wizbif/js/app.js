@@ -350,11 +350,17 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	/**
 	 * Submit a fishbowl review.
 	 *
-	 * @param app  fishbowl review object
+	 * @param id      fishbowl app id
+	 * @param rating  fishbowl app rating
 	 * @return Promise of http response
 	 */
-	this.submitFishbowlReview = function(app) {
-		return $http.post("/api/fishbowl/review.php", app);
+	this.submitFishbowlReview = function(id, rating) {
+		return $http.post("/api/fishbowl/review.php", null, {
+			params: {
+				id: id,
+				rating: rating
+			}
+		});
 	};
 }]);
 
@@ -693,7 +699,7 @@ app.controller("FishbowlReviewCtrl", ["$scope", "$routeParams", "$location", "db
 	};
 
 	$scope.submit = function() {
-		db.submitFishbowlReview($scope.app).then(function() {
+		db.submitFishbowlReview($scope.app.id, $scope.rating).then(function() {
 			$location.url("/fishbowl/admin");
 		});
 	};

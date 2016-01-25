@@ -1,26 +1,32 @@
 <!-- TODO: need to know (1) semester and (2) deadline -->
 <h3 class="text-center">Fishbowl Application</h3>
 
-<form name="form">
+<div class="text-center" ng-show="!check.editProfile">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't allowed to submit fishbowl apps.</p>
+</div>
+
+<form name="form" ng-show="check.editProfile">
 	<div class="form-group" ng-class="{'has-error': form.semesters.$touched && form.semesters.$invalid}">
 		<p>How many semesters have you worked at WSBF, counting the one during which you passed your on-air test? If you DJ'd over a summer, count it as 1.</p>
 		<input class="form-control" type="number" name="semesters" ng-model="app.semesters" required/>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.miss.$touched && form.miss.$invalid}">
+	<div class="form-group" ng-class="{'has-error': form.missedShows.$touched && form.missedShows.$invalid}">
 		<p>How many times did you miss your show last semester? Don't lie; the records will be checked.</p>
-		<input class="form-control" type="number" name="miss" ng-model="app.miss" required/>
+		<input class="form-control" type="number" name="missedShows" ng-model="app.missedShows" required/>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.liveshows.$touched && form.liveshows.$invalid}">
+	<div class="form-group" ng-class="{'has-error': form.liveShows.$touched && form.liveShows.$invalid}">
 		<p>Did you help set up for live shows or events? List and describe briefly.</p>
-		<textarea class="form-control" name="liveshows" ng-model="app.liveshows" rows="10" required></textarea>
+		<textarea class="form-control" name="liveShows" ng-model="app.liveShows" rows="10" required></textarea>
 	</div>
 
 	<!-- TODO: show only during fall semester -->
 	<div class="form-group" ng-show="true">
 		<p>Did you help with the Spring Festival? In what capacity? Tell us about it.</p>
-		<textarea class="form-control" name="springfest" ng-model="app.springfest" rows="10"></textarea>
+		<textarea class="form-control" name="springFest" ng-model="app.springFest" rows="10"></textarea>
 	</div>
 
 	<div class="form-group">
