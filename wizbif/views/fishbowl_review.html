@@ -8,39 +8,44 @@
 
 <form name="form" ng-show="check.seniorStaff">
 	<div class="form-group">
-		<p><strong>Number of semesters at the station:</strong> {{app.semesters}}</p>
+		<strong>Number of semesters at the station:</strong>
+		<pre>{{app.semesters}}</pre>
 	</div>
 
 	<div class="form-group">
-		<p><strong>Number of missed shows:</strong> {{app.missedShows}}</p>
+		<strong>Number of missed shows:</strong>
+		<pre>{{app.missedShows}}</pre>
 	</div>
 
 	<div class="form-group">
-		<p><strong>Number of CD reviews this semester:</strong> {{app.num_reviews}}</p>
+		<strong>Number of CD reviews this semester:</strong>
+		<pre>{{app.num_reviews}}</pre>
 	</div>
 
 	<div class="form-group">
 		<strong>Did you help set up for live shows or events? List and describe briefly.</strong>
-		<p>{{app.liveShows}}</p>
+		<pre>{{app.liveShows}}</pre>
 	</div>
 
 	<!-- TODO: show only during fall semester -->
 	<div class="form-group" ng-show="true">
 		<strong>Did you help with the Spring Festival? In what capacity? Tell us about it.</strong>
-		<p>{{app.springFest}}</p>
+		<pre>{{app.springFest}}</pre>
 	</div>
 
 	<div class="form-group">
-		<p><strong>Previous show was 3-5 AM or 5-7 AM:</strong> {{app.dead_hours ? 'Yes' : 'No'}}</p>
+		<strong>Previous show was 3-5 AM or 5-7 AM?</strong>
+		<pre>{{app.dead_hours ? 'Yes' : 'No'}}</pre>
 	</div>
 
 	<div class="form-group">
-		<p><strong>Applying for a specialty show this semester:</strong> {{app.specialty ? 'Yes' : 'No'}}</p>
+		<strong>Applying for a specialty show this semester?</strong>
+		<pre>{{app.specialty ? 'Yes' : 'No'}}</pre>
 	</div>
 
 	<div class="form-group">
 		<strong>Is there anything else that you've done for the station?</strong>
-		<p>{{app.other}}</p>
+		<pre>{{app.other}}</pre>
 	</div>
 
 	<div class="form-group" ng-class="{'has-error': form.rating.$touched && form.rating.$invalid}">

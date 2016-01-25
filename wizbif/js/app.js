@@ -336,25 +336,26 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 
 	/**
-	 * Get a fishbowl review.
+	 * Get a fishbowl app.
 	 *
-	 * @return Promise of fishbowl review object
+	 * @param id  fishbowl app id
+	 * @return Promise of fishbowl app object
 	 */
-	this.getFishbowlReview = function() {
-		return $http.get("/api/fishbowl/review.php")
+	this.getFishbowlApp = function(id) {
+		return $http.get("/api/fishbowl/review.php", { params: { id: id } })
 			.then(function(res) {
 				return res.data;
 			});
 	};
 
 	/**
-	 * Submit a fishbowl review.
+	 * Rate a fishbowl app.
 	 *
 	 * @param id      fishbowl app id
 	 * @param rating  fishbowl app rating
 	 * @return Promise of http response
 	 */
-	this.submitFishbowlReview = function(id, rating) {
+	this.rateFishbowlApp = function(id, rating) {
 		return $http.post("/api/fishbowl/review.php", null, {
 			params: {
 				id: id,
@@ -692,17 +693,17 @@ app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
 app.controller("FishbowlReviewCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
 	$scope.app = {};
 
-	var getFishbowlReview = function() {
-		db.getFishbowlReview().then(function(app) {
+	var getFishbowlApp = function() {
+		db.getFishbowlApp($routeParams.id).then(function(app) {
 			$scope.app = app;
 		});
 	};
 
 	$scope.submit = function() {
-		db.submitFishbowlReview($scope.app.id, $scope.rating).then(function() {
+		db.rateFishbowlApp($scope.app.id, $scope.rating).then(function() {
 			$location.url("/fishbowl/admin");
 		});
 	};
 
-	getFishbowlReview();
+	getFishbowlApp();
 }]);
