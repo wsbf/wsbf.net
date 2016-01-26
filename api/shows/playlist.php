@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @file shows/playlist.php
+ * @author Ben Shealy
+ */
 require_once("../connect.php");
 
 /**
