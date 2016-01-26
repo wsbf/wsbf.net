@@ -1,5 +1,10 @@
 <?php
-require_once("../connect-dev.php");
+
+/**
+ * @file schedule/schedule.php
+ * @author Ben Shealy
+ */
+require_once("../connect.php");
 
 /**
  * Get the schedule for a day of the week.

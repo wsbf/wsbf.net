@@ -1,5 +1,6 @@
 <?php
 
+// TODO: rename to schedule/show.php, add GET, POST (update), and DELETE
 /**
  * @file schedule/add.php
  * @author Ben Shealy
@@ -9,7 +10,7 @@
  * Add a show to the schedule.
  */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 
 /**
  * Validate a show.
@@ -21,10 +22,10 @@ require_once("../connect-dev.php");
 function validate_show($mysqli, $show)
 {
 	if ( !is_numeric($show["dayID"])
-		|| empty($show["start_time"])
-		|| empty($show["end_time"])
-		|| !is_numeric($show["show_typeID"])
-		|| !is_array($show["hosts"]) ) {
+	  || empty($show["start_time"])
+	  || empty($show["end_time"])
+	  || !is_numeric($show["show_typeID"])
+	  || !is_array($show["hosts"]) ) {
 		return false;
 	}
 
