@@ -192,7 +192,6 @@ app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 			});
 	};
 
-	// TODO: filter posts by "featured" tag
 	/**
 	 * Get previews of the most recent blog posts.
 	 *

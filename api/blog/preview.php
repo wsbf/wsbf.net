@@ -7,9 +7,10 @@ function custom_excerpt_length($length)
 }
 
 $wp_posts = get_posts(array(
-	"numberposts" => 20,
+	"numberposts" => 5,
 	"orderby" => "date",
-	"order" => "DESC"
+	"order" => "DESC",
+	"tag" => "featured"
 ));
 
 $posts = array();
