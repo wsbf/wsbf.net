@@ -8,13 +8,14 @@
   "private": true,
   "dependencies": {
     "angular": "^1.4.9",
-    "angular-bootstrap": "~0.14.3",
+    "angular-animate": "^1.4.9",
+    "angular-bootstrap": "^0.14.3",
     "angular-resource": "^1.4.9",
     "angular-route": "^1.4.9",
     "angular-sanitize": "^1.4.9",
     "font-awesome": "fontawesome#~4.4.0",
     "html5shiv": "~3.7.3",
-    "lodash": "~3.10.1",
+    "lodash": "^3.10.1",
     "ng-file-upload": "~10.1.8"
   }
 }

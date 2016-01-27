@@ -8,7 +8,7 @@
  *
  * Visit docs.angularjs.org for Angular documentation.
  */
-var app = angular.module("app", ["ngResource", "ngRoute", "ngSanitize", "ui.bootstrap"]);
+var app = angular.module("app", ["ngAnimate", "ngResource", "ngRoute", "ngSanitize", "ui.bootstrap"]);
 
 /**
  * The first part of our module is a "config" block, which is a function
