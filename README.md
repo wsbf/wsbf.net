@@ -20,7 +20,6 @@ The ultimate goal is to bring all of these resources into one "WSBF" service for
 ## TODO
 
 - front-end development can be done locally or through web server, and back-end development can be done on web server, but both environments should push and pull from github, so that they are in sync before deploying to wsbf.net.
-- use gulp to create automated build
 - use jasmine/karma to create unit tests
 - write script to merge fragmented shows in `shows` table
 - write script to remove automation archives older than 6 months

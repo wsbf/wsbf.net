@@ -385,7 +385,7 @@ app.controller("NowPlayingCtrl", ["$scope", "$interval", "db", function($scope, 
 }]);
 
 app.controller("WebcamCtrl", ["$scope", "$interval", function($scope, $interval) {
-	var baseUrl = "http://wsbf.net/camera/studioa.jpg";
+	var baseUrl = "/camera/studioa.jpg";
 
 	$scope.webcamUrl = baseUrl;
 

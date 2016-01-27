@@ -1,5 +1,6 @@
 /blog
 /bower_components
+/camera
 /node_modules
 /wizbif/ZAutoLib
 npm-debug.log
