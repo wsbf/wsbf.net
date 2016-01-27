@@ -33,7 +33,7 @@ var app = angular.module("app", ["ngResource", "ngRoute", "ngSanitize", "ui.boot
  */
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
-		.when("/", { templateUrl: "views/slider_main.html", controller: "BlogCtrl" })
+		.when("/", { templateUrl: "views/slider_main.html", controller: "SliderCtrl" })
 		.when("/philosophy", { templateUrl: "views/philosophy.html" })
 		.when("/staff", { templateUrl: "views/staff.html" })
 		.when("/history", { templateUrl: "views/history.html" })
@@ -44,8 +44,6 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/equipment", { templateUrl: "views/equipment.html" })
 		.when("/recording", { templateUrl: "views/recording.html" })
 		.when("/booking", { templateUrl: "views/booking.html" })
-		.when("/blog", { templateUrl: "views/blog.html" })
-		.when("/blog/:postID", { templateUrl: "views/blog_post.html" })
 		.when("/join", { templateUrl: "views/join.html" })
 		.when("/underwriting", { templateUrl: "views/underwriting.html" })
 		.when("/psa", { templateUrl: "views/psa.html" })
@@ -194,6 +192,7 @@ app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 			});
 	};
 
+	// TODO: filter posts by "featured" tag
 	/**
 	 * Get previews of the most recent blog posts.
 	 *
@@ -216,7 +215,7 @@ app.controller("MainCtrl", ["$scope", "$uibModal", function($scope, $uibModal) {
 	};
 }]);
 
-app.controller("BlogCtrl", ["$scope", "db", function($scope, db) {
+app.controller("SliderCtrl", ["$scope", "db", function($scope, db) {
 	$scope.previews = [];
 
 	var getBlogPreviews = function() {
@@ -226,19 +225,6 @@ app.controller("BlogCtrl", ["$scope", "db", function($scope, db) {
 	};
 
 	getBlogPreviews();
-}]);
-
-app.controller("BlogPostCtrl", ["$scope", "$routeParams", "db", function($scope, $routeParams, db) {
-	$scope.postID = parseInt($routeParams.postID);
-
-	// TODO: consider allowing preview.php to return only one preview
-	var getBlogPost = function() {
-		db.getBlogPreviews().then(function(previews) {
-			$scope.post = _.find(previews, { id: $scope.postID });
-		});
-	};
-
-	getBlogPost();
 }]);
 
 app.controller("ShowListCtrl", ["$scope", "db", function($scope, db) {
