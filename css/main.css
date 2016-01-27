@@ -58,7 +58,8 @@ h1, h2, h3 {
 		background-color: #468D1D;
 		color: #FFFFFF;
 	}
-	.navbar-nav > li.buy > a:hover {
+	.navbar-nav > li.buy > a:hover,
+	.navbar-nav > li.buy > a:focus {
 		background-color: #177726;
 		color: #FFFFFF;
 	}
@@ -72,7 +73,8 @@ h1, h2, h3 {
 		background-color: #E80200;
 		color: #FFFFFF;
 	}
-	.navbar-nav > li.listen > a:hover {
+	.navbar-nav > li.listen > a:hover,
+	.navbar-nav > li.listen > a:focus {
 		background-color: #A53E4A;
 		color: #FFFFFF;
 	}

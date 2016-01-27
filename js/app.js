@@ -8,7 +8,13 @@
  *
  * Visit docs.angularjs.org for Angular documentation.
  */
-var app = angular.module("app", ["ngAnimate", "ngResource", "ngRoute", "ngSanitize", "ui.bootstrap"]);
+var app = angular.module("app", [
+	"ngAnimate",
+	"ngResource",
+	"ngRoute",
+	"ngSanitize",
+	"ui.bootstrap"
+]);
 
 /**
  * The first part of our module is a "config" block, which is a function
@@ -135,15 +141,17 @@ app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 	};
 
 	/**
-	 * Get a list of shows.
+	 * Get a list of shows by page or DJ name.
 	 *
-	 * @param page  page count from most recent
-	 * @return Promise of show array
+	 * @param page  page offset
+	 * @param term  search term
+	 * @return Promise of shows array
 	 */
-	this.getShows = function(page) {
+	this.getShows = function(page, term) {
 		return $http.get("/api/shows/shows.php", {
 			params: {
-				page: page
+				page: page,
+				term: term
 			}
 		}).then(function(res) {
 			return res.data;
@@ -217,21 +225,17 @@ app.controller("MainCtrl", ["$scope", "$uibModal", function($scope, $uibModal) {
 app.controller("SliderCtrl", ["$scope", "db", function($scope, db) {
 	$scope.previews = [];
 
-	var getBlogPreviews = function() {
-		db.getBlogPreviews().then(function(previews) {
-			$scope.previews = previews;
-		});
-	};
-
-	getBlogPreviews();
+	db.getBlogPreviews().then(function(previews) {
+		$scope.previews = previews;
+	});
 }]);
 
 app.controller("ShowListCtrl", ["$scope", "db", function($scope, db) {
 	$scope.page = 0;
 	$scope.shows = [];
 
-	var getShows = function(page) {
-		db.getShows(page).then(function(shows) {
+	var getShows = function(page, term) {
+		db.getShows(page, term).then(function(shows) {
 			$scope.shows = shows;
 		});
 	};
@@ -246,6 +250,11 @@ app.controller("ShowListCtrl", ["$scope", "db", function($scope, db) {
 		getShows($scope.page);
 	};
 
+	$scope.search = function(term) {
+		getShows(null, term);
+	};
+
+	// initialize
 	getShows($scope.page);
 }]);
 

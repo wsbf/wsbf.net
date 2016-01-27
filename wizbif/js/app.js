@@ -1,5 +1,10 @@
 "use strict";
-var app = angular.module("app", ["ngResource", "ngRoute", "ui.bootstrap", "ngFileUpload"]);
+var app = angular.module("app", [
+	"ngResource",
+	"ngRoute",
+	"ui.bootstrap",
+	"ngFileUpload"
+]);
 
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider
