@@ -327,20 +327,24 @@
 						</div>
 					</div>
 
-					<div class="pull-right copyright">Handcrafted with <i class="fa fa-heart"></i> in Clemson | &COPY; WSBF-FM Clemson 2015 All rights reserved</div>
+					<div class="pull-right copyright">&COPY; WSBF-FM Clemson 2015 All rights reserved</div>
 				</div>
 			</div>
 		</footer>
 
 		<!-- Begin mediawidget -->
-		<div class="hidden-xs" id="media-widget" ng-controller="NowPlayingCtrl">
-			<img class="img-rounded pull-left" ng-src="{{track.imageUrl || 'images/media_small.png'}}" width="50" height="50"/>
-			<span class="pull-right">
-				<strong>{{track.lb_track_name || '--'}}</strong> by <strong>{{track.lb_artist || '--'}}</strong>
-			</span>
+		<div class="row hidden-xs" id="media-widget" ng-controller="NowPlayingCtrl">
+			<div class="col-sm-3">
+				<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
+			</div>
 
-			<!-- TODO: use /8.ogg when mpeg is not supported -->
-			<audio src="http://stream.wsbf.net:8000/high" type="audio/mpeg" controls></audio>
+			<div class="col-sm-9">
+				<div class="text-right"><strong>{{track.lb_track_name || '--'}}</strong></div>
+				<div class="text-right">{{track.lb_artist || '--'}}</div>
+
+				<!-- TODO: use /8.ogg when mpeg is not supported -->
+				<audio src="http://stream.wsbf.net:8000/high" type="audio/mpeg" controls></audio>
+			</div>
 		</div>
 		<!-- End mediawidget -->
 	</body>

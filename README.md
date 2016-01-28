@@ -17,6 +17,10 @@ This repository is an attempt to integrate all of the various fragments of WSBF'
 
 The ultimate goal is to bring all of these resources into one "WSBF" service for end users, DJs, and senior staff.
 
+## Installation
+
+Pull this repository into `/var/www/dev` and run `npm install` to deploy `dev.wsbf.net`. Run `npm run build` to copy the necessary files into `/var/www/wsbf` and deploy `wsbf.net`.
+
 ## TODO
 
 - front-end development can be done locally or through web server, and back-end development can be done on web server, but both environments should push and pull from github, so that they are in sync before deploying to wsbf.net.

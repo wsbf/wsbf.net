@@ -34,13 +34,13 @@ app.post("/api/login.php", function(req, res) {
 		res.redirect("/wizbif/");
 	}
 	else {
-		res.redirect("/login.html")
+		res.redirect("/login.html");
 	}
 });
 
 app.get("/api/logout.php", function(req, res) {
 	authenticated = false;
-	res.redirect("/login.html")
+	res.redirect("/login.html");
 });
 
 app.post("/api/schedule/add.php", function(req, res) {
@@ -74,8 +74,5 @@ app.use(function(err, req, res, next) {
 
 // start HTTP web server
 var server = app.listen(8080, function() {
-	var addr = server.address().address;
-	var port = server.address().port;
-
-	console.log("Listening on port", port);
+	console.log("Listening on port", server.address().port);
 });

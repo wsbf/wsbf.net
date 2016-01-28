@@ -9,7 +9,7 @@ var imagemin = require("gulp-imagemin");
 var symlink = require("gulp-symlink");
 var uglify = require("gulp-uglify");
 
-// TODO: add build tasks wizbif/
+// TODO: add build tasks for wizbif/
 
 var SRC = ".";
 var DST = "../wsbf";
@@ -19,7 +19,7 @@ gulp.task("default", ["public"]);
 gulp.task("lint", function() {
 	return gulp.src(["**/*.js", "!bower_components/**", "!node_modules/**"])
 		.pipe(eslint({
-			envs: ["browser", "node"],
+			envs: ["browser", "node", "jasmine"],
 			globals: {
 				"_": false,
 				"angular": false
