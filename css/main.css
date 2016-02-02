@@ -96,7 +96,7 @@ h1, h2, h3 {
 /* Scrollbar, other rules for media blocks */
 .items-container {
 	overflow-y: auto;
-	max-height: 300px;
+	height: 300px;
 	margin-bottom: 30px;
 }
 .items-container > .row {

@@ -43,7 +43,7 @@ gulp.task("public", [
 
 // could also just copy bower_components/
 gulp.task("bower-components", function() {
-	return gulp.src("bower_components", { base: "."} )
+	return gulp.src("bower_components")
 		.pipe(symlink(path.join(DST, "bower_components"), { force: true }));
 });
 
