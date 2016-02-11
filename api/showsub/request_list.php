@@ -1,6 +1,11 @@
 <?php
+
+/**
+ * @file showsub/request_list.php
+ * @author Ben Shealy
+ */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 
 /**
  * Get the list of outstanding sub requests.

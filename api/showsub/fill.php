@@ -1,6 +1,11 @@
 <?php
+
+/**
+ * @file showsub/fill.php
+ * @author Ben Shealy
+ */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 
 /**
  * Validate a sub request.

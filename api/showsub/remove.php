@@ -1,6 +1,11 @@
 <?php
+
+/**
+ * @file showsub/remove.php
+ * @author Ben Shealy
+ */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 
 /**
  * Remove a show sub request for the current user.
