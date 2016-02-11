@@ -1,24 +1,20 @@
 <?php
 
 /**
- * @file hosts.php
+ * @file users/users.php
  * @author Ben Shealy
- *
- * @section DESCRIPTION
- *
- * Search for users who are eligible to host shows.
  */
 require_once("../auth.php");
 require_once("../connect.php");
 
 /**
- * Get a list of valid show hosts.
+ * Search for users by name.
  * 
  * @param mysqli  MySQL connection
  * @param term    search term
  * @return array of matching users
  */
-function get_hosts($mysqli, $term)
+function search_users($mysqli, $term)
 {
 	$keys = array(
 		"u.username",
@@ -33,22 +29,22 @@ function get_hosts($mysqli, $term)
 		. "OR u.preferred_name LIKE '%$term%';";
 	$result = $mysqli->query($q);
 
-	$hosts = array();
-	while ( ($h = $result->fetch_assoc()) ) {
-		if ( $h["preferred_name"] == "$h[first_name] $h[last_name]" ) {
-			$name = $h["preferred_name"];
+	$users = array();
+	while ( ($u = $result->fetch_assoc()) ) {
+		if ( $u["preferred_name"] == "$u[first_name] $u[last_name]" ) {
+			$name = $u["preferred_name"];
 		}
 		else {
-			$name = "$h[first_name] $h[last_name] [$h[preferred_name]]";
+			$name = "$u[first_name] $u[last_name] [$u[preferred_name]]";
 		}
 
-		$hosts[] = array(
-			"username" => $h["username"],
+		$users[] = array(
+			"username" => $u["username"],
 			"name" => $name
 		);
 	}
 
-	return $hosts;
+	return $users;
 }
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
@@ -61,10 +57,10 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 		exit("Search term must be at least 2 characters long.");
 	}
 
-	$hosts = get_hosts($mysqli, $term);
+	$users = search_users($mysqli, $term);
 	$mysqli->close();
 
 	header("Content-Type: application/json");
-	exit(json_encode($hosts));
+	exit(json_encode($users));
 }
 ?>

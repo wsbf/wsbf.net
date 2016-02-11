@@ -6,17 +6,26 @@
  */
 require_once("functions.php");
 
-$page = $_GET["page"];
+if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
+	$mysqli = construct_connection();
 
-if ( !is_numeric($page) || $page < 0 ) {
-	header("HTTP/1.1 404 Not Found");
-	exit("Page number is empty or invalid.");
+	$page = $_GET["page"];
+	$term = $mysqli->escape_string($_GET["term"]);
+
+	if ( is_numeric($page) && $page >= 0 ) {
+		$shows = get_shows($mysqli, $page, 50, false);
+	}
+	else if ( strlen($term) >= 3 ) {
+		$shows = search_shows($mysqli, $term);
+	}
+	else {
+		header("HTTP/1.1 404 Not Found");
+		exit("Invalid input.");
+	}
+
+	$mysqli->close();
+
+	header("Content-Type: application/json");
+	exit(json_encode($shows));
 }
-
-$mysqli = construct_connection();
-$shows = get_shows($mysqli, $page, 50, true);
-$mysqli->close();
-
-header("Content-Type: application/json");
-exit(json_encode($shows));
 ?>
