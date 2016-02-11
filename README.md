@@ -38,16 +38,15 @@ For server-side development (working on the PHP scripts), you'll need to develop
 
 ## TODO
 
-### Server-side
+### Server
 
 - develop PHP scripts to replace `new.wsbf.net`
 - use Let's Encrypt for TLS encryption
 - replace MySQL queries with prepared statements/stored procedures
 - write script to merge fragmented shows in `shows` table
-- write script to remove automation archives
 - polish database (remove HTML entities like `&amp;`, check for invalid values, etc.)
 
-### Client-side (public)
+### Client (public)
 
 - develop unit tests with Karma and Jasmine
 - add typeahead directive to any view with DJ name search
@@ -61,7 +60,7 @@ For server-side development (working on the PHP scripts), you'll need to develop
 - use DJ profile pics for schedule view
 - sort charting by genre
 
-### Client-side (private)
+### Client (private)
 
 - add server-side authentication/redirect to /wizbif directory
 - develop views and controllers to replace `new.wsbf.net`

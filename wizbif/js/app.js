@@ -585,6 +585,11 @@ app.controller("ShowSubRequestCtrl", ["$scope", "$location", "db", function($sco
 	$scope.days = db.getDefs("days");
 	$scope.request = {};
 
+	$scope.isValidDay = function(request) {
+		return (_.find($scope.user.shows, { scheduleID: request.scheduleID }) || {}).dayID
+			== request.date.getDay();
+	};
+
 	$scope.submit = function() {
 		db.submitSubRequest($scope.request).then(function() {
 			$location.url("/showsub");

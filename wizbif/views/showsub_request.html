@@ -26,7 +26,7 @@
 		<label class="col-sm-3 control-label">Show</label>
 		<div class="col-sm-6">
 			<select class="form-control" name="scheduleID" ng-model="request.scheduleID">
-				<option ng-repeat="s in user.shows" ng-value="s.scheduleID">{{days[s.dayID].day}} {{s.start_time}} - {{s.end_time}}</option>
+				<option ng-repeat="s in user.shows" value="{{s.scheduleID}}">{{days[s.dayID].day}} {{s.start_time}} - {{s.end_time}}</option>
 			</select>
 		</div>
 	</div>
@@ -40,7 +40,7 @@
 
 	<div class="form-group text-center">
 		<div class="btn-group">
-			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="submit()">Submit</button>
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid || !isValidDay(request)" ng-click="submit()">Submit</button>
 			<a class="btn btn-default" href="#/showsub">Cancel</a>
 		</div>
 	</div>
