@@ -4,12 +4,10 @@
  * @file review/album.php
  * @author Ben Shealy
  *
- * @section DESCRIPTION
- *
  * Get an album to review, or submit a new review.
  */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 require_once("../library/functions.php");
 
 /**
@@ -146,7 +144,7 @@ function validate_review($mysqli, $review)
  * @param mysqli  MySQL connection
  * @param review  associative array of album review
  */
-function add_review($mysqli, $review)
+function review_album($mysqli, $review)
 {
 	/* update album */
 	$artistID = find_artist($mysqli, $review["artist_name"])
@@ -206,7 +204,6 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	}
 
 	$album = get_album($mysqli, $albumID);
-
 	$mysqli->close();
 
 	header("Content-Type: application/json");
@@ -228,8 +225,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		exit("Album review is invalid.");
 	}
 
-	add_review($mysqli, $review);
-
+	review_album($mysqli, $review);
 	$mysqli->close();
 
 	header("Content-Type: application/json");

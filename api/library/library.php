@@ -4,12 +4,10 @@
  * @file library/library.php
  * @author Ben Shealy
  *
- * @section DESCRIPTION
- *
  * Get a section of the album library.
  */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 
 /**
  * Get a section of the album library.
@@ -44,24 +42,25 @@ function get_library($mysqli, $rotationID)
 	return $albums;
 }
 
-$mysqli = construct_connection();
+if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
+	$mysqli = construct_connection();
 
-if ( !check_reviewer($mysqli) ) {
-	header("HTTP/1.1 401 Unauthorized");
-	exit("Current user is not allowed to view the music library.");
+	if ( !check_reviewer($mysqli) ) {
+		header("HTTP/1.1 401 Unauthorized");
+		exit("Current user is not allowed to view the music library.");
+	}
+
+	$rotationID = $_GET["rotation"];
+
+	if ( !is_numeric($rotationID) || $rotationID < 1 || 7 < $rotationID ) {
+		header("HTTP/1.1 404 Not Found");
+		exit("Rotation ID is empty or invalid.");
+	}
+
+	$albums = get_library($mysqli, $rotationID);
+	$mysqli->close();
+
+	header("Content-Type: application/json");
+	exit(json_encode($albums));
 }
-
-$rotationID = $_GET["rotation"];
-
-if ( !is_numeric($rotationID) || $rotationID < 1 || 7 < $rotationID ) {
-	header("HTTP/1.1 404 Not Found");
-	exit("Rotation ID is empty or invalid.");
-}
-
-$albums = get_library($mysqli, $rotationID);
-
-$mysqli->close();
-
-header("Content-Type: application/json");
-exit(json_encode($albums));
 ?>

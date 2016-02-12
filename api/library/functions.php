@@ -4,12 +4,10 @@
  * @file library/functions.php
  * @author Ben Shealy
  *
- * @section DESCRIPTION
- *
  * Functions for interacting with the music library.
  */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 
 /**
  * Add an action by the current user to `libaction`.

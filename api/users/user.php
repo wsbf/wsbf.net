@@ -4,12 +4,10 @@
  * @file user.php
  * @author Ben Shealy
  *
- * @section DESCRIPTION
- *
  * Get or update the current user.
  */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 
 /**
  * Get the current user.
@@ -39,7 +37,7 @@ function get_user($mysqli, $username)
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `users` AS u "
 		. "LEFT OUTER JOIN `staff` AS s ON s.username=u.username "
-		. "AND NOW() BETWEEN s.start_date AND s.end_date "
+		. "AND s.start_date <= NOW() AND NOW() <= s.end_date "
 		. "WHERE u.username='$username';";
 	$user = $mysqli->query($q)->fetch_assoc();
 
@@ -87,13 +85,20 @@ function get_user($mysqli, $username)
  */
 function validate_user($mysqli, $user)
 {
+	// required fields should be defined
 	if ( empty($user["preferred_name"])
 	  || empty($user["email_addr"])
-	  || !isset($user["statusID"]) ) {
+	  || !is_numeric($user["statusID"])
+	  || !is_array($user["shows"]) ) {
 		return false;
 	}
 
-	// TODO
+	// required fields for shows should be defined
+	foreach ( $user["shows"] as $s ) {
+		if ( !is_numeric($s["scheduleID"]) ) {
+			return false;
+		}
+	}
 
 	return true;
 }
@@ -116,7 +121,7 @@ function update_user($mysqli, $user)
 		. "profile_paragraph = '$user[profile_paragraph]', "
 		. "has_picture = '$user[has_picture]' "
 		. "WHERE username = '$user[username]';";
-	$mysqli->query($q) or exit($mysqli->error);
+	$mysqli->query($q);
 
 	/* update user's shows */
 	foreach ( $user["shows"] as $s ) {
@@ -126,16 +131,10 @@ function update_user($mysqli, $user)
 			. "s.genre = '$s[genre]', "
 			. "h.schedule_alias = '$s[schedule_alias]' "
 			. "WHERE s.scheduleID='$s[scheduleID]' AND h.scheduleID='$s[scheduleID]';";
-		$mysqli->query($q) or exit($mysqli->error);
+		$mysqli->query($q);
 	}
 
-	/* save or delete profile picture */
-	if ( $user["delete_picture"] ) {
-		unlink("../images/users/" . $user["username"]);
-	}
-	else /* image was uploaded */ {
-		// TODO: save image
-	}
+	// TODO: implement image upload
 }
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
@@ -163,7 +162,6 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	}
 
 	update_user($mysqli, $user);
-
 	$mysqli->close();
 
 	header("Content-Type: application/json");

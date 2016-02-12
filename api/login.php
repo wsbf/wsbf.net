@@ -16,7 +16,7 @@
  *  1) redirect to login or index
  *  2) return a status and any error message for client to interpret
  */
-require_once("connect-dev.php");
+require_once("connect.php");
 
 // TODO: move into script for hash functions
 /**

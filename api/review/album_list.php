@@ -4,12 +4,10 @@
  * @file review/album_list.php
  * @author Ben Shealy
  *
- * @section DESCRIPTION
- *
  * Get albums that are available to review.
  */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 
 // TODO: add page offset
 /**
@@ -48,7 +46,6 @@ if ( !check_reviewer($mysqli) ) {
 }
 
 $albums = get_albums($mysqli);
-
 $mysqli->close();
 
 header("Content-Type: application/json");

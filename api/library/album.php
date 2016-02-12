@@ -4,12 +4,10 @@
  * @file library/album.php
  * @author Ben Shealy
  *
- * @section DESCRIPTION
- *
  * Get an album in the music library.
  */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 require_once("functions.php");
 
 /**
@@ -78,9 +76,49 @@ function get_album($mysqli, $albumID)
  */
 function validate_album($mysqli, $album)
 {
-	// TODO
-	// album should have review and reviewer if rotation is not 0
-	// add relevant checks from validate_review
+	// required fields should be defined
+	if ( !is_numeric($album["albumID"])
+	  || empty($album["artist_name"]) 
+	  || empty($album["album_name"])
+	  || empty($album["label"])
+	  || !is_numeric($album["general_genreID"])
+	  || empty($album["genre"])
+	  || empty($album["tracks"]) ) {
+		return false;
+	}
+
+	// album should exist in `libalbum`
+	$q = "SELECT rotationID FROM `libalbum` "
+		. "WHERE albumID = '$album[albumID]';";
+	$result = $mysqli->query($q);
+
+	if ( $result->num_rows == 0 ) {
+		return false;
+	}
+
+	$assoc = $result->fetch_assoc();
+	$rotationID = $assoc["rotationID"];
+
+	if ( $rotationID != 0 ) {
+		// reviewed albums should have review and reviewer
+		if ( empty($album["review"])
+		  || empty($album["username"]) ) {
+			return false;
+		}
+
+		// reviewed albums should have at least one recommended track
+		// and by extension, not all tracks as no-air
+		$count_rec = 0;
+		foreach ( $album["tracks"] as $t ) {
+			if ( $t["airabilityID"] == 1 ) {
+				$count_rec++;
+			}
+		}
+
+		if ( $count_rec == 0 ) {
+			return false;
+		}
+	}
 
 	return true;
 }
