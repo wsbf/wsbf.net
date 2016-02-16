@@ -69,7 +69,9 @@
 		<tbody>
 			<tr ng-repeat="t in album.tracks">
 				<td>{{t.disc_num}}</td>
-				<td>{{t.track_num}}</td>
+				<td>
+					<a ng-href="{{t.file_name}}" target="_blank">{{t.track_num}}</a>
+				</td>
 				<td>
 					<input class="form-control" ng-model="t.track_name" required/>
 				</td>
