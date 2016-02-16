@@ -78,7 +78,7 @@
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group hidden">
 		<label class="col-sm-3 control-label">Profile Picture</label>
 		<div class="col-sm-6">
 			<p class="form-control-static" ng-show="!user.has_picture">No current profile picture</p>
@@ -93,7 +93,7 @@
 		</div>
 	</div>
 
-	<div class="form-group" ng-show="user.has_picture">
+	<div class="form-group hidden" ng-show="user.has_picture">
 		<div class="col-sm-offset-3 col-sm-6 checkbox">
 			<label>
 				<input type="checkbox" ng-model="user.delete_picture"/>
@@ -105,6 +105,7 @@
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-6">
 			<h3>Active Shows</h3>
+			<p ng-show="user.shows.length == 0">You have no currently active shows.</p>
 		</div>
 	</div>
 
@@ -146,24 +147,12 @@
 			</div>
 		</div>
 
-		<!-- TODO: use general_genreID after database is updated -->
 		<div class="form-group">
 			<label class="col-sm-3 control-label">Show Genre</label>
 			<div class="col-sm-6">
-				<select class="form-control" name="genre" ng-model="s.genre">
+				<!-- TODO: use general_genreID after database is updated -->
+				<select class="form-control" name="genre" ng-model="s.genre" ng-options="g.genre as g.genre for g in general_genres">
 					<option></option>
-					<option value="Rock">Rock</option>
-					<option value="Loud Rock/Metal">Loud Rock/Metal</option>
-					<option value="Hip-Hop/Rap">Hip-Hop/Rap</option>
-					<option value="Indie">Indie</option>
-					<option value="Electronic">Electronic</option>
-					<option value="Folk/Americana/Bluegrass">Folk/Americana/Bluegrass</option>
-					<option value="Punk">Punk</option>
-					<option value="Pop">Pop</option>
-					<option value="Jazz/Blues/Soul">Jazz/Blues/Soul</option>
-					<option value="World">World</option>
-					<option value="R&B/Reggae">R&B/Reggae</option>
-					<option value="Dance">Dance</option>
 				</select>
 			</div>
 		</div>

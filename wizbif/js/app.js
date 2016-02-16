@@ -62,7 +62,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of user array
 	 */
 	this.getUsers = function(term) {
-		return $http.get("/api/users/hosts.php", {
+		return $http.get("/api/users/users.php", {
 			params: {
 				term: term
 			}
@@ -406,6 +406,7 @@ app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 
 app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($scope, db, $location, Upload) {
 	$scope.days = db.getDefs("days");
+	$scope.general_genres = db.getDefs("general_genres");
 
 	// TODO: implement image upload
 

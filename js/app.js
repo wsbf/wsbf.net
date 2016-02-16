@@ -37,7 +37,9 @@ var app = angular.module("app", [
  *
  * @param $routeProvider  provider in module ngRoute
  */
-app.config(["$routeProvider", function($routeProvider) {
+app.config(["$compileProvider", "$routeProvider", function($compileProvider, $routeProvider) {
+	$compileProvider.debugInfoEnabled(false);
+
 	$routeProvider
 		.when("/", { templateUrl: "views/slider_main.html", controller: "SliderCtrl" })
 		.when("/philosophy", { templateUrl: "views/philosophy.html" })
@@ -341,6 +343,7 @@ app.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
 		getChart($scope.date1, $scope.date2);
 	};
 
+	// initialize
 	$scope.getCurrWeek();
 }]);
 
@@ -371,6 +374,7 @@ app.controller("ChartWidgetCtrl", ["$scope", "db", function($scope, db) {
 		getChart(date1, date2);
 	};
 
+	// initialize
 	getCurrWeek();
 }]);
 
