@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @file blog/preview.php
+ * @author Ben Shealy
+ */
 require_once("$_SERVER[DOCUMENT_ROOT]/blog/wp-blog-header.php");
 
 function custom_excerpt_length($length)
@@ -29,12 +34,9 @@ foreach ( $wp_posts as $post ) {
 
 	$posts[] = array(
 		"id" => $post->ID,
-		"title" => get_the_title(),
-		"date" => get_the_date(),
-		"author" => get_the_author(),
-		"category" => get_the_category_list(", "),
+		"title" => html_entity_decode(get_the_title()),
 		"imageUrl" => $imageUrl,
-		"excerpt" => get_the_excerpt()
+		"excerpt" => html_entity_decode(get_the_excerpt())
 	);
 }
 
