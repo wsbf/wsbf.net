@@ -1,10 +1,10 @@
 <uib-carousel id="carousel" interval="5000">
-	<uib-slide ng-repeat="p in previews">
+	<uib-slide ng-repeat="p in posts">
 		<img class="center-block" ng-src="{{p.imageUrl || ''}}"/>
 		<div class="carousel-caption">
 			<a ng-href="/blog/?p={{p.id}}" target="_blank">
-				<h4 ng-bind-html="p.title"></h4>
-				<p ng-bind-html="p.excerpt"></p>
+				<h4>{{p.title}}</h4>
+				<p>{{p.excerpt}}</p>
 			</a>
 		</div>
 	</uib-slide>

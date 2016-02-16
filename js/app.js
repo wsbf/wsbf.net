@@ -12,7 +12,6 @@ var app = angular.module("app", [
 	"ngAnimate",
 	"ngResource",
 	"ngRoute",
-	"ngSanitize",
 	"ui.bootstrap"
 ]);
 
@@ -203,11 +202,11 @@ app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 	};
 
 	/**
-	 * Get previews of the most recent blog posts.
+	 * Get a preview of the most recent blog posts.
 	 *
-	 * @return Promise of blog preview array
+	 * @return Promise of blog posts array
 	 */
-	this.getBlogPreviews = function() {
+	this.getBlogPreview = function() {
 		return $http.get("/api/blog/preview.php")
 			.then(function(res) {
 				return res.data;
@@ -225,10 +224,10 @@ app.controller("MainCtrl", ["$scope", "$uibModal", function($scope, $uibModal) {
 }]);
 
 app.controller("SliderCtrl", ["$scope", "db", function($scope, db) {
-	$scope.previews = [];
+	$scope.posts = [];
 
-	db.getBlogPreviews().then(function(previews) {
-		$scope.previews = previews;
+	db.getBlogPreview().then(function(posts) {
+		$scope.posts = posts;
 	});
 }]);
 
