@@ -41,7 +41,8 @@ function get_album($mysqli, $albumID)
 		"t.track_num",
 		"t.track_name",
 		"ar.artist_name",
-		"t.airabilityID"
+		"t.airabilityID",
+		"t.file_name"
 	);
 
 	$q = "SELECT " . implode(",", $track_keys) . " FROM `libtrack` AS t "
@@ -51,6 +52,10 @@ function get_album($mysqli, $albumID)
 
 	$album["tracks"] = array();
 	while ( ($t = $result->fetch_assoc()) ) {
+		// temporary hack to transform file_name to path
+		$f = str_replace("+", " ", $t["file_name"]);
+		$t["file_name"] = "/wizbif/ZAutoLib/$f[0]/$f[1]/" . substr($f, 2);
+
 		$album["tracks"][] = $t;
 	}
 
