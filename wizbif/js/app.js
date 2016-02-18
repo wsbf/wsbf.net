@@ -14,6 +14,9 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/fishbowl/admin", { templateUrl: "views/fishbowl_admin.html", controller: "FishbowlAdminCtrl" })
 		.when("/fishbowl/admin/:id", { templateUrl: "views/fishbowl_review.html", controller: "FishbowlReviewCtrl" })
 		.when("/fishbowl/app", { templateUrl: "views/fishbowl_app.html", controller: "FishbowlAppCtrl" })
+		.when("/import", { templateUrl: "views/import.html", controller: "ImportCtrl" })
+		.when("/import/album", { templateUrl: "views/import_album.html", controller: "ImportAlbumCtrl" })
+		.when("/import/cart", { templateUrl: "views/import_cart.html", controller: "ImportCartCtrl" })
 		.when("/library", { templateUrl: "views/library.html", controller: "LibraryCtrl" })
 		.when("/library/:albumID", { templateUrl: "views/library_album.html", controller: "LibraryAlbumCtrl" })
 		.when("/library/:albumID/edit", { templateUrl: "views/library_album_edit.html", controller: "LibraryAlbumCtrl" })
@@ -368,6 +371,42 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 			}
 		});
 	};
+
+	/**
+	 * Get the artists and other files in an import directory.
+	 *
+	 * @param path  path string
+	 * @return Promise of directory info object
+	 */
+	this.getImportDirectory = function(path) {
+		return $http.get("/api/import/directory.php", {
+			params: {
+				path: path
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Import an album.
+	 *
+	 * @param album  album object
+	 * @return Promise of http response
+	 */
+	this.importAlbum = function(album) {
+		return $http.post("/api/import/album.php", album);
+	};
+
+	/**
+	 * Import a cart.
+	 *
+	 * @param cart  cart object
+	 * @return Promise of http response
+	 */
+	this.importCart = function(cart) {
+		return $http.post("/api/import/cart.php", cart);
+	};
 }]);
 
 app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
@@ -464,6 +503,73 @@ app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
 
 	// initialize
 	getArchives($scope.page);
+}]);
+
+app.controller("ImportCtrl", ["$scope", "db", function($scope, db) {
+	$scope.path = ["Root"];
+	$scope.directories = [];
+	$scope.carts = [];
+	$scope.artists = [];
+
+	/**
+	 * Open an import directory.
+	 *
+	 * @param index  index of directory in current path
+	 * @param dir    name of subdirectory
+	 */
+	$scope.openDirectory = function(index, dir) {
+		var path;
+
+		if ( dir ) {
+			path = $scope.path.concat(dir);
+		}
+		else {
+			path = $scope.path.slice(0, index + 1);
+		}
+		path.shift();
+
+		db.getImportDirectory(path.join("/"))
+			.then(function(info) {
+				if ( dir ) {
+					$scope.path.push(dir);
+				}
+				else {
+					$scope.path.splice(index + 1);
+				}
+
+				$scope.directories = info.directories;
+				$scope.carts = info.carts;
+				$scope.artists = info.artists;
+			});
+	};
+
+	// initialize
+	$scope.openDirectory(0);
+}]);
+
+app.controller("ImportAlbumCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+	$scope.general_genres = db.getDefs("general_genres");
+	$scope.mediums = db.getDefs("mediums");
+	$scope.album = {
+		tracks: []
+	};
+
+	$scope.save = function() {
+		db.importAlbum($scope.album).then(function() {
+			$location.url("/import");
+		});
+	};
+}]);
+
+app.controller("ImportCartCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+	$scope.cart_types = db.getDefs("cart_type");
+	$scope.cart = {};
+
+	$scope.save = function() {
+		db.importCart($scope.cart).then(function() {
+			$location.url("/import");
+		});
+	};
 }]);
 
 // TODO: add searching/sorting by DJs

@@ -1,0 +1,41 @@
+<h3 class="text-center">Import Control Panel</h3>
+
+<div class="text-center" ng-show="!check.musicDirector">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you don't have music director privileges, so you can't import files.</p>
+</div>
+
+<div ng-show="check.musicDirector">
+	<a href="#/import/album">Manual Import</a>
+
+	<ol class="breadcrumb">
+		<li ng-repeat="p in path track by $index">
+			<a href="" ng-click="openDirectory($index)">{{p}}</a>
+		</li>
+	</ol>
+
+	<h4>Directories</h4>
+
+	<ul class="list-unstyled">
+		<li ng-repeat="d in directories">
+			<a href="" ng-click="openDirectory(null, d)">{{d}}</a>
+		</li>
+	</ul>
+
+	<h4>Carts</h4>
+
+	<ul class="list-unstyled">
+		<li ng-repeat="c in carts">
+			<a href="#/import/cart">{{c}}</a>
+		</li>
+	</ul>
+
+	<h4>Artists</h4>
+
+	<ul class="list-unstyled">
+		<li ng-repeat="a in artists">
+			<a href="">{{a}}</a>
+		</li>
+	</ul>
+</div>

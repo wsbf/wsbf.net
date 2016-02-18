@@ -1,25 +1,30 @@
-<h3 class="text-center">Edit Album</h3>
+<h3 class="text-center">Import Album</h3>
 
 <div class="text-center" ng-show="!check.musicDirector">
 	<h3><strong>Nah.</strong></h3>
 
-	<p>It would seem that you don't have music director privileges, so you can't edit albums.</p>
+	<p>It would seem that you don't have music director privileges, so you can't import files.</p>
 </div>
 
 <form class="form-horizontal" name="form" ng-show="check.musicDirector">
-	<!-- TODO: can the music director change album codes, usernames? -->
-
 	<div class="form-group" ng-class="{'has-error': form.artist_name.$touched && form.artist_name.$invalid}">
-		<label class="col-sm-3 control-label">Artist</label>
+		<label class="col-sm-3 control-label">Artist Name</label>
 		<div class="col-sm-6">
 			<input class="form-control" name="artist_name" ng-model="album.artist_name" required/>
 		</div>
 	</div>
 
 	<div class="form-group" ng-class="{'has-error': form.album_name.$touched && form.album_name.$invalid}">
-		<label class="col-sm-3 control-label">Album</label>
+		<label class="col-sm-3 control-label">Album Name</label>
 		<div class="col-sm-6">
 			<input class="form-control" name="album_name" ng-model="album.album_name" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.num_discs.$touched && form.num_discs.$invalid}">
+		<label class="col-sm-3 control-label">Number of Discs</label>
+		<div class="col-sm-6">
+			<input class="form-control" type="number" name="num_discs" ng-model="album.num_discs" required/>
 		</div>
 	</div>
 
@@ -44,34 +49,29 @@
 		</div>
 	</div>
 
-	<div class="form-group">
-		<label class="col-sm-3 control-label">Reviewer</label>
+	<div class="form-group" ng-class="{'has-error': form.mediumID.$touched && form.mediumID.$invalid}">
+		<label class="col-sm-3 control-label">Medium</label>
 		<div class="col-sm-6">
-			<p class="form-control-static">{{album.reviewer}}</p>
+			<select class="form-control" name="mediumID" ng-model="album.mediumID" ng-options="m.mediumID as m.medium for m in mediums" required></select>
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.review.$touched && form.review.$invalid}">
-		<label class="col-sm-3 control-label">Review</label>
-		<div class="col-sm-6">
-			<samp class="help-block">{{750 - album.review.length}} characters remaining.</samp>
-			<textarea class="form-control" name="review" ng-model="album.review" rows="12" maxlength="750" required></textarea>
-		</div>
-	</div>
+	<hr>
 
 	<table class="table table-condensed">
 		<thead>
-			<th>Disc No.</th>
-			<th>Track No.</th>
-			<th>Name</th>
-			<th>Artist</th>
-			<th>Airability</th>
+			<th class="col-xs-1">Disc No.</th>
+			<th class="col-xs-1">Track No.</th>
+			<th class="col-xs-3">Name</th>
+			<th class="col-xs-3">Artist</th>
+			<th class="col-xs-3">Filename</th>
+			<th class="col-xs-1"></th>
 		</thead>
 
 		<tbody>
 			<tr ng-repeat="t in album.tracks">
 				<td>
-					<input class="form-control input-sm" type="number" ng-model="t.disc_num" required/>
+					<input class="form-control input-sm" type="number" ng-model="t.disc_num" ng-max="album.num_discs" required/>
 				</td>
 				<td>
 					<input class="form-control input-sm" type="number" ng-model="t.track_num" required/>
@@ -83,7 +83,31 @@
 					<input class="form-control input-sm" ng-model="t.artist_name" required/>
 				</td>
 				<td>
-					<select class="form-control input-sm" ng-model="t.airabilityID" ng-options="a.airabilityID as a.airability for a in airability" required></select>
+					<input class="form-control input-sm" ng-model="t.file_name"/>
+				</td>
+				<td class="text-center h4" style="vertical-align: middle">
+					<span class="button-icon" ng-click="album.tracks.splice($index, 1)">&times;</span>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<input class="form-control input-sm" type="number" ng-model="newTrack.disc_num" ng-max="album.num_discs"/>
+				</td>
+				<td>
+					<input class="form-control input-sm" type="number" ng-model="newTrack.track_num"/>
+				</td>
+				<td>
+					<input class="form-control input-sm" ng-model="newTrack.track_name"/>
+				</td>
+				<td>
+					<input class="form-control input-sm" ng-model="newTrack.artist_name"/>
+				</td>
+				<td>
+					<input class="form-control input-sm" ng-model="newTrack.file_name"/>
+				</td>
+				<td class="text-center h3">
+					<span class="button-icon" ng-click="album.tracks.push(newTrack); newTrack = {}">&plus;</span>
 				</td>
 			</tr>
 		</tbody>
@@ -92,7 +116,7 @@
 	<div class="form-group text-center">
 		<div class="btn-group">
 			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="save()">Save</button>
-			<a class="btn btn-default" href="#/library">Cancel</a>
+			<a class="btn btn-default" href="#/import">Cancel</a>
 		</div>
 	</div>
 </form>

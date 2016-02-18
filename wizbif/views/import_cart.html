@@ -1,0 +1,67 @@
+<h3 class="text-center">Import Cart</h3>
+
+<div class="text-center" ng-show="!check.musicDirector">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you don't have music director privileges, so you can't import files.</p>
+</div>
+
+<form class="form-horizontal" name="form" ng-show="check.musicDirector">
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Filename</label>
+		<div class="col-sm-6">
+			<p class="form-control-static">{{cart.filename}}</p>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.title.$touched && form.title.$invalid}">
+		<label class="col-sm-3 control-label">Title</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="title" ng-model="cart.title" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.issuer.$touched && form.issuer.$invalid}">
+		<label class="col-sm-3 control-label">Issuer</label>
+		<div class="col-sm-6">
+			<input class="form-control" name="issuer" ng-model="cart.issuer" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.cart_typeID.$touched && form.cart_typeID.$invalid}">
+		<label class="col-sm-3 control-label">Type</label>
+		<div class="col-sm-6">
+			<select class="form-control" name="cart_typeID" ng-model="cart.cart_typeID" ng-options="t.cart_typeID as t.type for t in cart_types" required></select>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.start_date.$touched && form.start_date.$invalid}">
+		<label class="col-sm-3 control-label">Start Date</label>
+		<div class="col-sm-6">
+			<input class="form-control" type="datetime-local" name="start_date" ng-model="cart.start_date" required/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': !cart.no_end_date && form.end_date.$touched && !cart.end_date}">
+		<label class="col-sm-3 control-label">End Date</label>
+		<div class="col-sm-6">
+			<input class="form-control" type="datetime-local" name="end_date" ng-model="cart.end_date" ng-disabled="cart.no_end_date"/>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-offset-3 col-sm-6 checkbox">
+			<label>
+				<input type="checkbox" ng-model="cart.no_end_date"/>
+				<span>No end date</span>
+			</label>
+		</div>
+	</div>
+
+	<div class="form-group text-center">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid || (!cart.no_end_date && !cart.end_date)" ng-click="save()">Save</button>
+			<a class="btn btn-default" href="#/import">Cancel</a>
+		</div>
+	</div>
+</form>
