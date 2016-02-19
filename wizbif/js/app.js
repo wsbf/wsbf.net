@@ -443,38 +443,6 @@ app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 	getUser();
 }]);
 
-app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($scope, db, $location, Upload) {
-	$scope.days = db.getDefs("days");
-	$scope.general_genres = db.getDefs("general_genres");
-
-	// TODO: implement image upload
-
-	$scope.save = function() {
-		db.saveUser($scope.user).then(function(res) {
-			$location.url("/");
-		});
-	};
-}]);
-
-app.controller("ChartsCtrl", ["$scope", "db", function($scope, db) {
-	var day = 24 * 3600 * 1000;
-	var week = 7 * day;
-
-	$scope.tracks = [];
-
-	var getTracks = function() {
-		var date1 = Date.now() - week - day;
-		var date2 = Date.now() - day;
-
-		db.getTopTracks(date1, date2).then(function(tracks) {
-			$scope.tracks = tracks;
-		});
-	};
-
-	// initialize
-	getTracks();
-}]);
-
 app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
 	$scope.show_types = db.getDefs("show_types");
 
@@ -503,6 +471,95 @@ app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
 
 	// initialize
 	getArchives($scope.page);
+}]);
+
+app.controller("ChartsCtrl", ["$scope", "db", function($scope, db) {
+	var day = 24 * 3600 * 1000;
+	var week = 7 * day;
+
+	$scope.tracks = [];
+
+	var getTracks = function() {
+		var date1 = Date.now() - week - day;
+		var date2 = Date.now() - day;
+
+		db.getTopTracks(date1, date2).then(function(tracks) {
+			$scope.tracks = tracks;
+		});
+	};
+
+	// initialize
+	getTracks();
+}]);
+
+app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+	$scope.app = {};
+
+	$scope.submit = function() {
+		db.submitFishbowlApp($scope.app).then(function() {
+			$location.url("/");
+		});
+	};
+}]);
+
+app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
+	$scope.fishbowl = [];
+	$scope.bowls = [];
+
+	var getFishbowl = function() {
+		return db.getFishbowl().then(function(fishbowl) {
+			$scope.fishbowl = fishbowl;
+		});
+	};
+
+	$scope.archiveFishbowl = function() {
+		if ( confirm("Are you sure you want to archive the fishbowl?") ) {
+			db.archiveFishbowl().then(getFishbowl);
+		}
+	};
+
+	/**
+	 * Group the current list of fishbowl apps into bowls.
+	 */
+	$scope.getFishbowlResults = function() {
+		var fishbowl = $scope.fishbowl
+			.slice()
+			.sort(function(app1, app2) {
+				return app2.average - app1.average;
+			});
+
+		var NUM_BOWLS = 5;
+		var bowlSize = Math.ceil(fishbowl.length / NUM_BOWLS);
+		var bowls = [];
+
+		for ( var i = 0; i < NUM_BOWLS; i++ ) {
+			bowls[i] = _.shuffle(fishbowl.splice(0, bowlSize));
+		}
+
+		$scope.bowls = bowls;
+	};
+
+	// initialize
+	getFishbowl();
+}]);
+
+app.controller("FishbowlReviewCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
+	$scope.app = {};
+
+	var getFishbowlApp = function() {
+		db.getFishbowlApp($routeParams.id).then(function(app) {
+			$scope.app = app;
+		});
+	};
+
+	$scope.submit = function() {
+		db.rateFishbowlApp($scope.app.id, $scope.rating).then(function() {
+			$location.url("/fishbowl/admin");
+		});
+	};
+
+	// initialize
+	getFishbowlApp();
 }]);
 
 app.controller("ImportCtrl", ["$scope", "db", function($scope, db) {
@@ -652,6 +709,66 @@ app.controller("ReviewAlbumCtrl", ["$scope", "$routeParams", "$location", "db", 
 	getAlbum();
 }]);
 
+app.controller("ScheduleCtrl", ["$scope", "$q", "db", function($scope, $q, db) {
+	$scope.days = db.getDefs("days");
+	$scope.show_times = db.getDefs("show_times");
+	$scope.schedule = [];
+
+	var getSchedule = function() {
+		$q.all($scope.days.map(function(day) {
+			return db.getSchedule(day.dayID);
+		})).then(function(daySchedules) {
+			$scope.schedule = $scope.show_times.map(function(t) {
+				return daySchedules.map(function(day) {
+					return _.find(day, { start_time: t.show_time });
+				});
+			});
+		});
+	};
+
+	// initialize
+	$q.all([
+		$scope.days.$promise,
+		$scope.show_times.$promise
+	]).then(getSchedule);
+}]);
+
+app.controller("ScheduleAddCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
+	$scope.days = db.getDefs("days");
+	$scope.show_times = db.getDefs("show_times");
+	$scope.show_types = db.getDefs("show_types");
+
+	$scope.getUsers = function(term) {
+		return db.getUsers(term);
+	};
+
+	$scope.save = function() {
+		// transform show object from view to server
+		var show = angular.copy($scope.show);
+
+		show.hosts = show.hosts.map(function(h) {
+			return h.username;
+		});
+
+		db.addShow(show).then(function() {
+			$location.url("/schedule/admin");
+		});
+	};
+
+	// initialize
+	$scope.show_times.$promise.then(function() {
+		var startID = Number.parseInt($routeParams.timeID);
+		var endID = (startID + 1) % $scope.show_times.length;
+
+		$scope.show = {
+			dayID: $routeParams.dayID,
+			start_time: $scope.show_times[startID].show_time,
+			end_time: $scope.show_times[endID].show_time,
+			hosts: []
+		};
+	});
+}]);
+
 app.controller("ShowSubCtrl", ["$scope", "db", function($scope, db) {
 	$scope.requests = [];
 
@@ -704,127 +821,15 @@ app.controller("ShowSubRequestCtrl", ["$scope", "$location", "db", function($sco
 	};
 }]);
 
-app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
-	$scope.app = {};
+app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($scope, db, $location, Upload) {
+	$scope.days = db.getDefs("days");
+	$scope.general_genres = db.getDefs("general_genres");
 
-	$scope.submit = function() {
-		db.submitFishbowlApp($scope.app).then(function() {
+	// TODO: implement image upload
+
+	$scope.save = function() {
+		db.saveUser($scope.user).then(function(res) {
 			$location.url("/");
 		});
 	};
-}]);
-
-app.controller("ScheduleCtrl", ["$scope", "$q", "db", function($scope, $q, db) {
-	$scope.days = db.getDefs("days");
-	$scope.show_times = db.getDefs("show_times");
-	$scope.schedule = [];
-
-	var getSchedule = function() {
-		$q.all($scope.days.map(function(day) {
-			return db.getSchedule(day.dayID);
-		})).then(function(daySchedules) {
-			$scope.schedule = $scope.show_times.map(function(t) {
-				return daySchedules.map(function(day) {
-					return _.find(day, { start_time: t.show_time });
-				});
-			});
-		});
-	};
-
-	// initialize
-	$q.all([$scope.days.$promise, $scope.show_times.$promise]).then(getSchedule);
-}]);
-
-app.controller("ScheduleAddCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
-	$scope.days = db.getDefs("days");
-	$scope.show_times = db.getDefs("show_times");
-	$scope.show_types = db.getDefs("show_types");
-
-	$scope.getUsers = function(term) {
-		return db.getUsers(term);
-	};
-
-	$scope.save = function() {
-		// transform show object from view to server
-		var show = angular.copy($scope.show);
-
-		show.hosts = show.hosts.map(function(h) {
-			return h.username;
-		});
-
-		db.addShow(show).then(function() {
-			$location.url("/schedule/admin");
-		});
-	};
-
-	// initialize
-	$scope.show_times.$promise.then(function() {
-		var startID = Number.parseInt($routeParams.timeID);
-		var endID = (startID + 1) % $scope.show_times.length;
-
-		$scope.show = {
-			dayID: $routeParams.dayID,
-			start_time: $scope.show_times[startID].show_time,
-			end_time: $scope.show_times[endID].show_time,
-			hosts: []
-		};
-	});
-}]);
-
-app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
-	$scope.fishbowl = [];
-	$scope.bowls = [];
-
-	var getFishbowl = function() {
-		return db.getFishbowl().then(function(fishbowl) {
-			$scope.fishbowl = fishbowl;
-		});
-	};
-
-	$scope.archiveFishbowl = function() {
-		if ( confirm("Are you sure you want to archive the fishbowl?") ) {
-			db.archiveFishbowl().then(getFishbowl);
-		}
-	};
-
-	/**
-	 * Group the current list of fishbowl apps into bowls.
-	 */
-	$scope.getFishbowlResults = function() {
-		var fishbowl = $scope.fishbowl
-			.slice()
-			.sort(function(app1, app2) {
-				return app2.average - app1.average;
-			});
-
-		var NUM_BOWLS = 5;
-		var bowlSize = Math.ceil(fishbowl.length / NUM_BOWLS);
-		var bowls = [];
-
-		for ( var i = 0; i < NUM_BOWLS; i++ ) {
-			bowls[i] = _.shuffle(fishbowl.splice(0, bowlSize));
-		}
-
-		$scope.bowls = bowls;
-	};
-
-	getFishbowl();
-}]);
-
-app.controller("FishbowlReviewCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
-	$scope.app = {};
-
-	var getFishbowlApp = function() {
-		db.getFishbowlApp($routeParams.id).then(function(app) {
-			$scope.app = app;
-		});
-	};
-
-	$scope.submit = function() {
-		db.rateFishbowlApp($scope.app.id, $scope.rating).then(function() {
-			$location.url("/fishbowl/admin");
-		});
-	};
-
-	getFishbowlApp();
 }]);
