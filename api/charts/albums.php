@@ -18,11 +18,14 @@ function get_top_albums($mysqli, $date1, $date2)
 		"l.lb_album",
 		"l.lb_artist",
 		"l.lb_label",
+		"g.genre",
 		"COUNT(*) AS count"
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `logbook` AS l "
 		. "INNER JOIN `show` AS s ON l.showID=s.showID "
+		. "LEFT OUTER JOIN `libalbum` AS a ON l.lb_album_code=a.album_code "
+		. "LEFT OUTER JOIN `def_general_genres` AS g ON a.general_genreID=g.general_genreID "
 		. "WHERE '$date1' < UNIX_TIMESTAMP(s.start_time) "
 		. "AND UNIX_TIMESTAMP(s.end_time) < '$date2' "
 		. "AND s.show_typeID != 8 "

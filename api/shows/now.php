@@ -26,7 +26,7 @@ function get_current_track($mysqli)
 	$q = "SELECT " . implode(",", $keys) . " "
 			. "FROM `now_playing` AS n "
 			. "INNER JOIN `logbook` AS l ON n.logbookID=l.logbookID "
-			. "LEFT OUTER JOIN `show` AS s ON s.showID=l.showID;"
+			. "LEFT OUTER JOIN `show` AS s ON s.showID=l.showID;";
 	$track = $mysqli->query($q)->fetch_assoc();
 
 	/* get show hosts */
