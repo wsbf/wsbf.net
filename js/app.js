@@ -83,7 +83,7 @@ app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 	 * @param artist
 	 * @param album
 	 */
-	var AlbumInfo = $resource("http://ws.audioscrobbler.com/2.0/", {
+	var AlbumInfo = $resource("https://ws.audioscrobbler.com/2.0/", {
 		api_key: "74e3ab782313ff6e306a5f52a0e043ab",
 		format: "json",
 		method: "album.getinfo"
