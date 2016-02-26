@@ -7,24 +7,22 @@
 </div>
 
 <div ng-show="check.reviewer">
-	<!-- TODO: add searching, sorting, genres -->
-
 	<table class="table">
 		<thead>
 			<th>Album ID</th>
-			<th>Album Code</th>
 			<th>Album</th>
 			<th>Artist</th>
+			<th>General Genre</th>
 		</thead>
 
 		<tbody>
 			<tr ng-repeat="a in albums">
-				<td>{{a.albumID}}</td>
 				<td>
-					<a ng-href="#/review/{{a.albumID}}">{{a.album_code}}</a>
+					<a ng-href="#/review/{{a.albumID}}">{{a.albumID}}</a>
 				</td>
 				<td>{{a.album_name}}</td>
 				<td>{{a.artist_name}}</td>
+				<td>{{a.genre}}</td>
 			</tr>
 		</tbody>
 	</table>

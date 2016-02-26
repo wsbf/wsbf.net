@@ -321,7 +321,7 @@ app.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
 		$scope.date1 -= WEEK;
 		$scope.date2 -= WEEK;
 
-		getChart($scope.count, $scope.date1, $scope.date2);
+		getChart($scope.date1, $scope.date2);
 	};
 
 	$scope.hasNextWeek = function() {

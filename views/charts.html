@@ -24,12 +24,13 @@
 
 	<table class="table">
 		<tr>
-			<th>Rank</th>
+			<th></th>
 			<th>Code</th>
 			<th>Plays</th>
 			<th>Artist</th>
 			<th>Album</th>
 			<th>Label</th>
+			<th>Genre</th>
 		</tr>
 
 		<tr ng-repeat="a in albums | limitTo:count">
@@ -39,6 +40,7 @@
 			<td>{{a.lb_artist}}</td>
 			<td>{{a.lb_album}}</td>
 			<td>{{a.lb_label}}</td>
+			<td>{{a.genre}}</td>
 		</tr>
 	</table>
 </div>

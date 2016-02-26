@@ -58,7 +58,6 @@ For server-side development (working on the PHP scripts), you'll need to develop
 	audio streams
 ```
 - use DJ profile pics for schedule view
-- sort charting by genre
 
 ### Client (private)
 
