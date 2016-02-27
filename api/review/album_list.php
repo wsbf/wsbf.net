@@ -29,7 +29,8 @@ function get_albums($mysqli)
 	$query = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
 			. "INNER JOIN `libartist` AS ar ON al.artistID=ar.artistID "
 			. "INNER JOIN `def_general_genres` AS g ON al.general_genreID=g.general_genreID "
-			. "WHERE al.rotationID=0;";
+			. "WHERE al.rotationID=0 "
+			. "ORDER BY al.albumID DESC;";
 	$result = $mysqli->query($query);
 
 	$albums = array();

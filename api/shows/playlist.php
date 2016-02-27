@@ -61,7 +61,9 @@ function get_show_playlist($mysqli, $showID)
 	return $tracks;
 }
 
-$showID = $_GET["showID"];
+$showID = array_key_exists("showID", $_GET)
+	? $_GET["showID"]
+	: null;
 
 if ( !empty($showID) && !is_numeric($showID) ) {
 	header("HTTP/1.1 404 Not Found");

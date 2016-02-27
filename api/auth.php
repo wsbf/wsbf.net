@@ -8,8 +8,8 @@
  *
  * Authenticate the current session by checking whether the
  * "username" property is set, which should be done only by
- * login.php and register.php. This script should be included 
- * at the beginning of every API script.
+ * login.php. This script should be included  at the beginning
+ * of every API script that is restricted to registered users.
  *
  * This file also contains authorization functions, such as
  * senior staff, profile, and review priviledges.
