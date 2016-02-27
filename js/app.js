@@ -52,8 +52,7 @@ app.config(["$compileProvider", "$routeProvider", function($compileProvider, $ro
 		.when("/recording", { templateUrl: "views/recording.html" })
 		.when("/booking", { templateUrl: "views/booking.html" })
 		.when("/join", { templateUrl: "views/join.html" })
-		.when("/underwriting", { templateUrl: "views/underwriting.html" })
-		.when("/psa", { templateUrl: "views/psa.html" })
+		.when("/promotion", { templateUrl: "views/promotion.html" })
 		.when("/contact", { templateUrl: "views/contact.html" })
 		.otherwise("/");
 }]);

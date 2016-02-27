@@ -1,10 +1,14 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" ng-app="register" ng-strict-di>
 	<head>
 		<title>WSBF-FM Clemson | The Upstate's Only True Alternative Radio</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+		<script src="/bower_components/angular/angular.min.js"></script>
+		<script src="js/register.js"></script>
 	</head>
 	<body class="container">
 		<div class="row">
@@ -14,37 +18,35 @@
 				</div>
 
 				<div class="panel panel-default">
-					<form class="panel-body" action="/api/register.php" method="post">
-						<div class="form-group">
-							<input class="form-control" type="text" name="username" required maxlength="50" placeholder="Username"/>
+					<form class="panel-body" name="form" novalidate ng-controller="RegisterCtrl">
+						<div class="form-group" ng-class="{'has-error': form.username.$touched && form.username.$invalid}">
+							<input class="form-control" name="username" ng-model="user.username" required maxlength="50" placeholder="Username"/>
 						</div>
 
-						<div class="form-group">
-							<input class="form-control" type="text" name="last_name" required maxlength="50" placeholder="First Name"/>
+						<div class="form-group" ng-class="{'has-error': form.first_name.$touched && form.first_name.$invalid}">
+							<input class="form-control" name="first_name" ng-model="user.first_name" required maxlength="50" placeholder="First Name"/>
 						</div>
 
-						<div class="form-group">
-							<input class="form-control" type="text" name="first_name" required maxlength="50" placeholder="Last Name"/>
+						<div class="form-group" ng-class="{'has-error': form.last_name.$touched && form.last_name.$invalid}">
+							<input class="form-control" name="last_name" ng-model="user.last_name" required maxlength="50" placeholder="Last Name"/>
 						</div>
 
-						<div class="form-group">
-							<input class="form-control" type="password" name="password" required placeholder="Password"/>
+						<div class="form-group" ng-class="{'has-error': form.password1.$touched && form.password2.$touched && user.password !== passwordConfirm}">
+							<input class="form-control" type="password" name="password1" ng-model="user.password" placeholder="Password" required/>
 						</div>
 
-						<div class="form-group">
-							<input class="form-control" type="password" name="password_confirm" required placeholder="Confirm Password"/>
+						<div class="form-group" ng-class="{'has-error': form.password1.$touched && form.password2.$touched && user.password !== passwordConfirm}">
+							<input class="form-control" type="password" name="password2" ng-model="passwordConfirm" placeholder="Confirm Password" required/>
 						</div>
 
-						<div class="form-group">
-							<input class="form-control" type="email" name="email_addr" required placeholder="Email Address"/>
+						<div class="form-group" ng-class="{'has-error': form.email_addr.$touched && form.email_addr.$invalid}">
+							<input class="form-control" type="email" name="email_addr" ng-model="user.email_addr" required placeholder="Email Address"/>
 						</div>
 
-						<div class="form-group">
-							<input class="form-control" type="tel" name="phone_number" placeholder="Last Name"/>
-						</div>
+						<p class="text-danger" ng-show="error">{{error}}</p>
 
 						<div class="text-center">
-							<button class="btn btn-default" type="button">Register</button>
+							<button class="btn btn-default" type="button" ng-disabled="form.$invalid || user.password !== passwordConfirm" ng-click="register(user)">Register</button>
 						</div>
 					</form>
 				</div>
