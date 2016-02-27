@@ -5,13 +5,14 @@ app.config(["$compileProvider", function($compileProvider) {
 	$compileProvider.debugInfoEnabled(false);
 }]);
 
-app.controller("RegisterCtrl", ["$scope", "$http", "$window", function($scope, $http, $window) {
+app.controller("RegisterCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.user = {};
+	$scope.registered = false;
 
 	$scope.register = function(user) {
 		$http.post("/api/register.php", user)
-			.success(function(url) {
-				$window.location.href = url;
+			.success(function() {
+				$scope.registered = true;
 			})
 			.error(function(message) {
 				$scope.error = message;
