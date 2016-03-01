@@ -50,6 +50,7 @@ gulp.task("bower-components", function() {
 gulp.task("public-api", function() {
 	return gulp.src([
 		path.join(SRC, "api/connect.php"),
+		path.join(SRC, "api/defs.php"),
 		path.join(SRC, "api/blog/preview.php"),
 		path.join(SRC, "api/charts/albums.php"),
 		path.join(SRC, "api/schedule/schedule.php"),
