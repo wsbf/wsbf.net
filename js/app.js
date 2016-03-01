@@ -122,18 +122,34 @@ app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 		}));
 	};
 
+	var Defs = $resource("/api/defs.php", {}, {
+		get: { method: "GET", isArray: true, cache: true }
+	});
+
+	/**
+	 * Get a definitions table.
+	 *
+	 * @param tableName
+	 * @return table array
+	 */
+	this.getDefs = function(tableName) {
+		return Defs.get({ table: tableName });
+	};
+
 	/**
 	 * Get album charting over a period of time.
 	 *
-	 * @param date1  start date timestamp
-	 * @param date2  end date timestamp
+	 * @param date1            start date timestamp
+	 * @param date2            end date timestamp
+	 * @param general_genreID  general genre ID
 	 * @return Promise of chart array
 	 */
-	this.getChart = function(date1, date2) {
+	this.getTopAlbums = function(date1, date2, general_genreID) {
 		return $http.get("/api/charts/albums.php", {
 			params: {
 				date1: date1,
-				date2: date2
+				date2: date2,
+				general_genreID: general_genreID
 			}
 		}).then(function(res) {
 			return res.data;
@@ -306,11 +322,12 @@ app.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
 	var WEEK = 7 * DAY;
 
 	$scope.today = Date.now();
+	$scope.general_genres = db.getDefs("general_genres");
 	$scope.count = 30;
 	$scope.albums = [];
 
 	var getChart = function(date1, date2) {
-		db.getChart(date1, date2)
+		db.getTopAlbums(date1, date2, $scope.general_genreID)
 			.then(function(albums) {
 				$scope.albums = albums;
 			});
@@ -354,7 +371,7 @@ app.controller("ChartWidgetCtrl", ["$scope", "db", function($scope, db) {
 	$scope.albums = [];
 
 	var getChart = function(date1, date2) {
-		db.getChart(date1, date2)
+		db.getTopAlbums(date1, date2)
 			.then(function(albums) {
 				albums = albums.slice(0, count);
 
