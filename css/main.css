@@ -153,7 +153,8 @@ table.chart-home > tbody > tr > td {
 	position: fixed;
 	bottom: 0px;
 	right: 0px;
-	width: 450px;
+	width: 100%;
+	max-width: 450px;
 	height: 94px;
 	padding: 15px 15px;
 	background-color: #111111;

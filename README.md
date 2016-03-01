@@ -10,10 +10,10 @@ This repository is an attempt to integrate all of the various fragments of WSBF'
 - Max's streaming website [new.wsbf.net/jpgr](http://new.wsbf.net/jpgr)
 - The development website [dev.wsbf.net](http://dev.wsbf.net)
 - Mobile site [m.wsbf.net](http://m.wsbf.net)
-- Darkice and Icecast [stream.wsbf.net:8000](http://stream.wsbf.net:8000)
+- Darkice and Icecast [wsbf.net:8000](http://wsbf.net:8000)
 - Studio A webcam
 - ZAutomate
-- RDS Program
+- RDS Sender
 
 The ultimate goal is to bring all of these resources into one "WSBF" service for end users, DJs, and senior staff.
 
@@ -58,6 +58,7 @@ For server-side development (working on the PHP scripts), you'll need to develop
 	audio streams
 ```
 - use DJ profile pics for schedule view
+- add genre filter to charting
 
 ### Client (private)
 

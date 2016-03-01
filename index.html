@@ -319,12 +319,12 @@
 		</footer>
 
 		<!-- Begin mediawidget -->
-		<div class="row hidden-xs" id="media-widget" ng-controller="NowPlayingCtrl">
-			<div class="col-sm-3">
+		<div class="row" id="media-widget" ng-controller="NowPlayingCtrl">
+			<div class="col-xs-3">
 				<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
 			</div>
 
-			<div class="col-sm-9">
+			<div class="col-xs-9">
 				<div class="text-right"><strong>{{track.lb_track_name || '--'}}</strong></div>
 				<div class="text-right">{{track.lb_artist || '--'}}</div>
 
