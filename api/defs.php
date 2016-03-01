@@ -4,11 +4,8 @@
  * @file defs.php
  * @author Ben Shealy
  *
- * @section DESCRIPTION
- *
  * Get a definitions table.
  */
-require_once("auth.php");
 require_once("connect.php");
 
 /**

@@ -139,6 +139,9 @@ app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 	/**
 	 * Get album charting over a period of time.
 	 *
+	 * This function removes the millisecond component
+	 * from timestamps to be consistent with the API.
+	 *
 	 * @param date1            start date timestamp
 	 * @param date2            end date timestamp
 	 * @param general_genreID  general genre ID
@@ -147,8 +150,8 @@ app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 	this.getTopAlbums = function(date1, date2, general_genreID) {
 		return $http.get("/api/charts/albums.php", {
 			params: {
-				date1: date1,
-				date2: date2,
+				date1: Math.floor(date1 / 1000),
+				date2: Math.floor(date2 / 1000),
 				general_genreID: general_genreID
 			}
 		}).then(function(res) {
