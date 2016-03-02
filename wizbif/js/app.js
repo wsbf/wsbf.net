@@ -15,8 +15,8 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/fishbowl/admin/:id", { templateUrl: "views/fishbowl_review.html", controller: "FishbowlReviewCtrl" })
 		.when("/fishbowl/app", { templateUrl: "views/fishbowl_app.html", controller: "FishbowlAppCtrl" })
 		.when("/import", { templateUrl: "views/import.html", controller: "ImportCtrl" })
-		.when("/import/album", { templateUrl: "views/import_album.html", controller: "ImportAlbumCtrl" })
-		.when("/import/cart", { templateUrl: "views/import_cart.html", controller: "ImportCartCtrl" })
+		.when("/import/album/:path?/:artist", { templateUrl: "views/import_album.html", controller: "ImportAlbumCtrl" })
+		.when("/import/cart/:path?/:cart", { templateUrl: "views/import_cart.html", controller: "ImportCartCtrl" })
 		.when("/library", { templateUrl: "views/library.html", controller: "LibraryCtrl" })
 		.when("/library/:albumID", { templateUrl: "views/library_album.html", controller: "LibraryAlbumCtrl" })
 		.when("/library/:albumID/edit", { templateUrl: "views/library_album_edit.html", controller: "LibraryAlbumCtrl" })
@@ -389,6 +389,42 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 
 	/**
+	 * Get an album that is staged for import.
+	 *
+	 * @param path    path string
+	 * @param artist  artist name
+	 * @param Promise of album object
+	 */
+	this.getImportAlbum = function(path, artist) {
+		return $http.get("/api/import/album.php", {
+			params: {
+				path: path,
+				artist: artist
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Get a cart that is staged for import.
+	 *
+	 * @param path  path string
+	 * @param cart  cart name
+	 * @param Promise of cart object
+	 */
+	this.getImportCart = function(path, cart) {
+		return $http.get("/api/import/cart.php", {
+			params: {
+				path: path,
+				cart: cart
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
 	 * Import an album.
 	 *
 	 * @param album  album object
@@ -563,7 +599,8 @@ app.controller("FishbowlReviewCtrl", ["$scope", "$routeParams", "$location", "db
 }]);
 
 app.controller("ImportCtrl", ["$scope", "db", function($scope, db) {
-	$scope.path = ["Root"];
+	$scope.trail = ["Root"];
+	$scope.path = "";
 	$scope.directories = [];
 	$scope.carts = [];
 	$scope.artists = [];
@@ -571,29 +608,28 @@ app.controller("ImportCtrl", ["$scope", "db", function($scope, db) {
 	/**
 	 * Open an import directory.
 	 *
-	 * @param index  index of directory in current path
+	 * @param index  index of directory in current trail
 	 * @param dir    name of subdirectory
 	 */
 	$scope.openDirectory = function(index, dir) {
-		var path;
+		var trail = dir
+			? $scope.trail.concat(dir)
+			: $scope.trail.slice(0, index + 1);
 
-		if ( dir ) {
-			path = $scope.path.concat(dir);
-		}
-		else {
-			path = $scope.path.slice(0, index + 1);
-		}
-		path.shift();
+		trail.shift();
 
-		db.getImportDirectory(path.join("/"))
+		var path = trail.join("/");
+
+		db.getImportDirectory(path)
 			.then(function(info) {
 				if ( dir ) {
-					$scope.path.push(dir);
+					$scope.trail.push(dir);
 				}
 				else {
-					$scope.path.splice(index + 1);
+					$scope.trail.splice(index + 1);
 				}
 
+				$scope.path = path;
 				$scope.directories = info.directories;
 				$scope.carts = info.carts;
 				$scope.artists = info.artists;
@@ -604,7 +640,7 @@ app.controller("ImportCtrl", ["$scope", "db", function($scope, db) {
 	$scope.openDirectory(0);
 }]);
 
-app.controller("ImportAlbumCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+app.controller("ImportAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
 	$scope.general_genres = db.getDefs("general_genres");
 	$scope.mediums = db.getDefs("mediums");
 	$scope.album = {
@@ -618,7 +654,7 @@ app.controller("ImportAlbumCtrl", ["$scope", "$location", "db", function($scope,
 	};
 }]);
 
-app.controller("ImportCartCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+app.controller("ImportCartCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
 	$scope.cart_types = db.getDefs("cart_type");
 	$scope.cart = {};
 
@@ -627,6 +663,12 @@ app.controller("ImportCartCtrl", ["$scope", "$location", "db", function($scope, 
 			$location.url("/import");
 		});
 	};
+
+	// initialize
+	db.getImportCart($routeParams.path, $routeParams.cart).then(function(cart) {
+		$scope.cart = cart;
+		$scope.cart.path = $routeParams.path || "";
+	});
 }]);
 
 // TODO: add searching/sorting by DJs

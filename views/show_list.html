@@ -38,7 +38,7 @@
 				</td>
 				<td>{{s.start_time | date:'short'}}</td>
 				<td>
-					<em ng-show="page == 0 && $index == 0">On Now!</em>
+					<em ng-show="!s.end_time">On Now!</em>
 					<span>{{s.end_time | date:'shortTime'}}</span>
 				</td>
 			</tr>

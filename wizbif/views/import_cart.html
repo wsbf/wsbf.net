@@ -42,25 +42,17 @@
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': !cart.no_end_date && form.end_date.$touched && !cart.end_date}">
+	<div class="form-group">
 		<label class="col-sm-3 control-label">End Date</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="datetime-local" name="end_date" ng-model="cart.end_date" ng-disabled="cart.no_end_date"/>
-		</div>
-	</div>
-
-	<div class="form-group">
-		<div class="col-sm-offset-3 col-sm-6 checkbox">
-			<label>
-				<input type="checkbox" ng-model="cart.no_end_date"/>
-				<span>No end date</span>
-			</label>
+			<input class="form-control" type="datetime-local" name="end_date" ng-model="cart.end_date"/>
+			<em class="help-block">Leave blank if the cart has no end date.</em>
 		</div>
 	</div>
 
 	<div class="form-group text-center">
 		<div class="btn-group">
-			<button type="button" class="btn btn-default" ng-disabled="form.$invalid || (!cart.no_end_date && !cart.end_date)" ng-click="save()">Save</button>
+			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="save()">Save</button>
 			<a class="btn btn-default" href="#/import">Cancel</a>
 		</div>
 	</div>

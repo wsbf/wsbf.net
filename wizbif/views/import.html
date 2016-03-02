@@ -10,8 +10,8 @@
 	<a href="#/import/album">Manual Import</a>
 
 	<ol class="breadcrumb">
-		<li ng-repeat="p in path track by $index">
-			<a href="" ng-click="openDirectory($index)">{{p}}</a>
+		<li ng-repeat="t in trail track by $index">
+			<a href="" ng-click="openDirectory($index)">{{t}}</a>
 		</li>
 	</ol>
 
@@ -27,7 +27,7 @@
 
 	<ul class="list-unstyled">
 		<li ng-repeat="c in carts">
-			<a href="#/import/cart">{{c}}</a>
+			<a href="#/import/cart/{{path}}/{{c}}">{{c}}</a>
 		</li>
 	</ul>
 
@@ -35,7 +35,7 @@
 
 	<ul class="list-unstyled">
 		<li ng-repeat="a in artists">
-			<a href="">{{a}}</a>
+			<a ng-href="#/import/album/{{path}}/{{a}}">{{a}}</a>
 		</li>
 	</ul>
 </div>
