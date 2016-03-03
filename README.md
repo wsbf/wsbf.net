@@ -45,6 +45,7 @@ For server-side development (working on the PHP scripts), you'll need to develop
 - replace MySQL queries with prepared statements/stored procedures
 - write script to merge fragmented shows in `shows` table
 - polish database (remove HTML entities like `&amp;`, check for invalid values, etc.)
+- upgrade MySQL and PHP to newest versions
 
 ### Client (public)
 

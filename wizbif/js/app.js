@@ -652,6 +652,13 @@ app.controller("ImportAlbumCtrl", ["$scope", "$routeParams", "$location", "db", 
 			$location.url("/import");
 		});
 	};
+
+	// initialize
+	db.getImportAlbum($routeParams.path, $routeParams.artist)
+		.then(function(album) {
+			$scope.album = album;
+			$scope.album.path = $routeParams.path || "";
+		});
 }]);
 
 app.controller("ImportCartCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
@@ -665,10 +672,11 @@ app.controller("ImportCartCtrl", ["$scope", "$routeParams", "$location", "db", f
 	};
 
 	// initialize
-	db.getImportCart($routeParams.path, $routeParams.cart).then(function(cart) {
-		$scope.cart = cart;
-		$scope.cart.path = $routeParams.path || "";
-	});
+	db.getImportCart($routeParams.path, $routeParams.cart)
+		.then(function(cart) {
+			$scope.cart = cart;
+			$scope.cart.path = $routeParams.path || "";
+		});
 }]);
 
 // TODO: add searching/sorting by DJs

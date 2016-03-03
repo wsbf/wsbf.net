@@ -42,22 +42,6 @@
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.phone_number.$touched && form.phone_number.$invalid}">
-		<label class="col-sm-3 control-label">Phone Number</label>
-		<div class="col-sm-6">
-			<input class="form-control" type="tel" name="phone_number" ng-model="user.phone_number"/>
-		</div>
-	</div>
-
-	<div class="form-group">
-		<div class="col-sm-offset-3 col-sm-6 checkbox">
-			<label>
-				<input type="checkbox" ng-model="user.sms_recv"/>
-				<span>Receive text messages</span>
-			</label>
-		</div>
-	</div>
-
 	<div class="form-group" ng-class="{'has-error': form.statusID.$touched && form.statusID.$invalid}">
 		<label class="col-sm-3 control-label">Status</label>
 		<div class="col-sm-6">
