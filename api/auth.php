@@ -54,10 +54,11 @@ function get_position($mysqli)
 		$q = "SELECT positionID FROM `staff` "
 			. "WHERE username='$_SESSION[username]' "
 			. "AND NOW() BETWEEN start_date AND end_date;";
-		$result = $mysqli->query($q)->fetch_assoc();
+		$result = $mysqli->query($q);
 
 		if ( $result->num_rows > 0 ) {
-			$_SESSION["positionID"] = $result["positionID"];
+			$assoc = $result->fetch_assoc();
+			$_SESSION["positionID"] = $assoc["positionID"];
 		}
 		else {
 			$_SESSION["positionID"] = false;

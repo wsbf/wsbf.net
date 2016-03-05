@@ -24,12 +24,9 @@ function get_user($mysqli, $username)
 		"u.first_name",
 		"u.last_name",
 		"u.preferred_name",
-		"u.phone_number",
 		"u.email_addr",
-		"u.cuid",
 		"u.teamID",
 		"u.statusID",
-		"u.sms_recv",
 		"u.profile_paragraph",
 		"u.has_picture",
 		"s.positionID"
@@ -66,7 +63,6 @@ function get_user($mysqli, $username)
 	}
 
 	/* convert boolean and numeric types */
-	$user["sms_recv"] = (bool) $user["sms_recv"];
 	$user["has_picture"] = (bool) $user["has_picture"];
 
 	if ( isset($user["positionID"]) ) {
@@ -114,10 +110,8 @@ function update_user($mysqli, $user)
 	/* update user */
 	$q = "UPDATE users SET "
 		. "preferred_name = '$user[preferred_name]', "
-		. "phone_number = '$user[phone_number]', "
 		. "email_addr = '$user[email_addr]', "
 		. "statusID = '$user[statusID]', "
-		. "sms_recv = '$user[sms_recv]', "
 		. "profile_paragraph = '$user[profile_paragraph]', "
 		. "has_picture = '$user[has_picture]' "
 		. "WHERE username = '$user[username]';";
