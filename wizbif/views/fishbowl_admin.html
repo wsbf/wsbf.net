@@ -8,30 +8,10 @@
 
 <div ng-show="check.seniorStaff">
 	<button class="btn btn-default" ng-click="archiveFishbowl()" ng-disabled="fishbowl.length == 0">Archive</button>
-	<button class="btn btn-default" ng-click="getFishbowlResults()">Print Results</button>
-
-	<table class="table">
-		<thead>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Average</th>
-			<th></th>
-		</thead>
-
-		<tbody>
-			<tr ng-repeat="f in fishbowl" ng-class="{ 'danger': !f.average }">
-				<td>{{f.id}}</td>
-				<td>{{f.preferred_name}}</td>
-				<td>{{f.average}}</td>
-				<td>
-					<a ng-href="#/fishbowl/admin/{{f.id}}">Review</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<button class="btn btn-default" ng-click="getFishbowlResults()" ng-disabled="fishbowl.length == 0">Print Results</button>
 
 	<div class="row">
-		<div class="col-sm-3" ng-repeat="b in bowls">
+		<div class="col-sm-2" ng-repeat="b in bowls">
 			<table class="table table-condensed">
 				<thead>
 					<th>Bowl {{$index + 1}}</th>
@@ -43,4 +23,26 @@
 			</table>
 		</div>
 	</div>
+
+	<table class="table">
+		<thead>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Weight</th>
+			<th>Average</th>
+			<th></th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="f in fishbowl" ng-class="{ 'danger': !f.average }">
+				<td>{{f.id}}</td>
+				<td>{{f.preferred_name}}</td>
+				<td>{{f.weight}}</td>
+				<td>{{f.average}}</td>
+				<td>
+					<a ng-href="#/fishbowl/admin/{{f.id}}">Review</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>

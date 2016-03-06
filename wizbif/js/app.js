@@ -313,6 +313,20 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 
 	/**
+	 * Get the parameters for the current fishbowl application.
+	 *
+	 * @return Promise of fishbowl app info
+	 */
+	this.getFishbowlInfo = function() {
+		return $http.get("/api/fishbowl/app.php")
+			.then(function(res) {
+				res.data.deadline *= 1000;
+
+				return res.data;
+			});
+	};
+
+	/**
 	 * Submit a fishbowl application for the current user.
 	 *
 	 * @param app  fishbowl application object
@@ -529,6 +543,7 @@ app.controller("ChartsCtrl", ["$scope", "db", function($scope, db) {
 }]);
 
 app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+	$scope.info = {};
 	$scope.app = {};
 
 	$scope.submit = function() {
@@ -536,6 +551,12 @@ app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope,
 			$location.url("/");
 		});
 	};
+
+	// initialize
+	db.getFishbowlInfo().then(function(info) {
+		$scope.info = info;
+		$scope.info.missed = info.deadline < Date.now();
+	});
 }]);
 
 app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {

@@ -8,18 +8,33 @@
 
 <form name="form" ng-show="check.seniorStaff">
 	<div class="form-group">
+		<strong>Name:</strong>
+		<samp>{{app.preferred_name}}</samp>
+	</div>
+
+	<div class="form-group">
 		<strong>Number of semesters at the station:</strong>
-		<pre>{{app.semesters}}</pre>
+		<samp>{{app.semesters}}</samp>
 	</div>
 
 	<div class="form-group">
 		<strong>Number of missed shows:</strong>
-		<pre>{{app.missedShows}}</pre>
+		<samp>{{app.missedShows}}</samp>
 	</div>
 
 	<div class="form-group">
 		<strong>Number of CD reviews this semester:</strong>
-		<pre>{{app.num_reviews}}</pre>
+		<samp>{{app.num_reviews}}</samp>
+	</div>
+
+	<div class="form-group">
+		<strong>Previous show was 3-5 AM or 5-7 AM?</strong>
+		<samp>{{app.dead_hours ? 'Yes' : 'No'}}</samp>
+	</div>
+
+	<div class="form-group">
+		<strong>Applying for a specialty show this semester?</strong>
+		<samp>{{app.specialty ? 'Yes' : 'No'}}</samp>
 	</div>
 
 	<div class="form-group">
@@ -27,20 +42,9 @@
 		<pre>{{app.liveShows}}</pre>
 	</div>
 
-	<!-- TODO: show only during fall semester -->
-	<div class="form-group" ng-show="true">
+	<div class="form-group" ng-show="app.fall">
 		<strong>Did you help with the Spring Festival? In what capacity? Tell us about it.</strong>
 		<pre>{{app.springFest}}</pre>
-	</div>
-
-	<div class="form-group">
-		<strong>Previous show was 3-5 AM or 5-7 AM?</strong>
-		<pre>{{app.dead_hours ? 'Yes' : 'No'}}</pre>
-	</div>
-
-	<div class="form-group">
-		<strong>Applying for a specialty show this semester?</strong>
-		<pre>{{app.specialty ? 'Yes' : 'No'}}</pre>
 	</div>
 
 	<div class="form-group">

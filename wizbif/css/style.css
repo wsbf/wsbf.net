@@ -27,3 +27,9 @@
 	cursor: pointer;
 	color: #303030;
 }
+
+/* rules for <pre> elements in fishbowl app */
+pre {
+	white-space: pre-line;
+	word-break: normal;
+}
