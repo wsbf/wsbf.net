@@ -4,12 +4,10 @@
  * @file fishbowl/fishbowl.php
  * @author Ben Shealy
  *
- * @section DESCRIPTION
- *
  * Get the current fishbowl.
  */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 
 /**
  * Get the current fishbowl.
@@ -22,6 +20,7 @@ function get_fishbowl($mysqli)
 	$keys = array(
 		"f.id",
 		"f.average",
+		"f.weight",
 		"u.preferred_name"
 	);
 

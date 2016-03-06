@@ -5,7 +5,8 @@
  * @author Ben Shealy
  */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
+require_once("config.php");
 
 /**
  * Validate fishbowl app.
@@ -16,6 +17,7 @@ require_once("../connect-dev.php");
  */
 function validate_fishbowl_app($mysqli, $app)
 {
+	// required fields should be defined
 	if ( !is_numeric($app["semesters"])
 	  || !is_numeric($app["missedShows"])
 	  || empty($app["liveShows"])
@@ -56,12 +58,35 @@ function submit_fishbowl_app($mysqli, $app)
 	$mysqli->query($q);
 }
 
-if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_edit_profile($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit("Current user is not allowed to submit a fishbowl app.");
+	}
+
+	$mysqli->close();
+
+	$info = array(
+		"fall" => SEMESTER,
+		"deadline" => DEADLINE
+	);
+
+	header("Content-Type: application/json");
+	exit(json_encode($info));
+}
+else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+	$mysqli = construct_connection();
+
+	if ( !check_edit_profile($mysqli) ) {
+		header("HTTP/1.1 401 Unauthorized");
+		exit("Current user is not allowed to submit a fishbowl app.");
+	}
+
+	if ( DEADLINE < time() ) {
+		header("HTTP/1.1 404 Not Found");
+		exit("The fishbowl application is currently closed.");
 	}
 
 	$app = json_decode(file_get_contents("php://input"), true);

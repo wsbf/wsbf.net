@@ -5,7 +5,7 @@
  * @author Ben Shealy
  */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
 
 /**
  * Archive the current fishbowl.
@@ -32,7 +32,7 @@ function archive_fishbowl($mysqli)
 		. "SELECT " . implode(",", $keys) . " FROM `fishbowl`;";
 	$mysqli->query($q);
 
-	// DELETE is slow, but TRUNCATE requires DROP priviledge
+	// DELETE is slow, but TRUNCATE requires DROP privilege
 	$mysqli->query("DELETE FROM `fishbowl`;");
 }
 

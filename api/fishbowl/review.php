@@ -5,7 +5,8 @@
  * @author Ben Shealy
  */
 require_once("../auth.php");
-require_once("../connect-dev.php");
+require_once("../connect.php");
+require_once("config.php");
 
 /**
  * Get a fishbowl app.
@@ -16,15 +17,12 @@ require_once("../connect-dev.php");
  */
 function get_fishbowl_app($mysqli, $id)
 {
-	// TODO: implement num_reviews once constants are
-	// fiqured out (SEMESTER, SEMESTER_BEGIN, DEADLINE)
-
 	$keys = array(
 		"f.id",
+		"u.username",
 		"u.preferred_name",
 		"f.semesters",
 		"f.missedShows",
-		"0 AS num_reviews",
 		"f.liveShows",
 		"f.springFest",
 		"f.specialty",
@@ -36,6 +34,16 @@ function get_fishbowl_app($mysqli, $id)
 		. "INNER JOIN `users` AS u ON u.username=f.username "
 		. "WHERE f.id='$id';";
 	$app = $mysqli->query($q)->fetch_assoc();
+
+	$q = "SELECT COUNT(*) FROM `libreview` AS r "
+		. "WHERE r.username = '$app[username]' "
+		. "AND " . REVIEW_BEGIN . " <= UNIX_TIMESTAMP(r.review_date) "
+		. "AND UNIX_TIMESTAMP(r.review_date) <= " . DEADLINE . ";";
+	$result = $mysqli->query($q);
+	$row = $result->fetch_row();
+
+	$app["num_reviews"] = $row[0];
+	$app["fall"] = SEMESTER;
 
 	return $app;
 }
