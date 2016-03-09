@@ -44,8 +44,10 @@ function validate_cart($mysqli, $cart)
  */
 function import_cart($mysqli, $cart)
 {
-	$src = realpath(IMPORT_SRC . $cart["path"] . "/" . $cart["filename"]);
-	$dst = IMPORT_DST . "carts/" . $cart["filename"];
+	$src = realpath(IMPORT_SRC
+		. stripslashes($cart["path"]) . "/"
+		. stripslashes($cart["filename"]));
+	$dst = IMPORT_DST . "carts/" . stripslashes($cart["filename"]);
 
 	if ( strpos($src, IMPORT_SRC) === false ) {
 		header("HTTP/1.1 404 Not Found");

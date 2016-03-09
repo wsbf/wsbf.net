@@ -108,7 +108,7 @@ function validate_album($mysqli, $album)
 function import_album($mysqli, $album)
 {
 	/* construct file paths */
-	$src_base = IMPORT_SRC . $album["path"] . "/";
+	$src_base = IMPORT_SRC . stripslashes($album["path"]) . "/";
 	$dir_name = directory_name($album["artist_name"]);
 	$dst_base = IMPORT_DST . $dir_name[0] . "/" . $dir_name[1] . "/";
 
@@ -118,8 +118,8 @@ function import_album($mysqli, $album)
 
 	$pairs = array_map(function($t) use($src_base, $dst_base) {
 		return array(
-			"src" => realpath($src_base . $t["file_name"]),
-			"dst" => $dst_base . $t["file_name"]
+			"src" => realpath($src_base . stripslashes($t["file_name"])),
+			"dst" => $dst_base . stripslashes($t["file_name"])
 		);
 	}, $album["tracks"]);
 
@@ -150,9 +150,13 @@ function import_album($mysqli, $album)
 		. "mediumID = '$album[mediumID]', "
 		. "general_genreID = '$album[general_genreID]', "
 		. "genre = '$album[genre]';";
-	$mysqli->query($q) or exit($mysqli->error);
+	$mysqli->query($q);
 
 	$albumID = $mysqli->insert_id;
+
+	$q = "UPDATE `libalbum` SET album_code = '$albumID' "
+		. "WHERE albumID = '$albumID';";
+	$mysqli->query($q);
 
 	/* insert tracks */
 	foreach ( $album["tracks"] as $t ) {
@@ -168,7 +172,7 @@ function import_album($mysqli, $album)
 			. "artistID = '$artistID', "
 			. "file_name = '$file_name', "
 			. "albumID = '$albumID';";
-		$mysqli->query($q) or exit($mysqli->error);
+		$mysqli->query($q);
 	}
 
 	/* insert action */
