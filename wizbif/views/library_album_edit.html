@@ -7,8 +7,6 @@
 </div>
 
 <form class="form-horizontal" name="form" ng-show="check.musicDirector">
-	<!-- TODO: can the music director change album codes, usernames? -->
-
 	<div class="form-group" ng-class="{'has-error': form.artist_name.$touched && form.artist_name.$invalid}">
 		<label class="col-sm-3 control-label">Artist</label>
 		<div class="col-sm-6">
@@ -61,11 +59,11 @@
 
 	<table class="table table-condensed">
 		<thead>
-			<th>Disc No.</th>
-			<th>Track No.</th>
-			<th>Name</th>
-			<th>Artist</th>
-			<th>Airability</th>
+			<th class="col-xs-1">Disc No.</th>
+			<th class="col-xs-1">Track No.</th>
+			<th class="col-xs-4">Name</th>
+			<th class="col-xs-4">Artist</th>
+			<th class="col-xs-2">Airability</th>
 		</thead>
 
 		<tbody>
@@ -92,7 +90,7 @@
 	<div class="form-group text-center">
 		<div class="btn-group">
 			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="save()">Save</button>
-			<a class="btn btn-default" href="#/library">Cancel</a>
+			<a class="btn btn-default" href="#/library/admin">Cancel</a>
 		</div>
 	</div>
 </form>

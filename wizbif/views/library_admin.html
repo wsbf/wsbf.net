@@ -1,12 +1,12 @@
-<h3 class="text-center">Music Library</h3>
+<h3 class="text-center">Library Control Panel</h3>
 
-<div class="text-center" ng-show="!check.reviewer">
+<div class="text-center" ng-show="!check.musicDirector">
 	<h3><strong>Nah.</strong></h3>
 
-	<p>It would seem that you aren't allowed to view the music library.</p>
+	<p>It would seem that you don't have music director privileges, so you can't import files.</p>
 </div>
 
-<div ng-show="check.reviewer">
+<div ng-show="check.musicDirector">
 	<table class="table table-bordered">
 		<th ng-class="{ 'bg-success': rotationID === '7' }">
 			<a href="" ng-click="getLibrary('7')">Recently Reviewed</a>
@@ -38,20 +38,30 @@
 			<th>Album Code</th>
 			<th>Album</th>
 			<th>Artist</th>
-			<th>Reviewer</th>
 			<th>Review Date</th>
+			<th class="text-right">
+				<button type="button" class="btn btn-sm" ng-click="moveRotation()">Move Rotation</button>
+			</th>
+			<th class="text-right">
+				<button type="button" class="btn btn-sm" ng-click="printLabels()">Print Labels</button>
+			</th>
 		</thead>
 
 		<tbody>
 			<tr ng-repeat="a in albums">
 				<td>{{a.albumID}}</td>
 				<td>
-					<a ng-href="#/library/{{a.albumID}}">{{a.album_code}}</a>
+					<a ng-href="#/library/{{a.albumID}}/edit">{{a.album_code}}</a>
 				</td>
 				<td>{{a.album_name}}</td>
 				<td>{{a.artist_name}}</td>
-				<td>{{a.reviewer}}</td>
 				<td>{{a.review_date | date:'yyyy-MM-dd'}}</td>
+				<td>
+					<select class="form-control input-sm" ng-model="a.rotationID" ng-options="r.rotationID as r.rotation_bin for r in rotations" required></select>
+				</td>
+				<td class="text-center h3">
+					<input type="checkbox" ng-model="a.label"/>
+				</td>
 			</tr>
 		</tbody>
 	</table>

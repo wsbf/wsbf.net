@@ -18,6 +18,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/import/album/:path?/:artist", { templateUrl: "views/import_album.html", controller: "ImportAlbumCtrl" })
 		.when("/import/cart/:path?/:cart", { templateUrl: "views/import_cart.html", controller: "ImportCartCtrl" })
 		.when("/library", { templateUrl: "views/library.html", controller: "LibraryCtrl" })
+		.when("/library/admin", { templateUrl: "views/library_admin.html", controller: "LibraryAdminCtrl" })
 		.when("/library/:albumID", { templateUrl: "views/library_album.html", controller: "LibraryAlbumCtrl" })
 		.when("/library/:albumID/edit", { templateUrl: "views/library_album_edit.html", controller: "LibraryAlbumCtrl" })
 		.when("/review", { templateUrl: "views/review.html", controller: "ReviewListCtrl" })
@@ -169,6 +170,26 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 		}).then(function(res) {
 			return res.data;
 		});
+	};
+
+	/**
+	 * Move albums through rotation.
+	 *
+	 * @param albums  array of albums
+	 * @return Promise of http response
+ 	 */
+	this.moveRotation = function(albums) {
+		return $http.post("/api/library/library.php", albums);
+	};
+
+	/**
+	 * Print album labels to a PDF document.
+	 *
+	 * @param albums  array of album IDs
+	 * @return Promise of http response
+	 */
+	this.printLabels = function(albums) {
+		return $http.post("/api/library/print_labels.php", albums);
 	};
 
 	/**
@@ -700,20 +721,68 @@ app.controller("ImportCartCtrl", ["$scope", "$routeParams", "$location", "db", f
 		});
 }]);
 
-// TODO: add searching/sorting by DJs
 app.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
-	$scope.rotation = 7;
+	$scope.rotationID = "7";
 	$scope.albums = [];
 
-	$scope.getLibrary = function(rotation) {
-		db.getLibrary(rotation).then(function(albums) {
-			$scope.rotation = rotation;
+	$scope.getLibrary = function(rotationID) {
+		db.getLibrary(rotationID).then(function(albums) {
+			$scope.rotationID = rotationID;
 			$scope.albums = albums;
 		});
 	};
 
 	// initialize
-	$scope.getLibrary($scope.rotation);
+	$scope.getLibrary($scope.rotationID);
+}]);
+
+app.controller("LibraryAdminCtrl", ["$scope", "db", function($scope, db) {
+	$scope.rotations = db.getDefs("rotations");
+	$scope.rotationID = "7";
+	$scope.albums = [];
+
+	$scope.getLibrary = function(rotationID) {
+		db.getLibrary(rotationID).then(function(albums) {
+			$scope.rotationID = rotationID;
+			$scope.albums = albums;
+		});
+	};
+
+	$scope.moveRotation = function() {
+		var albums = $scope.albums
+			.filter(function(a) {
+				return a.rotationID !== $scope.rotationID;
+			})
+			.map(function(a) {
+				return {
+					albumID: a.albumID,
+					rotationID: a.rotationID
+				};
+			});
+
+		db.moveRotation(albums).then(function() {
+			$scope.getLibrary($scope.rotationID);
+		});
+	};
+
+	$scope.printLabels = function() {
+		var albums = $scope.albums
+			.filter(function(a) {
+				return a.label;
+			})
+			.map(function(a) {
+				return a.albumID;
+			});
+
+		db.printLabels(albums).then(function() {
+			$scope.albums.forEach(function(a) {
+				a.label = false;
+			});
+		});
+	};
+
+	// initialize
+	$scope.getLibrary($scope.rotationID);
 }]);
 
 app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
@@ -737,7 +806,7 @@ app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db",
 
 	$scope.save = function() {
 		db.saveAlbum($scope.album).then(function(res) {
-			$location.url("/library");
+			$location.url("/library/admin");
 		});
 	};
 
