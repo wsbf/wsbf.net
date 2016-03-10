@@ -9,29 +9,42 @@
 <div ng-show="check.musicDirector">
 	<table class="table table-bordered">
 		<th ng-class="{ 'bg-success': rotationID === '7' }">
-			<a href="" ng-click="getLibrary('7')">Recently Reviewed</a>
+			<a href="" ng-click="getLibrary('7', 0)">Recently Reviewed</a>
 		</th>
 		<th ng-class="{ 'bg-success': rotationID === '1' }">
-			<a href="" ng-click="getLibrary('1')">New</a>
+			<a href="" ng-click="getLibrary('1', 0)">New</a>
 		</th>
 		<th ng-class="{ 'bg-success': rotationID === '2' }">
-			<a href="" ng-click="getLibrary('2')">Heavy</a>
+			<a href="" ng-click="getLibrary('2', 0)">Heavy</a>
 		</th>
 		<th ng-class="{ 'bg-success': rotationID === '3' }">
-			<a href="" ng-click="getLibrary('3')">Medium</a>
+			<a href="" ng-click="getLibrary('3', 0)">Medium</a>
 		</th>
 		<th ng-class="{ 'bg-success': rotationID === '4' }">
-			<a href="" ng-click="getLibrary('4')">Light</a>
+			<a href="" ng-click="getLibrary('4', 0)">Light</a>
 		</th>
 		<th ng-class="{ 'bg-success': rotationID === '5' }">
-			<a href="" ng-click="getLibrary('5')">Optional</a>
+			<a href="" ng-click="getLibrary('5', 0)">Optional</a>
 		</th>
 		<th ng-class="{ 'bg-success': rotationID === '6' }">
-			<a href="" ng-click="getLibrary('6')">Jazz</a>
+			<a href="" ng-click="getLibrary('6', 0)">Jazz</a>
 		</th>
 	</table>
 
-	<!-- TODO: add DJ searching, genre filtering -->
+	<div class="row">
+		<div class="col-sm-6">
+			<select class="form-control" ng-model="general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres">
+				<option value="">All Genres</option>
+			</select>
+		</div>
+
+		<div class="col-sm-6">
+			<button class="btn btn-sm" ng-click="page > 0 && getLibrary(rotationID, page - 1)" ng-disabled="page == 0">newer</button>
+			<button class="btn btn-sm" ng-click="getLibrary(rotationID, page)">current</button>
+			<button class="btn btn-sm" ng-click="getLibrary(rotationID, page + 1)">older</button>
+		</div>
+	</div>
+
 	<table class="table">
 		<thead>
 			<th>Album ID</th>

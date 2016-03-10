@@ -157,15 +157,19 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 
 	/**
-	 * Get a rotation of the album library.
+	 * Get albums in the music library.
 	 *
-	 * @param rotation  index of rotation
+	 * @param rotationID       rotation ID
+	 * @param general_genreID  general genre ID
+	 * @param page             page offset
 	 * @return Promise of albums array
 	 */
-	this.getLibrary = function(rotation) {
+	this.getLibrary = function(rotationID, general_genreID, page) {
 		return $http.get("/api/library/library.php", {
 			params: {
-				rotation: rotation
+				rotationID: rotationID,
+				general_genreID: general_genreID,
+				page: page
 			}
 		}).then(function(res) {
 			return res.data;
@@ -520,7 +524,6 @@ app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 
 app.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {
 	$scope.show_types = db.getDefs("show_types");
-
 	$scope.page = 0;
 	$scope.archives = [];
 
@@ -742,14 +745,18 @@ app.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
 
 app.controller("LibraryAdminCtrl", ["$scope", "$window", "db", function($scope, $window, db) {
 	$scope.rotations = db.getDefs("rotations");
+	$scope.general_genres = db.getDefs("general_genres");
 	$scope.rotationID = "7";
+	$scope.page = 0;
 	$scope.albums = [];
 
-	$scope.getLibrary = function(rotationID) {
-		db.getLibrary(rotationID).then(function(albums) {
-			$scope.rotationID = rotationID;
-			$scope.albums = albums;
-		});
+	$scope.getLibrary = function(rotationID, page) {
+		db.getLibrary(rotationID, $scope.general_genreID, page)
+			.then(function(albums) {
+				$scope.rotationID = rotationID;
+				$scope.page = page;
+				$scope.albums = albums;
+			});
 	};
 
 	$scope.moveRotation = function() {
@@ -793,7 +800,7 @@ app.controller("LibraryAdminCtrl", ["$scope", "$window", "db", function($scope, 
 	};
 
 	// initialize
-	$scope.getLibrary($scope.rotationID);
+	$scope.getLibrary($scope.rotationID, $scope.page);
 }]);
 
 app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
