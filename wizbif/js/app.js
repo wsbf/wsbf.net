@@ -189,7 +189,11 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.printLabels = function(albums) {
-		return $http.post("/api/library/print_labels.php", albums);
+		return $http.get("/api/library/print_labels.php", {
+			params: {
+				"albums[]": albums
+			}
+		});
 	};
 
 	/**
@@ -208,7 +212,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 		});
 	};
 
-	var SimilarArtists = $resource("http://developer.echonest.com/api/v4/artist/similar", {
+	var SimilarArtists = $resource("https://developer.echonest.com/api/v4/artist/similar", {
 		api_key: "4VQZKSD99EUX9ON55",
 		format: "json",
 		start: 0
@@ -736,7 +740,7 @@ app.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
 	$scope.getLibrary($scope.rotationID);
 }]);
 
-app.controller("LibraryAdminCtrl", ["$scope", "db", function($scope, db) {
+app.controller("LibraryAdminCtrl", ["$scope", "$window", "db", function($scope, $window, db) {
 	$scope.rotations = db.getDefs("rotations");
 	$scope.rotationID = "7";
 	$scope.albums = [];
@@ -766,6 +770,7 @@ app.controller("LibraryAdminCtrl", ["$scope", "db", function($scope, db) {
 	};
 
 	$scope.printLabels = function() {
+		// collect album IDs that are checked
 		var albums = $scope.albums
 			.filter(function(a) {
 				return a.label;
@@ -774,10 +779,16 @@ app.controller("LibraryAdminCtrl", ["$scope", "db", function($scope, db) {
 				return a.albumID;
 			});
 
-		db.printLabels(albums).then(function() {
-			$scope.albums.forEach(function(a) {
-				a.label = false;
-			});
+		// create url and open in new tab
+		var param = albums.map(function(a) {
+			return "albums[]=" + a;
+		}).join("&");
+
+		$window.open("/api/library/print_labels.php?" + param);
+
+		// clear checkboxes
+		$scope.albums.forEach(function(a) {
+			a.label = false;
 		});
 	};
 
