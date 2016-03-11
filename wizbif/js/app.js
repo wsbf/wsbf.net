@@ -21,8 +21,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/library/admin", { templateUrl: "views/library_admin.html", controller: "LibraryAdminCtrl" })
 		.when("/library/:albumID", { templateUrl: "views/library_album.html", controller: "LibraryAlbumCtrl" })
 		.when("/library/:albumID/edit", { templateUrl: "views/library_album_edit.html", controller: "LibraryAlbumCtrl" })
-		.when("/review", { templateUrl: "views/review.html", controller: "ReviewListCtrl" })
-		.when("/review/:albumID", { templateUrl: "views/review_album.html", controller: "ReviewAlbumCtrl" })
+		.when("/library/:albumID/review", { templateUrl: "views/library_album_review.html", controller: "LibraryAlbumCtrl" })
 		.when("/schedule", { templateUrl: "views/schedule.html", controller: "ScheduleCtrl" })
 		.when("/schedule/admin", { templateUrl: "views/schedule_admin.html", controller: "ScheduleCtrl" })
 		.when("/schedule/admin/add/:dayID/:timeID", { templateUrl: "views/schedule_admin_add.html", controller: "ScheduleAddCtrl" })
@@ -252,43 +251,13 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 
 	/**
-	 * Get the list of albums available for review.
-	 *
-	 * TODO: try to merge with getLibrary()
-	 *
-	 * @return Promise of albums array
-	 */
-	this.getToBeReviewed = function() {
-		return $http.get("/api/review/album_list.php")
-			.then(function(res) {
-				return res.data;
-			});
-	};
-
-	/**
-	 * Get an album that is available for review.
-	 *
-	 * @param albumID  album ID
-	 * @return Promise of album object
-	 */
-	this.getToBeReviewedAlbum = function(albumID) {
-		return $http.get("/api/review/album.php", {
-			params: {
-				albumID: albumID
-			}
-		}).then(function(res) {
-			return res.data;
-		});
-	};
-
-	/**
-	 * Submit a new album review.
+	 * Submit an album review.
 	 *
 	 * @param album  album review
 	 * @return Promise of http response
 	 */
 	this.reviewAlbum = function(album) {
-		return $http.post("/api/review/album.php", album);
+		return $http.post("/api/library/review.php", album);
 	};
 
 	/**
@@ -729,18 +698,23 @@ app.controller("ImportCartCtrl", ["$scope", "$routeParams", "$location", "db", f
 }]);
 
 app.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
+	$scope.rotations = db.getDefs("rotations");
+	$scope.general_genres = db.getDefs("general_genres");
 	$scope.rotationID = "7";
+	$scope.page = 0;
 	$scope.albums = [];
 
-	$scope.getLibrary = function(rotationID) {
-		db.getLibrary(rotationID).then(function(albums) {
-			$scope.rotationID = rotationID;
-			$scope.albums = albums;
-		});
+	$scope.getLibrary = function(rotationID, page) {
+		db.getLibrary(rotationID, $scope.general_genreID, page)
+			.then(function(albums) {
+				$scope.rotationID = rotationID;
+				$scope.page = page;
+				$scope.albums = albums;
+			});
 	};
 
 	// initialize
-	$scope.getLibrary($scope.rotationID);
+	$scope.getLibrary($scope.rotationID, $scope.page);
 }]);
 
 app.controller("LibraryAdminCtrl", ["$scope", "$window", "db", function($scope, $window, db) {
@@ -806,7 +780,6 @@ app.controller("LibraryAdminCtrl", ["$scope", "$window", "db", function($scope, 
 app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
 	$scope.general_genres = db.getDefs("general_genres");
 	$scope.airability = db.getDefs("airability");
-
 	$scope.album = {};
 	$scope.similar_artists = [];
 
@@ -828,38 +801,9 @@ app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db",
 		});
 	};
 
-	// initialize
-	getAlbum();
-}]);
-
-app.controller("ReviewListCtrl", ["$scope", "db", function($scope, db) {
-	$scope.albums = [];
-
-	var getAlbums = function() {
-		db.getToBeReviewed().then(function(albums) {
-			$scope.albums = albums;
-		});
-	};
-
-	// initialize
-	getAlbums();
-}]);
-
-app.controller("ReviewAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
-	$scope.general_genres = db.getDefs("general_genres");
-	$scope.airability = db.getDefs("airability");
-
-	$scope.album = {};
-
-	var getAlbum = function() {
-		db.getToBeReviewedAlbum($routeParams.albumID).then(function(album) {
-			$scope.album = album;
-		});
-	};
-
 	$scope.review = function() {
 		db.reviewAlbum($scope.album).then(function(res) {
-			$location.url("/review");
+			$location.url("/library");
 		});
 	};
 

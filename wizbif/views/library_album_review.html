@@ -57,6 +57,14 @@
 		</div>
 	</div>
 
+	<div class="form-group" ng-class="{'has-error': form.review.$touched && form.review.$invalid}">
+		<label class="col-sm-3 control-label">Review</label>
+		<div class="col-sm-6">
+			<samp class="help-block">{{750 - album.review.length}} characters remaining.</samp>
+			<textarea class="form-control" name="review" ng-model="album.review" rows="12" maxlength="750" required></textarea>
+		</div>
+	</div>
+
 	<table class="table table-condensed">
 		<thead>
 			<th>Disc No.</th>
@@ -85,18 +93,10 @@
 		</tbody>
 	</table>
 
-	<div class="form-group" ng-class="{'has-error': form.review.$touched && form.review.$invalid}">
-		<label class="col-sm-3 control-label">Review</label>
-		<div class="col-sm-6">
-			<samp class="help-block">{{750 - album.review.length}} characters remaining.</samp>
-			<textarea class="form-control" name="review" ng-model="album.review" rows="12" maxlength="750" required></textarea>
-		</div>
-	</div>
-
 	<div class="form-group text-center">
 		<div class="btn-group">
 			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="review()">Submit Review</button>
-			<a class="btn btn-default" href="#/review">Cancel</a>
+			<a class="btn btn-default" href="#/library">Cancel</a>
 		</div>
 	</div>
 </form>

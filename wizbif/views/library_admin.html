@@ -8,25 +8,28 @@
 
 <div ng-show="check.musicDirector">
 	<table class="table table-bordered">
-		<th ng-class="{ 'bg-success': rotationID === '7' }">
+		<th ng-class="{ 'bg-info': rotationID === '0' }">
+			<a href="" ng-click="getLibrary('0', 0)">To Be Reviewed</a>
+		</th>
+		<th ng-class="{ 'bg-info': rotationID === '7' }">
 			<a href="" ng-click="getLibrary('7', 0)">Recently Reviewed</a>
 		</th>
-		<th ng-class="{ 'bg-success': rotationID === '1' }">
+		<th ng-class="{ 'bg-info': rotationID === '1' }">
 			<a href="" ng-click="getLibrary('1', 0)">New</a>
 		</th>
-		<th ng-class="{ 'bg-success': rotationID === '2' }">
+		<th ng-class="{ 'bg-info': rotationID === '2' }">
 			<a href="" ng-click="getLibrary('2', 0)">Heavy</a>
 		</th>
-		<th ng-class="{ 'bg-success': rotationID === '3' }">
+		<th ng-class="{ 'bg-info': rotationID === '3' }">
 			<a href="" ng-click="getLibrary('3', 0)">Medium</a>
 		</th>
-		<th ng-class="{ 'bg-success': rotationID === '4' }">
+		<th ng-class="{ 'bg-info': rotationID === '4' }">
 			<a href="" ng-click="getLibrary('4', 0)">Light</a>
 		</th>
-		<th ng-class="{ 'bg-success': rotationID === '5' }">
+		<th ng-class="{ 'bg-info': rotationID === '5' }">
 			<a href="" ng-click="getLibrary('5', 0)">Optional</a>
 		</th>
-		<th ng-class="{ 'bg-success': rotationID === '6' }">
+		<th ng-class="{ 'bg-info': rotationID === '6' }">
 			<a href="" ng-click="getLibrary('6', 0)">Jazz</a>
 		</th>
 	</table>
@@ -47,32 +50,30 @@
 
 	<table class="table">
 		<thead>
-			<th>Album ID</th>
 			<th>Album Code</th>
 			<th>Album</th>
 			<th>Artist</th>
-			<th>Review Date</th>
+			<th ng-show="rotationID != 0">Review Date</th>
 			<th class="text-right">
 				<button type="button" class="btn btn-sm" ng-click="moveRotation()">Move Rotation</button>
 			</th>
-			<th class="text-right">
+			<th class="text-right" ng-show="rotationID != 0">
 				<button type="button" class="btn btn-sm" ng-click="printLabels()">Print Labels</button>
 			</th>
 		</thead>
 
 		<tbody>
 			<tr ng-repeat="a in albums">
-				<td>{{a.albumID}}</td>
 				<td>
 					<a ng-href="#/library/{{a.albumID}}/edit">{{a.album_code}}</a>
 				</td>
 				<td>{{a.album_name}}</td>
 				<td>{{a.artist_name}}</td>
-				<td>{{a.review_date | date:'yyyy-MM-dd'}}</td>
+				<td ng-show="rotationID != 0">{{a.review_date | date:'yyyy-MM-dd'}}</td>
 				<td>
 					<select class="form-control input-sm" ng-model="a.rotationID" ng-options="r.rotationID as r.rotation_bin for r in rotations" required></select>
 				</td>
-				<td class="text-center">
+				<td class="text-center" ng-show="rotationID != 0">
 					<input type="checkbox" ng-model="a.label"/>
 				</td>
 			</tr>

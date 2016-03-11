@@ -63,12 +63,11 @@ For server-side development (working on the PHP scripts), you'll need to develop
 ### Client (private)
 
 - add server-side authentication/redirect to /wizbif directory
-- develop views and controllers to replace `new.wsbf.net`
 - develop a monthly breakdown of album reviews by DJ
 - develop album checkout interface
-- consider having `checkout` and `logbook` users
 - or merge login and show select for logbook
 - develop a "spaz sheet" interface to logbook view (with captcha)
+- move services and controllers into separate files
 
 ### Miscellaneous
 

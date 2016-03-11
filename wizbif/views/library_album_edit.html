@@ -53,7 +53,7 @@
 		<label class="col-sm-3 control-label">Review</label>
 		<div class="col-sm-6">
 			<samp class="help-block">{{750 - album.review.length}} characters remaining.</samp>
-			<textarea class="form-control" name="review" ng-model="album.review" rows="12" maxlength="750" required></textarea>
+			<textarea class="form-control" name="review" ng-model="album.review" ng-disbled="!reviewer" rows="12" maxlength="750" required></textarea>
 		</div>
 	</div>
 
