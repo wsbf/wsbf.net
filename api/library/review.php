@@ -1,66 +1,14 @@
 <?php
 
 /**
- * @file review/album.php
+ * @file library/review.php
  * @author Ben Shealy
  *
  * Get an album to review, or submit a new review.
  */
 require_once("../auth.php");
 require_once("../connect.php");
-require_once("../library/functions.php");
-
-/**
- * Get an album to review.
- *
- * @param mysqli   MySQL connection
- * @param albumID  album ID
- * @return associative array of album
- */
-function get_album($mysqli, $albumID)
-{
-	/* get album object */
-	$keys = array(
-		"al.albumID",
-		"al.album_name",
-		"ar.artist_name",
-		"la.label",
-		"al.genre",
-		"al.general_genreID"
-	);
-
-	$q = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
-		. "INNER JOIN `libartist` AS ar ON al.artistID=ar.artistID "
-		. "INNER JOIN `liblabel` AS la ON al.labelID=la.labelID "
-		. "WHERE al.albumID='$albumID';";
-	$album = $mysqli->query($q)->fetch_assoc();
-
-	/* get array of tracks  */
-	$track_keys = array(
-		"t.disc_num",
-		"t.track_num",
-		"t.track_name",
-		"ar.artist_name",
-		"t.airabilityID",
-		"t.file_name"
-	);
-
-	$q = "SELECT " . implode(",", $track_keys) . " FROM `libtrack` AS t "
-		. "INNER JOIN `libartist` AS ar ON t.artistID=ar.artistID "
-		. "WHERE t.albumID='$albumID';";
-	$result = $mysqli->query($q);
-
-	$album["tracks"] = array();
-	while ( ($t = $result->fetch_assoc()) ) {
-		// temporary hack to transform file_name to path
-		$f = str_replace("+", " ", $t["file_name"]);
-		$t["file_name"] = "/wizbif/ZAutoLib/$f[0]/$f[1]/" . substr($f, 2);
-
-		$album["tracks"][] = $t;
-	}
-
-	return $album;
-}
+require_once("functions.php");
 
 /**
  * Get the next album code.
@@ -185,36 +133,17 @@ function review_album($mysqli, $review)
 	}
 
 	/* insert review */
-	$q = "INSERT INTO `libreview` (albumID, review, username) "
-		. "VALUES ('$review[albumID]', '$review[review]', '$_SESSION[username]');";
+	$q = "INSERT INTO `libreview` SET "
+		. "albumID = '$review[albumID]', "
+		. "review = '$review[review]', "
+		. "username = '$_SESSION[username]';";
 	$mysqli->query($q);
 
 	/* add action */
 	add_action($mysqli, "SUBMITTED REVIEW FOR albumID = $review[albumID]");
 }
 
-if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
-	$mysqli = construct_connection();
-
-	if ( !check_reviewer($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to review albums.");
-	}
-
-	$albumID = $_GET["albumID"];
-
-	if ( !is_numeric($albumID) ) {
-		header("HTTP/1.1 404 Not Found");
-		exit("Album ID is empty or invalid.");
-	}
-
-	$album = get_album($mysqli, $albumID);
-	$mysqli->close();
-
-	header("Content-Type: application/json");
-	exit(json_encode($album));
-}
-else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_reviewer($mysqli) ) {

@@ -9,6 +9,10 @@
  * Tracks are assumed to have the following filename pattern:
  *
  * <artist> - <album> - <track_num> - <track_name>[ - Disc <disc_num>].mp3
+ *
+ * Track file names are URL encoded when they are saved to the database,
+ * even though cart file names are not, because of how ZAutomate uses
+ * the digital library.
  */
 require_once("../auth.php");
 require_once("../connect.php");
@@ -107,6 +111,11 @@ function validate_album($mysqli, $album)
  */
 function import_album($mysqli, $album)
 {
+	// strip slashes from track file names
+	foreach ( $album["tracks"] as $t ) {
+		$t["file_name"] = stripslashes($t["file_name"]);
+	}
+
 	/* construct file paths */
 	$src_base = IMPORT_SRC . stripslashes($album["path"]) . "/";
 	$dir_name = directory_name($album["artist_name"]);
@@ -118,8 +127,8 @@ function import_album($mysqli, $album)
 
 	$pairs = array_map(function($t) use($src_base, $dst_base) {
 		return array(
-			"src" => realpath($src_base . stripslashes($t["file_name"])),
-			"dst" => $dst_base . stripslashes($t["file_name"])
+			"src" => realpath($src_base . $t["file_name"]),
+			"dst" => $dst_base . $t["file_name"]
 		);
 	}, $album["tracks"]);
 

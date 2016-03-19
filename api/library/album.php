@@ -28,17 +28,16 @@ function get_album($mysqli, $albumID)
 		"la.label",
 		"al.genre",
 		"al.general_genreID",
-		"r.review_date",
+		"UNIX_TIMESTAMP(r.review_date) * 1000 AS review_date",
 		"r.review",
-		"r.username",
 		"u.preferred_name AS reviewer"
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
 		. "INNER JOIN `libartist` AS ar ON al.artistID=ar.artistID "
 		. "INNER JOIN `liblabel` AS la ON al.labelID=la.labelID "
-		. "INNER JOIN `libreview` AS r ON r.albumID=al.albumID "
-		. "INNER JOIN `users` AS u ON u.username=r.username "
+		. "LEFT OUTER JOIN `libreview` AS r ON r.albumID=al.albumID "
+		. "LEFT OUTER JOIN `users` AS u ON u.username=r.username "
 		. "WHERE al.albumID='$albumID';";
 	$album = $mysqli->query($q)->fetch_assoc();
 
@@ -48,7 +47,8 @@ function get_album($mysqli, $albumID)
 		"t.track_num",
 		"t.track_name",
 		"ar.artist_name",
-		"t.airabilityID"
+		"t.airabilityID",
+		"t.file_name"
 	);
 
 	$q = "SELECT " . implode(",", $track_keys) . " FROM `libtrack` AS t "
@@ -58,8 +58,13 @@ function get_album($mysqli, $albumID)
 
 	$album["tracks"] = array();
 	while ( ($t = $result->fetch_assoc()) ) {
+		// convert numeric properties
 		$t["disc_num"] = (int) $t["disc_num"];
 		$t["track_num"] = (int) $t["track_num"];
+
+		// temporary hack to transform file_name to path
+		$f = str_replace("+", " ", $t["file_name"]);
+		$t["file_name"] = "/wizbif/ZAutoLib/$f[0]/$f[1]/" . substr($f, 2);
 
 		$album["tracks"][] = $t;
 	}
@@ -210,7 +215,6 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	}
 
 	update_album($mysqli, $album);
-
 	$mysqli->close();
 
 	header("Content-Type: application/json");
