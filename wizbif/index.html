@@ -30,11 +30,12 @@
 			<div class="col-sm-3">
 				<p class="text-muted">Signed in as {{user.preferred_name}}</p>
 
-				<!-- TODO: move to public website -->
-				<a href="#/charts">Weekly Top 20 Tracks</a>
-				<br>
-				<a href="#/schedule">Show Schedule</a>
-				<br>
+				<ul class="list-unstyled">
+					<li><a href="#/">Home</a></li>
+					<!-- TODO: move to public website -->
+					<li><a href="#/charts">Weekly Top 20 Tracks</a></li>
+					<li><a href="#/schedule">Show Schedule</a></li>
+				</ul>
 
 				<ul class="list-unstyled" ng-show="check.editProfile">
 					<li><a href="#/user">Profile</a></li>
