@@ -9,12 +9,10 @@ var imagemin = require("gulp-imagemin");
 var symlink = require("gulp-symlink");
 var uglify = require("gulp-uglify");
 
-// TODO: add build tasks for wizbif/
-
 var SRC = ".";
 var DST = "../wsbf";
 
-gulp.task("default", ["public"]);
+gulp.task("default", ["public", "private"]);
 
 gulp.task("lint", function() {
 	return gulp.src(["**/*.js", "!bower_components/**", "!node_modules/**"])
@@ -49,15 +47,15 @@ gulp.task("bower-components", function() {
 
 gulp.task("public-api", function() {
 	return gulp.src([
-		path.join(SRC, "api/connect.php"),
-		path.join(SRC, "api/defs.php"),
-		path.join(SRC, "api/blog/preview.php"),
-		path.join(SRC, "api/charts/albums.php"),
+		path.join(SRC, "api/blog/*.php"),
+		path.join(SRC, "api/charts/*.php"),
 		path.join(SRC, "api/schedule/schedule.php"),
 		path.join(SRC, "api/shows/functions.php"),
 		path.join(SRC, "api/shows/now.php"),
 		path.join(SRC, "api/shows/playlist.php"),
-		path.join(SRC, "api/shows/shows.php")
+		path.join(SRC, "api/shows/shows.php"),
+		path.join(SRC, "api/connect.php"),
+		path.join(SRC, "api/defs.php")
 	], { base: SRC })
 		.pipe(changed(DST))
 		.pipe(gulp.dest(DST));
@@ -101,5 +99,65 @@ gulp.task("public-images", function() {
 	], { base: SRC })
 		.pipe(changed(DST))
 		.pipe(imagemin())
+		.pipe(gulp.dest(DST));
+});
+
+gulp.task("private", [
+	"private-api",
+	"private-html",
+	"private-css",
+	"private-js"
+]);
+
+gulp.task("private-api", function() {
+	return gulp.src([
+		path.join(SRC, "api/fishbowl/*.php"),
+		path.join(SRC, "api/import/*.php"),
+		path.join(SRC, "api/library/*.php"),
+		path.join(SRC, "api/password/*.php"),
+		path.join(SRC, "api/schedule/*.php"),
+		path.join(SRC, "api/shows/*.php"),
+		path.join(SRC, "api/showsub/*.php"),
+		path.join(SRC, "api/users/*.php"),
+		path.join(SRC, "api/auth.php"),
+		path.join(SRC, "api/login.php"),
+		path.join(SRC, "api/logout.php"),
+		path.join(SRC, "api/password_functions.php"),
+		path.join(SRC, "api/register.php")
+	], { base: SRC })
+		.pipe(changed(DST))
+		.pipe(gulp.dest(DST));
+});
+
+gulp.task("private-html", function() {
+	return gulp.src([
+		path.join(SRC, "*.html"),
+		"!" + path.join(SRC, "index.html"),
+		path.join(SRC, "wizbif/index.html"),
+		path.join(SRC, "wizbif/views/*.html")
+	], { base: SRC })
+		.pipe(changed(DST))
+		.pipe(htmlmin({
+			removeComments: true,
+			collapseWhitespace: true
+		}))
+		.pipe(gulp.dest(DST));
+});
+
+gulp.task("private-css", function() {
+	return gulp.src([
+		path.join(SRC, "wizbif/css/*.css")
+	], { base: SRC })
+		.pipe(changed(DST))
+		.pipe(csso())
+		.pipe(gulp.dest(DST));
+});
+
+gulp.task("private-js", function() {
+	return gulp.src([
+		path.join(SRC, "wizbif/js/*.js")
+	], { base: SRC })
+		.pipe(changed(DST))
+		.pipe(uglify())
 		.pipe(gulp.dest(DST));
 });
