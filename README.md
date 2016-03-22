@@ -38,6 +38,11 @@ For server-side development (working on the PHP scripts), you'll need to develop
 
 ## TODO
 
+### General
+
+- consider applying to [madewithangular.com](https://www.madewithangular.com)
+- create a specification for DJ points
+
 ### Server
 
 - develop PHP scripts to replace `new.wsbf.net`
@@ -46,6 +51,7 @@ For server-side development (working on the PHP scripts), you'll need to develop
 - write script to merge fragmented shows in `shows` table
 - polish database (remove HTML entities like `&amp;`, check for invalid values, etc.)
 - upgrade MySQL and PHP to newest versions
+- complete the PHP implementation of RDS sender
 
 ### Client (public)
 
@@ -59,17 +65,16 @@ For server-side development (working on the PHP scripts), you'll need to develop
 	audio streams
 ```
 - use DJ profile pics for schedule view
+- add messages for empty content
 
 ### Client (private)
 
 - add server-side authentication/redirect to /wizbif directory
 - develop a monthly breakdown of album reviews by DJ
 - develop album checkout interface
-- or merge login and show select for logbook
+- implement user profile photos
+- merge login and show select for logbook
 - develop a "spaz sheet" interface to logbook view (with captcha)
 - move services and controllers into separate files
-
-### Miscellaneous
-
-- consider applying to [madewithangular.com](https://www.madewithangular.com)
-- create a specification for DJ points
+- add interface to remove shows from schedule
+- merge Import and Library control panels

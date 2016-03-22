@@ -74,7 +74,9 @@
 		<tbody>
 			<tr ng-repeat="t in album.tracks" ng-class="{ 'text-success': t.airabilityID == 1, 'text-danger': t.airabilityID == 2, 'text-warning': t.airabilityID == 3 }">
 				<td>{{t.disc_num}}</td>
-				<td>{{t.track_num}}</td>
+				<td>
+					<a ng-href="{{t.file_name}}" target="_blank">{{t.track_num}}</a>
+				</td>
 				<td>{{t.track_name}}</td>
 				<td>{{t.artist_name}}</td>
 				<td>{{airability[t.airabilityID].airability}}</td>
@@ -86,4 +88,8 @@
 
 	<div ng-show="similar_artists.length === 0">No similar artists found.</div>
 	<div ng-repeat="a in similar_artists">{{a}}</div>
+
+	<div class="text-center">
+		<a class="btn btn-default" href="#/library">Done</a>
+	</div>
 </div>
