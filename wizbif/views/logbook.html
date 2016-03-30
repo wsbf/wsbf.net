@@ -1,0 +1,125 @@
+<h3 class="text-center">Logbook</h3>
+
+<div class="text-center" ng-show="!show">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't in Studio A, so you can't use the logbook.</p>
+</div>
+
+<div ng-show="show">
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<div><strong>Show:</strong></div>
+		</div>
+		<div class="col-xs-6">
+			<div>{{show.show_name || '--'}}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<div><strong>Hosts:</strong></div>
+		</div>
+		<div class="col-xs-6">
+			<div ng-show="show.show_hosts.length === 0">--</div>
+			<div ng-repeat="h in show.show_hosts">{{h}}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<div><strong>Start Time:</strong></div>
+		</div>
+		<div class="col-xs-6">
+			<div>{{(show.start_time | date:'medium') || '--'}}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<div><strong>Show Type:</strong></div>
+		</div>
+		<div class="col-xs-6">
+			<div>{{show.type || '--'}}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6 text-right">
+			<div><strong>Listeners:</strong></div>
+		</div>
+		<div class="col-xs-6">
+			<div>{{listenerCount}}</div>
+		</div>
+	</div>
+	<br>
+
+	<div class="row">
+		<div class="col-sm-offset-2 col-sm-6">
+			<select class="form-control" ng-model="scheduleID">
+				<option ng-repeat="s in user.shows" value="{{s.scheduleID}}">
+					<span>{{s.show_name}}</span>
+					<span>({{days[s.dayID].day}} {{s.start_time}} - {{s.end_time}})</span>
+				</option>
+			</select>
+		</div>
+
+		<div class="col-sm-2">
+			<button class="btn btn-default" ng-click="signOn(scheduleID)" ng-disabled="scheduleID">Sign on</button>
+			<button class="btn btn-default" ng-click="signOff()" ng-disabled="!scheduleID">Sign off</button>
+		</div>
+	</div>
+	<br>
+
+	<table class="table">
+		<thead>
+			<th>Now Playing</th>
+			<th>Album Code</th>
+			<th>Track No.</th>
+			<th>Rotation</th>
+			<th>Track Name</th>
+			<th>Artist</th>
+			<th>Album</th>
+			<th>Label</th>
+			<th></th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="t in playlist">
+				<td></td>
+				<td>{{t.lb_album_code}}</td>
+				<td>{{t.lb_track_num}}</td>
+				<td>{{t.lb_rotation}}</td>
+				<td>{{t.lb_track_name}}</td>
+				<td>{{t.lb_artist}}</td>
+				<td>{{t.lb_album}}</td>
+				<td>{{t.lb_label}}</td>
+				<td class="text-center lead">
+					<span class="button-icon" ng-click="playlist.splice($index, 1)">&times;</span>
+				</td>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td>
+					<input class="form-control input-sm" ng-model="newTrack.lb_album_code"/>
+				</td>
+				<td>
+					<input class="form-control input-sm" type="number" ng-model="newTrack.lb_track_num"/>
+				</td>
+				<td>{{newTrack.lb_rotation}}</td>
+				<td>
+					<input class="form-control input-sm" ng-model="newTrack.lb_track_name"/>
+				</td>
+				<td>
+					<input class="form-control input-sm" ng-model="newTrack.lb_artist"/>
+				</td>
+				<td>
+					<input class="form-control input-sm" ng-model="newTrack.lb_album"/>
+				</td>
+				<td>
+					<input class="form-control input-sm" ng-model="newTrack.lb_label"/>
+				</td>
+				<td class="text-center h3">
+					<span class="button-icon" ng-click="playlist.push(newTrack); newTrack = {}">&plus;</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

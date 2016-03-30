@@ -27,7 +27,7 @@
 		</div>
 
 		<div class="row" ng-show="user">
-			<div class="col-sm-3">
+			<div class="col-sm-3" ng-show="navEnabled">
 				<p class="text-muted">Signed in as {{user.preferred_name}}</p>
 
 				<ul class="list-unstyled">
@@ -61,7 +61,7 @@
 				<a href="/api/logout.php">Log out</a>
 			</div>
 
-			<div class="col-sm-9">
+			<div ng-class="{ 'col-sm-12': !navEnabled, 'col-sm-9': navEnabled }">
 				<div ng-view></div>
 			</div>
 		</div>

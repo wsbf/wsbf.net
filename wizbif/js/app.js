@@ -22,6 +22,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/library/:albumID", { templateUrl: "views/library_album.html", controller: "LibraryAlbumCtrl" })
 		.when("/library/:albumID/edit", { templateUrl: "views/library_album_edit.html", controller: "LibraryAlbumCtrl" })
 		.when("/library/:albumID/review", { templateUrl: "views/library_album_review.html", controller: "LibraryAlbumCtrl" })
+		.when("/logbook", { templateUrl: "views/logbook.html", controller: "LogbookCtrl" })
 		.when("/schedule", { templateUrl: "views/schedule.html", controller: "ScheduleCtrl" })
 		.when("/schedule/admin", { templateUrl: "views/schedule_admin.html", controller: "ScheduleCtrl" })
 		.when("/schedule/admin/add/:dayID/:timeID", { templateUrl: "views/schedule_admin_add.html", controller: "ScheduleAddCtrl" })
@@ -261,6 +262,30 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 
 	/**
+	 * Get the current show.
+	 *
+	 * @return Promise of current show object
+	 */
+	this.getLogbookCurrentShow = function() {
+		return $http.get("/api/logbook/current_show.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Get the listener count for the current show.
+	 *
+	 * @return Promise of listener count
+	 */
+	this.getLogbookListenerCount = function() {
+		return $http.get("/api/logbook/listener_count.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
 	 * Get the list of show sub requests.
 	 *
 	 * @return Promise of requests array
@@ -472,6 +497,7 @@ app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 
 	$scope.user = {};
 	$scope.check = {};
+	$scope.navEnabled = true;
 
 	var getUser = function() {
 		db.getUser().then(function(user) {
@@ -809,6 +835,42 @@ app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db",
 
 	// initialize
 	getAlbum();
+}]);
+
+app.controller("LogbookCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
+	$scope.days = db.getDefs("days");
+	$scope.scheduleID = null;
+	$scope.show = null;
+	$scope.listenerCount = 0;
+	$scope.playlist = [];
+
+	var getCurrentShow = function() {
+		db.getLogbookCurrentShow().then(function(show) {
+			$scope.show = show;
+		});
+	};
+
+	var getListenerCount = function() {
+		db.getLogbookListenerCount().then(function(count) {
+			$scope.listenerCount = count;
+		});
+	};
+
+	$scope.signOn = function(scheduleID) {
+
+	};
+
+	$scope.signOff = function() {
+
+	};
+
+	// initialize
+	$scope.$parent.navEnabled = false;
+
+	getCurrentShow();
+	getListenerCount();
+
+	$interval(getListenerCount, 5000);
 }]);
 
 app.controller("ScheduleCtrl", ["$scope", "$q", "db", function($scope, $q, db) {

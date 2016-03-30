@@ -78,3 +78,4 @@ For server-side development (working on the PHP scripts), you'll need to develop
 - move services and controllers into separate files
 - add interface to remove shows from schedule
 - merge Import and Library control panels
+- add links to show descriptions in schedule view
