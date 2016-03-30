@@ -8,29 +8,29 @@
 
 <form class="form-horizontal" name="form" ng-show="check.seniorStaff">
 	<div class="form-group">
-		<label class="col-sm-3 control-label">Day</label>
-		<div class="col-sm-6">
+		<label class="col-xs-3 control-label">Day</label>
+		<div class="col-xs-6">
 			<p class="form-control-static">{{days[show.dayID].day}}</p>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label">Start Time</label>
-		<div class="col-sm-6">
+		<label class="col-xs-3 control-label">Start Time</label>
+		<div class="col-xs-6">
 			<p class="form-control-static">{{show.start_time}}</p>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label">End Time</label>
-		<div class="col-sm-6">
+		<label class="col-xs-3 control-label">End Time</label>
+		<div class="col-xs-6">
 			<p class="form-control-static">{{show.end_time}}</p>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label">Show Hosts</label>
-		<div class="col-sm-6">
+		<label class="col-xs-3 control-label">Show Hosts</label>
+		<div class="col-xs-6">
 			<table class="table">
 				<tr ng-repeat="h in show.hosts">
 					<td>{{h.name}}</td>
@@ -41,26 +41,28 @@
 
 				<tr>
 					<td>
-						<input class="form-control" ng-model="newHost" uib-typeahead="u as u.name for u in getUsers($viewValue)" typeahead-min-length="2" typeahead-wait-ms="200"/>
+						<input class="form-control" ng-model="newHost"
+							uib-typeahead="u as u.name for u in searchUsers($viewValue)"
+							typeahead-on-select="addHost()"
+							typeahead-min-length="2"
+							typeahead-wait-ms="200"/>
 					</td>
-					<td class="text-center h3">
-						<span class="button-icon" ng-click="show.hosts.push(newHost); newHost = ''">&plus;</span>
-					</td>
+					<td></td>
 				</tr>
 			</table>
 		</div>
 	</div>
 
 	<div class="form-group" ng-class="{'has-error': form.show_typeID.$touched && form.show_typeID.$invalid}">
-		<label class="col-sm-3 control-label">Show Type</label>
-		<div class="col-sm-6">
+		<label class="col-xs-3 control-label">Show Type</label>
+		<div class="col-xs-6">
 			<select class="form-control" name="show_typeID" ng-model="show.show_typeID" ng-options="t.show_typeID as t.type for t in show_types" required></select>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label">Show Name</label>
-		<div class="col-sm-6">
+		<label class="col-xs-3 control-label">Show Name</label>
+		<div class="col-xs-6">
 			<input class="form-control" ng-model="show.show_name"/>
 		</div>
 	</div>

@@ -52,7 +52,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	/**
 	 * Get a definitions table.
 	 *
-	 * @param tableName
+	 * @param tableName  table name
 	 * @return table array
 	 */
 	this.getDefs = function(tableName) {
@@ -60,13 +60,13 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 
 	/**
-	 * Get the list of users who can host shows.
+	 * Search the list of users.
 	 *
 	 * @param term  search term
-	 * @return Promise of user array
+	 * @return Promise of users array
 	 */
-	this.getUsers = function(term) {
-		return $http.get("/api/users/users.php", {
+	this.searchUsers = function(term) {
+		return $http.get("/api/users/search.php", {
 			params: {
 				term: term
 			}
@@ -902,8 +902,13 @@ app.controller("ScheduleAddCtrl", ["$scope", "$routeParams", "$location", "db", 
 	$scope.show_times = db.getDefs("show_times");
 	$scope.show_types = db.getDefs("show_types");
 
-	$scope.getUsers = function(term) {
-		return db.getUsers(term);
+	$scope.searchUsers = function(term) {
+		return db.searchUsers(term);
+	};
+
+	$scope.addHost = function() {
+		$scope.show.hosts.push($scope.newHost)
+		$scope.newHost = null;
 	};
 
 	$scope.save = function() {

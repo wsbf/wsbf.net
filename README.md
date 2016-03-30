@@ -45,13 +45,13 @@ For server-side development (working on the PHP scripts), you'll need to develop
 
 ### Server
 
-- develop PHP scripts to replace `new.wsbf.net`
 - use Let's Encrypt for TLS encryption
 - replace MySQL queries with prepared statements/stored procedures
 - write script to merge fragmented shows in `shows` table
 - polish database (remove HTML entities like `&amp;`, check for invalid values, etc.)
 - upgrade MySQL and PHP to newest versions
 - complete the PHP implementation of RDS sender
+- add server-side authentication/redirect to /wizbif directory
 
 ### Client (public)
 
@@ -69,7 +69,6 @@ For server-side development (working on the PHP scripts), you'll need to develop
 
 ### Client (private)
 
-- add server-side authentication/redirect to /wizbif directory
 - develop a monthly breakdown of album reviews by DJ
 - develop album checkout interface
 - implement user profile photos
