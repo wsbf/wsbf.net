@@ -60,67 +60,6 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 
 	/**
-	 * Search the list of users.
-	 *
-	 * @param term  search term
-	 * @return Promise of users array
-	 */
-	this.searchUsers = function(term) {
-		return $http.get("/api/users/search.php", {
-			params: {
-				term: term
-			}
-		}).then(function(res) {
-			return res.data;
-		});
-	};
-
-	/**
-	 * Get the current user.
-	 *
-	 * @return Promise of user object
-	 */
-	this.getUser = function() {
-		return $http.get("/api/users/user.php")
-			.then(function(res) {
-				return res.data;
-			});
-	};
-
-	/**
-	 * Save the current user.
-	 *
-	 * @param user
-	 * @return Promise of http response
-	 */
-	this.saveUser = function(user) {
-		return $http.post("/api/users/user.php", user);
-	};
-
-	/**
-	 * Get the show schedule for a day of the week.
-	 *
-	 * @param day  day of the week (0: Sunday, etc.)
-	 * @return Promise of schedule array
-	 */
-	this.getSchedule = function(day) {
-		return $http.get("/api/schedule/schedule.php", { params: { day: day } })
-			.then(function(res) {
-				return res.data;
-			});
-	};
-
-	/**
-	 * Add a show to the schedule.
-	 *
-	 * @param show  show object
-	 * @return Promise of http response
-	 */
-	this.addShow = function(show) {
-		return $http.post("/api/schedule/add.php", show);
-	};
-
-	/**
 	 * Get the top tracks over a period of time.
 	 *
 	 * @param date1  start timestamp
@@ -135,205 +74,6 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 			}
 		}).then(function(res) {
 			return res.data;
-		});
-	};
-
-	/**
-	 * Get a list of show archives by page or DJ name.
-	 *
-	 * @param page  page offset
-	 * @param term  search term
-	 * @return Promise of archives array
-	 */
-	this.getArchives = function(page, term) {
-		return $http.get("/api/shows/archives.php", {
-			params: {
-				page: page,
-				term: term
-			}
-		}).then(function(res) {
-			return res.data;
-		});
-	};
-
-	/**
-	 * Get albums in the music library.
-	 *
-	 * @param rotationID       rotation ID
-	 * @param general_genreID  general genre ID
-	 * @param page             page offset
-	 * @param term             search term
-	 * @return Promise of albums array
-	 */
-	this.getLibrary = function(rotationID, general_genreID, page, term) {
-		return $http.get("/api/library/library.php", {
-			params: {
-				rotationID: rotationID,
-				general_genreID: general_genreID,
-				page: page,
-				term: term
-			}
-		}).then(function(res) {
-			return res.data;
-		});
-	};
-
-	/**
-	 * Move albums through rotation.
-	 *
-	 * @param albums  array of albums
-	 * @return Promise of http response
- 	 */
-	this.moveRotation = function(albums) {
-		return $http.post("/api/library/library.php", albums);
-	};
-
-	/**
-	 * Print album labels to a PDF document.
-	 *
-	 * @param albums  array of album IDs
-	 * @return Promise of http response
-	 */
-	this.printLabels = function(albums) {
-		return $http.get("/api/library/print_labels.php", {
-			params: {
-				"albums[]": albums
-			}
-		});
-	};
-
-	/**
-	 * Get an album in the library.
-	 *
-	 * @param albumID  album ID
-	 * @return Promise of album object
-	 */
-	this.getLibraryAlbum = function(albumID) {
-		return $http.get("/api/library/album.php", {
-			params: {
-				albumID: albumID
-			}
-		}).then(function(res) {
-			return res.data;
-		});
-	};
-
-	var SimilarArtists = $resource("https://developer.echonest.com/api/v4/artist/similar", {
-		api_key: "4VQZKSD99EUX9ON55",
-		format: "json",
-		start: 0
-	}, {
-		get: { method: "GET", cache: true }
-	});
-
-	/**
-	 * Get a list of similar artists.
-	 *
-	 * @param artist_name  artist name
-	 * @param count        number of similar artists
-	 * @return Promise of similar artists array
-	 */
-	this.getSimilarArtists = function(artist_name, count) {
-		return SimilarArtists.get({ name: artist_name, results: count })
-			.$promise
-			.then(function(data) {
-				return (data.response.artists || []).map(function(a) {
-					return a.name;
-				});
-			});
-	};
-
-	/**
-	 * Save an album.
-	 *
-	 * @param album  album
-	 * @return Promise of http response
-	 */
-	this.saveAlbum = function(album) {
-		return $http.post("/api/library/album.php", album);
-	};
-
-	/**
-	 * Submit an album review.
-	 *
-	 * @param album  album review
-	 * @return Promise of http response
-	 */
-	this.reviewAlbum = function(album) {
-		return $http.post("/api/library/review.php", album);
-	};
-
-	/**
-	 * Get the current show.
-	 *
-	 * @return Promise of current show object
-	 */
-	this.getLogbookCurrentShow = function() {
-		return $http.get("/api/logbook/current_show.php")
-			.then(function(res) {
-				return res.data;
-			});
-	};
-
-	/**
-	 * Get the listener count for the current show.
-	 *
-	 * @return Promise of listener count
-	 */
-	this.getLogbookListenerCount = function() {
-		return $http.get("/api/logbook/listener_count.php")
-			.then(function(res) {
-				return res.data;
-			});
-	};
-
-	/**
-	 * Get the list of show sub requests.
-	 *
-	 * @return Promise of requests array
-	 */
-	this.getSubRequests = function() {
-		return $http.get("/api/showsub/request_list.php")
-			.then(function(res) {
-				return res.data;
-			});
-	};
-
-	/**
-	 * Submit a sub request.
-	 *
-	 * @param request
-	 * @return Promise of http response
-	 */
-	this.submitSubRequest = function(request) {
-		return $http.post("/api/showsub/add.php", request);
-	};
-
-	/**
-	 * Fill a sub request.
-	 *
-	 * @param requestID  sub request ID
-	 * @return Promise of http response
-	 */
-	this.fillSubRequest = function(requestID) {
-		return $http.post("/api/showsub/fill.php", null, {
-			params: {
-				requestID: requestID
-			}
-		});
-	};
-
-	/**
-	 * Remove a sub request.
-	 *
-	 * @param requestID  sub request ID
-	 * @return Promise of http response
-	 */
-	this.removeSubRequest = function(requestID) {
-		return $http.post("/api/showsub/remove.php", null, {
-			params: {
-				requestID: requestID
-			}
 		});
 	};
 
@@ -481,6 +221,266 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 */
 	this.importCart = function(cart) {
 		return $http.post("/api/import/cart.php", cart);
+	};
+
+	/**
+	 * Get albums in the music library.
+	 *
+	 * @param rotationID       rotation ID
+	 * @param general_genreID  general genre ID
+	 * @param page             page offset
+	 * @param term             search term
+	 * @return Promise of albums array
+	 */
+	this.getLibrary = function(rotationID, general_genreID, page, term) {
+		return $http.get("/api/library/library.php", {
+			params: {
+				rotationID: rotationID,
+				general_genreID: general_genreID,
+				page: page,
+				term: term
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Move albums through rotation.
+	 *
+	 * @param albums  array of albums
+	 * @return Promise of http response
+ 	 */
+	this.moveRotation = function(albums) {
+		return $http.post("/api/library/library.php", albums);
+	};
+
+	/**
+	 * Print album labels to a PDF document.
+	 *
+	 * @param albums  array of album IDs
+	 * @return Promise of http response
+	 */
+	this.printLabels = function(albums) {
+		return $http.get("/api/library/print_labels.php", {
+			params: {
+				"albums[]": albums
+			}
+		});
+	};
+
+	/**
+	 * Get an album in the library.
+	 *
+	 * @param albumID  album ID
+	 * @return Promise of album object
+	 */
+	this.getLibraryAlbum = function(albumID) {
+		return $http.get("/api/library/album.php", {
+			params: {
+				albumID: albumID
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	var SimilarArtists = $resource("https://developer.echonest.com/api/v4/artist/similar", {
+		api_key: "4VQZKSD99EUX9ON55",
+		format: "json",
+		start: 0
+	}, {
+		get: { method: "GET", cache: true }
+	});
+
+	/**
+	 * Get a list of similar artists.
+	 *
+	 * @param artist_name  artist name
+	 * @param count        number of similar artists
+	 * @return Promise of similar artists array
+	 */
+	this.getSimilarArtists = function(artist_name, count) {
+		return SimilarArtists.get({ name: artist_name, results: count })
+			.$promise
+			.then(function(data) {
+				return (data.response.artists || []).map(function(a) {
+					return a.name;
+				});
+			});
+	};
+
+	/**
+	 * Save an album.
+	 *
+	 * @param album  album
+	 * @return Promise of http response
+	 */
+	this.saveAlbum = function(album) {
+		return $http.post("/api/library/album.php", album);
+	};
+
+	/**
+	 * Submit an album review.
+	 *
+	 * @param album  album review
+	 * @return Promise of http response
+	 */
+	this.reviewAlbum = function(album) {
+		return $http.post("/api/library/review.php", album);
+	};
+
+	/**
+	 * Get the current show.
+	 *
+	 * @return Promise of current show object
+	 */
+	this.getLogbookCurrentShow = function() {
+		return $http.get("/api/logbook/current_show.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Get the listener count for the current show.
+	 *
+	 * @return Promise of listener count
+	 */
+	this.getLogbookListenerCount = function() {
+		return $http.get("/api/logbook/listener_count.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Get the show schedule for a day of the week.
+	 *
+	 * @param day  day of the week (0: Sunday, etc.)
+	 * @return Promise of schedule array
+	 */
+	this.getSchedule = function(day) {
+		return $http.get("/api/schedule/schedule.php", { params: { day: day } })
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Add a show to the schedule.
+	 *
+	 * @param show  show object
+	 * @return Promise of http response
+	 */
+	this.addShow = function(show) {
+		return $http.post("/api/schedule/show.php", show);
+	};
+
+	/**
+	 * Get a list of show archives by page or DJ name.
+	 *
+	 * @param page  page offset
+	 * @param term  search term
+	 * @return Promise of archives array
+	 */
+	this.getArchives = function(page, term) {
+		return $http.get("/api/shows/archives.php", {
+			params: {
+				page: page,
+				term: term
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Get the list of show sub requests.
+	 *
+	 * @return Promise of requests array
+	 */
+	this.getSubRequests = function() {
+		return $http.get("/api/showsub/request_list.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Submit a sub request.
+	 *
+	 * @param request
+	 * @return Promise of http response
+	 */
+	this.submitSubRequest = function(request) {
+		return $http.post("/api/showsub/add.php", request);
+	};
+
+	/**
+	 * Fill a sub request.
+	 *
+	 * @param requestID  sub request ID
+	 * @return Promise of http response
+	 */
+	this.fillSubRequest = function(requestID) {
+		return $http.post("/api/showsub/fill.php", null, {
+			params: {
+				requestID: requestID
+			}
+		});
+	};
+
+	/**
+	 * Remove a sub request.
+	 *
+	 * @param requestID  sub request ID
+	 * @return Promise of http response
+	 */
+	this.removeSubRequest = function(requestID) {
+		return $http.post("/api/showsub/remove.php", null, {
+			params: {
+				requestID: requestID
+			}
+		});
+	};
+
+	/**
+	 * Search the list of users.
+	 *
+	 * @param term  search term
+	 * @return Promise of users array
+	 */
+	this.searchUsers = function(term) {
+		return $http.get("/api/users/search.php", {
+			params: {
+				term: term
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Get the current user.
+	 *
+	 * @return Promise of user object
+	 */
+	this.getUser = function() {
+		return $http.get("/api/users/user.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Save the current user.
+	 *
+	 * @param user
+	 * @return Promise of http response
+	 */
+	this.saveUser = function(user) {
+		return $http.post("/api/users/user.php", user);
 	};
 }]);
 

@@ -2,7 +2,7 @@
 
 // TODO: rename to schedule/show.php, add GET, POST (update), and DELETE
 /**
- * @file schedule/add.php
+ * @file schedule/show.php
  * @author Ben Shealy
  *
  * @section DESCRIPTION
