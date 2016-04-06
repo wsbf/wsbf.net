@@ -69,12 +69,14 @@ For server-side development (working on the PHP scripts), you'll need to develop
 
 ### Client (private)
 
-- develop a monthly breakdown of album reviews by DJ
-- develop album checkout interface
-- implement user profile photos
-- merge login and show select for logbook
-- develop a "spaz sheet" interface to logbook view (with captcha)
+- show descriptions in schedule view
+- remove shows from schedule
+- monthly breakdown of album reviews by DJ
+- album checkout interface
+- user directory
+- user admin panel for chief announcer
+- user profile photos
+- logbook
+- "spaz sheet" interface for logbook (with captcha)
 - move services and controllers into separate files
-- add interface to remove shows from schedule
 - merge Import and Library control panels
-- add links to show descriptions in schedule view

@@ -10,7 +10,7 @@ var symlink = require("gulp-symlink");
 var uglify = require("gulp-uglify");
 
 var SRC = ".";
-var DST = "../wsbf";
+var DST = "/var/www/wsbf";
 
 gulp.task("default", ["public", "private"]);
 

@@ -162,14 +162,16 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @param rotationID       rotation ID
 	 * @param general_genreID  general genre ID
 	 * @param page             page offset
+	 * @param term             search term
 	 * @return Promise of albums array
 	 */
-	this.getLibrary = function(rotationID, general_genreID, page) {
+	this.getLibrary = function(rotationID, general_genreID, page, term) {
 		return $http.get("/api/library/library.php", {
 			params: {
 				rotationID: rotationID,
 				general_genreID: general_genreID,
-				page: page
+				page: page,
+				term: term
 			}
 		}).then(function(res) {
 			return res.data;
@@ -566,7 +568,9 @@ app.controller("ChartsCtrl", ["$scope", "db", function($scope, db) {
 }]);
 
 app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
-	$scope.info = {};
+	$scope.info = {
+		missed: true
+	};
 	$scope.app = {};
 
 	$scope.submit = function() {
@@ -726,12 +730,12 @@ app.controller("ImportCartCtrl", ["$scope", "$routeParams", "$location", "db", f
 app.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
 	$scope.rotations = db.getDefs("rotations");
 	$scope.general_genres = db.getDefs("general_genres");
-	$scope.rotationID = "7";
+	$scope.rotationID = "0";
 	$scope.page = 0;
 	$scope.albums = [];
 
-	$scope.getLibrary = function(rotationID, page) {
-		db.getLibrary(rotationID, $scope.general_genreID, page)
+	$scope.getLibrary = function(rotationID, page, term) {
+		db.getLibrary(rotationID, $scope.general_genreID, page, term)
 			.then(function(albums) {
 				$scope.rotationID = rotationID;
 				$scope.page = page;
