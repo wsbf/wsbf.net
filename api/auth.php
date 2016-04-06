@@ -4,11 +4,9 @@
  * @file auth.php
  * @author Ben Shealy
  *
- * @section DESCRIPTION
- *
  * Authenticate the current session by checking whether the
  * "username" property is set, which should be done only by
- * login.php. This script should be included  at the beginning
+ * login.php. This script should be included at the beginning
  * of every API script that is restricted to registered users.
  *
  * This file also contains authorization functions, such as

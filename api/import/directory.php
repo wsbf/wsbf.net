@@ -46,15 +46,15 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 		else if ( strstr($f, ".mp3") == ".mp3" ) {
 			$parts = explode(" - ", $f);
 
-			if ( count($parts) == 1 ) {
-				$info["carts"][] = $f;
-			}
-			else {
+			if ( count($parts) >= 3 ) {
 				$artist = $parts[0];
 
 				if ( !in_array($artist, $info["artists"]) ) {
 					$info["artists"][] = $artist;
 				}
+			}
+			else {
+				$info["carts"][] = $f;
 			}
 		}
 	}

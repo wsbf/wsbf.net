@@ -53,6 +53,57 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 }
 
 /**
+ * Search the library by DJ name.
+ *
+ * TODO: finding a username should be handled by the client.
+ *
+ * @param mysqli      MySQL connection
+ * @param rotationID  rotation ID
+ * @param name        DJ name
+ * @return array of albums
+ */
+function search_library($mysqli, $rotationID, $name)
+{
+	/* get username */
+	$q = "SELECT username FROM `users` WHERE preferred_name='$name';";
+	$result = $mysqli->query($q);
+
+	if ( $result->num_rows == 0 ) {
+		return array();
+	}
+
+	$user = $result->fetch_assoc();
+	$username = $user["username"];
+
+	/* get albums */
+	$keys = array(
+		"al.albumID",
+		"al.album_code",
+		"al.album_name",
+		"al.rotationID",
+		"ar.artist_name",
+		"UNIX_TIMESTAMP(r.review_date) * 1000 AS review_date",
+		"u.preferred_name AS reviewer"
+	);
+
+	$q = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
+		. "INNER JOIN `libartist` AS ar ON al.artistID=ar.artistID "
+		. "LEFT OUTER JOIN `libreview` AS r ON r.albumID=al.albumID "
+		. "LEFT OUTER JOIN `users` AS u ON r.username=u.username "
+		. "WHERE al.rotationID = '$rotationID' "
+		. "AND r.username = '$username' "
+		. "ORDER BY al.albumID DESC;";
+	$result = $mysqli->query($q);
+
+	$albums = array();
+	while ( ($a = $result->fetch_assoc()) ) {
+		$albums[] = $a;
+	}
+
+	return $albums;
+}
+
+/**
  * Move albums through rotation.
  *
  * @param mysqli  MySQL connection
@@ -78,15 +129,21 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$rotationID = $_GET["rotationID"];
 	$general_genreID = $_GET["general_genreID"];
 	$page = $_GET["page"];
+	$term = $mysqli->escape_string($_GET["term"]);
 
-	if ( !is_numeric($rotationID)
-	  || (isset($general_genreID) && !is_numeric($general_genreID))
-	  || !is_numeric($page) ) {
+	if ( is_numeric($rotationID)
+	  && (!isset($general_genreID) || is_numeric($general_genreID))
+	  && is_numeric($page) ) {
+		$albums = get_library($mysqli, $rotationID, $general_genreID, $page);
+	}
+	else if ( is_numeric($rotationID) && strlen($term) >= 3 ) {
+		$albums = search_library($mysqli, $rotationID, $term);
+	}
+	else {
 		header("HTTP/1.1 404 Not Found");
 		exit("Invalid input.");
 	}
 
-	$albums = get_library($mysqli, $rotationID, $general_genreID, $page);
 	$mysqli->close();
 
 	header("Content-Type: application/json");
