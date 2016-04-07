@@ -69,8 +69,6 @@ For server-side development (working on the PHP scripts), you'll need to develop
 
 ### Client (private)
 
-- show descriptions in schedule view
-- remove shows from schedule
 - monthly breakdown of album reviews by DJ
 - album checkout interface
 - user directory

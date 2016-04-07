@@ -23,12 +23,16 @@
 		<tr ng-repeat="time in schedule" ng-init="timeIndex = $index">
 			<td>{{show_times[$index].show_time}}</td>
 
-			<td ng-repeat="s in time track by $index" class="text-center small show-type-{{s.show_typeID}}">
-				<div ng-show="!s">
-					<a class="button-icon h3" ng-href="#/schedule/admin/add/{{$index}}/{{timeIndex}}">&plus;</a>
+			<td ng-repeat="s in time track by $index">
+				<div class="text-center" ng-show="!s">
+					<a class="button-icon" ng-href="#/schedule/admin/add/{{$index}}/{{timeIndex}}">&plus;</a>
 				</div>
 
-				<div ng-show="s">
+				<div class="text-right" ng-show="s">
+					<span class="button-icon" ng-click="s && removeShow(s.scheduleID)">&times;</span>
+				</div>
+
+				<div class="text-center small show-type-{{s.show_typeID}}" ng-click="s && getShow(s.scheduleID)">
 					<strong>{{s.show_name}}</strong>
 					<div ng-repeat="h in s.hosts">{{h}}</div>
 				</div>

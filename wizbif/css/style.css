@@ -1,19 +1,19 @@
 /* rules for various show types */
+/* rotation */
 .show-type-0 {
-	/* rotation */
-	color: #58595f;
+	color: #78797F;
 }
+/* specialty */
 .show-type-1, .show-type-4, .show-type-6 {
-	/* specialty */
-	color: #39436d;
+	color: #49537D;
 }
+/* jazz */
 .show-type-2 {
-	/* jazz */
 	color: #A64B00;
 }
+/* sports/talk */
 .show-type-3 {
-	/* sports/talk */
-	color: #1b5e3f;
+	color: #1B5E3F;
 }
 
 /* rules for button icons */

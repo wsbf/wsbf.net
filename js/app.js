@@ -137,6 +137,18 @@ app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 	};
 
 	/**
+	 * Get a preview of the most recent blog posts.
+	 *
+	 * @return Promise of blog posts array
+	 */
+	this.getBlogPreview = function() {
+		return $http.get("/api/blog/preview.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
 	 * Get album charting over a period of time.
 	 *
 	 * This function removes the millisecond component
@@ -157,6 +169,19 @@ app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 		}).then(function(res) {
 			return res.data;
 		});
+	};
+
+	/**
+	 * Get the schedule for a day of the week.
+	 *
+	 * @param day  day of the week (0 is Sunday, etc.)
+	 * @return Promise of schedule array
+	 */
+	this.getSchedule = function(day) {
+		return $http.get("/api/schedule/schedule.php", { params: { day: day } })
+			.then(function(res) {
+				return res.data;
+			});
 	};
 
 	/**
@@ -201,31 +226,6 @@ app.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 	 */
 	this.getNowPlaying = function() {
 		return $http.get("/api/shows/now.php")
-			.then(function(res) {
-				return res.data;
-			});
-	};
-
-	/**
-	 * Get the schedule for a day of the week.
-	 *
-	 * @param day  day of the week (0 is Sunday, etc.)
-	 * @return Promise of schedule array
-	 */
-	this.getSchedule = function(day) {
-		return $http.get("/api/schedule/schedule.php", { params: { day: day } })
-			.then(function(res) {
-				return res.data;
-			});
-	};
-
-	/**
-	 * Get a preview of the most recent blog posts.
-	 *
-	 * @return Promise of blog posts array
-	 */
-	this.getBlogPreview = function() {
-		return $http.get("/api/blog/preview.php")
 			.then(function(res) {
 				return res.data;
 			});
@@ -416,12 +416,10 @@ app.controller("NowPlayingCtrl", ["$scope", "$interval", "db", function($scope, 
 }]);
 
 app.controller("WebcamCtrl", ["$scope", "$interval", function($scope, $interval) {
-	var baseUrl = "/camera/studioa.jpg";
+	$scope.now = 0;
 
-	$scope.webcamUrl = baseUrl;
-
-	/* append time parameter to webcam url to force a reload */
+	// update time parameter to force refresh
 	$interval(function() {
-		$scope.webcamUrl = baseUrl + "?" + Date.now();
+		$scope.now = Date.now();
 	}, 5000);
 }]);

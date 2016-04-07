@@ -361,10 +361,30 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of schedule array
 	 */
 	this.getSchedule = function(day) {
-		return $http.get("/api/schedule/schedule.php", { params: { day: day } })
-			.then(function(res) {
-				return res.data;
-			});
+		return $http.get("/api/schedule/schedule.php", {
+			params: {
+				day: day
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	// TODO: combine show functions into Resource object
+	/**
+	 * Get a show in the schedule.
+	 *
+	 * @param scheduleID  schedule ID
+	 * @return Promise of show object
+	 */
+	this.getShow = function(scheduleID) {
+		return $http.get("/api/schedule/show.php", {
+			params: {
+				scheduleID: scheduleID
+			}
+		}).then(function(res) {
+			return res.data;
+		});
 	};
 
 	/**
@@ -375,6 +395,20 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 */
 	this.addShow = function(show) {
 		return $http.post("/api/schedule/show.php", show);
+	};
+
+	/**
+	 * Remove a show from the schedule.
+	 *
+	 * @param scheduleID  schedule ID
+	 * @return Promise of http response
+	 */
+	this.removeShow = function(scheduleID) {
+		return $http.delete("/api/schedule/show.php",	{
+			params: {
+				scheduleID: scheduleID
+			}
+		});
 	};
 
 	/**
@@ -877,7 +911,7 @@ app.controller("LogbookCtrl", ["$scope", "$interval", "db", function($scope, $in
 	$interval(getListenerCount, 5000);
 }]);
 
-app.controller("ScheduleCtrl", ["$scope", "$q", "db", function($scope, $q, db) {
+app.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootScope", "db", function($scope, $q, $uibModal, $rootScope, db) {
 	$scope.days = db.getDefs("days");
 	$scope.show_times = db.getDefs("show_times");
 	$scope.schedule = [];
@@ -892,6 +926,21 @@ app.controller("ScheduleCtrl", ["$scope", "$q", "db", function($scope, $q, db) {
 				});
 			});
 		});
+	};
+
+	$scope.getShow = function(scheduleID) {
+		db.getShow(scheduleID).then(function(show) {
+			$uibModal.open({
+				templateUrl: "views/schedule_show.html",
+				scope: angular.extend($rootScope.$new(), {
+					show: show
+				})
+			});
+		});
+	};
+
+	$scope.removeShow = function(scheduleID) {
+		db.removeShow(scheduleID).then(getSchedule);
 	};
 
 	// initialize

@@ -1,0 +1,54 @@
+<div class="modal-body">
+	<span class="close" ng-click="$dismiss()">&times;</span>
+	<div class="clearfix"></div>
+
+	<div class="row">
+		<div class="col-xs-4 text-right">
+			<div><strong>Show Name</strong></div>
+		</div>
+		<div class="col-xs-8">
+			<div>{{show.show_name || '--'}}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4 text-right">
+			<div><strong>Show Time</strong></div>
+		</div>
+		<div class="col-xs-8">
+			<div>{{show.day}} {{show.start_time}} - {{show.end_time}}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4 text-right">
+			<div><strong>Hosts</strong></div>
+		</div>
+		<div class="col-xs-8">
+			<div ng-show="show.hosts.length === 0">--</div>
+			<div ng-repeat="h in show.hosts">{{h.preferred_name}}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4 text-right">
+			<div><strong>Type</strong></div>
+		</div>
+		<div class="col-xs-8">
+			<div>{{show.type || '--'}}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4 text-right">
+			<div><strong>Genre</strong></div>
+		</div>
+		<div class="col-xs-8">
+			<div>{{show.genre || '--'}}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4 text-right">
+			<div><strong>Description</strong></div>
+		</div>
+		<div class="col-xs-8">
+			<div>{{show.description || '--'}}</div>
+		</div>
+	</div>
+</div>
