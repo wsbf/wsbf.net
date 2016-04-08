@@ -1,13 +1,12 @@
 <?php
 
-// TODO: rename to schedule/show.php, add GET, POST (update), and DELETE
 /**
  * @file schedule/show.php
  * @author Ben Shealy
  *
- * @section DESCRIPTION
+ * Get, add, or remove a show in the schedule.
  *
- * Add a show to the schedule.
+ * TODO: add update function
  */
 require_once("../auth.php");
 require_once("../connect.php");
@@ -82,12 +81,89 @@ function add_show($mysqli, $show)
 	}
 }
 
-if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+/**
+ * Get a show in the schedule.
+ *
+ * @param mysqli      MySQL connection
+ * @param scheduleID  schedule ID
+ * @return associative array of show
+ */
+function get_show($mysqli, $scheduleID)
+{
+	/* get show */
+	$keys = array(
+		"s.scheduleID",
+		"s.show_name",
+		"d.day",
+		"s.start_time",
+		"s.end_time",
+		"t.type",
+		"s.description",
+		"s.genre"
+	);
+
+	$q = "SELECT " . implode(",", $keys) . " FROM `schedule` AS s "
+		. "INNER JOIN `def_days` AS d ON s.dayID=d.dayID "
+		. "INNER JOIN `def_show_types` AS t ON t.show_typeID=s.show_typeID "
+		. "WHERE s.scheduleID = '$scheduleID';";
+	$show = $mysqli->query($q)->fetch_assoc();
+
+	/* get show hosts */
+	$host_keys = array(
+		"u.preferred_name",
+		"h.schedule_alias"
+	);
+
+	$q = "SELECT " . implode(",", $host_keys) . " FROM `schedule_hosts` AS h "
+		. "INNER JOIN `users` AS u ON h.username=u.username "
+		. "WHERE h.scheduleID = '$scheduleID';";
+	$result = $mysqli->query($q);
+
+	$show["hosts"] = array();
+
+	while ( ($h = $result->fetch_assoc()) ) {
+		$show["hosts"][] = $h;
+	}
+
+	return $show;
+}
+
+/**
+ * Remove a show from the schedule.
+ *
+ * @param mysqli      MySQL connection
+ * @param scheduleID  schedule ID
+ */
+function remove_show($mysqli, $scheduleID)
+{
+	$q = "UPDATE `schedule` SET "
+		. "active = 0 "
+		. "WHERE scheduleID = '$scheduleID';";
+	$mysqli->query($q);
+}
+
+if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
+	$mysqli = construct_connection();
+
+	$scheduleID = $_GET["scheduleID"];
+
+	if ( !is_numeric($scheduleID) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+
+	$show = get_show($mysqli, $scheduleID);
+	$mysqli->close();
+	
+	header("Content-Type: application/json");
+	exit(json_encode($show));
+}
+else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_senior_staff($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to add shows.");
+		exit;
 	}
 
 	$show = json_decode(file_get_contents("php://input"), true);
@@ -99,10 +175,29 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	}
 
 	add_show($mysqli, $show);
-
 	$mysqli->close();
 
 	header("Content-Type: application/json");
 	exit(json_encode($show));
+}
+else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
+	$mysqli = construct_connection();
+
+	if ( !check_senior_staff($mysqli) ) {
+		header("HTTP/1.1 401 Unauthorized");
+		exit;
+	}
+
+	$scheduleID = $_GET["scheduleID"];
+
+	if ( !is_numeric($scheduleID) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+
+	remove_show($mysqli, $scheduleID);
+	$mysqli->close();
+
+	exit;
 }
 ?>
