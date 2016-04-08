@@ -7,6 +7,8 @@
 </div>
 
 <div ng-show="check.seniorStaff">
+	<button class="btn btn-default" ng-click="removeSchedule()">Clear Schedule</button>
+
 	<ul class="list-inline text-center">
 		<li><strong class="show-type-0">Rotation</strong></li>
 		<li><strong class="show-type-1">Specialty</strong></li>
@@ -24,7 +26,7 @@
 			<td>{{show_times[$index].show_time}}</td>
 
 			<td ng-repeat="s in time track by $index">
-				<div class="text-center" ng-show="!s">
+				<div class="text-center h4" ng-show="!s">
 					<a class="button-icon" ng-href="#/schedule/admin/add/{{$index}}/{{timeIndex}}">&plus;</a>
 				</div>
 

@@ -370,6 +370,15 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 		});
 	};
 
+	/**
+	 * Remove the entire show schedule.
+	 *
+	 * @return Promise of http response
+	 */
+	this.removeSchedule = function() {
+		return $http.delete("/api/schedule/schedule.php");
+	};
+
 	// TODO: combine show functions into Resource object
 	/**
 	 * Get a show in the schedule.
@@ -926,6 +935,14 @@ app.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootScope", "db",
 				});
 			});
 		});
+	};
+
+	$scope.removeSchedule = function() {
+		if ( confirm("Are you sure you want to remove the entire show schedule?")
+		  && confirm("So you're absolutely sure? I don't want to have to fix everything if you mess up.")
+		  && prompt("Type 'BIRDS' to show me that you're for real.") === "BIRDS" ) {
+			db.removeSchedule().then(getSchedule);
+		}
 	};
 
 	$scope.getShow = function(scheduleID) {

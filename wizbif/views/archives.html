@@ -7,7 +7,7 @@
 </div>
 
 <div ng-show="check.reviewer">
-	<p><em>Note: when searching by name, use the person's full name.</em></p>
+	<p><em>Note: when searching by name, enter the person's full name.</em></p>
 
 	<div class="row">
 		<div class="col-xs-6">
@@ -26,11 +26,13 @@
 
 	<table class="table">
 		<thead>
-			<th>ID</th>
+			<th>Files</th>
+			<th>Playlist</th>
 			<th>Hosts</th>
 			<th>Show Name</th>
 			<th>Show Type</th>
-			<th>Date</th>
+			<th>Start Time</th>
+			<th>End Time</th>
 		</thead>
 
 		<tbody>
@@ -41,11 +43,15 @@
 					</div>
 				</td>
 				<td>
+					<a ng-href="/#/playlists/{{a.showID}}" target="_blank">Playlist</a>
+				</td>
+				<td>
 					<div ng-repeat="n in a.show_hosts">{{n}}</div>
 				</td>
 				<td>{{a.show_name}}</td>
 				<td>{{show_types[a.show_typeID].type}}</td>
-				<td>{{a.start_time | date:'short'}} - {{a.end_time | date:'short'}}</td>
+				<td>{{a.start_time | date:'short'}}</td>
+				<td>{{a.end_time | date:'short'}}</td>
 			</tr>
 		</tbody>
 	</table>
