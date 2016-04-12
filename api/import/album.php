@@ -83,9 +83,7 @@ function validate_album($mysqli, $album)
 	if ( !isset($album["path"])
 	  || empty($album["artist_name"])
 	  || empty($album["album_name"])
-	  || empty($album["label"])
 	  || !is_numeric($album["general_genreID"])
-	  || empty($album["genre"])
 	  || !is_array($album["tracks"]) ) {
 		return false;
 	}

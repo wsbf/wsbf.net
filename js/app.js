@@ -249,77 +249,6 @@ app.controller("SliderCtrl", ["$scope", "db", function($scope, db) {
 	});
 }]);
 
-app.controller("ShowListCtrl", ["$scope", "db", function($scope, db) {
-	$scope.page = 0;
-	$scope.shows = [];
-
-	var getShows = function(page, term) {
-		db.getShows(page, term).then(function(shows) {
-			$scope.shows = shows;
-		});
-	};
-
-	$scope.getNewer = function() {
-		$scope.page--;
-		getShows($scope.page);
-	};
-
-	$scope.getOlder = function() {
-		$scope.page++;
-		getShows($scope.page);
-	};
-
-	$scope.search = function(term) {
-		getShows(null, term);
-	};
-
-	// initialize
-	getShows($scope.page);
-}]);
-
-app.controller("ShowCtrl", ["$scope", "$routeParams", "db", function($scope, $routeParams, db) {
-	$scope.playlist = [];
-
-	db.getPlaylist($routeParams.showID)
-		.then(function(playlist) {
-			$scope.playlist = playlist;
-		});
-}]);
-
-app.controller("PlaylistCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
-	$scope.playlist = [];
-
-	var getPlaylist = function() {
-		db.getPlaylist()
-			.then(function(playlist) {
-				return db.getAlbumArt(playlist, 1);
-			})
-			.then(function(playlist) {
-				$scope.playlist = playlist;
-			});
-	};
-
-	// update playlist every 60 s
-	getPlaylist();
-	$interval(getPlaylist, 60000);
-}]);
-
-app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
-	$scope.today = new Date();
-	$scope.day = $scope.today.getDay();
-	$scope.schedule = [];
-
-	$scope.getSchedule = function(day) {
-		db.getSchedule(day)
-			.then(function(schedule) {
-				$scope.day = day;
-				$scope.schedule = schedule;
-			});
-	};
-
-	$scope.getSchedule($scope.day);
-}]);
-
 app.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
 	var DAY = 24 * 3600 * 1000;
 	var WEEK = 7 * DAY;
@@ -329,7 +258,7 @@ app.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
 	$scope.count = 30;
 	$scope.albums = [];
 
-	var getChart = function(date1, date2) {
+	$scope.getChart = function(date1, date2) {
 		db.getTopAlbums(date1, date2, $scope.general_genreID)
 			.then(function(albums) {
 				$scope.albums = albums;
@@ -340,7 +269,7 @@ app.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
 		$scope.date1 -= WEEK;
 		$scope.date2 -= WEEK;
 
-		getChart($scope.date1, $scope.date2);
+		$scope.getChart($scope.date1, $scope.date2);
 	};
 
 	$scope.hasNextWeek = function() {
@@ -351,14 +280,14 @@ app.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
 		$scope.date1 += WEEK;
 		$scope.date2 += WEEK;
 
-		getChart($scope.date1, $scope.date2);
+		$scope.getChart($scope.date1, $scope.date2);
 	};
 
 	$scope.getCurrWeek = function() {
 		$scope.date1 = $scope.today - WEEK - DAY;
 		$scope.date2 = $scope.today - DAY;
 
-		getChart($scope.date1, $scope.date2);
+		$scope.getChart($scope.date1, $scope.date2);
 	};
 
 	// initialize
@@ -411,8 +340,78 @@ app.controller("NowPlayingCtrl", ["$scope", "$interval", "db", function($scope, 
 
 	// update now playing every 10 s
 	getNowPlaying();
-
 	$interval(getNowPlaying, 10000);
+}]);
+
+app.controller("PlaylistCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
+	$scope.playlist = [];
+
+	var getPlaylist = function() {
+		db.getPlaylist()
+			.then(function(playlist) {
+				return db.getAlbumArt(playlist, 1);
+			})
+			.then(function(playlist) {
+				$scope.playlist = playlist;
+			});
+	};
+
+	// update playlist every 60 s
+	getPlaylist();
+	$interval(getPlaylist, 60000);
+}]);
+
+app.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
+	$scope.today = new Date();
+	$scope.day = $scope.today.getDay();
+	$scope.schedule = [];
+
+	$scope.getSchedule = function(day) {
+		db.getSchedule(day)
+			.then(function(schedule) {
+				$scope.day = day;
+				$scope.schedule = schedule;
+			});
+	};
+
+	$scope.getSchedule($scope.day);
+}]);
+
+app.controller("ShowListCtrl", ["$scope", "db", function($scope, db) {
+	$scope.page = 0;
+	$scope.shows = [];
+
+	var getShows = function(page, term) {
+		db.getShows(page, term).then(function(shows) {
+			$scope.shows = shows;
+		});
+	};
+
+	$scope.getNewer = function() {
+		$scope.page--;
+		getShows($scope.page);
+	};
+
+	$scope.getOlder = function() {
+		$scope.page++;
+		getShows($scope.page);
+	};
+
+	$scope.search = function(term) {
+		getShows(null, term);
+	};
+
+	// initialize
+	getShows($scope.page);
+}]);
+
+app.controller("ShowCtrl", ["$scope", "$routeParams", "db", function($scope, $routeParams, db) {
+	$scope.playlist = [];
+
+	db.getPlaylist($routeParams.showID)
+		.then(function(playlist) {
+			$scope.playlist = playlist;
+		});
 }]);
 
 app.controller("WebcamCtrl", ["$scope", "$interval", function($scope, $interval) {

@@ -9,7 +9,7 @@
 
 	<div class="row">
 		<div class="col-md-5">
-			<select class="form-control" ng-model="general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres">
+			<select class="form-control" ng-model="general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres" ng-change="getChart(date1, date2)">
 				<option value="">All Genres</option>
 			</select>
 		</div>

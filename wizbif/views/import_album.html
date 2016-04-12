@@ -28,10 +28,10 @@
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.label.$touched && form.label.$invalid}">
+	<div class="form-group">
 		<label class="col-sm-3 control-label">Label</label>
 		<div class="col-sm-6">
-			<input class="form-control" name="label" ng-model="album.label" required/>
+			<input class="form-control" name="label" ng-model="album.label"/>
 		</div>
 	</div>
 
@@ -42,17 +42,17 @@
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.genre.$touched && form.genre.$invalid}">
+	<div class="form-group">
 		<label class="col-sm-3 control-label">Genre</label>
 		<div class="col-sm-6">
-			<input class="form-control" name="genre" ng-model="album.genre" required/>
+			<input class="form-control" name="genre" ng-model="album.genre"/>
 		</div>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.mediumID.$touched && form.mediumID.$invalid}">
+	<div class="form-group">
 		<label class="col-sm-3 control-label">Medium</label>
 		<div class="col-sm-6">
-			<select class="form-control" name="mediumID" ng-model="album.mediumID" ng-options="m.mediumID as m.medium for m in mediums" required></select>
+			<select class="form-control" name="mediumID" ng-model="album.mediumID" ng-options="m.mediumID as m.medium for m in mediums"></select>
 		</div>
 	</div>
 
