@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file users/users.php
+ * @file users/search.php
  * @author Ben Shealy
  */
 require_once("../auth.php");
@@ -9,7 +9,7 @@ require_once("../connect.php");
 
 /**
  * Search for users by name.
- * 
+ *
  * @param mysqli  MySQL connection
  * @param term    search term
  * @return array of matching users
@@ -47,14 +47,16 @@ function search_users($mysqli, $term)
 	return $users;
 }
 
+authenticate();
+
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	$term = $mysqli->escape_string($_GET["term"]);
 
-	if ( strlen($term) < 2 ) {
+	if ( strlen($term) < 3 ) {
 		header("HTTP/1.1 404 Not Found");
-		exit("Search term must be at least 2 characters long.");
+		exit("Search term must be at least 3 characters long.");
 	}
 
 	$users = search_users($mysqli, $term);

@@ -4,7 +4,6 @@
  * @file shows/functions.php
  * @author Ben Shealy
  */
-require_once("../connect.php");
 
 /**
  * Get a list of recorded shows.

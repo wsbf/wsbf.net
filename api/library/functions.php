@@ -6,8 +6,6 @@
  *
  * Functions for interacting with the music library.
  */
-require_once("../auth.php");
-require_once("../connect.php");
 
 /**
  * Add an action by the current user to `libaction`.

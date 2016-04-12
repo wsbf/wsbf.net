@@ -4,6 +4,7 @@
  * @file shows/shows.php
  * @author Ben Shealy
  */
+require_once("../connect.php");
 require_once("functions.php");
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {

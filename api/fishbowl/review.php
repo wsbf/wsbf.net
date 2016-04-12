@@ -50,7 +50,7 @@ function get_fishbowl_app($mysqli, $id)
 
 /**
  * Rate a fishbowl app.
- * 
+ *
  * @param mysqli  MySQL connection
  * @param id      fishbowl app id
  * @param rating  fishbowl app rating
@@ -78,6 +78,8 @@ function rate_fishbowl_app($mysqli, $id, $rating)
 		. "WHERE id='$id';";
 	$mysqli->query($q);
 }
+
+authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();

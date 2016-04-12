@@ -4,19 +4,24 @@
  * @file auth.php
  * @author Ben Shealy
  *
- * Authenticate the current session by checking whether the
- * "username" property is set, which should be done only by
- * login.php. This script should be included at the beginning
- * of every API script that is restricted to registered users.
- *
- * This file also contains authorization functions, such as
- * senior staff, profile, and review priviledges.
+ * Authentication and authorization functions for
+ * users, senior staff, and other priviledges. this
+ * script should be used by every script that has
+ * restricted access.
  */
-session_start();
 
-if ( !isset($_SESSION["username"]) ) {
-	header("HTTP/1.1 401 Unauthorized");
-	exit;
+/**
+ * Authenticate the current session by checking whether the
+ * "username" property is set. Exits on failure.
+ */
+function authenticate()
+{
+	session_start();
+
+	if ( !isset($_SESSION["username"]) ) {
+		header("HTTP/1.1 401 Unauthorized");
+		exit;
+	}
 }
 
 /**

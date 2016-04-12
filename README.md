@@ -69,6 +69,9 @@ For server-side development (working on the PHP scripts), you'll need to develop
 
 ### Client (private)
 
+- make genre select update on change
+- make label, genre, medium not required
+- add success/error alerts
 - monthly breakdown of album reviews by DJ
 - album checkout interface
 - user directory

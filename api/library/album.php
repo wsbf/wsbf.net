@@ -83,7 +83,7 @@ function validate_album($mysqli, $album)
 {
 	// required fields should be defined
 	if ( !is_numeric($album["albumID"])
-	  || empty($album["artist_name"]) 
+	  || empty($album["artist_name"])
 	  || empty($album["album_name"])
 	  || empty($album["label"])
 	  || !is_numeric($album["general_genreID"])
@@ -176,6 +176,8 @@ function update_album($mysqli, $album)
 	/* add action */
 	add_action($mysqli, "EDITED REVIEW FOR albumID = $album[albumID]");
 }
+
+authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();

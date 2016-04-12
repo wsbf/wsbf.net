@@ -450,6 +450,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 			});
 	};
 
+	// TODO: combine add/fill/remove into one script and Resource object
 	/**
 	 * Submit a sub request.
 	 *
@@ -940,7 +941,7 @@ app.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootScope", "db",
 	$scope.removeSchedule = function() {
 		if ( confirm("Are you sure you want to remove the entire show schedule?")
 		  && confirm("So you're absolutely sure? I don't want to have to fix everything if you mess up.")
-		  && prompt("Type 'BIRDS' to show me that you're for real.") === "BIRDS" ) {
+		  && prompt("Type 'STATHGAR' to show me that you're for real.") === "STATHGAR" ) {
 			db.removeSchedule().then(getSchedule);
 		}
 	};

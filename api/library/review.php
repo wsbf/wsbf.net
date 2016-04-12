@@ -51,7 +51,7 @@ function validate_review($mysqli, $review)
 {
 	// required fields should be defined
 	if ( !is_numeric($review["albumID"])
-	  || empty($review["artist_name"]) 
+	  || empty($review["artist_name"])
 	  || empty($review["album_name"])
 	  || empty($review["label"])
 	  || empty($review["genre"])
@@ -142,6 +142,8 @@ function review_album($mysqli, $review)
 	/* add action */
 	add_action($mysqli, "SUBMITTED REVIEW FOR albumID = $review[albumID]");
 }
+
+authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();

@@ -6,6 +6,7 @@
  *
  * Get or remove the current show schedule.
  */
+require_once("../auth.php");
 require_once("../connect.php");
 
 /**
@@ -79,10 +80,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	exit(json_encode($schedule));
 }
 else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
-	// TODO: move auth code into function to enable
-	// selective authentication for each HTTP verb
-	exit;
-
+	authenticate();
 	$mysqli = construct_connection();
 
 	if ( !check_senior_staff($mysqli) ) {

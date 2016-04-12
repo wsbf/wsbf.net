@@ -36,6 +36,8 @@ function get_filenames(&$show)
 	$show["files"] = $filenames;
 }
 
+authenticate();
+
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 

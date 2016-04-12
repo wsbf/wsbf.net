@@ -48,6 +48,8 @@ function get_sub_requests($mysqli)
 	return $requests;
 }
 
+authenticate();
+
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 

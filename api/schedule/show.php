@@ -154,11 +154,12 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	$show = get_show($mysqli, $scheduleID);
 	$mysqli->close();
-	
+
 	header("Content-Type: application/json");
 	exit(json_encode($show));
 }
 else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+	authenticate();
 	$mysqli = construct_connection();
 
 	if ( !check_senior_staff($mysqli) ) {
@@ -181,6 +182,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	exit(json_encode($show));
 }
 else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
+	authenticate();
 	$mysqli = construct_connection();
 
 	if ( !check_senior_staff($mysqli) ) {

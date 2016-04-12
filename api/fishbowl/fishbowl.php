@@ -11,7 +11,7 @@ require_once("../connect.php");
 
 /**
  * Get the current fishbowl.
- * 
+ *
  * @param mysqli  MySQL connection
  * @return array of fishbowl applications
  */
@@ -35,6 +35,8 @@ function get_fishbowl($mysqli)
 
 	return $fishbowl;
 }
+
+authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();

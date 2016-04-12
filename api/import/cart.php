@@ -71,6 +71,8 @@ function import_cart($mysqli, $cart)
 	$mysqli->query($q);
 }
 
+authenticate();
+
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 

@@ -81,7 +81,7 @@ function validate_album($mysqli, $album)
 {
 	// required fields should be defined
 	if ( !isset($album["path"])
-	  || empty($album["artist_name"]) 
+	  || empty($album["artist_name"])
 	  || empty($album["album_name"])
 	  || empty($album["label"])
 	  || !is_numeric($album["general_genreID"])
@@ -187,6 +187,8 @@ function import_album($mysqli, $album)
 	/* insert action */
 	add_action($mysqli, "INSERTED " . count($album["tracks"]) . " tracks for new album: $albumID");
 }
+
+authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();

@@ -9,7 +9,7 @@ require_once("../connect.php");
 
 /**
  * Archive the current fishbowl.
- * 
+ *
  * @param mysqli  MySQL connection
  */
 function archive_fishbowl($mysqli)
@@ -35,6 +35,8 @@ function archive_fishbowl($mysqli)
 	// DELETE is slow, but TRUNCATE requires DROP privilege
 	$mysqli->query("DELETE FROM `fishbowl`;");
 }
+
+authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();

@@ -98,20 +98,20 @@ function render_label($pdf, $section, $album)
 	$ladywidth = 0.55;
 	$ladyoffset = 0.002;
 	$alnowidth = 0.45;     // width for the album number
-	$aralgenwidth = 0.49;  // width of the area with artist, album, and genre 
+	$aralgenwidth = 0.49;  // width of the area with artist, album, and genre
 	$noairwidth = 0.83;
 	$rotspacer = 4.3;      // space in the boxes with N, H, M, and L
-	
+
 	$pdf->SetXY($x, $y);
 	$pdf->SetFont("", "", 9);
 	$pdf->Rect($x - MARGIN_X, $y - MARGIN_Y, LENGTH_X, LENGTH_Y);
-	
+
 	$pdf->Image(
 		"$_SERVER[DOCUMENT_ROOT]/images/logo.jpg",
 		$x, $y,
 		$ladywidth - $ladyoffset
 	);
-	
+
 	// general genre
 	$pdf->SetX($x + $ladywidth);
 	$pdf->Cell(
@@ -185,7 +185,7 @@ function render_label($pdf, $section, $album)
 		$linespace,
 		$album["review"], "LTR", "L"
 	);
-	
+
 	// reviewer
 	$pdf->SetX($x);
 	$pdf->SetFont("", "B", "");
@@ -214,7 +214,7 @@ function render_label($pdf, $section, $album)
 	if ( count($recs) > 0 ) {
 		$pdf->SetX($x);
 		$pdf->SetFont('','B','');
-		$pdf->Cell($width, $linespace, "Recommended:", "TR", "L", 2);		
+		$pdf->Cell($width, $linespace, "Recommended:", "TR", "L", 2);
 
 		$pdf->SetX($x);
 		$pdf->SetFont('','',9);
@@ -267,7 +267,7 @@ function render_label($pdf, $section, $album)
 		$pdf->SetFont('','B');
 		$pdf->Cell($width, $linespace, "Album Is FCC Clean", "T", 1, "C");
 	}
-	
+
 	// silence-after tracks
 	$silences = array_filter($album["tracks"], function($t) {
 		return $t["airabilityID"] == 3;
@@ -294,8 +294,10 @@ function render_label($pdf, $section, $album)
 			"      " . implode(", ", $silences) . " has silence after track.",
 			"LRTB", "L"
 		);
-	} 
+	}
 }
+
+authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();

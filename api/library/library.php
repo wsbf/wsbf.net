@@ -118,6 +118,8 @@ function move_rotation($mysqli, $albums)
 	}
 }
 
+authenticate();
+
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 

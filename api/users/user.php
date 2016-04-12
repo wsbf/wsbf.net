@@ -11,9 +11,9 @@ require_once("../connect.php");
 
 /**
  * Get the current user.
- * 
- * @param mysqli
- * @param username
+ *
+ * @param mysqli    MySQL connection
+ * @param username  username
  * @return associative array of current user
  */
 function get_user($mysqli, $username)
@@ -130,6 +130,8 @@ function update_user($mysqli, $user)
 
 	// TODO: implement image upload
 }
+
+authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();

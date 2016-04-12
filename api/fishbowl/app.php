@@ -40,7 +40,7 @@ function validate_fishbowl_app($mysqli, $app)
 
 /**
  * Submit a fishbowl application for the current user.
- * 
+ *
  * @param mysqli  MySQL connection
  * @param app     fishbowl application
  */
@@ -57,6 +57,8 @@ function submit_fishbowl_app($mysqli, $app)
 		. "other = '$app[other]';";
 	$mysqli->query($q);
 }
+
+authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();

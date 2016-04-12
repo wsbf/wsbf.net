@@ -21,6 +21,8 @@ function remove_sub_request($mysqli, $requestID)
 	$mysqli->query($q);
 }
 
+authenticate();
+
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 

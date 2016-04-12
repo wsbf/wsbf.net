@@ -1,8 +1,5 @@
 <?php
 
-/* Enable runtime error reporting in development */
-error_reporting(E_ALL);
-
 /**
  * Create a connection to the MySQL database.
  *
