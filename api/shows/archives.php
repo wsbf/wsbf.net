@@ -5,6 +5,7 @@
  * @author Ben Shealy
  */
 require_once("../auth.php");
+require_once("../connect.php");
 require_once("functions.php");
 
 define('BASE_PATH', "/wizbif/ZAutoLib/archives/");

@@ -413,7 +413,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.removeShow = function(scheduleID) {
-		return $http.delete("/api/schedule/show.php",	{
+		return $http.delete("/api/schedule/show.php", {
 			params: {
 				scheduleID: scheduleID
 			}
@@ -482,7 +482,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.removeSubRequest = function(requestID) {
-		return $http.delete("/api/showsub/request.php", null, {
+		return $http.delete("/api/showsub/request.php", {
 			params: {
 				requestID: requestID
 			}
