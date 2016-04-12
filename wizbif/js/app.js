@@ -458,7 +458,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.submitSubRequest = function(request) {
-		return $http.post("/api/showsub/add.php", request);
+		return $http.post("/api/showsub/request.php", request);
 	};
 
 	/**
@@ -468,7 +468,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.fillSubRequest = function(requestID) {
-		return $http.post("/api/showsub/fill.php", null, {
+		return $http.post("/api/showsub/request.php", null, {
 			params: {
 				requestID: requestID
 			}
@@ -482,7 +482,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.removeSubRequest = function(requestID) {
-		return $http.post("/api/showsub/remove.php", null, {
+		return $http.delete("/api/showsub/request.php", null, {
 			params: {
 				requestID: requestID
 			}
