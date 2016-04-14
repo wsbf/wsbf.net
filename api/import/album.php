@@ -13,6 +13,11 @@
  * Track file names are URL encoded when they are saved to the database,
  * even though cart file names are not, because of how ZAutomate uses
  * the digital library.
+ *
+ * Also, the use of '-' requires that none of the track fields
+ * contain '-', or else the tracks will be interpreted incorrectly.
+ *
+ * TODO: read MP3 tags from tracks instead of file name conventions
  */
 require_once("../auth.php");
 require_once("../connect.php");
@@ -109,8 +114,8 @@ function validate_album($mysqli, $album)
  */
 function import_album($mysqli, $album)
 {
-	// strip slashes from track file names
-	foreach ( $album["tracks"] as $t ) {
+	/* unescape track file names before URL-encoding */
+	foreach ( $album["tracks"] as &$t ) {
 		$t["file_name"] = stripslashes($t["file_name"]);
 	}
 
@@ -172,6 +177,7 @@ function import_album($mysqli, $album)
 
 		$file_name = urlencode(substr($dir_name, 0, 2) . $t["file_name"]);
 
+		// TODO: Chick Corea/Further Explorations/2/9 was not inserted
 		$q = "INSERT INTO `libtrack` SET "
 			. "track_name = '$t[track_name]', "
 			. "disc_num = '$t[disc_num]', "
@@ -179,7 +185,7 @@ function import_album($mysqli, $album)
 			. "artistID = '$artistID', "
 			. "file_name = '$file_name', "
 			. "albumID = '$albumID';";
-		$mysqli->query($q);
+		$mysqli->query($q) or die($mysqli->error);
 	}
 
 	/* insert action */
@@ -235,6 +241,14 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	}, $files);
 	$tracks = array_values($tracks);
 
+	usort($tracks, function($a, $b) {
+		if ( $a["disc_num"] == $b["disc_num"] ) {
+			return $a["track_num"] - $b["track_num"];
+		}
+
+		return $a["disc_num"] - $b["disc_num"];
+	});
+
 	$num_discs = array_reduce($tracks, function($max, $t) {
 		return max($max, $t["disc_num"]);
 	}, 1);
@@ -269,8 +283,8 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	}
 
 	import_album($mysqli, $album);
-
 	$mysqli->close();
+
 	exit;
 }
 ?>
