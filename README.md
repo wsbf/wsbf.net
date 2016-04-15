@@ -23,18 +23,13 @@ The development setup requires `node` and `npm`.
 
 Pull this repository into `/var/www/dev` and run `npm install` to deploy `dev.wsbf.net`. Run `npm run build` to copy the necessary files into `/var/www/wsbf` and deploy `wsbf.net`.
 
-## Development
+## Contributing
 
-I'm still trying to learn the best practices for code collaboration on Github, so for now I follow these steps during each development session:
+- Fork this repository
+- Develop, push your changes to your fork
+- Create a Pull Request in this repository with your changes
 
-1. Pull the latest commits from Github into your local environment (`git pull origin master`). Always pull __before__ you make any changes to your working tree so that you don't have any conflicts.
-2. Develop.
-3. Test your changes with `npm run lint` and `npm test`.
-4. Commit your changes and push them to Github (`git push -u origin master`).
-
-Alternatively you can fork this repository, pull and push whenever you want, and then make a pull request here when you're ready. I don't know much about pull requests yet.
-
-For server-side development (working on the PHP scripts), you'll need to develop on the web server so that you can test your changes on `dev.wsbf.net` before you commit. In the future, if we can develop a test suite for server scripts that mocks the database and other PHP services then we might be able to develop the PHP scripts locally with confidence. For now, just use the above process on the web server and use your web browser to test your changes.
+Currently, server-side development (PHP scripts) must be done on the web server because I don't have a test suite in place to mock the database and other PHP services.
 
 ## TODO
 
@@ -69,13 +64,17 @@ For server-side development (working on the PHP scripts), you'll need to develop
 
 ### Client (private)
 
+- discuss removing `def_mediums`
+
 - add success/error alerts
 - monthly breakdown of album reviews by DJ
 - album checkout interface
-- user directory
 - user admin panel for chief announcer
+- interface to request/grant/deny access to intern status and show times
+- maybe have account registration be approved
 - user profile photos
 - logbook
 - "spaz sheet" interface for logbook (with captcha)
 - move services and controllers into separate files
 - merge Import and Library control panels
+- add help content/minigame to home page

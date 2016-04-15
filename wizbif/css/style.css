@@ -16,6 +16,24 @@
 	color: #1B5E3F;
 }
 
+/* rules for team colors */
+/* blue */
+.bg-team-1 {
+	background-color: #b9cdf7;
+}
+/* red */
+.bg-team-2 {
+	background-color: #f28e8e;
+}
+/* green */
+.bg-team-3 {
+	background-color: #8ff088;
+}
+/* purple */
+.bg-team-4 {
+	background-color: #dfbbed;
+}
+
 /* rules for button icons */
 .button-icon {
 	color: #808080;

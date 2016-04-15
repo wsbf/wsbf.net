@@ -28,7 +28,8 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/schedule/admin/add/:dayID/:timeID", { templateUrl: "views/schedule_admin_add.html", controller: "ScheduleAddCtrl" })
 		.when("/showsub", { templateUrl: "views/showsub.html", controller: "ShowSubCtrl" })
 		.when("/showsub/request", { templateUrl: "views/showsub_request.html", controller: "ShowSubRequestCtrl" })
-		.when("/user", { templateUrl: "views/user.html", controller: "UserCtrl" })
+		.when("/users", { templateUrl: "views/users.html", controller: "UsersCtrl" })
+		.when("/users/:username/edit", { templateUrl: "views/user_edit.html", controller: "UserCtrl" })
 		.otherwise("/");
 }]);
 
@@ -487,6 +488,18 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 				requestID: requestID
 			}
 		});
+	};
+
+	/**
+	 * Get a list of users.
+	 *
+	 * @return Promise of user array
+	 */
+	this.getUsers = function() {
+		return $http.get("/api/users/users.php")
+			.then(function(res) {
+				return res.data;
+			});
 	};
 
 	/**
@@ -1059,6 +1072,16 @@ app.controller("ShowSubRequestCtrl", ["$scope", "$location", "db", function($sco
 			$location.url("/showsub");
 		});
 	};
+}]);
+
+app.controller("UsersCtrl", ["$scope", "db", function($scope, db) {
+	$scope.teams = db.getDefs("teams");
+	$scope.users = [];
+
+	// initialize
+	db.getUsers().then(function(users) {
+		$scope.users = users;
+	});
 }]);
 
 app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($scope, db, $location, Upload) {

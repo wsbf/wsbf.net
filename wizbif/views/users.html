@@ -1,0 +1,30 @@
+<h2 class="text-center">User Directory</h2>
+
+<div class="text-center" ng-show="!check.editProfile">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't allowed to look at the user directory.</p>
+</div>
+
+<div ng-show="check.editProfile">
+	<p><em>Currently only active users are shown.</em><p>
+
+	<table class="table">
+		<thead>
+			<th>Name</th>
+			<th>Team</th>
+			<th>Email</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="u in users" class="bg-team-{{u.teamID}}">
+				<td>
+					<span>{{u.preferred_name}}</span>
+					<span ng-show="u.preferred_name !== u.first_name + ' ' + u.last_name"> ({{u.first_name}} {{u.last_name}})</span>
+				</td>
+				<td>{{teams[u.teamID].team}}</td>
+				<td>{{u.email_addr}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
