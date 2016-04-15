@@ -105,9 +105,9 @@ function validate_album($mysqli, $album)
 	$rotationID = $assoc["rotationID"];
 
 	if ( $rotationID != 0 ) {
-		// reviewed albums should have review and reviewer
-		if ( empty($album["review"])
-		  || empty($album["username"]) ) {
+		// reviewed albums should have a review
+		// (reviewer username is fixed upon review)
+		if ( empty($album["review"]) ) {
 			return false;
 		}
 
@@ -169,7 +169,6 @@ function update_album($mysqli, $album)
 	/* update review */
 	$q = "UPDATE `libreview` SET "
 		. "review = '$album[review]', "
-		. "username = '$album[username]' "
 		. "WHERE albumID = '$album[albumID]';";
 	$mysqli->query($q);
 

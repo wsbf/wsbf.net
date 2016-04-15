@@ -129,9 +129,15 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	}
 
 	$rotationID = $_GET["rotationID"];
-	$general_genreID = $_GET["general_genreID"];
-	$page = $_GET["page"];
-	$term = $mysqli->escape_string($_GET["term"]);
+	$general_genreID = array_key_exists("general_genreID", $_GET)
+		? $_GET["general_genreID"]
+		: null;
+	$page = array_key_exists("page", $_GET)
+		? $_GET["page"]
+		: null;
+	$term = array_key_exists("term", $_GET)
+		? $mysqli->escape_string($_GET["term"])
+		: null;
 
 	if ( is_numeric($rotationID)
 	  && (!isset($general_genreID) || is_numeric($general_genreID))
