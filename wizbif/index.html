@@ -66,5 +66,12 @@
 				<div ng-view></div>
 			</div>
 		</div>
+
+		<div id="alerts">
+			<uib-alert ng-repeat="a in alert.alerts" type="{{a.type}}" close="alert.remove($index)">
+				<strong>{{a.header}}</strong>
+				<span>{{a.message}}<span>
+			</uib-alert>
+		</div>
 	</body>
 </html>

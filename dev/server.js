@@ -43,7 +43,7 @@ app.get("/api/logout.php", function(req, res) {
 	res.redirect("/login.html");
 });
 
-app.post("/api/schedule/add.php", function(req, res) {
+app.post("/api/schedule/show.php", function(req, res) {
 	res.status(200).end();
 });
 

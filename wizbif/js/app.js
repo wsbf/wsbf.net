@@ -541,7 +541,61 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 }]);
 
-app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
+/**
+ * The Alert service provides an Array-like interface to a
+ * collection of arbitrary messages.
+ *
+ * This service uses lodash '_'.
+ *
+ * @param $interval  service in module ng
+ */
+app.service("alert", ["$interval", function($interval) {
+	this.alerts = [];
+
+	var self = this;
+	var count = 0;
+
+	var addAlert = function(type, header, message) {
+		var promise = $interval(function() {
+			var index = _.findIndex(self.alerts, { id: count });
+
+			self.alerts.splice(index, 1);
+		}, 10000, 1);
+
+		self.alerts.push({
+			id: count,
+			type: type,
+			header: header,
+			message: message,
+			promise: promise
+		});
+		count++;
+	};
+
+	this.success = function(message) {
+		addAlert("success", null, message);
+	};
+
+	this.info = function(message) {
+		addAlert("info", null, message);
+	};
+
+	this.warning = function(message) {
+		addAlert("warning", null, message);
+	};
+
+	this.error = function(message) {
+		addAlert("danger", "Error: ", message);
+	};
+
+	this.remove = function(index) {
+		$interval.cancel(self.alerts[index].promise);
+
+		self.alerts.splice(index, 1);
+	};
+}]);
+
+app.controller("MainCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	// temporary status/position sets
 	var statusSets = {
 		editProfile: ["0", "1", "2", "4"],
@@ -557,6 +611,7 @@ app.controller("MainCtrl", ["$scope", "db", function($scope, db) {
 	$scope.user = {};
 	$scope.check = {};
 	$scope.navEnabled = true;
+	$scope.alert = alert;
 
 	var getUser = function() {
 		db.getUser().then(function(user) {
@@ -624,7 +679,7 @@ app.controller("ChartsCtrl", ["$scope", "db", function($scope, db) {
 	getTracks();
 }]);
 
-app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", "alert", function($scope, $location, db, alert) {
 	$scope.info = {
 		missed: true
 	};
@@ -633,6 +688,9 @@ app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope,
 	$scope.submit = function() {
 		db.submitFishbowlApp($scope.app).then(function() {
 			$location.url("/");
+			alert.success("Fishbowl app submitted.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
 		});
 	};
 
@@ -643,7 +701,7 @@ app.controller("FishbowlAppCtrl", ["$scope", "$location", "db", function($scope,
 	});
 }]);
 
-app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
+app.controller("FishbowlAdminCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	$scope.fishbowl = [];
 	$scope.bowls = [];
 
@@ -655,7 +713,12 @@ app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
 
 	$scope.archiveFishbowl = function() {
 		if ( confirm("Are you sure you want to archive the fishbowl?") ) {
-			db.archiveFishbowl().then(getFishbowl);
+			db.archiveFishbowl().then(function() {
+				getFishbowl();
+				alert.success("Fishbowl archived.");
+			}, function(res) {
+				alert.error(res.data || res.statusText);
+			});
 		}
 	};
 
@@ -684,7 +747,7 @@ app.controller("FishbowlAdminCtrl", ["$scope", "db", function($scope, db) {
 	getFishbowl();
 }]);
 
-app.controller("FishbowlReviewCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
+app.controller("FishbowlReviewCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {
 	$scope.app = {};
 
 	var getFishbowlApp = function() {
@@ -696,6 +759,8 @@ app.controller("FishbowlReviewCtrl", ["$scope", "$routeParams", "$location", "db
 	$scope.submit = function() {
 		db.rateFishbowlApp($scope.app.id, $scope.rating).then(function() {
 			$location.url("/fishbowl/admin");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
 		});
 	};
 
@@ -745,7 +810,7 @@ app.controller("ImportCtrl", ["$scope", "db", function($scope, db) {
 	$scope.openDirectory(0);
 }]);
 
-app.controller("ImportAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
+app.controller("ImportAlbumCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {
 	$scope.general_genres = db.getDefs("general_genres");
 	$scope.mediums = db.getDefs("mediums");
 	$scope.album = {
@@ -755,6 +820,9 @@ app.controller("ImportAlbumCtrl", ["$scope", "$routeParams", "$location", "db", 
 	$scope.save = function() {
 		db.importAlbum($scope.album).then(function() {
 			$location.url("/import");
+			alert.success("Album successfully imported.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
 		});
 	};
 
@@ -766,13 +834,16 @@ app.controller("ImportAlbumCtrl", ["$scope", "$routeParams", "$location", "db", 
 		});
 }]);
 
-app.controller("ImportCartCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
+app.controller("ImportCartCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {
 	$scope.cart_types = db.getDefs("cart_type");
 	$scope.cart = {};
 
 	$scope.save = function() {
 		db.importCart($scope.cart).then(function() {
 			$location.url("/import");
+			alert.success("Cart successfully imported.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
 		});
 	};
 
@@ -804,7 +875,7 @@ app.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
 	$scope.getLibrary($scope.rotationID, $scope.page);
 }]);
 
-app.controller("LibraryAdminCtrl", ["$scope", "$window", "db", function($scope, $window, db) {
+app.controller("LibraryAdminCtrl", ["$scope", "$window", "db", "alert", function($scope, $window, db, alert) {
 	$scope.rotations = db.getDefs("rotations");
 	$scope.general_genres = db.getDefs("general_genres");
 	$scope.rotationID = "7";
@@ -834,6 +905,9 @@ app.controller("LibraryAdminCtrl", ["$scope", "$window", "db", function($scope, 
 
 		db.moveRotation(albums).then(function() {
 			$scope.getLibrary($scope.rotationID);
+			alert.success("Rotation successfully moved.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
 		});
 	};
 
@@ -864,7 +938,7 @@ app.controller("LibraryAdminCtrl", ["$scope", "$window", "db", function($scope, 
 	$scope.getLibrary($scope.rotationID, $scope.page);
 }]);
 
-app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
+app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {
 	$scope.general_genres = db.getDefs("general_genres");
 	$scope.airability = db.getDefs("airability");
 	$scope.album = {};
@@ -885,12 +959,18 @@ app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db",
 	$scope.save = function() {
 		db.saveAlbum($scope.album).then(function(res) {
 			$location.url("/library/admin");
+			alert.success("Album successfully saved.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
 		});
 	};
 
 	$scope.review = function() {
 		db.reviewAlbum($scope.album).then(function(res) {
 			$location.url("/library");
+			alert.success("Album successfully reviewed!");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
 		});
 	};
 
@@ -934,7 +1014,7 @@ app.controller("LogbookCtrl", ["$scope", "$interval", "db", function($scope, $in
 	$interval(getListenerCount, 5000);
 }]);
 
-app.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootScope", "db", function($scope, $q, $uibModal, $rootScope, db) {
+app.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootScope", "db", "alert", function($scope, $q, $uibModal, $rootScope, db, alert) {
 	$scope.days = db.getDefs("days");
 	$scope.show_times = db.getDefs("show_times");
 	$scope.schedule = [];
@@ -955,7 +1035,12 @@ app.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootScope", "db",
 		if ( confirm("Are you sure you want to remove the entire show schedule?")
 		  && confirm("So you're absolutely sure? I don't want to have to fix everything if you mess up.")
 		  && prompt("Type 'STATHGAR' to show me that you're for real.") === "STATHGAR" ) {
-			db.removeSchedule().then(getSchedule);
+			db.removeSchedule().then(function() {
+				getSchedule();
+				alert.success("Schedule successfully cleared.");
+			}, function(res) {
+				alert.error(res.data || res.statusText);
+			});
 		}
 	};
 
@@ -971,7 +1056,12 @@ app.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootScope", "db",
 	};
 
 	$scope.removeShow = function(scheduleID) {
-		db.removeShow(scheduleID).then(getSchedule);
+		db.removeShow(scheduleID).then(function() {
+			getSchedule();
+			alert.success("Show successfully removed.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
+		});
 	};
 
 	// initialize
@@ -981,7 +1071,7 @@ app.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootScope", "db",
 	]).then(getSchedule);
 }]);
 
-app.controller("ScheduleAddCtrl", ["$scope", "$routeParams", "$location", "db", function($scope, $routeParams, $location, db) {
+app.controller("ScheduleAddCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {
 	$scope.days = db.getDefs("days");
 	$scope.show_times = db.getDefs("show_times");
 	$scope.show_types = db.getDefs("show_types");
@@ -1005,6 +1095,9 @@ app.controller("ScheduleAddCtrl", ["$scope", "$routeParams", "$location", "db", 
 
 		db.addShow(show).then(function() {
 			$location.url("/schedule/admin");
+			alert.success("Show successfully added.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
 		});
 	};
 
@@ -1022,7 +1115,7 @@ app.controller("ScheduleAddCtrl", ["$scope", "$routeParams", "$location", "db", 
 	});
 }]);
 
-app.controller("ShowSubCtrl", ["$scope", "db", function($scope, db) {
+app.controller("ShowSubCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	$scope.requests = [];
 
 	var getSubRequests = function() {
@@ -1035,10 +1128,12 @@ app.controller("ShowSubCtrl", ["$scope", "db", function($scope, db) {
 		var req = $scope.requests[index];
 
 		if ( confirm("Are you sure you want to sub this show on " + req.date + "? You will be held responsible if the show is missed.") ) {
-			db.fillSubRequest(req.sub_requestID)
-				.then(function() {
-					req.filled_by = $scope.$parent.user.preferred_name;
-				});
+			db.fillSubRequest(req.sub_requestID).then(function() {
+				req.filled_by = $scope.$parent.user.preferred_name;
+				alert.success("Sub request filled.");
+			}, function(res) {
+				alert.error(res.data || res.statusText);
+			});
 		}
 	};
 
@@ -1046,10 +1141,12 @@ app.controller("ShowSubCtrl", ["$scope", "db", function($scope, db) {
 		var req = $scope.requests[index];
 
 		if ( confirm("Are you sure you want to remove your sub request? If you request another one less than 24 hours before your show, you will be held responsible for missing your show.") ) {
-			db.removeSubRequest(req.sub_requestID)
-				.then(function() {
-					$scope.requests.splice(index, 1);
-				});
+			db.removeSubRequest(req.sub_requestID).then(function() {
+				$scope.requests.splice(index, 1);
+				alert.success("Sub request removed.");
+			}, function(res) {
+				alert.error(res.data || res.statusText);
+			});
 		}
 	};
 
@@ -1057,7 +1154,7 @@ app.controller("ShowSubCtrl", ["$scope", "db", function($scope, db) {
 	getSubRequests();
 }]);
 
-app.controller("ShowSubRequestCtrl", ["$scope", "$location", "db", function($scope, $location, db) {
+app.controller("ShowSubRequestCtrl", ["$scope", "$location", "db", "alert", function($scope, $location, db, alert) {
 	$scope.today = Date.now();
 	$scope.days = db.getDefs("days");
 	$scope.request = {};
@@ -1070,6 +1167,9 @@ app.controller("ShowSubRequestCtrl", ["$scope", "$location", "db", function($sco
 	$scope.submit = function() {
 		db.submitSubRequest($scope.request).then(function() {
 			$location.url("/showsub");
+			alert.success("Sub request successfully added.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
 		});
 	};
 }]);
@@ -1084,7 +1184,7 @@ app.controller("UsersCtrl", ["$scope", "db", function($scope, db) {
 	});
 }]);
 
-app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($scope, db, $location, Upload) {
+app.controller("UserCtrl", ["$scope", "$location", "db", "alert", function($scope, $location, db, alert) {
 	$scope.days = db.getDefs("days");
 	$scope.general_genres = db.getDefs("general_genres");
 
@@ -1093,6 +1193,9 @@ app.controller("UserCtrl", ["$scope", "db", "$location", "Upload", function($sco
 	$scope.save = function() {
 		db.saveUser($scope.user).then(function(res) {
 			$location.url("/");
+			alert.success("Profile successfully saved.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
 		});
 	};
 }]);

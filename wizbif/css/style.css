@@ -51,3 +51,12 @@ pre {
 	white-space: pre-line;
 	word-break: normal;
 }
+
+/* rules for alerts */
+#alerts {
+	z-index: 2000;
+	position: fixed;
+	bottom: 0px;
+	left: 20px;
+	width: 300px;
+}

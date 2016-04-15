@@ -66,7 +66,6 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 
 - discuss removing `def_mediums`
 
-- add success/error alerts
 - monthly breakdown of album reviews by DJ
 - album checkout interface
 - user admin panel for chief announcer
@@ -78,3 +77,4 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 - move services and controllers into separate files
 - merge Import and Library control panels
 - add help content/minigame to home page
+- streamline fishbowl review process
