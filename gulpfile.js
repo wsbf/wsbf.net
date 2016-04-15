@@ -113,6 +113,7 @@ gulp.task("private-api", function() {
 	return gulp.src([
 		path.join(SRC, "api/fishbowl/*.php"),
 		path.join(SRC, "api/import/*.php"),
+		path.join(SRC, "api/library/font/**/*"),
 		path.join(SRC, "api/library/*.php"),
 		path.join(SRC, "api/password/*.php"),
 		path.join(SRC, "api/schedule/*.php"),
