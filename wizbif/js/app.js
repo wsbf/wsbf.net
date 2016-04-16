@@ -380,21 +380,16 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 		return $http.delete("/api/schedule/schedule.php");
 	};
 
-	// TODO: combine show functions into Resource object
+	var Show = $resource("/api/schedule/show.php");
+
 	/**
 	 * Get a show in the schedule.
 	 *
 	 * @param scheduleID  schedule ID
-	 * @return Promise of show object
+	 * @return show object
 	 */
 	this.getShow = function(scheduleID) {
-		return $http.get("/api/schedule/show.php", {
-			params: {
-				scheduleID: scheduleID
-			}
-		}).then(function(res) {
-			return res.data;
-		});
+		return Show.get({ scheduleID: scheduleID });
 	};
 
 	/**
@@ -404,7 +399,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.addShow = function(show) {
-		return $http.post("/api/schedule/show.php", show);
+		return Show.save({}, show).$promise;
 	};
 
 	/**
@@ -414,11 +409,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.removeShow = function(scheduleID) {
-		return $http.delete("/api/schedule/show.php", {
-			params: {
-				scheduleID: scheduleID
-			}
-		});
+		return Show.remove({ scheduleID: scheduleID }).$promise;
 	};
 
 	/**
@@ -451,7 +442,10 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 			});
 	};
 
-	// TODO: combine add/fill/remove into one script and Resource object
+	var ShowSub = $resource("/api/showsub/request.php", {}, {
+		fill: { method: "POST" }
+	});
+
 	/**
 	 * Submit a sub request.
 	 *
@@ -459,7 +453,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.submitSubRequest = function(request) {
-		return $http.post("/api/showsub/request.php", request);
+		return ShowSub.save({}, request).$promise;
 	};
 
 	/**
@@ -469,11 +463,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.fillSubRequest = function(requestID) {
-		return $http.post("/api/showsub/request.php", null, {
-			params: {
-				requestID: requestID
-			}
-		});
+		return ShowSub.fill({ requestID: requestID }, null).$promise;
 	};
 
 	/**
@@ -483,11 +473,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.removeSubRequest = function(requestID) {
-		return $http.delete("/api/showsub/request.php", {
-			params: {
-				requestID: requestID
-			}
-		});
+		return ShowSub.remove({ requestID: requestID }).$promise;
 	};
 
 	/**
@@ -1045,13 +1031,11 @@ app.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootScope", "db",
 	};
 
 	$scope.getShow = function(scheduleID) {
-		db.getShow(scheduleID).then(function(show) {
-			$uibModal.open({
-				templateUrl: "views/schedule_show.html",
-				scope: angular.extend($rootScope.$new(), {
-					show: show
-				})
-			});
+		$uibModal.open({
+			templateUrl: "views/schedule_show.html",
+			scope: angular.extend($rootScope.$new(), {
+				show: db.getShow(scheduleID)
+			})
 		});
 	};
 
