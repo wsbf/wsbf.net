@@ -1,0 +1,47 @@
+<h2 class="text-center">User Control Panel</h2>
+
+<div class="text-center" ng-show="!check.seniorStaff">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't on senior staff, so you can't manage users.</p>
+</div>
+
+<div ng-show="check.seniorStaff">
+	<div class="row">
+		<div class="col-sm-6">
+			<select class="form-control" ng-model="statusID" ng-options="s.statusID as s.status for s in statuses">
+				<option value="">All Statuses</option>
+			</select>
+		</div>
+
+		<div class="col-sm-6 text-right">
+			<button class="btn btn-default" ng-click="save()">Save Changes</button>
+		</div>
+	</div>
+
+	<table class="table">
+		<thead>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Preferred Name</th>
+			<th>Email</th>
+			<th>Team</th>
+			<th>Status</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="u in users | filter:(statusID ? {statusID: statusID} : {})" class="bg-team-{{u.teamID}}">
+				<td>{{u.first_name}}</td>
+				<td>{{u.last_name}}</td>
+				<td>{{u.preferred_name}}</td>
+				<td>{{u.email_addr}}</td>
+				<td>
+					<select class="form-control input-sm" ng-model="u.teamID" ng-options="t.teamID as t.team for t in teams" ng-change="u.changed = true"></select>
+				</td>
+				<td>
+					<select class="form-control input-sm" ng-model="u.statusID" ng-options="s.statusID as s.status for s in statuses" ng-change="u.changed = true"></select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

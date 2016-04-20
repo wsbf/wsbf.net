@@ -30,6 +30,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/showsub/request", { templateUrl: "views/showsub_request.html", controller: "ShowSubRequestCtrl" })
 		.when("/users", { templateUrl: "views/users.html", controller: "UsersCtrl" })
 		.when("/users/:username/edit", { templateUrl: "views/user_edit.html", controller: "UserCtrl" })
+		.when("/users/admin", { templateUrl: "views/users_admin.html", controller: "UsersAdminCtrl" })
 		.otherwise("/");
 }]);
 
@@ -259,6 +260,9 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	/**
 	 * Print album labels to a PDF document.
 	 *
+	 * Currently this function is not used. Instead,
+	 * the PDF is opened in a new tab with window.open().
+	 *
 	 * @param albums  array of album IDs
 	 * @return Promise of http response
 	 */
@@ -479,13 +483,28 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	/**
 	 * Get a list of users.
 	 *
+	 * @param admin  whether to use admin API
 	 * @return Promise of user array
 	 */
-	this.getUsers = function() {
-		return $http.get("/api/users/users.php")
+	this.getUsers = function(admin) {
+		var url = admin
+			? "/api/users/users_admin.php"
+			: "/api/users/users.php";
+
+		return $http.get(url)
 			.then(function(res) {
 				return res.data;
 			});
+	};
+
+	/**
+	 * Update users.
+	 *
+	 * @param users  array of users
+	 * @return Promise of http response
+	 */
+	this.updateUsers = function(users) {
+		return $http.post("api/users/users_admin.php", users);
 	};
 
 	/**
@@ -1163,9 +1182,48 @@ app.controller("UsersCtrl", ["$scope", "db", function($scope, db) {
 	$scope.users = [];
 
 	// initialize
-	db.getUsers().then(function(users) {
+	db.getUsers(false).then(function(users) {
 		$scope.users = users;
 	});
+}]);
+
+app.controller("UsersAdminCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
+	$scope.statuses = db.getDefs("status");
+	$scope.teams = db.getDefs("teams");
+	$scope.users = [];
+	$scope.statusID = "0";
+
+	var getUsers = function() {
+		db.getUsers(true).then(function(users) {
+			$scope.users = users;
+		});
+	};
+
+	$scope.save = function() {
+		var users = $scope.users
+			.filter(function(u) {
+				return u.changed;
+			})
+			.map(function(u) {
+				return {
+					username: u.username,
+					statusID: u.statusID,
+					teamID: u.teamID
+				};
+			});
+
+		db.updateUsers(users).then(function() {
+			$scope.users.forEach(function(u) {
+				u.changed = false;
+			});
+			alert.success("Users successfully updated.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
+		});
+	};
+
+	// initialize
+	getUsers();
 }]);
 
 app.controller("UserCtrl", ["$scope", "$location", "db", "alert", function($scope, $location, db, alert) {
