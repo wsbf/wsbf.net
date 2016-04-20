@@ -504,7 +504,7 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of http response
 	 */
 	this.updateUsers = function(users) {
-		return $http.post("api/users/users_admin.php", users);
+		return $http.post("/api/users/users_admin.php", users);
 	};
 
 	/**

@@ -171,8 +171,8 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	// TODO: validate albums
 
 	move_rotation($mysqli, $albums);
-
 	$mysqli->close();
+
 	exit;
 }
 ?>
