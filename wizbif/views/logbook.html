@@ -52,7 +52,7 @@
 
 	<div class="row">
 		<div class="col-sm-offset-2 col-sm-6">
-			<select class="form-control" ng-model="scheduleID">
+			<select class="form-control" ng-model="scheduleID" ng-disabled="showID">
 				<option ng-repeat="s in user.shows" value="{{s.scheduleID}}">
 					<span>{{s.show_name}}</span>
 					<span>({{days[s.dayID].day}} {{s.start_time}} - {{s.end_time}})</span>
@@ -61,8 +61,8 @@
 		</div>
 
 		<div class="col-sm-2">
-			<button class="btn btn-default" ng-click="signOn(scheduleID)" ng-disabled="scheduleID">Sign on</button>
-			<button class="btn btn-default" ng-click="signOff()" ng-disabled="!scheduleID">Sign off</button>
+			<button class="btn btn-default" ng-click="signOn(scheduleID)" ng-disabled="!scheduleID || showID">Sign on</button>
+			<button class="btn btn-default" ng-click="signOff(showID)" ng-disabled="!showID">Sign off</button>
 		</div>
 	</div>
 	<br>
@@ -71,6 +71,7 @@
 		<thead>
 			<th>Now Playing</th>
 			<th>Album Code</th>
+			<th>Disc No.</th>
 			<th>Track No.</th>
 			<th>Rotation</th>
 			<th>Track Name</th>
@@ -82,8 +83,12 @@
 
 		<tbody>
 			<tr ng-repeat="t in playlist">
-				<td></td>
+				<td>
+					<a href="" ng-show="" ng-click="">Play</a>
+					<a href="" ng-show="" ng-click="">Stop</a>
+				</td>
 				<td>{{t.lb_album_code}}</td>
+				<td>{{t.lb_disc_num}}</td>
 				<td>{{t.lb_track_num}}</td>
 				<td>{{t.lb_rotation}}</td>
 				<td>{{t.lb_track_name}}</td>
@@ -98,13 +103,16 @@
 			<tr>
 				<td></td>
 				<td>
-					<input class="form-control input-sm" ng-model="newTrack.lb_album_code"/>
+					<input class="form-control input-sm" ng-model="newTrack.lb_album_code" ng-blur="getAlbum(newTrack.lb_album_code)"/>
 				</td>
 				<td>
-					<input class="form-control input-sm" type="number" ng-model="newTrack.lb_track_num"/>
+					<input class="form-control input-sm" type="number" ng-model="newTrack.lb_disc_num"/>
+				</td>
+				<td>
+					<input class="form-control input-sm" type="number" ng-model="newTrack.lb_track_num" ng-blur="getTrack(newTrack.lb_album_code, newTrack.lb_disc_num, newTrack.lb_track_num)"/>
 				</td>
 				<td>{{newTrack.lb_rotation}}</td>
-				<td>
+				<td ng-class="{ 'has-success': newTrack.airabilityID == 1, 'has-error': newTrack.airabilityID == 2 }">
 					<input class="form-control input-sm" ng-model="newTrack.lb_track_name"/>
 				</td>
 				<td>
@@ -117,7 +125,7 @@
 					<input class="form-control input-sm" ng-model="newTrack.lb_label"/>
 				</td>
 				<td class="text-center h3">
-					<span class="button-icon" ng-click="playlist.push(newTrack); newTrack = {}">&plus;</span>
+					<span class="button-icon" ng-click="newTrack.rotation = newTrack.rotation || 'O'; playlist.push(newTrack); newTrack = {}">&plus;</span>
 				</td>
 			</tr>
 		</tbody>

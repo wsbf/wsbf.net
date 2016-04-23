@@ -360,6 +360,72 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 
 	/**
+	 * Sign on the current user to the logbook.
+	 *
+	 * @param scheduleID  schedule ID
+	 * @return Promise of show ID
+	 */
+	this.signOn = function(scheduleID) {
+		return $http.post("/api/logbook/sign_on.php", null, {
+			params: {
+				scheduleID: scheduleID
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Sign off the current user from the logbook.
+	 *
+	 * @param showID  show ID
+	 * @return Promise of http response
+	 */
+	this.signOff = function(showID) {
+		return $http.post("/api/logbook/sign_off.php", null, {
+			params: {
+				showID: showID
+			}
+		});
+	};
+
+	/**
+	 * Get the information for an album.
+	 *
+	 * @param album_code  album code
+	 * @return Promise of album object
+	 */
+	this.getLogbookAlbum = function(album_code) {
+		return $http.get("/api/logbook/track.php", {
+			params: {
+				album_code: album_code
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Get the information for a track.
+	 *
+	 * @param album_code  album code
+	 * @param disc_num    disc number
+	 * @param track_num   track number
+	 * @return Promise of track object
+	 */
+	this.getLogbookTrack = function(album_code, disc_num, track_num) {
+		return $http.get("/api/logbook/track.php", {
+			params: {
+				album_code: album_code,
+				disc_num: disc_num,
+				track_num: track_num
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
 	 * Get the show schedule for a day of the week.
 	 *
 	 * @param day  day of the week (0: Sunday, etc.)
@@ -985,9 +1051,11 @@ app.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db",
 
 app.controller("LogbookCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
 	$scope.days = db.getDefs("days");
-	$scope.scheduleID = null;
+	$scope.showID = null;
 	$scope.show = null;
 	$scope.listenerCount = 0;
+
+	// TODO: maybe move to $scope.show.playlist
 	$scope.playlist = [];
 
 	var getCurrentShow = function() {
@@ -1003,11 +1071,37 @@ app.controller("LogbookCtrl", ["$scope", "$interval", "db", function($scope, $in
 	};
 
 	$scope.signOn = function(scheduleID) {
-
+		db.signOn(scheduleID).then(function(showID) {
+			// TODO
+			$scope.showID = showID;
+		});
 	};
 
-	$scope.signOff = function() {
+	$scope.signOff = function(showID) {
+		db.signOff(showID).then(function() {
+			// TODO
+			$scope.showID = null;
+		});
+	};
 
+	$scope.getAlbum = function(album_code) {
+		db.getLogbookAlbum(album_code).then(function(album) {
+			$scope.newTrack.lb_rotation = album.rotation;
+			$scope.newTrack.lb_artist = album.artist_name;
+			$scope.newTrack.lb_album = album.album_name;
+			$scope.newTrack.lb_label = album.label;
+		});
+	};
+
+	$scope.getTrack = function(album_code, disc_num, track_num) {
+		db.getLogbookTrack(album_code, disc_num, track_num).then(function(track) {
+			$scope.newTrack.lb_track_name = track.track_name;
+			$scope.newTrack.airabilityID = track.airabilityID;
+		});
+	};
+
+	$scope.addTrack = function(track) {
+		// TODO
 	};
 
 	// initialize
