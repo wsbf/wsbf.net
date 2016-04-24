@@ -3,12 +3,13 @@
 <div class="text-center" ng-show="!check.seniorStaff">
 	<h3><strong>Nah.</strong></h3>
 
-	<p>It would seem that you aren't on senior staff, so you can't look at the fishbowl.</p>
+	<p>It would seem that you aren't on senior staff, so you can't manage the fishbowl.</p>
 </div>
 
 <div ng-show="check.seniorStaff">
-	<button class="btn btn-default" ng-click="archiveFishbowl()" ng-disabled="fishbowl.length == 0">Archive</button>
-	<button class="btn btn-default" ng-click="getFishbowlResults()" ng-disabled="fishbowl.length == 0">Print Results</button>
+	<button class="btn btn-default" ng-click="archiveFishbowl()" ng-disabled="apps.length == 0">Archive</button>
+	<button class="btn btn-default" ng-click="rateFishbowlApps(apps)" ng-disabled="apps.length == 0">Submit Ratings</button>
+	<button class="btn btn-default" ng-click="getFishbowlResults(apps)" ng-disabled="apps.length == 0">Print Results</button>
 
 	<div class="row">
 		<div class="col-sm-2" ng-repeat="b in bowls">
@@ -30,17 +31,23 @@
 			<th>Name</th>
 			<th>Weight</th>
 			<th>Average</th>
-			<th></th>
+			<th>Your Rating</th>
 		</thead>
 
 		<tbody>
-			<tr ng-repeat="f in fishbowl" ng-class="{ 'danger': !f.average }">
-				<td>{{f.id}}</td>
-				<td>{{f.preferred_name}}</td>
-				<td>{{f.weight}}</td>
-				<td>{{f.average}}</td>
+			<tr ng-repeat="a in apps">
 				<td>
-					<a ng-href="#/fishbowl/admin/{{f.id}}">Review</a>
+					<a href="" ng-click="review(apps, a.id)">{{a.id}}</a>
+				</td>
+				<td>{{a.preferred_name}}</td>
+				<td>{{a.weight}}</td>
+				<td>{{a.average}}</td>
+				<td>
+					<span ng-show="a.rating == 1">&#9733;</span>
+					<span ng-show="a.rating == 2">&#9733;&#9733;</span>
+					<span ng-show="a.rating == 3">&#9733;&#9733;&#9733;</span>
+					<span ng-show="a.rating == 4">&#9733;&#9733;&#9733;&#9733;</span>
+					<span ng-show="a.rating == 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
 				</td>
 			</tr>
 		</tbody>

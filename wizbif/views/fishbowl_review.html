@@ -1,12 +1,7 @@
-<h3 class="text-center">Review Fishbowl Application</h3>
+<form class="modal-body">
+	<span class="close" ng-click="$dismiss()">&times;</span>
+	<div class="clearfix"></div>
 
-<div class="text-center" ng-show="!check.seniorStaff">
-	<h3><strong>Nah.</strong></h3>
-
-	<p>It would seem that you aren't on senior staff, so you can't look at the fishbowl.</p>
-</div>
-
-<form name="form" ng-show="check.seniorStaff">
 	<div class="form-group">
 		<strong>Name:</strong>
 		<samp>{{app.preferred_name}}</samp>
@@ -52,8 +47,8 @@
 		<pre>{{app.other}}</pre>
 	</div>
 
-	<div class="form-group" ng-class="{'has-error': form.rating.$touched && form.rating.$invalid}">
-		<select class="form-control" name="rating" ng-model="rating" required>
+	<div class="form-group">
+		<select class="form-control" ng-model="apps[index].rating">
 			<option value="">Select a rating...</option>
 			<option value="1">&#9733;</option>
 			<option value="2">&#9733;&#9733;</option>
@@ -65,8 +60,8 @@
 
 	<div class="form-group text-center">
 		<div class="btn-group">
-			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="submit()">Submit</button>
-			<a class="btn btn-default" href="#/fishbowl/admin">Cancel</a>
+			<button type="button" class="btn btn-default" ng-disabled="index <= 0" ng-click="get(apps, index - 1)">Prev</button>
+			<button type="button" class="btn btn-default" ng-disabled="apps.length <= index + 1" ng-click="get(apps, index + 1)">Next</button>
 		</div>
 	</div>
 </form>

@@ -36,7 +36,8 @@ gulp.task("public", [
 	"public-html",
 	"public-css",
 	"public-js",
-	"public-images"
+	"public-images",
+	"public-files"
 ]);
 
 // could also just copy bower_components/
@@ -99,6 +100,14 @@ gulp.task("public-images", function() {
 	], { base: SRC })
 		.pipe(changed(DST))
 		.pipe(imagemin())
+		.pipe(gulp.dest(DST));
+});
+
+gulp.task("public-files", function() {
+	return gulp.src([
+		path.join(SRC, "files/**/*")
+	], { base: SRC })
+		.pipe(changed(DST))
 		.pipe(gulp.dest(DST));
 });
 
