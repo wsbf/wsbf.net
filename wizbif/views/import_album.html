@@ -1,12 +1,9 @@
-<h3 class="text-center">Import Album</h3>
-
-<div class="text-center" ng-show="!check.musicDirector">
-	<h3><strong>Nah.</strong></h3>
-
-	<p>It would seem that you don't have music director privileges, so you can't import files.</p>
+<div class="modal-header">
+	<span class="close" ng-click="$dismiss()">&times;</span>
+	<h3 class="text-center">Import Album</h3>
 </div>
 
-<form class="form-horizontal" name="form" ng-show="check.musicDirector">
+<form class="modal-body form-horizontal" name="form">
 	<div class="form-group" ng-class="{'has-error': form.artist_name.$touched && form.artist_name.$invalid}">
 		<label class="col-sm-3 control-label">Artist Name</label>
 		<div class="col-sm-6">
@@ -114,9 +111,6 @@
 	</table>
 
 	<div class="form-group text-center">
-		<div class="btn-group">
-			<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="save()">Save</button>
-			<a class="btn btn-default" href="#/import">Cancel</a>
-		</div>
+		<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="save(album)">Save</button>
 	</div>
 </form>

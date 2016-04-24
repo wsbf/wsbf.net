@@ -25,7 +25,7 @@
 
 	<ul class="list-unstyled">
 		<li ng-repeat="c in carts">
-			<a href="#/import/cart/{{path}}/{{c}}">{{c}}</a>
+			<a href="" ng-click="openCart(path, c)">{{c}}</a>
 		</li>
 	</ul>
 
@@ -33,7 +33,7 @@
 
 	<ul class="list-unstyled">
 		<li ng-repeat="a in artists">
-			<a ng-href="#/import/album/{{path}}/{{a}}">{{a}}</a>
+			<a href="" ng-click="openAlbum(path, a)">{{a}}</a>
 		</li>
 	</ul>
 </div>

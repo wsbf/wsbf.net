@@ -12,11 +12,8 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/archives", { templateUrl: "views/archives.html", controller: "ArchivesCtrl" })
 		.when("/charts", { templateUrl: "views/charts.html", controller: "ChartsCtrl" })
 		.when("/fishbowl/admin", { templateUrl: "views/fishbowl_admin.html", controller: "FishbowlAdminCtrl" })
-		.when("/fishbowl/admin/:id", { templateUrl: "views/fishbowl_review.html", controller: "FishbowlReviewCtrl" })
 		.when("/fishbowl/app", { templateUrl: "views/fishbowl_app.html", controller: "FishbowlAppCtrl" })
 		.when("/import", { templateUrl: "views/import.html", controller: "ImportCtrl" })
-		.when("/import/album/:path?/:artist", { templateUrl: "views/import_album.html", controller: "ImportAlbumCtrl" })
-		.when("/import/cart/:path?/:cart", { templateUrl: "views/import_cart.html", controller: "ImportCartCtrl" })
 		.when("/library", { templateUrl: "views/library.html", controller: "LibraryCtrl" })
 		.when("/library/admin", { templateUrl: "views/library_admin.html", controller: "LibraryAdminCtrl" })
 		.when("/library/:albumID", { templateUrl: "views/library_album.html", controller: "LibraryAlbumCtrl" })
@@ -859,7 +856,7 @@ app.controller("FishbowlReviewCtrl", ["$scope", "db", "alert", function($scope, 
 	$scope.get($scope.apps, _.findIndex($scope.apps, { id: $scope.id }));
 }]);
 
-app.controller("ImportCtrl", ["$scope", "db", function($scope, db) {
+app.controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db", function($scope, $rootScope, $uibModal, db) {
 	$scope.trail = ["Root"];
 	$scope.path = "";
 	$scope.directories = [];
@@ -897,52 +894,75 @@ app.controller("ImportCtrl", ["$scope", "db", function($scope, db) {
 			});
 	};
 
+	$scope.openCart = function(path, filename) {
+		$uibModal.open({
+			templateUrl: "views/import_cart.html",
+			controller: "ImportCartCtrl",
+			scope: angular.extend($rootScope.$new(), {
+				path: path,
+				filename: filename
+			})
+		});
+	};
+
+	$scope.openAlbum = function(path, artist_name) {
+		$uibModal.open({
+			templateUrl: "views/import_album.html",
+			controller: "ImportAlbumCtrl",
+			scope: angular.extend($rootScope.$new(), {
+				path: path,
+				artist_name: artist_name
+			}),
+			size: "lg"
+		});
+	};
+
 	// initialize
 	$scope.openDirectory(0);
 }]);
 
-app.controller("ImportAlbumCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {
+app.controller("ImportAlbumCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	$scope.general_genres = db.getDefs("general_genres");
 	$scope.mediums = db.getDefs("mediums");
 	$scope.album = {
 		tracks: []
 	};
 
-	$scope.save = function() {
-		db.importAlbum($scope.album).then(function() {
-			$location.url("/import");
+	$scope.save = function(album) {
+		db.importAlbum(album).then(function() {
 			alert.success("Album successfully imported.");
+			$scope.$close();
 		}, function(res) {
 			alert.error(res.data || res.statusText);
 		});
 	};
 
 	// initialize
-	db.getImportAlbum($routeParams.path, $routeParams.artist)
+	db.getImportAlbum($scope.path, $scope.artist_name)
 		.then(function(album) {
 			$scope.album = album;
-			$scope.album.path = $routeParams.path || "";
+			$scope.album.path = $scope.path || "";
 		});
 }]);
 
-app.controller("ImportCartCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {
+app.controller("ImportCartCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	$scope.cart_types = db.getDefs("cart_type");
 	$scope.cart = {};
 
-	$scope.save = function() {
-		db.importCart($scope.cart).then(function() {
-			$location.url("/import");
+	$scope.save = function(cart) {
+		db.importCart(cart).then(function() {
 			alert.success("Cart successfully imported.");
+			$scope.$close();
 		}, function(res) {
 			alert.error(res.data || res.statusText);
 		});
 	};
 
 	// initialize
-	db.getImportCart($routeParams.path, $routeParams.cart)
+	db.getImportCart($scope.path, $scope.filename)
 		.then(function(cart) {
 			$scope.cart = cart;
-			$scope.cart.path = $routeParams.path || "";
+			$scope.cart.path = $scope.path || "";
 		});
 }]);
 

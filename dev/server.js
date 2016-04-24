@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // define routes
-var authenticated = false;
+var authenticated = true;
 
 app.get("/api/defs.php", function(req, res, next) {
 	var tablePath = path.join(__dirname, "api/defs", req.query.table);

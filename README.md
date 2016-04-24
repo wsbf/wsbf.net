@@ -73,6 +73,7 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 - user profile photos
 - logbook
 - "spaz sheet" interface for logbook (with captcha)
+- move views into modals where appropriate
 - move services and controllers into separate files
 - merge Import and Library control panels
 - add help content/minigame to home page
