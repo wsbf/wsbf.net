@@ -7,6 +7,7 @@
 require_once("../auth.php");
 require_once("../connect.php");
 
+// TODO: maybe move to DELETE fishbowl.php
 /**
  * Archive the current fishbowl.
  *

@@ -48,35 +48,56 @@ function get_fishbowl_app($mysqli, $id)
 	return $app;
 }
 
+// TODO: maybe move to POST fishbowl.php
 /**
- * Rate a fishbowl app.
+ * Validate fishbowl ratings.
+ *
+ * @param apps  array of app id's and ratings
+ * @return true if app ratings are valid, false otherwise
+ */
+function validate_fishbowl_ratings($apps)
+{
+	foreach ( $apps as $a ) {
+		if ( !is_numeric($a["id"])
+		  || !is_numeric($a["rating"])
+		  || $a["rating"] < 1 || 5 < $a["rating"] ) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Rate all fishbowl apps.
  *
  * @param mysqli  MySQL connection
- * @param id      fishbowl app id
- * @param rating  fishbowl app rating
+ * @param apps    array of app id's and ratings
  */
-function rate_fishbowl_app($mysqli, $id, $rating)
+function rate_fishbowl_apps($mysqli, $apps)
 {
-	// get fishbowl app
-	$q = "SELECT average, weight FROM `fishbowl` "
-		. "WHERE id='$id';";
-	$app = $mysqli->query($q)->fetch_assoc();
+	foreach ( $apps as $a ) {
+		// get fishbowl app
+		$q = "SELECT average, weight FROM `fishbowl` "
+			. "WHERE id='$a[id]';";
+		$app = $mysqli->query($q)->fetch_assoc();
 
-	$average = $app["average"];
-	$weight = $app["weight"];
+		$average = $app["average"];
+		$weight = $app["weight"];
 
-	// apply rating to average and weight
-	// - average is the average of all ratings
-	// - weight is the number of ratings
-	$average = ($average * $weight + $rating) / ($weight + 1);
-	$weight++;
+		// apply rating to average and weight
+		// - average is the average of all ratings
+		// - weight is the number of ratings
+		$average = ($average * $weight + $a["rating"]) / ($weight + 1);
+		$weight++;
 
-	// update fishbowl app
-	$q = "UPDATE `fishbowl` SET "
-		. "average = '$average', "
-		. "weight = '$weight' "
-		. "WHERE id='$id';";
-	$mysqli->query($q);
+		// update fishbowl app
+		$q = "UPDATE `fishbowl` SET "
+			. "average = '$average', "
+			. "weight = '$weight' "
+			. "WHERE id='$a[id]';";
+		$mysqli->query($q);
+	}
 }
 
 authenticate();
@@ -86,14 +107,14 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	if ( !check_senior_staff($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to review fishbowl apps.");
+		exit;
 	}
 
 	$id = $_GET["id"];
 
 	if ( !is_numeric($id) ) {
 		header("HTTP/1.1 404 Not Found");
-		exit("Fishbowl app id is invalid.");
+		exit;
 	}
 
 	$app = get_fishbowl_app($mysqli, $id);
@@ -107,19 +128,20 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 
 	if ( !check_senior_staff($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to review fishbowl apps.");
+		exit;
 	}
 
-	$id = $_GET["id"];
-	$rating = $_GET["rating"];
+	$apps = json_decode(file_get_contents("php://input"), true);
+	$apps = escape_json($mysqli, $apps);
 
-	if ( !is_numeric($id) || !is_numeric($rating) ) {
+	if ( !validate_fishbowl_ratings($apps) ) {
 		header("HTTP/1.1 404 Not Found");
-		exit("Fishbowl app review is invalid.");
+		exit;
 	}
 
-	rate_fishbowl_app($mysqli, $id, $rating);
+	rate_fishbowl_apps($mysqli, $apps);
 	$mysqli->close();
+
 	exit;
 }
 ?>
