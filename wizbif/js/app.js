@@ -28,6 +28,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/users", { templateUrl: "views/users.html", controller: "UsersCtrl" })
 		.when("/users/:username/edit", { templateUrl: "views/user_edit.html", controller: "UserCtrl" })
 		.when("/users/admin", { templateUrl: "views/users_admin.html", controller: "UsersAdminCtrl" })
+		.when("/users/reviews", { templateUrl: "views/users_reviews.html", controller: "UsersReviewsCtrl" })
 		.otherwise("/");
 }]);
 
@@ -535,6 +536,24 @@ app.service("db", ["$http", "$resource", function($http, $resource) {
 	 */
 	this.removeSubRequest = function(requestID) {
 		return ShowSub.remove({ requestID: requestID }).$promise;
+	};
+
+	/**
+	 * Get a chart of album reviews for each user.
+	 *
+	 * @param date1  start date timestamp
+	 * @param date2  end date timestamp
+	 * @return Promise of user array
+	 */
+	this.getAlbumReviewChart = function(date1, date2) {
+		return $http.get("/api/users/reviews.php", {
+			params: {
+				date1: date1 / 1000,
+				date2: date2 / 1000
+			}
+		}).then(function(res) {
+			return res.data;
+		});
 	};
 
 	/**
@@ -1358,6 +1377,47 @@ app.controller("UsersAdminCtrl", ["$scope", "db", "alert", function($scope, db, 
 
 	// initialize
 	getUsers();
+}]);
+
+app.controller("UsersReviewsCtrl", ["$scope", "db", function($scope, db) {
+	$scope.currMonth = new Date(new Date().getUTCFullYear(), new Date().getUTCMonth());
+	$scope.users = [];
+
+	$scope.getChart = function(date1) {
+		var date2 = angular.copy(date1);
+
+		date2.setUTCMonth(date2.getUTCMonth() + 1);
+
+		db.getAlbumReviewChart(date1.getTime(), date2.getTime())
+			.then(function(users) {
+				$scope.users = users;
+			});
+	};
+
+	$scope.getPrevMonth = function() {
+		$scope.date1.setUTCMonth($scope.date1.getUTCMonth() - 1);
+
+		$scope.getChart($scope.date1);
+	};
+
+	$scope.hasNextMonth = function() {
+		return $scope.date1 < $scope.currMonth;
+	};
+
+	$scope.getNextMonth = function() {
+		$scope.date1.setUTCMonth($scope.date1.getUTCMonth() + 1);
+
+		$scope.getChart($scope.date1);
+	};
+
+	$scope.getCurrMonth = function() {
+		$scope.date1 = angular.copy($scope.currMonth);
+
+		$scope.getChart($scope.date1);
+	};
+
+	// initialize
+	$scope.getCurrMonth();
 }]);
 
 app.controller("UserCtrl", ["$scope", "$location", "db", "alert", function($scope, $location, db, alert) {

@@ -66,15 +66,13 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 
 - discuss removing `def_mediums`, `libcart`.`play_mask`
 
-- monthly breakdown of album reviews by DJ
 - album checkout interface
+- logbook
 - interface to request/grant/deny access to intern status and show times
 - maybe have account registration be approved
 - user profile photos
-- logbook
 - "spaz sheet" interface for logbook (with captcha)
 - move views into modals where appropriate
 - move services and controllers into separate files
 - merge Import and Library control panels
 - add help content/minigame to home page
-- streamline fishbowl review process
