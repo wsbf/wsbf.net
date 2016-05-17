@@ -77,10 +77,6 @@ app.config(["$routeProvider", function($routeProvider) {
 			templateUrl: "views/schedule_admin.html",
 			controller: "ScheduleCtrl"
 		})
-		.when("/schedule/admin/add/:dayID/:timeID", {
-			templateUrl: "views/schedule_admin_add.html",
-			controller: "ScheduleAddCtrl"
-		})
 		.when("/showsub", {
 			templateUrl: "views/showsub.html",
 			controller: "ShowSubCtrl"

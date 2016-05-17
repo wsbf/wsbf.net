@@ -1,12 +1,9 @@
-<h3 class="text-center">Add Show to Schedule</h3>
-
-<div class="text-center" ng-show="!check.seniorStaff">
-	<h3><strong>Nah.</strong></h3>
-
-	<p>It would seem that you aren't on senior staff, so you can't add shows.</p>
+<div class="modal-header">
+	<span class="close" ng-click="$dismiss()">&times;</span>
+	<h3 class="text-center">Add Show</h3>
 </div>
 
-<form class="form-horizontal" name="form" ng-show="check.seniorStaff">
+<form class="modal-body form-horizontal" name="form">
 	<div class="form-group">
 		<label class="col-xs-3 control-label">Day</label>
 		<div class="col-xs-6">
@@ -68,9 +65,6 @@
 	</div>
 
 	<div class="form-group text-center">
-		<div class="btn-group">
-			<button type="button" class="btn btn-default" ng-disabled="form.$invalid || show.hosts.length == 0" ng-click="save()">Save</button>
-			<a class="btn btn-default" href="#/schedule/admin">Cancel</a>
-		</div>
+		<button type="button" class="btn btn-default" ng-disabled="form.$invalid || show.hosts.length == 0" ng-click="save(show)">Save</button>
 	</div>
 </form>

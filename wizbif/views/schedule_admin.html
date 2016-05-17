@@ -27,7 +27,7 @@
 
 			<td ng-repeat="s in time track by $index">
 				<div class="text-center h4" ng-show="!s">
-					<a class="button-icon" ng-href="#/schedule/admin/add/{{$index}}/{{timeIndex}}">&plus;</a>
+					<a class="button-icon" ng-href="" ng-click="addShow($index, timeIndex)">&plus;</a>
 				</div>
 
 				<div class="text-right" ng-show="s">

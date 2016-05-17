@@ -1,9 +1,9 @@
 "use strict";
 
 var scheduleModule = angular.module("app.schedule", [
-    "ui.bootstrap",
-    "app.alert",
-    "app.database"
+	"ui.bootstrap",
+	"app.alert",
+	"app.database"
 ]);
 
 scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootScope", "db", "alert", function($scope, $q, $uibModal, $rootScope, db, alert) {
@@ -36,6 +36,17 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootSc
 		}
 	};
 
+	$scope.addShow = function(dayID, timeID) {
+		$uibModal.open({
+			templateUrl: "views/schedule_admin_add.html",
+			controller: "ScheduleAddCtrl",
+			scope: angular.extend($rootScope.$new(), {
+				dayID: dayID,
+				timeID: timeID
+			})
+		}).result.then(getSchedule);
+	};
+
 	$scope.getShow = function(scheduleID) {
 		$uibModal.open({
 			templateUrl: "views/schedule_show.html",
@@ -61,8 +72,7 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootSc
 	]).then(getSchedule);
 }]);
 
-// TODO: make this view a modal
-scheduleModule.controller("ScheduleAddCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {
+scheduleModule.controller("ScheduleAddCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	$scope.days = db.getDefs("days");
 	$scope.show_times = db.getDefs("show_times");
 	$scope.show_types = db.getDefs("show_types");
@@ -76,17 +86,17 @@ scheduleModule.controller("ScheduleAddCtrl", ["$scope", "$routeParams", "$locati
 		$scope.newHost = null;
 	};
 
-	$scope.save = function() {
+	$scope.save = function(show) {
 		// transform show object from view to server
-		var show = angular.copy($scope.show);
+		var show = angular.copy(show);
 
 		show.hosts = show.hosts.map(function(h) {
 			return h.username;
 		});
 
 		db.addShow(show).then(function() {
-			$location.url("/schedule/admin");
 			alert.success("Show successfully added.");
+			$scope.$close();
 		}, function(res) {
 			alert.error(res.data || res.statusText);
 		});
@@ -94,11 +104,11 @@ scheduleModule.controller("ScheduleAddCtrl", ["$scope", "$routeParams", "$locati
 
 	// initialize
 	$scope.show_times.$promise.then(function() {
-		var startID = Number.parseInt($routeParams.timeID);
+		var startID = Number.parseInt($scope.timeID);
 		var endID = (startID + 1) % $scope.show_times.length;
 
 		$scope.show = {
-			dayID: $routeParams.dayID,
+			dayID: $scope.dayID,
 			start_time: $scope.show_times[startID].show_time,
 			end_time: $scope.show_times[endID].show_time,
 			hosts: []
