@@ -7,7 +7,7 @@
 </div>
 
 <div ng-show="check.reviewer">
-	<a href="#/showsub/request">Request a show sub</a>
+	<a href="" ng-click="addRequest()">Request a show sub</a>
 
 	<table class="table">
 		<thead>
@@ -30,8 +30,8 @@
 				<td>{{r.reason}}</td>
 				<td>
 					<span ng-show="r.filled_by">{{r.filled_by}}</span>
-					<a ng-show="r.username !== user.username && !r.filled_by" href="" ng-click="fill($index)">Fill</a>
-					<a ng-show="r.username === user.username" href="" ng-click="remove($index)">Remove</a>
+					<a ng-show="r.username !== user.username && !r.filled_by" href="" ng-click="fill(r, user)">Fill</a>
+					<a ng-show="r.username === user.username" href="" ng-click="remove(requests, $index)">Remove</a>
 				</td>
 			</tr>
 		</tbody>

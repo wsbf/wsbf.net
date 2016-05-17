@@ -1,11 +1,12 @@
 "use strict";
 
 var showsubModule = angular.module("app.showsub", [
-    "app.alert",
-    "app.database"
+	"ui.bootstrap",
+	"app.alert",
+	"app.database"
 ]);
 
-showsubModule.controller("ShowSubCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
+showsubModule.controller("ShowSubCtrl", ["$scope", "$uibModal", "db", "alert", function($scope, $uibModal, db, alert) {
 	$scope.requests = [];
 
 	var getSubRequests = function() {
@@ -14,12 +15,17 @@ showsubModule.controller("ShowSubCtrl", ["$scope", "db", "alert", function($scop
 		});
 	};
 
-	$scope.fill = function(index) {
-		var req = $scope.requests[index];
+	$scope.addRequest = function() {
+		$uibModal.open({
+			templateUrl: "views/showsub_request.html",
+			controller: "ShowSubRequestCtrl"
+		});
+	};
 
-		if ( confirm("Are you sure you want to sub this show on " + req.date + "? You will be held responsible if the show is missed.") ) {
-			db.fillSubRequest(req.sub_requestID).then(function() {
-				req.filled_by = $scope.$parent.user.preferred_name;
+	$scope.fill = function(request, user) {
+		if ( confirm("Are you sure you want to sub this show on " + request.date + "? You will be held responsible if the show is missed.") ) {
+			db.fillSubRequest(request.sub_requestID).then(function() {
+				request.filled_by = user.preferred_name;
 				alert.success("Sub request filled.");
 			}, function(res) {
 				alert.error(res.data || res.statusText);
@@ -27,12 +33,12 @@ showsubModule.controller("ShowSubCtrl", ["$scope", "db", "alert", function($scop
 		}
 	};
 
-	$scope.remove = function(index) {
-		var req = $scope.requests[index];
+	$scope.remove = function(requests, index) {
+		var request = requests[index];
 
 		if ( confirm("Are you sure you want to remove your sub request? If you request another one less than 24 hours before your show, you will be held responsible for missing your show.") ) {
-			db.removeSubRequest(req.sub_requestID).then(function() {
-				$scope.requests.splice(index, 1);
+			db.removeSubRequest(request.sub_requestID).then(function() {
+				requests.splice(index, 1);
 				alert.success("Sub request removed.");
 			}, function(res) {
 				alert.error(res.data || res.statusText);
@@ -44,23 +50,36 @@ showsubModule.controller("ShowSubCtrl", ["$scope", "db", "alert", function($scop
 	getSubRequests();
 }]);
 
-// TODO: make this view a modal
-showsubModule.controller("ShowSubRequestCtrl", ["$scope", "$location", "db", "alert", function($scope, $location, db, alert) {
+showsubModule.controller("ShowSubRequestCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	$scope.today = Date.now();
 	$scope.days = db.getDefs("days");
+	$scope.user = {};
 	$scope.request = {};
 
+	/**
+	 * Check whether the date of a request is the
+	 * same day of week as the show of the request.
+	 *
+	 * @param request
+	 * @return true if request date is valid, false otherwise
+	 */
 	$scope.isValidDay = function(request) {
-		return (_.find($scope.user.shows, { scheduleID: request.scheduleID }) || {}).dayID
-			== request.date.getDay();
+		var show = _.find($scope.user.shows, { scheduleID: request.scheduleID });
+
+		return (show || {}).dayID == request.date.getDay();
 	};
 
-	$scope.submit = function() {
-		db.submitSubRequest($scope.request).then(function() {
-			$location.url("/showsub");
+	$scope.submit = function(request) {
+		db.submitSubRequest(request).then(function() {
 			alert.success("Sub request successfully added.");
+			$scope.$close();
 		}, function(res) {
 			alert.error(res.data || res.statusText);
 		});
 	};
+
+	// initialize
+	db.getUser().then(function(user) {
+		$scope.user = user;
+	});
 }]);

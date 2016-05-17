@@ -85,10 +85,6 @@ app.config(["$routeProvider", function($routeProvider) {
 			templateUrl: "views/showsub.html",
 			controller: "ShowSubCtrl"
 		})
-		.when("/showsub/request", {
-			templateUrl: "views/showsub_request.html",
-			controller: "ShowSubRequestCtrl"
-		})
 		.when("/users", {
 			templateUrl: "views/users.html",
 			controller: "UsersCtrl"

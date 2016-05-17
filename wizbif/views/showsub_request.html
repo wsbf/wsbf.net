@@ -1,12 +1,9 @@
-<h3 class="text-center">Show Sub Request</h3>
-
-<div class="text-center" ng-show="!check.reviewer">
-	<h3><strong>Nah.</strong></h3>
-
-	<p>It would seem that you aren't allowed to request show subs.</p>
+<div class="modal-header">
+	<span class="close" ng-click="$dismiss()">&times;</span>
+	<h3 class="text-center">Show Sub Request</h3>
 </div>
 
-<form class="form-horizontal" name="form" ng-show="check.reviewer">
+<form class="modal-body form-horizontal" name="form">
 	<div class="form-group">
 		<label class="col-sm-3 control-label">Requested By</label>
 		<div class="col-sm-6">
@@ -39,9 +36,6 @@
 	</div>
 
 	<div class="form-group text-center">
-		<div class="btn-group">
-			<button type="button" class="btn btn-default" ng-disabled="form.$invalid || !isValidDay(request)" ng-click="submit()">Submit</button>
-			<a class="btn btn-default" href="#/showsub">Cancel</a>
-		</div>
+		<button type="button" class="btn btn-default" ng-disabled="form.$invalid || !isValidDay(request)" ng-click="submit(request)">Submit</button>
 	</div>
 </form>
