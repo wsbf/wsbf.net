@@ -1,11 +1,8 @@
 "use strict";
-var app = angular.module("register", []);
 
-app.config(["$compileProvider", function($compileProvider) {
-	$compileProvider.debugInfoEnabled(false);
-}]);
+var registerModule = angular.module("app.register", []);
 
-app.controller("RegisterCtrl", ["$scope", "$http", function($scope, $http) {
+registerModule.controller("RegisterCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.user = {};
 	$scope.registered = false;
 

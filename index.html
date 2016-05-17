@@ -17,7 +17,7 @@
 
 		<!--
 			Angular uses a minimal version of jQuery called jqLite, but jQuery
-			is needed currently to load scripts in ng-view templates, such as
+			is needed currently to load scripts in HTML templates, such as
 			the chat in the media center.
 			If jQuery is loaded before Angular, then Angular will use that
 			version of jQuery instead of jqLite.
@@ -29,6 +29,17 @@
 		<script src="/bower_components/angular-route/angular-route.min.js"></script>
 		<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 		<script src="/bower_components/lodash/lodash.min.js"></script>
+
+		<script src="js/services/database.js"></script>
+		<script src="js/controllers/carousel.js"></script>
+		<script src="js/controllers/chart.js"></script>
+		<script src="js/controllers/main.js"></script>
+		<script src="js/controllers/now-playing.js"></script>
+		<script src="js/controllers/playlist.js"></script>
+		<script src="js/controllers/schedule.js"></script>
+		<script src="js/controllers/show-list.js"></script>
+		<script src="js/controllers/show.js"></script>
+		<script src="js/controllers/webcam.js"></script>
 		<script src="js/app.js"></script>
 	</head>
 	<body ng-controller="MainCtrl">

@@ -86,7 +86,7 @@ gulp.task("public-css", function() {
 
 gulp.task("public-js", function() {
 	return gulp.src([
-		path.join(SRC, "js/*.js")
+		path.join(SRC, "js/**/*.js")
 	], { base: SRC })
 		.pipe(changed(DST))
 		.pipe(uglify())
