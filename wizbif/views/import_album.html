@@ -59,10 +59,9 @@
 		<thead>
 			<th class="col-xs-1">Disc No.</th>
 			<th class="col-xs-1">Track No.</th>
-			<th class="col-xs-3">Name</th>
+			<th class="col-xs-3">Track Name</th>
 			<th class="col-xs-3">Artist</th>
-			<th class="col-xs-3">Filename</th>
-			<th class="col-xs-1"></th>
+			<th class="col-xs-4">Filename</th>
 		</thead>
 
 		<tbody>
@@ -79,33 +78,7 @@
 				<td>
 					<input class="form-control input-sm" ng-model="t.artist_name" required/>
 				</td>
-				<td>
-					<input class="form-control input-sm" ng-model="t.file_name"/>
-				</td>
-				<td class="text-center h4" style="vertical-align: middle">
-					<span class="button-icon" ng-click="album.tracks.splice($index, 1)">&times;</span>
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					<input class="form-control input-sm" type="number" ng-model="newTrack.disc_num" ng-max="album.num_discs"/>
-				</td>
-				<td>
-					<input class="form-control input-sm" type="number" ng-model="newTrack.track_num"/>
-				</td>
-				<td>
-					<input class="form-control input-sm" ng-model="newTrack.track_name"/>
-				</td>
-				<td>
-					<input class="form-control input-sm" ng-model="newTrack.artist_name"/>
-				</td>
-				<td>
-					<input class="form-control input-sm" ng-model="newTrack.file_name"/>
-				</td>
-				<td class="text-center h3">
-					<span class="button-icon" ng-click="album.tracks.push(newTrack); newTrack = {}">&plus;</span>
-				</td>
+				<td>{{t.file_name}}</td>
 			</tr>
 		</tbody>
 	</table>

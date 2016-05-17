@@ -11,6 +11,8 @@
 	<button class="btn btn-default" ng-click="rateFishbowlApps(apps)" ng-disabled="apps.length == 0">Submit Ratings</button>
 	<button class="btn btn-default" ng-click="getFishbowlResults(apps)" ng-disabled="apps.length == 0">Print Results</button>
 
+	<hr>
+
 	<div class="row">
 		<div class="col-sm-2" ng-repeat="b in bowls">
 			<table class="table table-condensed">
@@ -24,6 +26,8 @@
 			</table>
 		</div>
 	</div>
+
+	<hr>
 
 	<table class="table">
 		<thead>
