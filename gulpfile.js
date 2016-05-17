@@ -165,7 +165,7 @@ gulp.task("private-css", function() {
 
 gulp.task("private-js", function() {
 	return gulp.src([
-		path.join(SRC, "wizbif/js/*.js")
+		path.join(SRC, "wizbif/js/**/*.js")
 	], { base: SRC })
 		.pipe(changed(DST))
 		.pipe(uglify())
