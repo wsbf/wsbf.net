@@ -1,9 +1,9 @@
 "use strict";
 
-var showsubModule = angular.module("app.showsub", [
+var showsubModule = angular.module("wizbif.showsub", [
 	"ui.bootstrap",
-	"app.alert",
-	"app.database"
+	"wizbif.alert",
+	"wizbif.database"
 ]);
 
 showsubModule.controller("ShowSubCtrl", ["$scope", "$uibModal", "db", "alert", function($scope, $uibModal, db, alert) {

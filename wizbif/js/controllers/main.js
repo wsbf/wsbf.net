@@ -1,8 +1,8 @@
 "use strict";
 
-var mainModule = angular.module("app.main", [
-    "app.alert",
-    "app.database"
+var mainModule = angular.module("wizbif.main", [
+    "wizbif.alert",
+    "wizbif.database"
 ]);
 
 mainModule.controller("MainCtrl", ["$scope", "db", "alert", function($scope, db, alert) {

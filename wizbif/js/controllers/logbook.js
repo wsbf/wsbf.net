@@ -1,7 +1,7 @@
 "use strict";
 
-var logbookModule = angular.module("app.logbook", [
-    "app.database"
+var logbookModule = angular.module("wizbif.logbook", [
+    "wizbif.database"
 ]);
 
 logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {

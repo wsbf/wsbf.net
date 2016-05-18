@@ -1,6 +1,6 @@
 "use strict";
 
-var databaseModule = angular.module("app.database", [
+var databaseModule = angular.module("wizbif.database", [
     "ngResource"
 ]);
 

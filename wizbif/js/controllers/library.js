@@ -1,9 +1,9 @@
 "use strict";
 
-var libraryModule = angular.module("app.library", [
+var libraryModule = angular.module("wizbif.library", [
     "ngRoute",
-    "app.alert",
-    "app.database"
+    "wizbif.alert",
+    "wizbif.database"
 ]);
 
 libraryModule.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {

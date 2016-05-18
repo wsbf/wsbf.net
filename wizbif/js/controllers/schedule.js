@@ -1,9 +1,9 @@
 "use strict";
 
-var scheduleModule = angular.module("app.schedule", [
+var scheduleModule = angular.module("wizbif.schedule", [
 	"ui.bootstrap",
-	"app.alert",
-	"app.database"
+	"wizbif.alert",
+	"wizbif.database"
 ]);
 
 scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootScope", "db", "alert", function($scope, $q, $uibModal, $rootScope, db, alert) {

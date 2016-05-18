@@ -17,5 +17,6 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) 
 			});
 	};
 
+    // initialize
 	$scope.getSchedule($scope.day);
 }]);

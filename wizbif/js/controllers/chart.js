@@ -1,7 +1,7 @@
 "use strict";
 
-var chartModule = angular.module("app.chart", [
-    "app.database"
+var chartModule = angular.module("wizbif.chart", [
+    "wizbif.database"
 ]);
 
 chartModule.controller("ChartCtrl", ["$scope", "db", function($scope, db) {

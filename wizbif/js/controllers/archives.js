@@ -1,7 +1,7 @@
 "use strict";
 
-var archivesModule = angular.module("app.archives", [
-    "app.database"
+var archivesModule = angular.module("wizbif.archives", [
+    "wizbif.database"
 ]);
 
 archivesModule.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) {

@@ -1,6 +1,6 @@
 "use strict";
 
-var alertModule = angular.module("app.alert", []);
+var alertModule = angular.module("wizbif.alert", []);
 
 /**
  * The Alert service provides an Array-like interface to a

@@ -1,19 +1,19 @@
 "use strict";
-var app = angular.module("app", [
+var app = angular.module("wizbif", [
 	"ngRoute",
 	"ui.bootstrap",
-	"app.main",
-	"app.archives",
-	"app.chart",
-	"app.fishbowl-admin",
-	"app.fishbowl-app",
-	"app.import",
-	"app.library",
-	"app.logbook",
-	"app.schedule",
-	"app.showsub",
-	"app.user",
-	"app.users"
+	"wizbif.main",
+	"wizbif.archives",
+	"wizbif.chart",
+	"wizbif.fishbowl-admin",
+	"wizbif.fishbowl-app",
+	"wizbif.import",
+	"wizbif.library",
+	"wizbif.logbook",
+	"wizbif.schedule",
+	"wizbif.showsub",
+	"wizbif.user",
+	"wizbif.users"
 ]);
 
 app.config(["$compileProvider", function($compileProvider) {

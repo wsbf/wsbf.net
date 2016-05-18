@@ -1,8 +1,8 @@
 "use strict";
 
-var userModule = angular.module("app.user", [
-    "app.alert",
-    "app.database"
+var userModule = angular.module("wizbif.user", [
+    "wizbif.alert",
+    "wizbif.database"
 ]);
 
 userModule.controller("UserCtrl", ["$scope", "$location", "db", "alert", function($scope, $location, db, alert) {

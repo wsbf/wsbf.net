@@ -1,8 +1,8 @@
 "use strict";
 
-var fishbowlAdminModule = angular.module("app.fishbowl-admin", [
-    "app.alert",
-    "app.database"
+var fishbowlAdminModule = angular.module("wizbif.fishbowl-admin", [
+    "wizbif.alert",
+    "wizbif.database"
 ]);
 
 fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$uibModal", "db", "alert", function($scope, $rootScope, $uibModal, db, alert) {
