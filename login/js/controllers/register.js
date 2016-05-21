@@ -8,11 +8,10 @@ registerModule.controller("RegisterCtrl", ["$scope", "$http", function($scope, $
 
 	$scope.register = function(user) {
 		$http.post("/api/register.php", user)
-			.success(function() {
+			.then(function() {
 				$scope.registered = true;
-			})
-			.error(function(message) {
-				$scope.error = message;
+			}, function(res) {
+				$scope.error = res.data;
 			});
 	};
 }]);

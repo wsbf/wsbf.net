@@ -39,13 +39,14 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 
 ### Server
 
-- use Let's Encrypt for TLS encryption
+- Let's Encrypt auto-renewal
 - replace MySQL queries with prepared statements/stored procedures
 - write script to merge fragmented shows in `shows` table
 - polish database (remove HTML entities like `&amp;`, check for invalid values, etc.)
 - upgrade MySQL and PHP to newest versions
-- complete the PHP implementation of RDS sender
-- add server-side authentication/redirect to /wizbif directory
+- PHP implementation of RDS sender
+- server-side authentication/redirect to /wizbif directory
+- automated email for password reset, spaz sheet
 
 ### Client (public)
 

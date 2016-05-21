@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<div class="row">
+	<div class="col-sm-offset-4 col-sm-4">
+		<div class="page-header text-center">
+			<h1>Register</h1>
+		</div>
+
+		<div class="text-center" ng-show="registered">
+			<p>Thanks for registering, {{user.first_name}}! Now you can <a href="#/login">log in</a>. If you are an intern, email the Computer Engineer at <a href="mailto:computer@wsbf.net">computer@wsbf.net</a> to get CD review permissions.</p>
+		</div>
+
+		<div class="panel panel-default" ng-show="!registered">
+			<form class="panel-body" name="form" novalidate>
+				<div class="form-group" ng-class="{'has-error': form.username.$touched && form.username.$invalid}">
+					<input class="form-control" name="username" ng-model="user.username" required maxlength="50" placeholder="Username" autofocus/>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error': form.first_name.$touched && form.first_name.$invalid}">
+					<input class="form-control" name="first_name" ng-model="user.first_name" required maxlength="50" placeholder="First Name"/>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error': form.last_name.$touched && form.last_name.$invalid}">
+					<input class="form-control" name="last_name" ng-model="user.last_name" required maxlength="50" placeholder="Last Name"/>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error': form.password1.$touched && form.password1.$invalid}">
+					<input class="form-control" type="password" name="password1" ng-model="user.password" required placeholder="Password"/>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error': form.password2.$touched && form.password2.$invalid}">
+					<input class="form-control" type="password" name="password2" ng-model="passwordConfirm" required ng-pattern="user.password" placeholder="Confirm Password"/>
+				</div>
+
+				<div class="form-group" ng-class="{'has-error': form.email_addr.$touched && form.email_addr.$invalid}">
+					<input class="form-control" type="email" name="email_addr" ng-model="user.email_addr" required placeholder="Email Address"/>
+				</div>
+
+				<p class="text-center text-danger" ng-show="error">
+					<strong>{{error}}</strong>
+				</p>
+
+				<div class="text-center">
+					<button class="btn btn-default" type="button" ng-disabled="form.$invalid" ng-click="register(user)">Register</button>
+				</div>
+
+				<hr>
+
+				<div class="text-center">
+					<a href="#/login">Login</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
