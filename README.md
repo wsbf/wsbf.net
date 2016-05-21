@@ -10,7 +10,7 @@ This repository is an attempt to integrate all of the various fragments of WSBF'
 - Max's streaming website [new.wsbf.net/jpgr](http://new.wsbf.net/jpgr)
 - The development website [dev.wsbf.net](http://dev.wsbf.net)
 - Mobile site [m.wsbf.net](http://m.wsbf.net)
-- Darkice and Icecast [wsbf.net:8000](http://wsbf.net:8000)
+- Darkice and Icecast [wsbf.net/stream/](https://wsbf.net/stream/)
 - Studio A webcam
 - ZAutomate
 - RDS Sender
@@ -35,7 +35,6 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 
 ### General
 
-- consider applying to [madewithangular.com](https://www.madewithangular.com)
 - create a specification for DJ points
 
 ### Server
