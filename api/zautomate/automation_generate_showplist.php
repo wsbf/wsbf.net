@@ -75,14 +75,9 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 //		$playlist = get_playlist($mysqli, $showID);
 //	};
 
-	$show = array(
-		"showID" => $showID,
-		"playlist" => $playlist
-	);
-
 	$mysqli->close();
 
 	header("Content-Type: application/json");
-	exit(json_encode($show));
+	exit(json_encode($playlist));
 }
 ?>

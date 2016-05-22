@@ -4,7 +4,8 @@
  * @file zautomate/studio_search.php
  * @author Ben Shealy
  *
- * TODO: some 3-letter queries yield empty response
+ * TODO: some queries yield empty response: "sta", "star", "start"
+ *       might be caused by character encoding/collation
  */
 require_once("../connect.php");
 
