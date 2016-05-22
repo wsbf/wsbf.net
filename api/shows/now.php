@@ -48,5 +48,6 @@ $track = get_current_track($mysqli);
 $mysqli->close();
 
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
 exit(json_encode($track));
 ?>
