@@ -6,7 +6,7 @@
  *
  * Render album labels in a PDF document with FPDF.
  */
-require_once("../auth.php");
+require_once("../auth/auth.php");
 require_once("../connect.php");
 require_once("fpdf.php");
 

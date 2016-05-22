@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @file register.php
+ * @file auth/register.php
  * @author Ben Shealy
  *
  * Register a new user.
  */
-require_once("connect.php");
-require_once("password_functions.php");
+require_once("../connect.php");
+require_once("functions.php");
 
 /**
  * Validate a user.

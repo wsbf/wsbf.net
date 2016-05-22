@@ -6,7 +6,7 @@
  *
  * Add, fill, or remove a show sub request.
  */
-require_once("../auth.php");
+require_once("../auth/auth.php");
 require_once("../connect.php");
 
 /**

@@ -6,7 +6,7 @@ resetPasswordModule.controller("ResetPasswordCtrl", ["$scope", "$routeParams", "
 	$scope.submitted = false;
 
 	$scope.submit = function(password) {
-		$http.post("/api/password/reset.php", {
+		$http.post("/api/auth/password_reset.php", {
 			transactionID: $routeParams.transactionID,
 			password: password
 		}).then(function(res) {

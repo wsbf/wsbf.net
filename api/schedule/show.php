@@ -8,7 +8,7 @@
  *
  * TODO: add update function
  */
-require_once("../auth.php");
+require_once("../auth/auth.php");
 require_once("../connect.php");
 
 /**

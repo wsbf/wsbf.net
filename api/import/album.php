@@ -19,7 +19,7 @@
  *
  * TODO: read MP3 tags from tracks instead of file name conventions
  */
-require_once("../auth.php");
+require_once("../auth/auth.php");
 require_once("../connect.php");
 require_once("../library/functions.php");
 require_once("config.php");

@@ -6,7 +6,7 @@ loginModule.controller("LoginCtrl", ["$scope", "$http", "$window", function($sco
 	$scope.user = {};
 
 	$scope.login = function(user) {
-		$http.post("/api/login.php", user)
+		$http.post("/api/auth/login.php", user)
 			.then(function(res) {
 				$window.location.href = res.data;
 			}, function(res) {

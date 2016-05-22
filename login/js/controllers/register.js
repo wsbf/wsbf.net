@@ -7,7 +7,7 @@ registerModule.controller("RegisterCtrl", ["$scope", "$http", function($scope, $
 	$scope.registered = false;
 
 	$scope.register = function(user) {
-		$http.post("/api/register.php", user)
+		$http.post("/api/auth/register.php", user)
 			.then(function() {
 				$scope.registered = true;
 			}, function(res) {

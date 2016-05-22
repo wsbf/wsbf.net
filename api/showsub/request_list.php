@@ -4,7 +4,7 @@
  * @file showsub/request_list.php
  * @author Ben Shealy
  */
-require_once("../auth.php");
+require_once("../auth/auth.php");
 require_once("../connect.php");
 
 /**

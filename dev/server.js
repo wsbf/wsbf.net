@@ -43,7 +43,7 @@ app.get("/api/defs.php", function(req, res, next) {
 	});
 });
 
-app.post("/api/login.php", function(req, res, next) {
+app.post("/api/auth/login.php", function(req, res, next) {
 	if ( req.body.username && req.body.password ) {
 		authenticated = true;
 		res.send("/wizbif/");
@@ -53,20 +53,20 @@ app.post("/api/login.php", function(req, res, next) {
 	}
 });
 
-app.get("/api/logout.php", function(req, res) {
+app.get("/api/auth/logout.php", function(req, res) {
 	authenticated = false;
 	res.redirect("/login/");
 });
 
-app.post("/api/register.php", function(req, res) {
+app.post("/api/auth/register.php", function(req, res) {
 	res.status(200).end();
 });
 
-app.post("/api/password/request.php", function(req, res) {
+app.post("/api/auth/password_request.php", function(req, res) {
 	res.status(200).end();
 });
 
-app.post("/api/password/reset.php", function(req, res) {
+app.post("/api/auth/password_reset.php", function(req, res) {
 	res.status(200).end();
 });
 

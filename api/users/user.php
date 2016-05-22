@@ -6,7 +6,7 @@
  *
  * Get or update the current user.
  */
-require_once("../auth.php");
+require_once("../auth/auth.php");
 require_once("../connect.php");
 
 /**

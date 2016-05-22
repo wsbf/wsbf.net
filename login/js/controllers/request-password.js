@@ -6,7 +6,7 @@ requestPasswordModule.controller("RequestPasswordCtrl", ["$scope", "$http", func
 	$scope.submitted = false;
 
 	$scope.submit = function(username) {
-		$http.post("/api/password/request.php", null, { params: { username: username } })
+		$http.post("/api/auth/password_request.php", null, { params: { username: username } })
 			.then(function(res) {
 				$scope.submitted = true;
 			}, function(res) {

@@ -1,15 +1,16 @@
 <?php
 
 /**
- * @file password_functions.php
+ * @file auth/functions.php
  * @author Ben Shealy
  *
- * Currently, passwords are sent in plaintext by the login
- * and register pages, so they should either be hashed with
- * MD5 on the client instead of the server or the server should
- * use TLS encryption.
+ * Functions for password hashing and validation.
  *
- * These functions are based on the previous production code,
+ * Currently, passwords are sent in plaintext by the login
+ * and register pages, so the server should use TLS
+ * encryption.
+ *
+ * TODO: These functions are based on the previous production code,
  * but in the future it may be better to use a library that
  * handles salting, hashing, and validating. In either case,
  * these functions should be reviewed for security vulnerabilites.

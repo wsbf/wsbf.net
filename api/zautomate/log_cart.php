@@ -4,7 +4,6 @@
  * @file zautomate/log_cart.php
  * @author Ben Shealy
  */
-require_once("../auth.php");
 require_once("../connect-dev.php");
 
 define('VALID_IP_ADDR', "130.127.17.5");

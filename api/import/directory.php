@@ -4,7 +4,7 @@
  * @file import/directory.php
  * @author Ben Shealy
  */
-require_once("../auth.php");
+require_once("../auth/auth.php");
 require_once("../connect.php");
 require_once("config.php");
 

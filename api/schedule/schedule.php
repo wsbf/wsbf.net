@@ -6,7 +6,7 @@
  *
  * Get or remove the current show schedule.
  */
-require_once("../auth.php");
+require_once("../auth/auth.php");
 require_once("../connect.php");
 
 /**

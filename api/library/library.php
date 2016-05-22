@@ -7,7 +7,7 @@
  * Get albums in the music library, or update
  * the music library.
  */
-require_once("../auth.php");
+require_once("../auth/auth.php");
 require_once("../connect.php");
 
 /**
