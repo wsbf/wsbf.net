@@ -46,7 +46,6 @@ function get_current_show($mysqli)
 	}
 }
 
-
 /**
  * Log a track in the logbook.
  *
@@ -110,7 +109,6 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$albumID = $_GET["albumID"];
 	$disc_num = $_GET["disc_num"];
 	$track_num = $_GET["track_num"];
-
 
 	if ( !is_numeric($albumID)
 	  || !is_numeric($disc_num)
