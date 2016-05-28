@@ -4,7 +4,7 @@
  * @file zautomate/log_track.php
  * @author Ben Shealy
  */
-require_once("../connect-dev.php");
+require_once("../connect.php");
 
 define('VALID_IP_ADDR', "130.127.17.5");
 
