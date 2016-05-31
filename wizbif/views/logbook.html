@@ -20,8 +20,8 @@
 			<div><strong>Hosts:</strong></div>
 		</div>
 		<div class="col-xs-6">
-			<div ng-show="show.show_hosts.length === 0">--</div>
-			<div ng-repeat="h in show.show_hosts">{{h}}</div>
+			<div ng-show="show.hosts.length === 0">--</div>
+			<div ng-repeat="h in show.hosts">{{h}}</div>
 		</div>
 	</div>
 	<div class="row">
@@ -62,7 +62,7 @@
 
 		<div class="col-sm-2">
 			<button class="btn btn-default" ng-click="signOn(scheduleID)" ng-disabled="!scheduleID || showID">Sign on</button>
-			<button class="btn btn-default" ng-click="signOff(showID)" ng-disabled="!showID">Sign off</button>
+			<button class="btn btn-default" ng-click="signOff()" ng-disabled="!showID">Sign off</button>
 		</div>
 	</div>
 	<br>
@@ -82,10 +82,9 @@
 		</thead>
 
 		<tbody>
-			<tr ng-repeat="t in playlist">
+			<tr ng-repeat="t in show.playlist">
 				<td>
-					<a href="" ng-show="" ng-click="">Play</a>
-					<a href="" ng-show="" ng-click="">Stop</a>
+					<a href="" ng-show="showID" ng-click="logTrack(t)">Log</a>
 				</td>
 				<td>{{t.lb_album_code}}</td>
 				<td>{{t.lb_disc_num}}</td>
@@ -96,7 +95,7 @@
 				<td>{{t.lb_album}}</td>
 				<td>{{t.lb_label}}</td>
 				<td class="text-center lead">
-					<span class="button-icon" ng-click="playlist.splice($index, 1)">&times;</span>
+					<span class="button-icon" ng-hide="t.logged" ng-click="show.playlist.splice($index, 1)">&times;</span>
 				</td>
 			</tr>
 
@@ -125,7 +124,7 @@
 					<input class="form-control input-sm" ng-model="newTrack.lb_label"/>
 				</td>
 				<td class="text-center h3">
-					<span class="button-icon" ng-click="newTrack.rotation = newTrack.rotation || 'O'; playlist.push(newTrack); newTrack = {}">&plus;</span>
+					<span class="button-icon" ng-click="newTrack.rotation = newTrack.rotation || 'O'; show.playlist.push(newTrack); newTrack = {}">&plus;</span>
 				</td>
 			</tr>
 		</tbody>

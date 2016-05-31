@@ -1,7 +1,7 @@
 "use strict";
 
 var databaseModule = angular.module("wizbif.database", [
-    "ngResource"
+	"ngResource"
 ]);
 
 /**
@@ -12,7 +12,7 @@ var databaseModule = angular.module("wizbif.database", [
  * This service uses Promises, which are an abstraction of callbacks
  * that make asynchronous programming a little better.
  *
- * @param $http      service in module ng
+ * @param $http	  service in module ng
  * @param $resource  service in module ngResource
  */
 databaseModule.service("db", ["$http", "$resource", function($http, $resource) {
@@ -136,7 +136,7 @@ databaseModule.service("db", ["$http", "$resource", function($http, $resource) {
 	/**
 	 * Get an album that is staged for import.
 	 *
-	 * @param path    path string
+	 * @param path	path string
 	 * @param artist  artist name
 	 * @param Promise of album object
 	 */
@@ -192,10 +192,10 @@ databaseModule.service("db", ["$http", "$resource", function($http, $resource) {
 	/**
 	 * Get albums in the music library.
 	 *
-	 * @param rotationID       rotation ID
+	 * @param rotationID	   rotation ID
 	 * @param general_genreID  general genre ID
-	 * @param page             page offset
-	 * @param term             search term
+	 * @param page			 page offset
+	 * @param term			 search term
 	 * @return Promise of albums array
 	 */
 	this.getLibrary = function(rotationID, general_genreID, page, term) {
@@ -266,7 +266,7 @@ databaseModule.service("db", ["$http", "$resource", function($http, $resource) {
 	 * Get a list of similar artists.
 	 *
 	 * @param artist_name  artist name
-	 * @param count        number of similar artists
+	 * @param count		number of similar artists
 	 * @return Promise of similar artists array
 	 */
 	this.getSimilarArtists = function(artist_name, count) {
@@ -300,19 +300,7 @@ databaseModule.service("db", ["$http", "$resource", function($http, $resource) {
 	};
 
 	/**
-	 * Get the current show.
-	 *
-	 * @return Promise of current show object
-	 */
-	this.getLogbookCurrentShow = function() {
-		return $http.get("/api/logbook/current_show.php")
-			.then(function(res) {
-				return res.data;
-			});
-	};
-
-	/**
-	 * Get the listener count for the current show.
+	 * Get the current listener count.
 	 *
 	 * @return Promise of listener count
 	 */
@@ -323,35 +311,37 @@ databaseModule.service("db", ["$http", "$resource", function($http, $resource) {
 			});
 	};
 
+	var LogbookShow = $resource("/api/logbook/show.php");
+
 	/**
-	 * Sign on the current user to the logbook.
+	 * Get the current show.
 	 *
-	 * @param scheduleID  schedule ID
-	 * @return Promise of show ID
+	 * @return Resource object of current show
 	 */
-	this.signOn = function(scheduleID) {
-		return $http.post("/api/logbook/sign_on.php", null, {
-			params: {
-				scheduleID: scheduleID
-			}
-		}).then(function(res) {
-			return res.data;
-		});
+	this.getLogbookCurrentShow = function() {
+		return LogbookShow.get();
 	};
 
 	/**
-	 * Sign off the current user from the logbook.
+	 * Start a new show with the current user.
 	 *
-	 * @param showID  show ID
+	 * @param scheduleID  schedule ID
+	 * @return Promise of new show ID
+	 */
+	this.signOn = function(scheduleID) {
+		return LogbookShow.save({ scheduleID: scheduleID }, null).$promise;
+	};
+
+	/**
+	 * End the current show.
+	 *
 	 * @return Promise of http response
 	 */
-	this.signOff = function(showID) {
-		return $http.post("/api/logbook/sign_off.php", null, {
-			params: {
-				showID: showID
-			}
-		});
+	this.signOff = function() {
+		return LogbookShow.remove().$promise;
 	};
+
+	var LogbookTrack = $resource("/api/logbook/track.php");
 
 	/**
 	 * Get the information for an album.
@@ -360,33 +350,39 @@ databaseModule.service("db", ["$http", "$resource", function($http, $resource) {
 	 * @return Promise of album object
 	 */
 	this.getLogbookAlbum = function(album_code) {
-		return $http.get("/api/logbook/track.php", {
-			params: {
-				album_code: album_code
-			}
-		}).then(function(res) {
-			return res.data;
-		});
+		return LogbookTrack.get({ album_code: album_code }).$promise;
 	};
 
 	/**
 	 * Get the information for a track.
 	 *
 	 * @param album_code  album code
-	 * @param disc_num    disc number
+	 * @param disc_num	disc number
 	 * @param track_num   track number
 	 * @return Promise of track object
 	 */
 	this.getLogbookTrack = function(album_code, disc_num, track_num) {
-		return $http.get("/api/logbook/track.php", {
-			params: {
-				album_code: album_code,
-				disc_num: disc_num,
-				track_num: track_num
-			}
-		}).then(function(res) {
-			return res.data;
-		});
+		return LogbookTrack.get({
+			album_code: album_code,
+			disc_num: disc_num,
+			track_num: track_num
+		}).$promise;
+	};
+
+	/**
+	 * Log a track in the current show.
+	 *
+	 * @param albumID	album ID
+	 * @param disc_num   disc number
+	 * @param track_num  track number
+	 * @return Promise of http response
+	 */
+	this.logTrack = function(albumID, disc_num, track_num) {
+		return LogbookTrack.save({
+			albumID: albumID,
+			disc_num: disc_num,
+			track_num: track_num
+		}, null).$promise;
 	};
 
 	/**
