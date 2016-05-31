@@ -14,7 +14,7 @@ read -s password
 echo
 
 # TODO: parse PHPSESSID from Set-Cookie header
-res=$(curl -# -i "https://wsbf.net/api/login.php" --data-urlencode username=$username --data-urlencode password=$password)
+res=$(curl -# -i "https://wsbf.net/api/auth/login.php" -d "{\"username\":\"$username\",\"password\":\"$password\"}")
 PHPSESSID=""
 
 mkdir -p dev/api/blog
@@ -51,7 +51,7 @@ curl -# -b PHPSESSID=$PHPSESSID "https://wsbf.net/api/library/album.php?albumID=
 curl -# -b PHPSESSID=$PHPSESSID "https://wsbf.net/api/library/library.php?rotationID=0&page=1" -o dev/api/library/library.php
 
 mkdir -p dev/api/logbook
-curl -# -b PHPSESSID=$PHPSESSID "https://dev.wsbf.net/api/logbook/current_show.php" -o dev/api/logbook/current_show.php
+curl -# -b PHPSESSID=$PHPSESSID "https://dev.wsbf.net/api/logbook/show.php" -o dev/api/logbook/show.php
 curl -# -b PHPSESSID=$PHPSESSID "https://dev.wsbf.net/api/logbook/listener_count.php" -o dev/api/logbook/listener_count.php
 curl -# -b PHPSESSID=$PHPSESSID "https://dev.wsbf.net/api/logbook/track.php?album_code=K919" -o dev/api/logbook/track.php
 

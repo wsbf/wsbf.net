@@ -10,7 +10,7 @@ var symlink = require("gulp-symlink");
 var uglify = require("gulp-uglify");
 
 var SRC = ".";
-var DST = "/var/www/wsbf";
+var DST = "../wsbf-dev";
 
 gulp.task("default", ["public", "private"]);
 
@@ -48,8 +48,9 @@ gulp.task("bower-components", function() {
 
 gulp.task("public-api", function() {
 	return gulp.src([
-		path.join(SRC, "api/blog/*.php"),
-		path.join(SRC, "api/charts/*.php"),
+		path.join(SRC, "api/blog/preview.php"),
+		path.join(SRC, "api/charts/albums.php"),
+		path.join(SRC, "api/charts/tracks.php"),
 		path.join(SRC, "api/schedule/schedule.php"),
 		path.join(SRC, "api/shows/functions.php"),
 		path.join(SRC, "api/shows/now.php"),
@@ -120,20 +121,15 @@ gulp.task("private", [
 
 gulp.task("private-api", function() {
 	return gulp.src([
+		path.join(SRC, "api/auth/*"),
 		path.join(SRC, "api/fishbowl/*.php"),
 		path.join(SRC, "api/import/*.php"),
 		path.join(SRC, "api/library/font/**/*"),
 		path.join(SRC, "api/library/*.php"),
-		path.join(SRC, "api/password/*.php"),
 		path.join(SRC, "api/schedule/*.php"),
 		path.join(SRC, "api/shows/*.php"),
 		path.join(SRC, "api/showsub/*.php"),
-		path.join(SRC, "api/users/*.php"),
-		path.join(SRC, "api/auth.php"),
-		path.join(SRC, "api/login.php"),
-		path.join(SRC, "api/logout.php"),
-		path.join(SRC, "api/password_functions.php"),
-		path.join(SRC, "api/register.php")
+		path.join(SRC, "api/users/*.php")
 	], { base: SRC })
 		.pipe(changed(DST))
 		.pipe(gulp.dest(DST));
