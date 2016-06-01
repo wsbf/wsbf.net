@@ -67,9 +67,9 @@
 	</div>
 	<br>
 
-	<table class="table">
+	<table class="table table-condensed">
 		<thead>
-			<th>Now Playing</th>
+			<th></th>
 			<th>Album Code</th>
 			<th>Disc No.</th>
 			<th>Track No.</th>
@@ -77,38 +77,20 @@
 			<th>Track Name</th>
 			<th>Artist</th>
 			<th>Album</th>
-			<th>Label</th>
 			<th></th>
 		</thead>
 
 		<tbody>
-			<tr ng-repeat="t in show.playlist">
-				<td>
-					<a href="" ng-show="showID" ng-click="logTrack(t)">Log</a>
-				</td>
-				<td>{{t.lb_album_code}}</td>
-				<td>{{t.lb_disc_num}}</td>
-				<td>{{t.lb_track_num}}</td>
-				<td>{{t.lb_rotation}}</td>
-				<td>{{t.lb_track_name}}</td>
-				<td>{{t.lb_artist}}</td>
-				<td>{{t.lb_album}}</td>
-				<td>{{t.lb_label}}</td>
-				<td class="text-center lead">
-					<span class="button-icon" ng-hide="t.logged" ng-click="show.playlist.splice($index, 1)">&times;</span>
-				</td>
-			</tr>
-
 			<tr>
 				<td></td>
 				<td>
-					<input class="form-control input-sm" ng-model="newTrack.lb_album_code" ng-blur="getAlbum(newTrack.lb_album_code)"/>
+					<input class="form-control input-sm" ng-model="newTrack.lb_album_code" ng-blur="newTrack.lb_album_code && getAlbum(newTrack.lb_album_code)"/>
 				</td>
 				<td>
 					<input class="form-control input-sm" type="number" ng-model="newTrack.lb_disc_num"/>
 				</td>
 				<td>
-					<input class="form-control input-sm" type="number" ng-model="newTrack.lb_track_num" ng-blur="getTrack(newTrack.lb_album_code, newTrack.lb_disc_num, newTrack.lb_track_num)"/>
+					<input class="form-control input-sm" type="number" ng-model="newTrack.lb_track_num" ng-blur="newTrack.lb_album_code && getTrack(newTrack.lb_album_code, newTrack.lb_disc_num, newTrack.lb_track_num)"/>
 				</td>
 				<td>{{newTrack.lb_rotation}}</td>
 				<td ng-class="{ 'has-success': newTrack.airabilityID == 1, 'has-error': newTrack.airabilityID == 2 }">
@@ -120,11 +102,24 @@
 				<td>
 					<input class="form-control input-sm" ng-model="newTrack.lb_album"/>
 				</td>
-				<td>
-					<input class="form-control input-sm" ng-model="newTrack.lb_label"/>
-				</td>
 				<td class="text-center h3">
-					<span class="button-icon" ng-click="newTrack.rotation = newTrack.rotation || 'O'; show.playlist.push(newTrack); newTrack = {}">&plus;</span>
+					<span class="button-icon" ng-hide="newTrack.airabilityID == 2" ng-click="newTrack.lb_rotation = newTrack.lb_rotation || 'O'; show.playlist.unshift(newTrack); newTrack = {}">&plus;</span>
+				</td>
+			</tr>
+
+			<tr ng-repeat="t in show.playlist">
+				<td>
+					<a href="" ng-show="showID && !t.logged" ng-click="logTrack(t)">Log</a>
+				</td>
+				<td>{{t.lb_album_code}}</td>
+				<td>{{t.lb_disc_num}}</td>
+				<td>{{t.lb_track_num}}</td>
+				<td>{{t.lb_rotation}}</td>
+				<td>{{t.lb_track_name}}</td>
+				<td>{{t.lb_artist}}</td>
+				<td>{{t.lb_album}}</td>
+				<td class="text-center lead">
+					<span class="button-icon" ng-hide="t.logged" ng-click="show.playlist.splice($index, 1)">&times;</span>
 				</td>
 			</tr>
 		</tbody>

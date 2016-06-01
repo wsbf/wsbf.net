@@ -316,10 +316,10 @@ databaseModule.service("db", ["$http", "$resource", function($http, $resource) {
 	/**
 	 * Get the current show.
 	 *
-	 * @return Resource object of current show
+	 * @return Promise of current show object
 	 */
 	this.getLogbookCurrentShow = function() {
-		return LogbookShow.get();
+		return LogbookShow.get().$promise;
 	};
 
 	/**

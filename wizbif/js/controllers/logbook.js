@@ -7,7 +7,7 @@ var logbookModule = angular.module("wizbif.logbook", [
 logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
 	$scope.days = db.getDefs("days");
 	$scope.showID = null;
-	$scope.show = db.getLogbookCurrentShow();
+	$scope.show = null;
 	$scope.listenerCount = 0;
 
 	var getListenerCount = function() {
@@ -16,16 +16,22 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 		});
 	};
 
-	$scope.signOn = function(scheduleID) {
-		db.signOn(scheduleID).then(function(showID) {
-			$scope.showID = showID;
+	var getCurrentShow = function() {
+		db.getLogbookCurrentShow().then(function(show) {
+			$scope.scheduleID = (_.find($scope.user.shows, {
+				scheduleID: show.scheduleID
+			}) || {}).scheduleID;
+			$scope.showID = $scope.scheduleID && show.showID;
+			$scope.show = show;
 		});
 	};
 
+	$scope.signOn = function(scheduleID) {
+		db.signOn(scheduleID).then(getCurrentShow);
+	};
+
 	$scope.signOff = function() {
-		db.signOff().then(function() {
-			$scope.showID = null;
-		});
+		db.signOff().then(getCurrentShow);
 	};
 
 	$scope.getAlbum = function(album_code) {
@@ -34,7 +40,6 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 			$scope.newTrack.lb_rotation = album.rotation;
 			$scope.newTrack.lb_artist = album.artist_name;
 			$scope.newTrack.lb_album = album.album_name;
-			$scope.newTrack.lb_label = album.label;
 		});
 	};
 
@@ -56,5 +61,7 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 	$scope.$parent.navEnabled = false;
 
 	getListenerCount();
+	getCurrentShow();
+
 	$interval(getListenerCount, 5000);
 }]);

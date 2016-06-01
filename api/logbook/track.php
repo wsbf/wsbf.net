@@ -5,8 +5,9 @@
  * @author Ben Shealy
  */
 require_once("../auth/auth.php");
-require_once("auth.php");
 require_once("../connect.php");
+require_once("auth.php");
+require_once("functions.php");
 
 /**
  * Get information about an album.
@@ -20,13 +21,11 @@ function get_album($mysqli, $album_code)
 		"al.albumID",
 		"r.binAbbr AS rotation",
 		"ar.artist_name",
-		"al.album_name",
-		"la.label"
+		"al.album_name"
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
-		. "INNER JOIN `libartist` AS ar ON ar.artistID=al.albumID "
-		. "INNER JOIN `liblabel` AS la ON la.labelID=al.labelID "
+		. "INNER JOIN `libartist` AS ar ON ar.artistID=al.artistID "
 		. "INNER JOIN `def_rotations` AS r ON r.rotationID=al.rotationID "
 		. "WHERE al.album_code = '$album_code';";
 	$album = $mysqli->query($q)->fetch_assoc();
@@ -55,27 +54,6 @@ function get_track($mysqli, $albumID, $disc_num, $track_num)
 	$track = $mysqli->query($q)->fetch_assoc();
 
 	return $track;
-}
-
-/**
- * Get the current show.
- *
- * @param mysqli  MySQL connection
- * @return show ID, or null if there is no current show
- */
-function get_current_show($mysqli)
-{
-	$q = "SELECT MAX(showID) AS showID FROM `show` "
-		. "WHERE end_time IS NULL;";
-	$result = $mysqli->query($q);
-
-	if ( $result->num_rows > 0 ) {
-		$show = $result->fetch_assoc();
-		return $show["showID"];
-	}
-	else {
-		return null;
-	}
 }
 
 // TODO: duplicated from zautomate/log_track.php
@@ -114,7 +92,7 @@ function log_track($mysqli, $showID, $albumID, $disc_num, $track_num)
 		. "showID = '$showID', "
 		. "lb_album_code = '$track[album_code]', "
 		. "lb_rotation = '$track[rotation]', "
-//		. "lb_disc_num = '$disc_num', "
+		. "lb_disc_num = '$disc_num', "
 		. "lb_track_num = '$track_num', "
 		. "lb_track_name = '$track[track_name]', "
 		. "lb_artist = '$track[artist_name]', "
@@ -174,7 +152,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		exit;
 	}
 
-	$showID = get_current_show($mysqli);
+	$showID = get_current_show_id($mysqli);
 
 	if ( $showID == null ) {
 		header("HTTP/1.1 404 Not Found");
