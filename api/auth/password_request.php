@@ -35,14 +35,14 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
 	// validate username
-	$username = $mysqli->escape_string($_POST["username"]);
+	$username = $mysqli->escape_string($_GET["username"]);
 
 	$q = "SELECT username, email_addr FROM `users` WHERE username='$username';";
 	$result = $mysqli->query($q);
 
 	if ( $result->num_rows == 0 ) {
 		header("HTTP/1.1 404 Not Found");
-		exit("Invalid username.");
+		exit("Invalid username '$username'.");
 	}
 
 	// insert password reset request
@@ -53,10 +53,6 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		. "username = '$username',"
 		. "expiration_date = ADDDATE(CURDATE(), 7);";
 	$mysqli->query($q);
-
-	$redirectUrl = $mysqli->error
-		? "/request_password.html"
-		: "/request_password_done.html";
 
 	// send email to user
 //	$user = $result->fetch_assoc();
@@ -69,7 +65,6 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 
 	$mysqli->close();
 
-	header("Location: $redirectUrl");
 	exit;
 }
 ?>
