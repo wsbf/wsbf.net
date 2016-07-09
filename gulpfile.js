@@ -12,7 +12,7 @@ var uglify = require("gulp-uglify");
 var SRC = ".";
 var DST = "/var/www/wsbf";
 
-gulp.task("default", ["public", "private"]);
+gulp.task("default", ["public", "private", "mobile"]);
 
 gulp.task("lint", function() {
 	return gulp.src(["**/*.js", "!bower_components/**", "!node_modules/**"])
@@ -166,5 +166,15 @@ gulp.task("private-js", function() {
 	], { base: SRC })
 		.pipe(changed(DST))
 		.pipe(uglify())
+		.pipe(gulp.dest(DST));
+});
+
+gulp.task("mobile", function() {
+	return gulp.src(path.join(SRC, "mobile/index.html"), { base: SRC })
+		.pipe(changed(DST))
+		.pipe(htmlmin({
+			removeComments: true,
+			collapseWhitespace: true
+		}))
 		.pipe(gulp.dest(DST));
 });
