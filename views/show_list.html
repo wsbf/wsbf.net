@@ -7,16 +7,16 @@
 
 	<div class="row">
 		<div class="col-xs-6">
-			<button class="btn btn-sm" ng-click="page > 0 && getNewer()" ng-disabled="page == 0">newer</button>
-			<button class="btn btn-sm" ng-click="getOlder()">older</button>
+			<a class="btn btn-default btn-sm" ng-href="/#/playlists/page/{{page - 1}}" ng-disabled="page == 0">newer</a>
+			<a class="btn btn-default btn-sm" ng-href="/#/playlists/page/{{page + 1}}">older</a>
 		</div>
 
 		<div class="col-xs-4">
-			<input class="form-control" ng-model="searchTerm" placeholder="DJ Name"/>
+			<input class="form-control" ng-model="query" placeholder="DJ Name"/>
 		</div>
 
 		<div class="col-xs-2">
-			<button class="btn btn-sm btn-default" ng-click="search(searchTerm)" ng-disabled="!searchTerm || searchTerm.length < 3">search</button>
+			<a class="btn btn-default btn-sm" ng-href="/#/playlists/search/{{query}}" ng-disabled="!query || query.length < 3">search</a>
 		</div>
 	</div>
 
@@ -34,7 +34,7 @@
 					<div ng-repeat="h in s.show_hosts">{{h}}</div>
 				</td>
 				<td>
-					<a ng-href="#/playlists/{{s.showID}}">Playlist</a>
+					<a ng-href="#/playlists/show/{{s.showID}}">Playlist</a>
 				</td>
 				<td>{{s.start_time | date:'short'}}</td>
 				<td>

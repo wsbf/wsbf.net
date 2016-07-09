@@ -35,9 +35,15 @@ app.config(["$routeProvider", function($routeProvider) {
 			templateUrl: "views/history.html"
 		})
 		.when("/playlists", {
+			redirectTo: "/playlists/page/0"
+		})
+		.when("/playlists/page/:page", {
 			templateUrl: "views/show_list.html"
 		})
-		.when("/playlists/:showID", {
+		.when("/playlists/search/:query", {
+			templateUrl: "views/show_list.html"
+		})
+		.when("/playlists/show/:showID", {
 			templateUrl: "views/show.html"
 		})
 		.when("/schedule/:dayID?", {

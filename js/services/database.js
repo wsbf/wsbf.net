@@ -126,21 +126,19 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		return Schedule.query({ day: day });
 	};
 
+	var Show = $resource("/api/shows/shows.php");
+
 	/**
 	 * Get a list of shows by page or DJ name.
 	 *
-	 * @param page  page offset
-	 * @param term  search term
-	 * @return Promise of shows array
+	 * @param page   page offset
+	 * @param query  search term
+	 * @return shows array
 	 */
-	this.getShows = function(page, term) {
-		return $http.get("/api/shows/shows.php", {
-			params: {
-				page: page,
-				term: term
-			}
-		}).then(function(res) {
-			return res.data;
+	this.getShows = function(page, query) {
+		return Show.query({
+			page: page,
+			term: query
 		});
 	};
 
