@@ -5,12 +5,12 @@ The WSBF website, written in Angular.
 
 This repository is an attempt to integrate all of the various fragments of WSBF's web presence, which includes:
 
-- The public website [wsbf.net](http://wsbf.net)
-- The private website for DJs and senior staff [new.wsbf.net](http://new.wsbf.net)
-- Max's streaming website [new.wsbf.net/jpgr](http://new.wsbf.net/jpgr)
-- The development website [dev.wsbf.net](http://dev.wsbf.net)
-- Mobile site [m.wsbf.net](http://m.wsbf.net)
-- Darkice and Icecast [wsbf.net/stream/](https://wsbf.net/stream/)
+- The public website http://wsbf.net
+- The private website for DJs and senior staff http://new.wsbf.net
+- Max's streaming website http://new.wsbf.net/jpgr
+- The development website http://dev.wsbf.net
+- Mobile site http://m.wsbf.net
+- Darkice and Icecast https://wsbf.net/stream/
 - Studio A webcam
 - ZAutomate
 - RDS Sender
