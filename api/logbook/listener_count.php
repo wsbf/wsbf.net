@@ -11,8 +11,6 @@
  * and removes the connections from internal WSBF
  * machines (such as archiving).
  */
-require_once("../auth/auth.php");
-
 define('TCP_ESTABLISHED', "107");
 
 $output = shell_exec("cat /proc/net/tcp"

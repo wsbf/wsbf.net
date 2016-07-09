@@ -7,7 +7,7 @@ var logbookModule = angular.module("wizbif.logbook", [
 logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
 	$scope.days = db.getDefs("days");
 	$scope.showID = null;
-	$scope.show = null;
+	$scope.show = {};
 	$scope.listenerCount = 0;
 
 	var getListenerCount = function() {
@@ -23,6 +23,8 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 			}) || {}).scheduleID;
 			$scope.showID = $scope.scheduleID && show.showID;
 			$scope.show = show;
+		}, function() {
+			$scope.show = null;
 		});
 	};
 
@@ -58,8 +60,6 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 	};
 
 	// initialize
-	$scope.$parent.navEnabled = false;
-
 	getListenerCount();
 	getCurrentShow();
 

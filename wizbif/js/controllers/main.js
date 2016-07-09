@@ -20,7 +20,6 @@ mainModule.controller("MainCtrl", ["$scope", "db", "alert", function($scope, db,
 
 	$scope.user = {};
 	$scope.check = {};
-	$scope.navEnabled = true;
 	$scope.alert = alert;
 
 	var getUser = function() {

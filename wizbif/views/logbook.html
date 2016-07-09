@@ -1,12 +1,38 @@
-<h3 class="text-center">Logbook</h3>
+<h2 class="text-center">Logbook</h2>
 
-<div class="text-center" ng-show="!show">
+<hr>
+
+<div class="text-center" ng-show="!check.reviewer">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't allowed to use the logbook.</p>
+</div>
+
+<div class="text-center" ng-show="check.reviewer && !show">
 	<h3><strong>Nah.</strong></h3>
 
 	<p>It would seem that you aren't in Studio A, so you can't use the logbook.</p>
 </div>
 
 <div ng-show="show">
+	<div class="row">
+		<div class="col-sm-offset-2 col-sm-5">
+			<select class="form-control" ng-model="scheduleID" ng-disabled="showID">
+				<option ng-repeat="s in user.shows" value="{{s.scheduleID}}">
+					<span>{{s.show_name}}</span>
+					<span>({{days[s.dayID].day}} {{s.start_time}} - {{s.end_time}})</span>
+				</option>
+			</select>
+		</div>
+
+		<div class="col-sm-3">
+			<button class="btn btn-default" ng-click="signOn(scheduleID)" ng-disabled="!scheduleID || showID">Sign on</button>
+			<button class="btn btn-default" ng-click="signOff()" ng-disabled="!showID">Sign off</button>
+		</div>
+	</div>
+
+	<hr>
+
 	<div class="row">
 		<div class="col-xs-6 text-right">
 			<div><strong>Show:</strong></div>
@@ -48,24 +74,8 @@
 			<div>{{listenerCount}}</div>
 		</div>
 	</div>
-	<br>
 
-	<div class="row">
-		<div class="col-sm-offset-2 col-sm-6">
-			<select class="form-control" ng-model="scheduleID" ng-disabled="showID">
-				<option ng-repeat="s in user.shows" value="{{s.scheduleID}}">
-					<span>{{s.show_name}}</span>
-					<span>({{days[s.dayID].day}} {{s.start_time}} - {{s.end_time}})</span>
-				</option>
-			</select>
-		</div>
-
-		<div class="col-sm-2">
-			<button class="btn btn-default" ng-click="signOn(scheduleID)" ng-disabled="!scheduleID || showID">Sign on</button>
-			<button class="btn btn-default" ng-click="signOff()" ng-disabled="!showID">Sign off</button>
-		</div>
-	</div>
-	<br>
+	<hr>
 
 	<table class="table table-condensed">
 		<thead>

@@ -38,7 +38,7 @@
 		</div>
 
 		<div class="row" ng-show="user">
-			<div class="col-sm-3" ng-show="navEnabled">
+			<div class="col-sm-3">
 				<p>
 					<a href="/" target="_blank">
 						<img src="/images/logo.png" width="200px"></img>
@@ -65,6 +65,7 @@
 					<li><a href="#/showsub">Show Sub Requests</a></li>
 					<li><a href="#/fishbowl/app">Fishbowl Application</a></li>
 					<li><a href="#/archives">Archives</a></li>
+					<li><a href="#/logbook">Logbook</a></li>
 				</ul>
 
 				<ul class="list-unstyled" ng-show="check.seniorStaff">
@@ -81,7 +82,7 @@
 				<a href="/api/auth/logout.php">Log out</a>
 			</div>
 
-			<div ng-class="{ 'col-sm-12': !navEnabled, 'col-sm-9': navEnabled }">
+			<div class="col-sm-9">
 				<div ng-view></div>
 			</div>
 		</div>
