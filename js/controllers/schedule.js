@@ -1,22 +1,12 @@
 "use strict";
 
 var scheduleModule = angular.module("app.schedule", [
-    "app.database"
+	"ngRoute",
+	"app.database"
 ]);
 
-scheduleModule.controller("ScheduleCtrl", ["$scope", "db", function($scope, db) {
+scheduleModule.controller("ScheduleCtrl", ["$scope", "$routeParams", "db", function($scope, $routeParams, db) {
 	$scope.today = new Date();
-	$scope.day = $scope.today.getDay();
-	$scope.schedule = [];
-
-	$scope.getSchedule = function(day) {
-		db.getSchedule(day)
-			.then(function(schedule) {
-				$scope.day = day;
-				$scope.schedule = schedule;
-			});
-	};
-
-    // initialize
-	$scope.getSchedule($scope.day);
+	$scope.dayID = $routeParams.dayID || $scope.today.getDay();
+	$scope.schedule = db.getSchedule($scope.dayID);
 }]);

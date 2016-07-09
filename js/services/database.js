@@ -1,7 +1,7 @@
 "use strict";
 
 var databaseModule = angular.module("app.database", [
-    "ngResource"
+	"ngResource"
 ]);
 
 /**
@@ -114,17 +114,16 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		});
 	};
 
+	var Schedule = $resource("/api/schedule/schedule.php");
+
 	/**
 	 * Get the schedule for a day of the week.
 	 *
 	 * @param day  day of the week (0 is Sunday, etc.)
-	 * @return Promise of schedule array
+	 * @return schedule array
 	 */
 	this.getSchedule = function(day) {
-		return $http.get("/api/schedule/schedule.php", { params: { day: day } })
-			.then(function(res) {
-				return res.data;
-			});
+		return Schedule.query({ day: day });
 	};
 
 	/**

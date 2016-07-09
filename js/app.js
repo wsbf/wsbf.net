@@ -40,7 +40,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/playlists/:showID", {
 			templateUrl: "views/show.html"
 		})
-		.when("/schedule", {
+		.when("/schedule/:dayID?", {
 			templateUrl: "views/schedule.html"
 		})
 		.when("/charts", {

@@ -4,24 +4,42 @@
 
 <div id="schedule" ng-controller="ScheduleCtrl">
 	<ul class="list-inline text-center h4 text-uppercase">
-		<li ng-click="getSchedule(1)" ng-class="{ active: day == 1 }">Mon</li>
-		<li ng-click="getSchedule(2)" ng-class="{ active: day == 2 }">Tue</li>
-		<li ng-click="getSchedule(3)" ng-class="{ active: day == 3 }">Wed</li>
-		<li ng-click="getSchedule(4)" ng-class="{ active: day == 4 }">Thu</li>
-		<li ng-click="getSchedule(5)" ng-class="{ active: day == 5 }">Fri</li>
-		<li ng-click="getSchedule(6)" ng-class="{ active: day == 6 }">Sat</li>
-		<li ng-click="getSchedule(0)" ng-class="{ active: day == 0 }">Sun</li>
+		<li ng-class="{ active: dayID == 0 }">
+			<a href="/#/schedule/0">Sun</a>
+		</li>
+		<li ng-class="{ active: dayID == 1 }">
+			<a href="/#/schedule/1">Mon</a>
+		</li>
+		<li ng-class="{ active: dayID == 2 }">
+			<a href="/#/schedule/2">Tue</a>
+		</li>
+		<li ng-class="{ active: dayID == 3 }">
+			<a href="/#/schedule/3">Wed</a>
+		</li>
+		<li ng-class="{ active: dayID == 4 }">
+			<a href="/#/schedule/4">Thu</a>
+		</li>
+		<li ng-class="{ active: dayID == 5 }">
+			<a href="/#/schedule/5">Fri</a>
+		</li>
+		<li ng-class="{ active: dayID == 6 }">
+			<a href="/#/schedule/6">Sat</a>
+		</li>
 	</ul>
 
-	<div class="row center-block h4 program" ng-repeat="s in schedule">
-		<div class="col-xs-3 text-center">
-			<img class="img-circle img-border" src="images/schedule.png" alt="profile pic" width="80" height="80"/>
-		</div>
+	<div class="row h4" ng-repeat="s in schedule">
+		<div class="col-sm-offset-2 col-sm-8 panel panel-default">
+			<div class="panel-body row">
+				<div class="col-xs-3 text-center">
+					<img class="img-circle img-border" src="images/schedule.png" alt="profile pic" width="80" height="80"/>
+				</div>
 
-		<div class="col-xs-9">
-			<p>{{s.start_time}} - {{s.end_time}}</p>
-			<p><strong>{{s.show_name}}</strong></p>
-			<div ng-repeat="h in s.hosts">{{h}}</div>
+				<div class="col-xs-9">
+					<p>{{s.start_time}} - {{s.end_time}}</p>
+					<p><strong>{{s.show_name}}</strong></p>
+					<div ng-repeat="h in s.hosts">{{h}}</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

@@ -1,7 +1,7 @@
 "use strict";
 
 describe("ScheduleCtrl", function() {
-	var scope, db, $q;
+	var scope, db;
 	var schedule = [];
 
 	beforeEach(module("app.schedule"));
@@ -9,11 +9,10 @@ describe("ScheduleCtrl", function() {
 	beforeEach(inject(function($controller, $injector) {
 		scope = $injector.get("$rootScope").$new();
 		db = $injector.get("db");
-		$q = $injector.get("$q");
 
 		schedule = [];
 
-		spyOn(db, "getSchedule").and.returnValue($q.resolve(schedule));
+		spyOn(db, "getSchedule").and.returnValue(schedule);
 
 		$controller("ScheduleCtrl", {
 			$scope: scope
@@ -23,10 +22,8 @@ describe("ScheduleCtrl", function() {
 	it("should add today's schedule to scope", function() {
 		var day = new Date().getDay();
 
-		scope.$digest();
-
 		expect(db.getSchedule).toHaveBeenCalledWith(day);
-		expect(scope.day).toEqual(day);
+		expect(scope.dayID).toEqual(day);
 		expect(scope.schedule).toEqual(schedule);
 	});
 });
