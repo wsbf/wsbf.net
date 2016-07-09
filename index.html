@@ -17,8 +17,7 @@
 
 		<!--
 			Angular uses a minimal version of jQuery called jqLite, but jQuery
-			is needed currently to load scripts in HTML templates, such as
-			the chat in the media center.
+			is needed currently to load the chat in the media center.
 			If jQuery is loaded before Angular, then Angular will use that
 			version of jQuery instead of jqLite.
 		-->
@@ -46,7 +45,7 @@
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#/" title="WSBF.net">
+					<a class="navbar-brand" href="/" title="wsbf.net">
 						<img class="img-responsive" src="images/logo.png" alt="WSBF logo"/>
 					</a>
 
@@ -68,55 +67,55 @@
 
 					<ul class="nav navbar-nav navbar-right">
 						<li uib-dropdown>
-							<a href="" class="dropdown-toggle" uib-dropdown-toggle>About</a>
+							<a class="dropdown-toggle" uib-dropdown-toggle>About</a>
 							<ul class="uib-dropdown-menu">
 								<li>
-									<a tabindex="-1" href="#/philosophy">Philosophy</a>
+									<a href="#/philosophy">Philosophy</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a tabindex="-1" href="#/history">History</a>
+									<a href="#/history">History</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a tabindex="-1" href="#/staff">Staff</a>
+									<a href="#/staff">Staff</a>
 								</li>
 							</ul>
 						</li>
 						<li uib-dropdown>
-							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Music</a>
+							<a class="dropdown-toggle" uib-dropdown-toggle>Music</a>
 							<ul class="uib-dropdown-menu">
 								<li>
-									<a tabindex="-1" href="#/schedule">Schedule</a>
+									<a href="#/schedule">Schedule</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a tabindex="-1" href="#/playlists">Playlists</a>
+									<a href="#/playlists">Playlists</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a tabindex="-1" href="#/charts">Charting</a>
+									<a href="#/charts">Charting</a>
 								</li>
 							</ul>
 						</li>
 						<li uib-dropdown>
-							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Production</a>
+							<a class="dropdown-toggle" uib-dropdown-toggle>Production</a>
 							<ul class="uib-dropdown-menu">
 								<li>
-									<a tabindex="-1" href="#/equipment">Rentals</a>
+									<a href="#/equipment">Rentals</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a tabindex="-1" href="#/recording">Recording</a>
+									<a href="#/recording">Recording</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a tabindex="-1" href="#/booking">Booking</a>
+									<a href="#/booking">Booking</a>
 								</li>
 							<!--
 								<li class="divider"></li>
 								<li>
-									<a tabindex="-1" href="">Live Sessions</a>
+									<a href="">Live Sessions</a>
 								</li>
 							-->
 							</ul>
@@ -131,19 +130,19 @@
 							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Contact</a>
 							<ul class="uib-dropdown-menu">
 								<li>
-									<a tabindex="-1" href="#/join">Join WSBF</a>
+									<a href="#/join">Join WSBF</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a tabindex="-1" href="#/promotion">PSAs & Underwriting</a>
+									<a href="#/promotion">PSAs & Underwriting</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a tabindex="-1" href="#/contact">Contact</a>
+									<a href="#/contact">Contact</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a tabindex="-1" href="login/">Login</a>
+									<a href="login/">Login</a>
 								</li>
 							</ul>
 						</li>
@@ -178,7 +177,7 @@
 						<div class="container-fluid items-container">
 							<div class="row" ng-repeat="p in playlist">
 								<div class="col-xs-3 text-center">
-									<img class="img-circle img-border" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
+									<img class="img-circle img-border" ng-src="{{p.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
 								</div>
 
 								<div class="col-xs-9">
@@ -200,7 +199,7 @@
 						<div class="container-fluid items-container">
 							<div class="row" ng-repeat="s in schedule">
 								<div class="col-xs-3 text-center">
-									<img class="img-circle img-border" src="images/schedule.png" width="64" height="64"/>
+									<img class="img-circle img-border" src="images/schedule.png" alt="profile pic" width="64" height="64"/>
 								</div>
 
 								<div class="col-xs-9">
@@ -223,7 +222,7 @@
 							<table class="chart-home table table-striped">
 								<tr ng-repeat="a in albums">
 									<td class="text-center">
-										<img class="img-rounded" ng-src="{{a.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
+										<img class="img-rounded" ng-src="{{a.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
 									</td>
 									<td>
 										<h4>{{a.lb_album}}</h4>
@@ -324,7 +323,7 @@
 						</div>
 					</div>
 
-					<div class="pull-right copyright">&COPY; WSBF-FM Clemson 2015 All rights reserved</div>
+					<div class="pull-right copyright">&COPY; 2015 WSBF-FM Clemson All rights reserved</div>
 				</div>
 			</div>
 		</footer>
@@ -332,7 +331,7 @@
 		<!-- Begin mediawidget -->
 		<div class="row" id="media-widget" ng-controller="NowPlayingCtrl">
 			<div class="col-xs-3">
-				<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
+				<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
 			</div>
 
 			<div class="col-xs-9">

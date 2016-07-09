@@ -9,7 +9,7 @@
 			<div ng-controller="NowPlayingCtrl">
 				<h2 class="text-center">Now Playing</h2>
 				<div class="thumbnail">
-					<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_large.png'}}" width="174" height="174"/>
+					<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_large.png'}}" alt="album art" width="174" height="174"/>
 					<div class="caption">
 						<div class="row">
 							<div class="col-xs-4 text-right">
@@ -67,7 +67,7 @@
 				<div class="container-fluid items-container">
 					<div class="row" ng-repeat="p in playlist">
 						<div class="col-xs-3 text-center">
-							<img class="img-circle img-border" ng-src="{{p.imageUrl || 'images/media_small.png'}}" width="64" height="64"/>
+							<img class="img-circle img-border" ng-src="{{p.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
 						</div>
 
 						<div class="col-xs-9">
@@ -86,7 +86,7 @@
 			<div ng-controller="WebcamCtrl">
 				<h2 class="text-center">Studio WebCam</h2>
 				<a href="camera/studioa.jpg" target="_blank">
-					<img class="img-responsive img-rounded" ng-src="camera/studioa.jpg?{{now}}"/>
+					<img class="img-responsive img-rounded" ng-src="camera/studioa.jpg?{{now}}" alt="studio webcam"/>
 				</a>
 			</div>
 			<!-- end webcam -->
