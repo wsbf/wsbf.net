@@ -5,7 +5,7 @@
  *
  * This page is used by streamripper, which runs on "john" (130.127.17.39).
  * Streamripper is configured to pull this metadata with the script 
- * /home/compe/fetch_external_metadata.pl, which requests this 10 seconds. 
+ * streamripper_start_on_boot.sh, which requests this every 10 seconds.
  * 
  * Streamripper uses the result from this to split and name the tracks.
  * The default behavior for streamripper is to name the track as <TITLE> - <ARTIST>.mp3.
@@ -21,7 +21,7 @@ require_once("../connect.php");
  * Get the current show.
  *
  * @param mysqli  MySQL connection
- * @return associative array of current show
+ * @return current show ID
  */
 function get_current_show($mysqli)
 {
@@ -31,26 +31,16 @@ function get_current_show($mysqli)
 		. "LIMIT 1;";
 	$show = $mysqli->query($q)->fetch_assoc();
 
-	// get show hosts
-	$q = "SELECT u.preferred_name FROM `show_hosts` AS h "
-		. "INNER JOIN `users` AS u ON u.username=h.username "
-		. "WHERE h.showID = '$show[showID]' "
-		. "ORDER BY u.preferred_name ASC;";
-	$result_hosts = $mysqli->query($q);
-
-	$show["hosts"] = array();
-	while ( ($h = $result_hosts->fetch_assoc()) ) {
-		$show["hosts"][] = $h["preferred_name"];
-	}
-
-	return $show;
+	return $show["showID"];
 }
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
-	$show = get_current_show($mysqli);
+	$showID = get_current_show($mysqli);
 
-	exit("title=\"$show[showID]\" artist=\"" . implode(", ", $show["hosts"]) . "\"");
+	exit("TITLE=\"$showID\"\n"
+		. "ARTIST=\"WSBF\"\n"
+		. ".\n");
 }
 ?>
