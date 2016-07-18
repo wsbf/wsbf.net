@@ -1,9 +1,9 @@
 "use strict";
 
 var importModule = angular.module("wizbif.import", [
-    "ui.bootstrap",
-    "wizbif.alert",
-    "wizbif.database"
+	"ui.bootstrap",
+	"wizbif.alert",
+	"wizbif.database"
 ]);
 
 importModule.controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db", function($scope, $rootScope, $uibModal, db) {

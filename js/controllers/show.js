@@ -1,8 +1,8 @@
 "use strict";
 
 var showModule = angular.module("app.show", [
-    "ngRoute",
-    "app.database"
+	"ngRoute",
+	"app.database"
 ]);
 
 showModule.controller("ShowCtrl", ["$scope", "$routeParams", "db", function($scope, $routeParams, db) {

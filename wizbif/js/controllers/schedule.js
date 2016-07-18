@@ -25,8 +25,8 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootSc
 
 	$scope.removeSchedule = function() {
 		if ( confirm("Are you sure you want to remove the entire show schedule?")
-		  && confirm("So you're absolutely sure? I don't want to have to fix everything if you mess up.")
-		  && prompt("Type 'STATHGAR' to show me that you're for real.") === "STATHGAR" ) {
+			&& confirm("So you're absolutely sure? I don't want to have to fix everything if you mess up.")
+			&& prompt("Type 'STATHGAR' to show me that you're for real.") === "STATHGAR" ) {
 			db.removeSchedule().then(function() {
 				getSchedule();
 				alert.success("Schedule successfully cleared.");
@@ -82,13 +82,13 @@ scheduleModule.controller("ScheduleAddCtrl", ["$scope", "db", "alert", function(
 	};
 
 	$scope.addHost = function() {
-		$scope.show.hosts.push($scope.newHost)
+		$scope.show.hosts.push($scope.newHost);
 		$scope.newHost = null;
 	};
 
 	$scope.save = function(show) {
 		// transform show object from view to server
-		var show = angular.copy(show);
+		show = angular.copy(show);
 
 		show.hosts = show.hosts.map(function(h) {
 			return h.username;

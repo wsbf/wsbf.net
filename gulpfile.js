@@ -15,18 +15,13 @@ var DST = "/var/www/wsbf";
 gulp.task("default", ["public", "private", "mobile"]);
 
 gulp.task("lint", function() {
-	return gulp.src(["**/*.js", "!bower_components/**", "!node_modules/**"])
-		.pipe(eslint({
-			envs: ["browser", "node", "jasmine"],
-			globals: {
-				"_": false,
-				"angular": false
-			},
-			rules: {
-				"camelcase": 0,
-				"no-underscore-dangle": 0
-			}
-		}))
+	return gulp
+		.src([
+			"**/*.js",
+			"!client/bower_components/**",
+			"!node_modules/**"
+		])
+		.pipe(eslint())
 		.pipe(eslint.format());
 });
 

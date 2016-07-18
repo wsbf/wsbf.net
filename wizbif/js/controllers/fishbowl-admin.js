@@ -1,8 +1,8 @@
 "use strict";
 
 var fishbowlAdminModule = angular.module("wizbif.fishbowl-admin", [
-    "wizbif.alert",
-    "wizbif.database"
+	"wizbif.alert",
+	"wizbif.database"
 ]);
 
 fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$uibModal", "db", "alert", function($scope, $rootScope, $uibModal, db, alert) {
@@ -51,7 +51,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 
 		db.rateFishbowlApps(apps).then(function() {
 			getFishbowlApps();
-			alert.success("Fishbowl ratings updated.")
+			alert.success("Fishbowl ratings updated.");
 		}, function(res) {
 			alert.error(res.data || res.statusText);
 		});
@@ -61,7 +61,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	 * Group the current list of fishbowl apps into bowls.
 	 */
 	$scope.getFishbowlResults = function(apps) {
-		var apps = apps.slice()
+		apps = apps.slice()
 			.sort(function(app1, app2) {
 				return app2.average - app1.average;
 			});
@@ -81,7 +81,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	getFishbowlApps();
 }]);
 
-fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
+fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", function($scope, db) {
 	$scope.index = -1;
 	$scope.app = {};
 

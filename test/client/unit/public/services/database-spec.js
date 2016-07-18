@@ -50,7 +50,7 @@ describe("app.database", function() {
 
 		$httpBackend.expectGET("/api/shows/now.php").respond(track);
 
-		var result = db.getNowPlaying()
+		db.getNowPlaying()
 			.then(function(result) {
 				expect(result).toEqual(track);
 			})

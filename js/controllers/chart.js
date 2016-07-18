@@ -1,7 +1,7 @@
 "use strict";
 
 var chartModule = angular.module("app.chart", [
-    "app.database"
+	"app.database"
 ]);
 
 chartModule.controller("ChartCtrl", ["$scope", "db", function($scope, db) {

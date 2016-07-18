@@ -1,8 +1,8 @@
 "use strict";
 
 var fishbowlAppModule = angular.module("wizbif.fishbowl-app", [
-    "wizbif.alert",
-    "wizbif.database"
+	"wizbif.alert",
+	"wizbif.database"
 ]);
 
 fishbowlAppModule.controller("FishbowlAppCtrl", ["$scope", "$location", "db", "alert", function($scope, $location, db, alert) {

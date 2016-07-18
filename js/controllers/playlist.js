@@ -1,7 +1,7 @@
 "use strict";
 
 var playlistModule = angular.module("app.playlist", [
-    "app.database"
+	"app.database"
 ]);
 
 playlistModule.controller("PlaylistCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {

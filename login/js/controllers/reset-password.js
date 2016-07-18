@@ -9,7 +9,7 @@ resetPasswordModule.controller("ResetPasswordCtrl", ["$scope", "$routeParams", "
 		$http.post("/api/auth/password_reset.php", {
 			transactionID: $routeParams.transactionID,
 			password: password
-		}).then(function(res) {
+		}).then(function() {
 			$scope.submitted = true;
 		}, function(res) {
 			$scope.error = res.data;

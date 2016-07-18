@@ -1,9 +1,9 @@
 "use strict";
 
 var libraryModule = angular.module("wizbif.library", [
-    "ngRoute",
-    "wizbif.alert",
-    "wizbif.database"
+	"ngRoute",
+	"wizbif.alert",
+	"wizbif.database"
 ]);
 
 libraryModule.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
@@ -108,7 +108,7 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$locati
 	};
 
 	$scope.save = function() {
-		db.saveAlbum($scope.album).then(function(res) {
+		db.saveAlbum($scope.album).then(function() {
 			$location.url("/library/admin");
 			alert.success("Album successfully saved.");
 		}, function(res) {
@@ -117,7 +117,7 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$locati
 	};
 
 	$scope.review = function() {
-		db.reviewAlbum($scope.album).then(function(res) {
+		db.reviewAlbum($scope.album).then(function() {
 			$location.url("/library");
 			alert.success("Album successfully reviewed!");
 		}, function(res) {

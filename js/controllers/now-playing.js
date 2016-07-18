@@ -1,7 +1,7 @@
 "use strict";
 
 var nowPlayingModule = angular.module("app.now-playing", [
-    "app.database"
+	"app.database"
 ]);
 
 nowPlayingModule.controller("NowPlayingCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
