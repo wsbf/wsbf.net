@@ -20,6 +20,8 @@ var express = require("express");
 var logger = require("morgan");
 var bodyParser = require("body-parser");
 
+var DOC_ROOT = "./client";
+
 // initialize app
 var app = express();
 
@@ -87,12 +89,16 @@ app.get("/blog", function(req, res) {
 	res.redirect("https://wsbf.net/blog/");
 });
 
+app.get("/camera/:route", function(req, res) {
+	res.redirect("https://wsbf.net/camera/" + req.params.route);
+});
+
 app.get("/stream/:route", function(req, res) {
 	res.redirect("https://wsbf.net/stream/" + req.params.route);
 });
 
 app.use("/api", express.static(path.join(__dirname, "api")));
-app.use("/", express.static("./"));
+app.use("/", express.static(DOC_ROOT));
 
 // define 404 handler
 app.use(function(req, res, next) {

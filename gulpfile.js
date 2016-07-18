@@ -9,10 +9,10 @@ var imagemin = require("gulp-imagemin");
 var symlink = require("gulp-symlink");
 var uglify = require("gulp-uglify");
 
-var SRC = ".";
+var SRC = "./client";
 var DST = "/var/www/wsbf";
 
-gulp.task("default", ["public", "private", "mobile"]);
+gulp.task("default", ["public", "private"]);
 
 gulp.task("lint", function() {
 	return gulp
@@ -37,7 +37,8 @@ gulp.task("public", [
 
 // could also just copy bower_components/
 gulp.task("bower-components", function() {
-	return gulp.src("bower_components")
+	return gulp
+		.src(path.join(SRC, "bower_components"), { base: SRC })
 		.pipe(symlink(path.join(DST, "bower_components"), { force: true }));
 });
 
@@ -62,6 +63,7 @@ gulp.task("public-html", function() {
 	return gulp.src([
 		path.join(SRC, "index.html"),
 		path.join(SRC, "login/**/*.html"),
+		path.join(SRC, "mobile/**/*.html"),
 		path.join(SRC, "views/*.html")
 	], { base: SRC })
 		.pipe(changed(DST))
@@ -161,15 +163,5 @@ gulp.task("private-js", function() {
 	], { base: SRC })
 		.pipe(changed(DST))
 		.pipe(uglify())
-		.pipe(gulp.dest(DST));
-});
-
-gulp.task("mobile", function() {
-	return gulp.src(path.join(SRC, "mobile/index.html"), { base: SRC })
-		.pipe(changed(DST))
-		.pipe(htmlmin({
-			removeComments: true,
-			collapseWhitespace: true
-		}))
 		.pipe(gulp.dest(DST));
 });

@@ -4,14 +4,14 @@ module.exports = function(config) {
 	config.set({
 		basePath: "../",
 		files: [
-			"bower_components/angular/angular.js",
-			"bower_components/angular-animate/angular-animate.js",
-			"bower_components/angular-resource/angular-resource.js",
-			"bower_components/angular-route/angular-route.js",
-			"bower_components/angular-mocks/angular-mocks.js",
-			"bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
-			"js/**/*.js",
-			"wizbif/js/**/*.js",
+			"client/bower_components/angular/angular.js",
+			"client/bower_components/angular-animate/angular-animate.js",
+			"client/bower_components/angular-resource/angular-resource.js",
+			"client/bower_components/angular-route/angular-route.js",
+			"client/bower_components/angular-mocks/angular-mocks.js",
+			"client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+			"client/js/**/*.js",
+			"client/wizbif/js/**/*.js",
 			"test/public/**/*.js",
 			"test/wizbif/**/*.js"
 		],

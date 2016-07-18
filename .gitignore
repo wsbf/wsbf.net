@@ -1,8 +1,8 @@
-/blog
-/bower_components
-/camera
-/dev/api
-/node_modules
-/wizbif/images/users
-/wizbif/ZAutoLib
+client/blog
+client/bower_components
+client/camera
+client/wizbif/images/users
+client/wizbif/ZAutoLib
+dev/api
+node_modules
 *.log
