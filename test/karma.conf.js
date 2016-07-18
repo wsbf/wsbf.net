@@ -12,7 +12,8 @@ module.exports = function(config) {
 			"bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
 			"js/**/*.js",
 			"wizbif/js/**/*.js",
-			"test/client/unit/**/*.js"
+			"test/public/**/*.js",
+			"test/wizbif/**/*.js"
 		],
 		frameworks: ["jasmine"],
 		browsers: ["Chrome"]
