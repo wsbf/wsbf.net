@@ -72,7 +72,8 @@ function log_track($mysqli, $showID, $albumID, $disc_num, $track_num)
 		. "INNER JOIN `libartist` AS ar ON ar.artistID=al.artistID "
 		. "INNER JOIN `liblabel` AS la ON la.labelID=al.labelID "
 		. "INNER JOIN `def_rotations` AS r ON r.rotationID=al.rotationID "
-		. "WHERE t.albumID = '$albumID' "
+//		. "WHERE t.albumID = '$albumID' "
+		. "WHERE al.album_code = '$albumID' "
 		. "AND t.disc_num = '$disc_num' AND t.track_num = '$track_num';";
 	$track = $mysqli->query($q)->fetch_assoc();
 
@@ -81,7 +82,7 @@ function log_track($mysqli, $showID, $albumID, $disc_num, $track_num)
 		. "showID = '$showID', "
 		. "lb_album_code = '$track[album_code]', "
 		. "lb_rotation = '$track[rotation]', "
-	//	. "lb_disc_num = '$disc_num', "
+		. "lb_disc_num = '$disc_num', "
 		. "lb_track_num = '$track_num', "
 		. "lb_track_name = '$track[track_name]', "
 		. "lb_artist = '$track[artist_name]', "
@@ -110,7 +111,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$disc_num = $_GET["disc_num"];
 	$track_num = $_GET["track_num"];
 
-	if ( !is_numeric($albumID)
+//	if ( !is_numeric($albumID)
+	if ( !isset($albumID)
 	  || !is_numeric($disc_num)
 	  || !is_numeric($track_num) ) {
 		header("HTTP/1.1 404 Not Found");
