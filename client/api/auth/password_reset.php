@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file password/reset.php
+ * @file auth/password_reset.php
  * @author Ben Shealy
  */
 require_once("../connect.php");

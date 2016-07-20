@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file password/request.php
+ * @file auth/password_request.php
  * @author Ben Shealy
  */
 require_once("../connect.php");
@@ -17,18 +17,18 @@ require_once("../connect.php");
  * @param to       recipient email address
  * @param subject  subject
  * @param message  message
+ * @return true if mail was accepted, false otherwise
  */
 function send_mail($to, $subject, $message)
 {
-	$headers = array(
-		"MIME-Version: 1.0",
-		"Content-Type: text/plain; charset=utf-8",
-		"From: WSBF Computer Engineer <computer@wsbf.net>",
-		"Subject: $subject",
-		"X-Mailer: PHP/" . phpversion()
-	);
+	$headers = "From: WSBF Computer Engineer <computer@wsbf.net>\r\n"
+		. "Content-Type: text/plain; charset=utf-8\r\n";
 
-	mail($to, $subject, $message, implode("\r\n", $headers));
+//	$headers = "MIME-Version: 1.0\r\n"
+//		. "Subject: $subject\r\n"
+//		. "X-Mailer: PHP/" . phpversion() . "\r\n";
+
+	return mail($to, $subject, $message, $headers);
 }
 
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
@@ -55,16 +55,17 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli->query($q);
 
 	// send email to user
-//	$user = $result->fetch_assoc();
+	$user = $result->fetch_assoc();
 
-//	send_mail(
-//		$user["email_addr"],
-//		"Password Reset Request",
-//		"Go to this link to reset your password: https://dev.wsbf.net/reset_password.php?transaction_id=$transaction_id"
-//	);
+	$success = send_mail(
+		$user["email_addr"],
+		"Password Reset Request",
+		"Go to this link to reset your password: https://wsbf.net/login/#/reset-password/$transaction_id"
+	);
 
 	$mysqli->close();
 
-	exit;
+	header("Content-Type: application/json");
+	exit(json_encode($success));
 }
 ?>
