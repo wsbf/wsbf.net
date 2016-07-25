@@ -29,12 +29,12 @@
 
 	<div class="row h4" ng-repeat="s in schedule">
 		<div class="col-sm-offset-2 col-sm-8 panel panel-default">
-			<div class="panel-body row">
-				<div class="col-xs-3 text-center">
-					<img class="img-circle img-border" src="images/schedule.png" alt="profile pic" width="80" height="80"/>
+			<div class="panel-body media">
+				<div class="media-left">
+					<img class="img-circle" src="images/schedule.png" alt="profile pic" width="80" height="80"/>
 				</div>
 
-				<div class="col-xs-9">
+				<div class="media-body">
 					<p>{{s.start_time}} - {{s.end_time}}</p>
 					<p><strong>{{s.show_name}}</strong></p>
 					<div ng-repeat="h in s.hosts">{{h}}</div>

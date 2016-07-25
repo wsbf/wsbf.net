@@ -94,20 +94,10 @@ h1, h2, h3 {
 }
 
 /* Scrollbar, other rules for media blocks */
-.items-container {
+.scrollable {
 	overflow-y: auto;
 	height: 300px;
 	margin-bottom: 30px;
-}
-.items-container > .row {
-	margin-top: 15px;
-}
-.img-border {
-	border: 2px solid #5f9a18;
-}
-
-table.chart-home > tbody > tr > td {
-	vertical-align: middle;
 }
 
 /* Schedule rules */

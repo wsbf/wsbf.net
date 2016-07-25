@@ -174,13 +174,13 @@
 						<!-- Begin playlist.home -->
 						<h1>Playlist <small><a class="btn btn-default pull-right" href="#/playlists">View Show Playlists</a></small></h1>
 						<hr>
-						<div class="container-fluid items-container">
-							<div class="row" ng-repeat="p in playlist">
-								<div class="col-xs-3 text-center">
-									<img class="img-circle img-border" ng-src="{{p.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
+						<div class="scrollable">
+							<div class="media" ng-repeat="p in playlist">
+								<div class="media-left">
+									<img class="img-circle" ng-src="{{p.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
 								</div>
 
-								<div class="col-xs-9">
+								<div class="media-body">
 									<div>{{p.time_played | date:'shortTime'}}</div>
 									<div><strong>{{p.lb_track_name}}</strong></div>
 									<div>{{p.lb_artist}}</div>
@@ -196,13 +196,13 @@
 						<!-- Begin schedule.home -->
 						<h1>Schedule <small class="pull-right">{{today | date:'EEE MM/dd'}}</small></h1>
 						<hr>
-						<div class="container-fluid items-container">
-							<div class="row" ng-repeat="s in schedule">
-								<div class="col-xs-3 text-center">
-									<img class="img-circle img-border" src="images/schedule.png" alt="profile pic" width="64" height="64"/>
+						<div class="scrollable">
+							<div class="media" ng-repeat="s in schedule">
+								<div class="media-left">
+									<img class="img-circle" src="images/schedule.png" alt="profile pic" width="64" height="64"/>
 								</div>
 
-								<div class="col-xs-9">
+								<div class="media-body">
 									<div>{{s.start_time}} - {{s.end_time}}</div>
 									<div><strong>{{s.show_name}}</strong></div>
 									<div ng-repeat="h in s.hosts">{{h}}</div>
@@ -218,18 +218,17 @@
 						<!-- Begin chart.home -->
 						<h1>Charting <small><a class="btn btn-default pull-right" href="#/charts">View More</a></small></h1>
 						<hr>
-						<div class="items-container">
-							<table class="chart-home table table-striped">
-								<tr ng-repeat="a in albums">
-									<td class="text-center">
-										<img class="img-rounded" ng-src="{{a.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
-									</td>
-									<td>
-										<h4>{{a.lb_album}}</h4>
-										<h5 class="text-muted">{{a.lb_artist}}</h5>
-									</td>
-								</tr>
-							</table>
+						<div class="scrollable">
+							<div class="media" ng-repeat="a in albums">
+								<div class="media-left">
+									<img class="img-rounded" ng-src="{{a.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
+								</div>
+
+								<div class="media-body">
+									<h4 class="media-heading">{{a.lb_album}}</h4>
+									<p class="text-muted">{{a.lb_artist}}</p>
+								</div>
+							</div>
 						</div>
 						<!-- End chart.home -->
 					</div>
@@ -240,7 +239,7 @@
 						<!-- Begin socialstream.home -->
 						<h1>Social Stream</h1>
 						<hr>
-						<div class="items-container text-center">
+						<div class="scrollable text-center">
 							<a class="twitter-timeline"
 							   href="https://twitter.com/WSBF_FM"
 							   data-widget-id="494896788252282880"
@@ -338,8 +337,10 @@
 				<div class="text-right"><strong>{{track.lb_track_name || '--'}}</strong></div>
 				<div class="text-right">{{track.lb_artist || '--'}}</div>
 
-				<!-- TODO: use /8.ogg when mpeg is not supported -->
-				<audio src="/stream/high" type="audio/mpeg" controls></audio>
+				<audio controls>
+					<source src="/stream/high" type="audio/mpeg"></source>
+					<source src="/stream/8.ogg" type="audio/ogg"></source>
+				</audio>
 			</div>
 		</div>
 		<!-- End mediawidget -->

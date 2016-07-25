@@ -11,50 +11,27 @@
 				<div class="thumbnail">
 					<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_large.png'}}" alt="album art" width="174" height="174"/>
 					<div class="caption">
-						<div class="row">
-							<div class="col-xs-4 text-right">
-								<div><strong>Track:</strong></div>
-							</div>
-							<div class="col-xs-8">
-								<div>{{track.lb_track_name || '--'}}</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-4 text-right">
-								<div><strong>Album:</strong></div>
-							</div>
-							<div class="col-xs-8">
-								<div>{{track.lb_album || '--'}}</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-4 text-right">
-								<div><strong>Artist:</strong></div>
-							</div>
-							<div class="col-xs-8">
-								<div>{{track.lb_artist || '--'}}</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-4 text-right">
-								<div><strong>Show:</strong></div>
-							</div>
-							<div class="col-xs-8">
-								<div>{{track.show_name || '--'}}</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-4 text-right">
-								<div><strong>Hosts:</strong></div>
-							</div>
-							<div class="col-xs-8">
-								<div ng-show="track.show_hosts.length === 0">--</div>
-								<div ng-repeat="h in track.show_hosts">{{h}}</div>
-							</div>
-						</div>
-						<br/>
+						<dl class="dl-horizontal">
+							<dt>Track</dt>
+							<dd>{{track.lb_track_name || '--'}}</dd>
 
-						<audio class="center-block" src="/stream/high" type="audio/mpeg" controls></audio>
+							<dt>Album</dt>
+							<dd>{{track.lb_album || '--'}}</dd>
+
+							<dt>Artist</dt>
+							<dd>{{track.lb_artist || '--'}}</dd>
+
+							<dt>Show</dt>
+							<dd>{{track.show_name || '--'}}</dd>
+
+							<dt>Hosts</dt>
+							<dd>{{track.show_hosts.length > 0 ? track.show_hosts.join(', ') : '--'}}</dd>
+						</dl>
+
+						<audio controls>
+							<source src="/stream/high" type="audio/mpeg"></source>
+							<source src="/stream/8.ogg" type="audio/ogg"></source>
+						</audio>
 					</div>
 				</div>
 			</div>
@@ -64,13 +41,13 @@
 			<div ng-controller="PlaylistCtrl">
 				<h2 class="text-center">Playlist</h2>
 				<hr>
-				<div class="container-fluid items-container">
-					<div class="row" ng-repeat="p in playlist">
-						<div class="col-xs-3 text-center">
-							<img class="img-circle img-border" ng-src="{{p.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
+				<div class="scrollable">
+					<div class="media" ng-repeat="p in playlist">
+						<div class="media-left">
+							<img class="img-circle" ng-src="{{p.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
 						</div>
 
-						<div class="col-xs-9">
+						<div class="media-body">
 							<div>{{p.time_played | date:'shortTime'}}</div>
 							<div><strong>{{p.lb_track_name}}</strong></div>
 							<div>{{p.lb_artist}}</div>

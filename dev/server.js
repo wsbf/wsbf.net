@@ -85,16 +85,16 @@ app.get("/api/users/user.php", function(req, res, next) {
 	}
 });
 
-app.get("/blog", function(req, res) {
-	res.redirect("https://wsbf.net/blog/");
+app.get("/blog/:route?", function(req, res) {
+	res.redirect("https://wsbf.net/blog/" + (req.params.route || ""));
 });
 
-app.get("/camera/:route", function(req, res) {
-	res.redirect("https://wsbf.net/camera/" + req.params.route);
+app.get("/camera/:route?", function(req, res) {
+	res.redirect("https://wsbf.net/camera/" + (req.params.route || ""));
 });
 
-app.get("/stream/:route", function(req, res) {
-	res.redirect("https://wsbf.net/stream/" + req.params.route);
+app.get("/stream/:route?", function(req, res) {
+	res.redirect("https://wsbf.net/stream/" + (req.params.route || ""));
 });
 
 app.use("/api", express.static(path.join(__dirname, "api")));
