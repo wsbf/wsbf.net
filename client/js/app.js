@@ -12,6 +12,7 @@ var app = angular.module("app", [
 	"app.schedule",
 	"app.show-list",
 	"app.show",
+	"app.staff",
 	"app.webcam"
 ]);
 
@@ -29,7 +30,8 @@ app.config(["$routeProvider", function($routeProvider) {
 			templateUrl: "views/philosophy.html"
 		})
 		.when("/staff", {
-			templateUrl: "views/staff.html"
+			templateUrl: "views/staff.html",
+			controller: "StaffCtrl"
 		})
 		.when("/history", {
 			templateUrl: "views/history.html"

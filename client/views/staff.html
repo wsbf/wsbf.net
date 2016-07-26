@@ -1,32 +1,15 @@
 <h1>WSBF Staff</h1>
 
-<!-- TODO consider using a template language to query senior staff from db when building for production -->
-<h3>Chief Announcer</h3>
-<p>Billy Moir  //  <a href="mailto:announcer@wsbf.net">announcer@wsbf.net</a></p>
+<div class="row">
+	<div class="col-sm-4" ng-repeat="s in staff">
+		<div class="thumbnail text-center" style="border: none;">
+			<img class="img-circle" ng-src="{{s.imageUrl}}" alt="profile picture" height="150" width="150"/>
 
-<h3>Chief Engineer</h3>
-<p>Matt Rana  //  <a href="mailto:chief@wsbf.net">chief@wsbf.net</a></p>
-
-<h3>Computer Engineer</h3>
-<p>Ben Shealy  //  <a href="mailto:computer@wsbf.net">computer@wsbf.net</a></p>
-
-<h3>Events Coordinator</h3>
-<p>Sean Galgano  //  <a href="mailto:events@wsbf.net">events@wsbf.net</a></p>
-
-<h3>General Manager</h3>
-<p>Morgan Kern  //  <a href="mailto:gm@wsbf.net">gm@wsbf.net</a></p>
-
-<h3>Member At Large</h3>
-<p>Lauren Musgrave  //  <a href="mailto:member@wsbf.net">member@wsbf.net</a></p>
-
-<h3>Music Director</h3>
-<p>Chandler Pobis  //  <a href="mailto:music@wsbf.net">music@wsbf.net</a></p>
-
-<h3>Production Director</h3>
-<p>Wesley Heaton  //  <a href="mailto:production@wsbf.net">production.wsbf.net</a></p>
-
-<h3>Promotion Director</h3>
-<p>Jessica Martin  //  <a href="mailto:promo@wsbf.net">promo@wsbf.net</a></p>
-
-<h3>Student Media Advisor</h3>
-<p>Jackie Alexander  //  <a href="mailto:jalexa5@g.clemson.edu">jalexa5@g.clemson.edu</a></p>
+			<div class="caption">
+				<p class="lead">{{s.name}}</p>
+				<p class="text-muted">{{s.position}}</p>
+				<p><a ng-href="mailto:{{s.email}}" target="_blank">{{s.email}}</a></p>
+			</div>
+		</div>
+	</div>
+</div>
