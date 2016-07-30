@@ -1,11 +1,10 @@
 "use strict";
 var path = require("path");
 var gulp = require("gulp");
-var changed = require("gulp-changed");
 var csso = require("gulp-csso");
 var eslint = require("gulp-eslint");
 var htmlmin = require("gulp-htmlmin");
-var imagemin = require("gulp-imagemin");
+var newer = require("gulp-newer");
 var symlink = require("gulp-symlink");
 var uglify = require("gulp-uglify");
 
@@ -55,7 +54,7 @@ gulp.task("public-api", function() {
 		path.join(SRC, "api/connect.php"),
 		path.join(SRC, "api/defs.php")
 	], { base: SRC })
-		.pipe(changed(DST))
+		.pipe(newer(DST))
 		.pipe(gulp.dest(DST));
 });
 
@@ -66,7 +65,7 @@ gulp.task("public-html", function() {
 		path.join(SRC, "mobile/**/*.html"),
 		path.join(SRC, "views/*.html")
 	], { base: SRC })
-		.pipe(changed(DST))
+		.pipe(newer(DST))
 		.pipe(htmlmin({
 			removeComments: true,
 			collapseWhitespace: true
@@ -78,7 +77,7 @@ gulp.task("public-css", function() {
 	return gulp.src([
 		path.join(SRC, "css/*.css")
 	], { base: SRC })
-		.pipe(changed(DST))
+		.pipe(newer(DST))
 		.pipe(csso())
 		.pipe(gulp.dest(DST));
 });
@@ -88,7 +87,7 @@ gulp.task("public-js", function() {
 		path.join(SRC, "js/**/*.js"),
 		path.join(SRC, "login/**/*.js")
 	], { base: SRC })
-		.pipe(changed(DST))
+		.pipe(newer(DST))
 		.pipe(uglify())
 		.pipe(gulp.dest(DST));
 });
@@ -98,8 +97,7 @@ gulp.task("public-images", function() {
 		path.join(SRC, "favicon.ico"),
 		path.join(SRC, "images/**/*")
 	], { base: SRC })
-		.pipe(changed(DST))
-		.pipe(imagemin())
+		.pipe(newer(DST))
 		.pipe(gulp.dest(DST));
 });
 
@@ -107,7 +105,7 @@ gulp.task("public-files", function() {
 	return gulp.src([
 		path.join(SRC, "files/**/*")
 	], { base: SRC })
-		.pipe(changed(DST))
+		.pipe(newer(DST))
 		.pipe(gulp.dest(DST));
 });
 
@@ -129,7 +127,7 @@ gulp.task("private-api", function() {
 		path.join(SRC, "api/showsub/**/*"),
 		path.join(SRC, "api/users/**/*")
 	], { base: SRC })
-		.pipe(changed(DST))
+		.pipe(newer(DST))
 		.pipe(gulp.dest(DST));
 });
 
@@ -140,7 +138,7 @@ gulp.task("private-html", function() {
 		path.join(SRC, "wizbif/index.html"),
 		path.join(SRC, "wizbif/views/*.html")
 	], { base: SRC })
-		.pipe(changed(DST))
+		.pipe(newer(DST))
 		.pipe(htmlmin({
 			removeComments: true,
 			collapseWhitespace: true
@@ -152,7 +150,7 @@ gulp.task("private-css", function() {
 	return gulp.src([
 		path.join(SRC, "wizbif/css/*.css")
 	], { base: SRC })
-		.pipe(changed(DST))
+		.pipe(newer(DST))
 		.pipe(csso())
 		.pipe(gulp.dest(DST));
 });
@@ -161,7 +159,7 @@ gulp.task("private-js", function() {
 	return gulp.src([
 		path.join(SRC, "wizbif/js/**/*.js")
 	], { base: SRC })
-		.pipe(changed(DST))
+		.pipe(newer(DST))
 		.pipe(uglify())
 		.pipe(gulp.dest(DST));
 });
