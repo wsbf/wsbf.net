@@ -30,60 +30,82 @@
 		<script src="js/controllers/users.js"></script>
 		<script src="js/app.js"></script>
 	</head>
-	<body class="container-fluid" ng-controller="MainCtrl">
-		<div class="text-center" ng-show="!user">
-			<h3><strong>Nah.</strong></h3>
-
-			<p>It would seem that you aren't logged in, so go <a href="/login/">log in</a>!</p>
-		</div>
-
-		<div class="row" ng-show="user">
-			<div class="col-sm-3">
-				<p>
-					<a href="/" target="_blank">
-						<img src="/images/logo.png" width="200px"></img>
+	<body ng-controller="MainCtrl">
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/" title="wsbf.net">
+						<img src="/images/wsbflady_100.png" height="30" width="30" alt="WSBF logo"/>
 					</a>
-				</p>
+				</div>
 
-				<p class="text-muted">Signed in as {{user.preferred_name}}</p>
-
-				<ul class="list-unstyled">
-					<li><a href="#/">Home</a></li>
-					<!-- TODO: move to public website -->
-					<li><a href="#/charts">Weekly Top 20 Tracks</a></li>
-					<li><a href="#/schedule">Show Schedule</a></li>
-					<li><a href="#/users/reviews">Album Reviews</a></li>
+				<ul class="nav navbar-nav navbar-right">
+					<li ng-show="user">
+						<p class="navbar-text">Signed in as {{user.preferred_name}}</p>
+					</li>
 				</ul>
+			</div>
+		</nav>
 
-				<ul class="list-unstyled" ng-show="check.editProfile">
-					<li><a href="#/users">User Directory</a></li>
-					<li><a href="#/users/{{user.username}}/edit">User Profile</a></li>
-				</ul>
+		<div class="container">
+			<div class="text-center" ng-show="!user">
+				<h3><strong>Nah.</strong></h3>
 
-				<ul class="list-unstyled" ng-show="check.reviewer">
-					<li><a href="#/library">Music Library</a></li>
-					<li><a href="#/showsub">Show Sub Requests</a></li>
-					<li><a href="#/fishbowl/app">Fishbowl Application</a></li>
-					<li><a href="#/archives">Archives</a></li>
-					<li><a href="#/logbook">Logbook</a></li>
-				</ul>
-
-				<ul class="list-unstyled" ng-show="check.seniorStaff">
-					<li><a href="#/fishbowl/admin">Fishbowl Control Panel</a></li>
-					<li><a href="#/schedule/admin">Schedule Control Panel</a></li>
-					<li><a href="#/users/admin">User Control Panel</a></li>
-				</ul>
-
-				<ul class="list-unstyled" ng-show="check.musicDirector">
-					<li><a href="#/import">Import Control Panel</a></li>
-					<li><a href="#/library/admin">Library Control Panel</a></li>
-				</ul>
-
-				<a href="/api/auth/logout.php">Log out</a>
+				<p>It would seem that you aren't logged in, so go <a href="/login/">log in</a>!</p>
 			</div>
 
-			<div class="col-sm-9">
-				<div ng-view></div>
+			<div class="row" ng-show="user">
+				<div class="col-xs-3">
+					<div class="panel panel-default">
+						<div class="panel-heading">Users</div>
+
+						<div class="list-group">
+							<a class="list-group-item" href="#/">Home</a>
+							<!-- TODO: move to public website -->
+							<a class="list-group-item" href="#/charts">Weekly Top 20 Tracks</a>
+							<a class="list-group-item" href="#/schedule">Show Schedule</a>
+							<a class="list-group-item" href="#/users/reviews">Album Reviews</a>
+							<a class="list-group-item" href="#/users">User Directory</a>
+							<a class="list-group-item" href="#/users/{{user.username}}/edit">User Profile</a>
+							<a class="list-group-item" href="/api/auth/logout.php">Log out</a>
+						</div>
+					</div>
+
+					<div class="panel panel-default" ng-show="check.reviewer">
+						<div class="panel-heading">Members</div>
+
+						<div class="list-group">
+							<a class="list-group-item" href="#/library">Music Library</a>
+							<a class="list-group-item" href="#/showsub">Show Sub Requests</a>
+							<a class="list-group-item" href="#/fishbowl/app">Fishbowl Application</a>
+							<a class="list-group-item" href="#/archives">Archives</a>
+							<a class="list-group-item" href="#/logbook">Logbook</a>
+						</div>
+					</div>
+
+					<div class="panel panel-default" ng-show="check.seniorStaff">
+						<div class="panel-heading">Senior Staff</div>
+
+						<div class="list-group">
+							<a class="list-group-item" href="#/fishbowl/admin">Fishbowl Control Panel</a>
+							<a class="list-group-item" href="#/schedule/admin">Schedule Control Panel</a>
+							<a class="list-group-item" href="#/users/admin">User Control Panel</a>
+						</div>
+					</div>
+
+					<div class="panel panel-default" ng-show="check.musicDirector">
+						<div class="panel-heading">Music Director</div>
+
+						<div class="list-group">
+							<a class="list-group-item" href="#/import">Import Control Panel</a>
+							<a class="list-group-item" href="#/library/admin">Library Control Panel</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-9">
+					<div ng-view></div>
+				</div>
 			</div>
 		</div>
 
