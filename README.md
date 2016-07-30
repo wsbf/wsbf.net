@@ -58,7 +58,7 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 
 ### Client (private)
 
-- discuss removing `def_mediums`, `libcart`.`play_mask`
+- discuss removing `libcart`.`play_mask`
 
 - album checkout interface
 - logbook
@@ -67,5 +67,4 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 - user profile photos
 - "spaz sheet" interface for logbook (with captcha)
 - move views into modals where appropriate
-- merge Import and Library control panels
 - add help content/minigame to home page

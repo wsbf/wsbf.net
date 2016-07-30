@@ -29,7 +29,6 @@ curl -# "https://wsbf.net/api/defs.php?table=airability" -o dev/api/defs/airabil
 curl -# "https://wsbf.net/api/defs.php?table=cart_type" -o dev/api/defs/cart_type
 curl -# "https://wsbf.net/api/defs.php?table=days" -o dev/api/defs/days
 curl -# "https://wsbf.net/api/defs.php?table=general_genres" -o dev/api/defs/general_genres
-curl -# "https://wsbf.net/api/defs.php?table=mediums" -o dev/api/defs/mediums
 curl -# "https://wsbf.net/api/defs.php?table=rotations" -o dev/api/defs/rotations
 curl -# "https://wsbf.net/api/defs.php?table=show_times" -o dev/api/defs/show_times
 curl -# "https://wsbf.net/api/defs.php?table=show_types" -o dev/api/defs/show_types
@@ -44,7 +43,7 @@ curl -# -b PHPSESSID=$PHPSESSID "https://wsbf.net/api/fishbowl/review.php?id=43"
 mkdir -p dev/api/import
 curl -# -b PHPSESSID=$PHPSESSID "https://wsbf.net/api/import/album.php?path=albums&artist=Chick+Corea+Trio" -o dev/api/import/album.php
 curl -# -b PHPSESSID=$PHPSESSID "https://wsbf.net/api/import/cart.php?path=carts&cart=Layers.mp3" -o dev/api/import/cart.php
-curl -# -b PHPSESSID=$PHPSESSID "https://wsbf.net/api/import/directory.php" -o dev/api/import/directory.php
+curl -# -b PHPSESSID=$PHPSESSID "https://wsbf.net/api/import/directory.php?path=albums" -o dev/api/import/directory.php
 
 mkdir -p dev/api/library
 curl -# -b PHPSESSID=$PHPSESSID "https://wsbf.net/api/library/album.php?albumID=5761" -o dev/api/library/album.php

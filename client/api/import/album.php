@@ -159,7 +159,6 @@ function import_album($mysqli, $album)
 		. "num_discs = '$album[num_discs]', "
 		. "artistID = '$artistID', "
 		. "labelID = '$labelID', "
-		. "mediumID = '$album[mediumID]', "
 		. "general_genreID = '$album[general_genreID]', "
 		. "genre = '$album[genre]';";
 	$mysqli->query($q);

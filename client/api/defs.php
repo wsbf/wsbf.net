@@ -10,7 +10,7 @@ require_once("connect.php");
 
 /**
  * Get a definitions table.
- * 
+ *
  * @param mysqli  MySQL connection
  * @param suffix  table suffix
  * @return array of defs table
@@ -33,7 +33,6 @@ $suffixes = array(
 	"cart_type",
 	"days",
 	"general_genres",
-	"mediums",
 	"positions",
 	"rotations",
 	"show_times",

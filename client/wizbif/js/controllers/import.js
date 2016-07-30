@@ -73,7 +73,6 @@ importModule.controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db"
 
 importModule.controller("ImportAlbumCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	$scope.general_genres = db.getDefs("general_genres");
-	$scope.mediums = db.getDefs("mediums");
 	$scope.album = {
 		tracks: []
 	};
