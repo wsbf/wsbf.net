@@ -93,17 +93,17 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$locati
 	$scope.general_genres = db.getDefs("general_genres");
 	$scope.airability = db.getDefs("airability");
 	$scope.album = {};
-	$scope.similar_artists = [];
+	$scope.related_artists = [];
 
 	var getAlbum = function() {
 		db.getLibraryAlbum($routeParams.albumID)
 			.then(function(album) {
 				$scope.album = album;
 
-				return db.getSimilarArtists(album.artist_name, 10);
+				return db.getRelatedArtists(album.artist_name);
 			})
-			.then(function(similar_artists) {
-				$scope.similar_artists = similar_artists;
+			.then(function(related_artists) {
+				$scope.related_artists = related_artists;
 			});
 	};
 

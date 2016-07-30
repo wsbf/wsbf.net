@@ -7,60 +7,31 @@
 </div>
 
 <div ng-show="check.reviewer">
-	<div class="row">
-		<div class="col-xs-6 text-right">
-			<strong>Album Code</strong>
-		</div>
-		<div class="col-xs-6">{{album.album_code}}</div>
-	</div>
+	<dl class="dl-horizontal">
+		<dt>Album Code</dt>
+		<dd>{{album.album_code}}</dd>
 
-	<div class="row">
-		<div class="col-xs-6 text-right">
-			<strong>Artist</strong>
-		</div>
-		<div class="col-xs-6">{{album.artist_name}}</div>
-	</div>
+		<dt>Artist</dt>
+		<dd>{{album.artist_name}}</dd>
 
-	<div class="row">
-		<div class="col-xs-6 text-right">
-			<strong>Album</strong>
-		</div>
-		<div class="col-xs-6">{{album.album_name}}</div>
-	</div>
+		<dt>Album</dt>
+		<dd>{{album.album_name}}</dd>
 
-	<div class="row">
-		<div class="col-xs-6 text-right">
-			<strong>Label</strong>
-		</div>
-		<div class="col-xs-6">{{album.label}}</div>
-	</div>
+		<dt>Label</dt>
+		<dd>{{album.label}}</dd>
 
-	<div class="row">
-		<div class="col-xs-6 text-right">
-			<strong>General Genre</strong>
-		</div>
-		<div class="col-xs-6">{{general_genres[album.general_genreID].genre}}</div>
-	</div>
+		<dt>General Genre</dt>
+		<dd>{{general_genres[album.general_genreID].genre}}</dd>
 
-	<div class="row">
-		<div class="col-xs-6 text-right">
-			<strong>Genre</strong>
-		</div>
-		<div class="col-xs-6">{{album.genre}}</div>
-	</div>
+		<dt>Genre</dt>
+		<dd>{{album.genre}}</dd>
 
-	<div class="row">
-		<div class="col-xs-6 text-right">
-			<strong>Reviewer</strong>
-		</div>
-		<div class="col-xs-6">{{album.reviewer}}</div>
-	</div>
+		<dt>Reviewer</dt>
+		<dd>{{album.reviewer}}</dd>
 
-	<div>
-		<strong>Review</strong>
-	</div>
-
-	<p>{{album.review}}</p>
+		<dt>Review</dt>
+		<dd>{{album.review}}</dd>
+	</dl>
 
 	<table class="table">
 		<thead>
@@ -84,10 +55,13 @@
 		</tbody>
 	</table>
 
-	<strong>Similar Artists to {{album.artist_name}}:</strong>
-
-	<div ng-show="similar_artists.length === 0">No similar artists found.</div>
-	<div ng-repeat="a in similar_artists">{{a}}</div>
+	<dl class="dl-horizontal">
+		<dt>Related Artists</dt>
+		<dd>
+			<span ng-show="related_artists.length === 0">No related artists found.</span>
+			<div ng-repeat="a in related_artists">{{a}}</div>
+		</dd>
+	</dl>
 
 	<div class="text-center">
 		<a class="btn btn-default" href="#/library">Done</a>

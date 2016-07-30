@@ -15,7 +15,7 @@ var databaseModule = angular.module("wizbif.database", [
  * @param $http	  service in module ng
  * @param $resource  service in module ngResource
  */
-databaseModule.service("db", ["$http", "$resource", function($http, $resource) {
+databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 
 	var Defs = $resource("/api/defs.php", {}, {
 		get: { method: "GET", isArray: true, cache: true }
@@ -254,26 +254,37 @@ databaseModule.service("db", ["$http", "$resource", function($http, $resource) {
 		});
 	};
 
-	var SimilarArtists = $resource("https://developer.echonest.com/api/v4/artist/similar", {
-		api_key: "4VQZKSD99EUX9ON55",
-		format: "json",
-		start: 0
+	var Spotify = {};
+
+	Spotify.SearchArtist = $resource("https://api.spotify.com/v1/search", {
+		type: "artist",
+		limit: 1
 	}, {
 		get: { method: "GET", cache: true }
 	});
 
+	Spotify.RelatedArtists = $resource("https://api.spotify.com/v1/artists/:id/related-artists", {}, {
+		get: { method: "GET", cache: true }
+	});
+
 	/**
-	 * Get a list of similar artists.
+	 * Get a list of related artists.
 	 *
-	 * @param artist_name  artist name
-	 * @param count		number of similar artists
-	 * @return Promise of similar artists array
+	 * @param artist_name
+	 * @return Promise of related artists array
 	 */
-	this.getSimilarArtists = function(artist_name, count) {
-		return SimilarArtists.get({ name: artist_name, results: count })
-			.$promise
+	this.getRelatedArtists = function(artist_name) {
+		return Spotify.SearchArtist
+			.get({ q: artist_name }).$promise
 			.then(function(data) {
-				return (data.response.artists || []).map(function(a) {
+				var artist = data.artists.items[0];
+
+				return artist
+					? Spotify.RelatedArtists.get({ id: artist.id }).$promise
+					: $q.resolve({ artists: [] });
+			})
+			.then(function(data) {
+				return data.artists.map(function(a) {
 					return a.name;
 				});
 			});
