@@ -2,10 +2,19 @@
 
 <hr>
 
-<div class="container-fluid" ng-controller="ChartCtrl">
+<div class="container-fluid">
+	<ul class="nav nav-pills nav-justified">
+		<li class="active">
+			<a href="#/charts/albums">Albums</a>
+		</li>
+		<li>
+			<a href="#/charts/tracks">Tracks</a>
+		</li>
+	</ul>
+
 	<h3 class="text-center">{{date1 | date:'EEE MM/dd'}} - {{date2 | date:'EEE MM/dd'}}</h3>
 
-	<p><em>Charting includes albums currently in rotation played by DJs (not Automation).</em></p>
+	<p><em>Charting includes albums in rotation that are played by DJs (not Automation).</em></p>
 
 	<div class="row">
 		<div class="col-md-5">

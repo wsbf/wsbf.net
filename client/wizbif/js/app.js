@@ -4,7 +4,6 @@ var app = angular.module("wizbif", [
 	"ui.bootstrap",
 	"wizbif.main",
 	"wizbif.archives",
-	"wizbif.chart",
 	"wizbif.fishbowl-admin",
 	"wizbif.fishbowl-app",
 	"wizbif.import",
@@ -28,10 +27,6 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/archives", {
 			templateUrl: "views/archives.html",
 			controller: "ArchivesCtrl"
-		})
-		.when("/charts", {
-			templateUrl: "views/charts.html",
-			controller: "ChartCtrl"
 		})
 		.when("/fishbowl/admin", {
 			templateUrl: "views/fishbowl_admin.html",

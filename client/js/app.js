@@ -52,7 +52,15 @@ app.config(["$routeProvider", function($routeProvider) {
 			templateUrl: "views/schedule.html"
 		})
 		.when("/charts", {
-			templateUrl: "views/charts.html"
+			redirectTo: "/charts/albums"
+		})
+		.when("/charts/albums", {
+			templateUrl: "views/charts_albums.html",
+			controller: "AlbumChartCtrl"
+		})
+		.when("/charts/tracks", {
+			templateUrl: "views/charts_tracks.html",
+			controller: "TrackChartCtrl"
 		})
 		.when("/equipment", {
 			templateUrl: "views/equipment.html"

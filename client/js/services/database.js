@@ -114,6 +114,24 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		});
 	};
 
+	/**
+	 * Get the top tracks over a period of time.
+	 *
+	 * @param date1  start timestamp
+	 * @param date2  end timestamp
+	 * @return Promise of tracks array
+	 */
+	this.getTopTracks = function(date1, date2) {
+		return $http.get("/api/charts/tracks.php", {
+			params: {
+				date1: date1,
+				date2: date2
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
 	var Schedule = $resource("/api/schedule/schedule.php");
 
 	/**

@@ -1,6 +1,6 @@
 "use strict";
 
-describe("ChartCtrl", function() {
+describe("AlbumChartCtrl", function() {
 	var scope, db, $q;
 	var albums;
 
@@ -16,7 +16,7 @@ describe("ChartCtrl", function() {
 		spyOn(db, "getDefs");
 		spyOn(db, "getTopAlbums").and.returnValue($q.resolve(albums));
 
-		$controller("ChartCtrl", {
+		$controller("AlbumChartCtrl", {
 			$scope: scope
 		});
 	}));

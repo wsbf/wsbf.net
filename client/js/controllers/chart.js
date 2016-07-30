@@ -4,7 +4,7 @@ var chartModule = angular.module("app.chart", [
 	"app.database"
 ]);
 
-chartModule.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
+chartModule.controller("AlbumChartCtrl", ["$scope", "db", function($scope, db) {
 	var DAY = 24 * 3600 * 1000;
 	var WEEK = 7 * DAY;
 
@@ -47,6 +47,30 @@ chartModule.controller("ChartCtrl", ["$scope", "db", function($scope, db) {
 
 	// initialize
 	$scope.getCurrWeek();
+}]);
+
+chartModule.controller("TrackChartCtrl", ["$scope", "db", function($scope, db) {
+	var DAY = 24 * 3600 * 1000;
+	var WEEK = 7 * DAY;
+
+	$scope.today = Date.now();
+	$scope.tracks = [];
+
+	var getTracks = function(date1, date2) {
+		db.getTopTracks(date1, date2).then(function(tracks) {
+			$scope.tracks = tracks;
+		});
+	};
+
+	var getCurrWeek = function() {
+		$scope.date1 = $scope.today - WEEK - DAY;
+		$scope.date2 = $scope.today - DAY;
+
+		getTracks($scope.date1, $scope.date2);
+	};
+
+	// initialize
+	getCurrWeek();
 }]);
 
 chartModule.controller("ChartWidgetCtrl", ["$scope", "db", function($scope, db) {
