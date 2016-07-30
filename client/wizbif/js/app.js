@@ -41,22 +41,28 @@ app.config(["$routeProvider", function($routeProvider) {
 			controller: "ImportCtrl"
 		})
 		.when("/library", {
+			redirectTo: "/library/r/0"
+		})
+		.when("/library/r/:rotationID", {
 			templateUrl: "views/library.html",
 			controller: "LibraryCtrl"
 		})
 		.when("/library/admin", {
-			templateUrl: "views/library_admin.html",
-			controller: "LibraryAdminCtrl"
+			redirectTo: "/library/admin/r/7"
 		})
-		.when("/library/:albumID", {
+		.when("/library/admin/r/:rotationID", {
+			templateUrl: "views/library_admin.html",
+			controller: "LibraryCtrl"
+		})
+		.when("/library/album/:albumID", {
 			templateUrl: "views/library_album.html",
 			controller: "LibraryAlbumCtrl"
 		})
-		.when("/library/:albumID/edit", {
+		.when("/library/album/:albumID/edit", {
 			templateUrl: "views/library_album_edit.html",
 			controller: "LibraryAlbumCtrl"
 		})
-		.when("/library/:albumID/review", {
+		.when("/library/album/:albumID/review", {
 			templateUrl: "views/library_album_review.html",
 			controller: "LibraryAlbumCtrl"
 		})

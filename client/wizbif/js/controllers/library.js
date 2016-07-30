@@ -6,44 +6,23 @@ var libraryModule = angular.module("wizbif.library", [
 	"wizbif.database"
 ]);
 
-libraryModule.controller("LibraryCtrl", ["$scope", "db", function($scope, db) {
+libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "alert", "db", function($scope, $routeParams, $window, alert, db) {
 	$scope.rotations = db.getDefs("rotations");
 	$scope.general_genres = db.getDefs("general_genres");
-	$scope.rotationID = "0";
+	$scope.rotationID = $routeParams.rotationID;
 	$scope.page = 0;
 	$scope.albums = [];
 
-	$scope.getLibrary = function(rotationID, page, term) {
-		db.getLibrary(rotationID, $scope.general_genreID, page, term)
+	$scope.getLibrary = function(page, term) {
+		db.getLibrary($scope.rotationID, $scope.general_genreID, page, term)
 			.then(function(albums) {
-				$scope.rotationID = rotationID;
 				$scope.page = page;
 				$scope.albums = albums;
 			});
 	};
 
-	// initialize
-	$scope.getLibrary($scope.rotationID, $scope.page);
-}]);
-
-libraryModule.controller("LibraryAdminCtrl", ["$scope", "$window", "db", "alert", function($scope, $window, db, alert) {
-	$scope.rotations = db.getDefs("rotations");
-	$scope.general_genres = db.getDefs("general_genres");
-	$scope.rotationID = "7";
-	$scope.page = 0;
-	$scope.albums = [];
-
-	$scope.getLibrary = function(rotationID, page) {
-		db.getLibrary(rotationID, $scope.general_genreID, page)
-			.then(function(albums) {
-				$scope.rotationID = rotationID;
-				$scope.page = page;
-				$scope.albums = albums;
-			});
-	};
-
-	$scope.moveRotation = function() {
-		var albums = $scope.albums
+	$scope.moveRotation = function(albums) {
+		albums = albums
 			.filter(function(a) {
 				return a.rotationID !== $scope.rotationID;
 			})
@@ -62,9 +41,9 @@ libraryModule.controller("LibraryAdminCtrl", ["$scope", "$window", "db", "alert"
 		});
 	};
 
-	$scope.printLabels = function() {
+	$scope.printLabels = function(albums) {
 		// collect album IDs that are checked
-		var albums = $scope.albums
+		albums = albums
 			.filter(function(a) {
 				return a.label;
 			})
@@ -80,13 +59,13 @@ libraryModule.controller("LibraryAdminCtrl", ["$scope", "$window", "db", "alert"
 		$window.open("/api/library/print_labels.php?" + param);
 
 		// clear checkboxes
-		$scope.albums.forEach(function(a) {
+		albums.forEach(function(a) {
 			a.label = false;
 		});
 	};
 
 	// initialize
-	$scope.getLibrary($scope.rotationID, $scope.page);
+	$scope.getLibrary($scope.page);
 }]);
 
 libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {

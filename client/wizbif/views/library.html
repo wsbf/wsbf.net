@@ -10,43 +10,45 @@
 	</div>
 
 	<div class="panel-body">
-		<table class="table table-bordered">
-			<th ng-class="{ 'bg-info': rotationID === '0' }">
-				<a href="" ng-click="getLibrary('0', 0)">To Be Reviewed</a>
-			</th>
-			<th ng-class="{ 'bg-info': rotationID === '7' }">
-				<a href="" ng-click="getLibrary('7', 0)">Recently Reviewed</a>
-			</th>
-			<th ng-class="{ 'bg-info': rotationID === '1' }">
-				<a href="" ng-click="getLibrary('1', 0)">New</a>
-			</th>
-			<th ng-class="{ 'bg-info': rotationID === '2' }">
-				<a href="" ng-click="getLibrary('2', 0)">Heavy</a>
-			</th>
-			<th ng-class="{ 'bg-info': rotationID === '3' }">
-				<a href="" ng-click="getLibrary('3', 0)">Medium</a>
-			</th>
-			<th ng-class="{ 'bg-info': rotationID === '4' }">
-				<a href="" ng-click="getLibrary('4', 0)">Light</a>
-			</th>
-			<th ng-class="{ 'bg-info': rotationID === '5' }">
-				<a href="" ng-click="getLibrary('5', 0)">Optional</a>
-			</th>
-			<th ng-class="{ 'bg-info': rotationID === '6' }">
-				<a href="" ng-click="getLibrary('6', 0)">Jazz</a>
-			</th>
-		</table>
+		<ul class="nav nav-pills nav-justified">
+			<li ng-class="{ 'active': rotationID === '0' }">
+				<a href="#/library/r/0">To Be Reviewed</a>
+			</li>
+			<li ng-class="{ 'active': rotationID === '7' }">
+				<a href="#/library/r/7">Recently Reviewed</a>
+			</li>
+			<li ng-class="{ 'active': rotationID === '1' }">
+				<a href="#/library/r/1">New</a>
+			</li>
+			<li ng-class="{ 'active': rotationID === '2' }">
+				<a href="#/library/r/2">Heavy</a>
+			</li>
+			<li ng-class="{ 'active': rotationID === '3' }">
+				<a href="#/library/r/3">Medium</a>
+			</li>
+			<li ng-class="{ 'active': rotationID === '4' }">
+				<a href="#/library/r/4">Light</a>
+			</li>
+			<li ng-class="{ 'active': rotationID === '5' }">
+				<a href="#/library/r/5">Optional</a>
+			</li>
+			<li ng-class="{ 'active': rotationID === '6' }">
+				<a href="#/library/r/6">Jazz</a>
+			</li>
+		</ul>
+
+		<hr>
 
 		<div class="row">
 			<div class="col-sm-3">
-				<select class="form-control" ng-model="general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres" ng-change="getLibrary(rotationID, 0)">
+				<select class="form-control" ng-model="general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres" ng-change="getLibrary(0)">
 					<option value="">All Genres</option>
 				</select>
 			</div>
 
 			<div class="col-sm-3">
-				<button class="btn btn-sm" ng-click="page > 0 && getLibrary(rotationID, page - 1)" ng-disabled="page == 0">newer</button>
-				<button class="btn btn-sm" ng-click="getLibrary(rotationID, page + 1)">older</button>
+				<button class="btn btn-sm" ng-click="page > 0 && getLibrary(page - 1)" ng-disabled="page == 0">newer</button>
+				<button class="btn btn-sm" ng-click="getLibrary(page + 1)">older</button>
 			</div>
 
 			<div class="col-sm-4">
@@ -54,7 +56,7 @@
 			</div>
 
 			<div class="col-sm-2">
-				<button class="btn btn-sm btn-default" ng-click="getLibrary(rotationID, null, searchTerm)" ng-disabled="!searchTerm || searchTerm.length < 3">search</button>
+				<button class="btn btn-sm btn-default" ng-click="getLibrary(null, searchTerm)" ng-disabled="!searchTerm || searchTerm.length < 3">search</button>
 			</div>
 		</div>
 	</div>
@@ -71,8 +73,8 @@
 		<tbody>
 			<tr ng-repeat="a in albums">
 				<td>
-					<a ng-show="rotationID == 0" ng-href="#/library/{{a.albumID}}/review">Review</a>
-					<a ng-show="rotationID != 0" ng-href="#/library/{{a.albumID}}">{{a.album_code}}</a>
+					<a ng-show="rotationID == 0" ng-href="#/library/album/{{a.albumID}}/review">Review</a>
+					<a ng-show="rotationID != 0" ng-href="#/library/album/{{a.albumID}}">{{a.album_code}}</a>
 				</td>
 				<td>{{a.album_name}}</td>
 				<td>{{a.artist_name}}</td>
