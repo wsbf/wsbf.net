@@ -1,11 +1,15 @@
-<h2 class="text-center">Album Review Charts</h2>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Album Review Charts</h3>
+	</div>
 
-<div>
-	<h3 class="text-center">{{date1 | date:'MMMM yyyy'}}</h3>
+	<div class="panel-body">
+		<button class="btn btn-sm" ng-click="getPrevMonth()">prev month</button>
+		<button class="btn btn-sm" ng-click="getNextMonth()" ng-disabled="!hasNextMonth()">next month</button>
+		<button class="btn btn-sm" ng-click="getCurrMonth()">current</button>
 
-	<button class="btn btn-sm" ng-click="getPrevMonth()">prev month</button>
-	<button class="btn btn-sm" ng-click="getNextMonth()" ng-disabled="!hasNextMonth()">next month</button>
-	<button class="btn btn-sm" ng-click="getCurrMonth()">current</button>
+		<h3 class="text-center">{{date1 | date:'MMMM yyyy'}}</h3>
+	</div>
 
 	<table class="table">
 		<thead>

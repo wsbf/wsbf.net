@@ -1,13 +1,17 @@
-<h3 class="text-center">Show Sub Requests</h3>
-
 <div class="text-center" ng-show="!check.reviewer">
 	<h3><strong>Nah.</strong></h3>
 
 	<p>It would seem that you aren't allowed to view show sub requests.</p>
 </div>
 
-<div ng-show="check.reviewer">
-	<a href="" ng-click="addRequest()">Request a show sub</a>
+<div class="panel panel-default" ng-show="check.reviewer">
+	<div class="panel-heading">
+		<h3 class="panel-title">Show Sub Requests</h3>
+	</div>
+
+	<div class="panel-body">
+		<a href="" ng-click="addRequest()">Request a show sub</a>
+	</div>
 
 	<table class="table">
 		<thead>

@@ -1,20 +1,24 @@
-<h3 class="text-center">Schedule Control Panel</h3>
-
 <div class="text-center" ng-show="!check.seniorStaff">
 	<h3><strong>Nah.</strong></h3>
 
 	<p>It would seem that you aren't on senior staff, so you can't manage the schedule.</p>
 </div>
 
-<div ng-show="check.seniorStaff">
-	<button class="btn btn-default" ng-click="removeSchedule()">Clear Schedule</button>
+<div class="panel panel-default" ng-show="check.seniorStaff">
+	<div class="panel-heading">
+		<h3 class="panel-title">Schedule Control Panel</h3>
+	</div>
 
-	<ul class="list-inline text-center">
-		<li><strong class="show-type-0">Rotation</strong></li>
-		<li><strong class="show-type-1">Specialty</strong></li>
-		<li><strong class="show-type-2">Jazz</strong></li>
-		<li><strong class="show-type-3">Sports/Talk</strong></li>
-	</ul>
+	<div class="panel-body">
+		<button class="btn btn-default" ng-click="removeSchedule()">Clear Schedule</button>
+
+		<ul class="list-inline text-center">
+			<li><strong class="show-type-0">Rotation</strong></li>
+			<li><strong class="show-type-1">Specialty</strong></li>
+			<li><strong class="show-type-2">Jazz</strong></li>
+			<li><strong class="show-type-3">Sports/Talk</strong></li>
+		</ul>
+	</div>
 
 	<table class="table">
 		<tr>

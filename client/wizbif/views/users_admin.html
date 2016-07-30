@@ -1,21 +1,25 @@
-<h2 class="text-center">User Control Panel</h2>
-
 <div class="text-center" ng-show="!check.seniorStaff">
 	<h3><strong>Nah.</strong></h3>
 
 	<p>It would seem that you aren't on senior staff, so you can't manage users.</p>
 </div>
 
-<div ng-show="check.seniorStaff">
-	<div class="row">
-		<div class="col-sm-6">
-			<select class="form-control" ng-model="statusID" ng-options="s.statusID as s.status for s in statuses">
-				<option value="">All Statuses</option>
-			</select>
-		</div>
+<div class="panel panel-default" ng-show="check.seniorStaff">
+	<div class="panel-heading">
+		<h3 class="panel-title">User Control Panel</h3>
+	</div>
 
-		<div class="col-sm-6 text-right">
-			<button class="btn btn-default" ng-click="save()">Save Changes</button>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-6">
+				<select class="form-control" ng-model="statusID" ng-options="s.statusID as s.status for s in statuses">
+					<option value="">All Statuses</option>
+				</select>
+			</div>
+
+			<div class="col-sm-6 text-right">
+				<button class="btn btn-default" ng-click="save()">Save Changes</button>
+			</div>
 		</div>
 	</div>
 

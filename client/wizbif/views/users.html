@@ -1,13 +1,17 @@
-<h2 class="text-center">User Directory</h2>
-
 <div class="text-center" ng-show="!check.editProfile">
 	<h3><strong>Nah.</strong></h3>
 
 	<p>It would seem that you aren't allowed to look at the user directory.</p>
 </div>
 
-<div ng-show="check.editProfile">
-	<p><em>Currently only active users are shown.</em><p>
+<div class="panel panel-default" ng-show="check.editProfile">
+	<div class="panel-heading">
+		<h3 class="panel-title">User Directory</h3>
+	</div>
+
+	<div class="panel-body">
+		<p><em>Currently only active users are shown.</em><p>
+	</div>
 
 	<table class="table">
 		<thead>

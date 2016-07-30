@@ -1,39 +1,51 @@
-<h3 class="text-center">Import Control Panel</h3>
-
 <div class="text-center" ng-show="!check.musicDirector">
 	<h3><strong>Nah.</strong></h3>
 
 	<p>It would seem that you don't have music director privileges, so you can't import files.</p>
 </div>
 
-<div ng-show="check.musicDirector">
-	<ol class="breadcrumb">
-		<li ng-repeat="t in trail track by $index">
-			<a href="" ng-click="openDirectory($index)">{{t}}</a>
-		</li>
-	</ol>
+<div class="panel panel-default" ng-show="check.musicDirector">
+	<div class="panel-heading">
+		<h3 class="panel-title">Import Control Panel</h3>
+	</div>
 
-	<h4>Directories</h4>
+	<div class="panel-body">
+		<ol class="breadcrumb">
+			<li ng-repeat="t in trail track by $index">
+				<a href="" ng-click="openDirectory($index)">{{t}}</a>
+			</li>
+		</ol>
 
-	<ul class="list-unstyled">
-		<li ng-repeat="d in directories">
-			<a href="" ng-click="openDirectory(null, d)">{{d}}</a>
-		</li>
-	</ul>
+		<div class="row">
+			<div class="col-sm-4">
+				<h4 class="text-center">Directories</h4>
 
-	<h4>Carts</h4>
+				<ul class="list-unstyled">
+					<li ng-repeat="d in directories">
+						<a href="" ng-click="openDirectory(null, d)">{{d}}</a>
+					</li>
+				</ul>
+			</div>
 
-	<ul class="list-unstyled">
-		<li ng-repeat="c in carts">
-			<a href="" ng-click="openCart(path, c)">{{c}}</a>
-		</li>
-	</ul>
+			<div class="col-sm-4">
+				<h4 class="text-center">Carts</h4>
 
-	<h4>Artists</h4>
+				<ul class="list-unstyled">
+					<li ng-repeat="c in carts">
+						<a href="" ng-click="openCart(path, c)">{{c}}</a>
+					</li>
+				</ul>
+			</div>
 
-	<ul class="list-unstyled">
-		<li ng-repeat="a in artists">
-			<a href="" ng-click="openAlbum(path, a)">{{a}}</a>
-		</li>
-	</ul>
+			<div class="col-sm-4">
+				<h4 class="text-center">Artists</h4>
+
+				<ul class="list-unstyled">
+					<li ng-repeat="a in artists">
+						<a href="" ng-click="openAlbum(path, a)">{{a}}</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 </div>

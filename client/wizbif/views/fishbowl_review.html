@@ -2,50 +2,34 @@
 	<span class="close" ng-click="$dismiss()">&times;</span>
 	<div class="clearfix"></div>
 
-	<div class="form-group">
-		<strong>Name:</strong>
-		<samp>{{app.preferred_name}}</samp>
-	</div>
+	<dl class="dl-horizontal">
+		<dt>Name</dt>
+		<dd>{{app.preferred_name}}</dd>
 
-	<div class="form-group">
-		<strong>Number of semesters at the station:</strong>
-		<samp>{{app.semesters}}</samp>
-	</div>
+		<dt>Semesters at WSBF</dt>
+		<dd>{{app.semesters}}</dd>
 
-	<div class="form-group">
-		<strong>Number of missed shows:</strong>
-		<samp>{{app.missedShows}}</samp>
-	</div>
+		<dt>Missed Shows</dt>
+		<dd>{{app.missedShows}}</dd>
 
-	<div class="form-group">
-		<strong>Number of CD reviews this semester:</strong>
-		<samp>{{app.num_reviews}}</samp>
-	</div>
+		<dt>CD Reviews</dt>
+		<dd>{{app.num_reviews}}</dd>
 
-	<div class="form-group">
-		<strong>Previous show was 3-5 AM or 5-7 AM?</strong>
-		<samp>{{app.dead_hours ? 'Yes' : 'No'}}</samp>
-	</div>
+		<dt>Dead Hours?</dt>
+		<dd>{{app.dead_hours ? 'Yes' : 'No'}}</dd>
 
-	<div class="form-group">
-		<strong>Applying for a specialty show this semester?</strong>
-		<samp>{{app.specialty ? 'Yes' : 'No'}}</samp>
-	</div>
+		<dt>Specialty Show?</dt>
+		<dd>{{app.specialty ? 'Yes' : 'No'}}</dd>
 
-	<div class="form-group">
-		<strong>Did you help set up for live shows or events? List and describe briefly.</strong>
-		<pre>{{app.liveShows}}</pre>
-	</div>
+		<dt>Live Shows</dt>
+		<dd>{{app.liveShows}}</dd>
 
-	<div class="form-group" ng-show="app.fall">
-		<strong>Did you help with the Spring Festival? In what capacity? Tell us about it.</strong>
-		<pre>{{app.springFest}}</pre>
-	</div>
+		<dt>Shark Week</dt>
+		<dd>{{app.springFest}}</dd>
 
-	<div class="form-group">
-		<strong>Is there anything else that you've done for the station?</strong>
-		<pre>{{app.other}}</pre>
-	</div>
+		<dt>Miscellaneous</dt>
+		<dd>{{app.other}}</dd>
+	</dl>
 
 	<div class="form-group">
 		<select class="form-control" ng-model="apps[index].rating">
