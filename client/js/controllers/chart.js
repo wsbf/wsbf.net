@@ -86,7 +86,7 @@ chartModule.controller("ChartWidgetCtrl", ["$scope", "db", function($scope, db) 
 			.then(function(albums) {
 				albums = albums.slice(0, count);
 
-				return db.getAlbumArt(albums, 1);
+				return db.getAlbumArt(albums, 64);
 			})
 			.then(function(albums) {
 				$scope.albums = albums;

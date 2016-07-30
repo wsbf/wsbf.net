@@ -19,16 +19,11 @@ var databaseModule = angular.module("app.database", [
  */
 databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 
-	/**
-	 * Get album info through the last.fm API.
-	 *
-	 * @param artist
-	 * @param album
-	 */
-	var AlbumInfo = $resource("https://ws.audioscrobbler.com/2.0/", {
-		api_key: "74e3ab782313ff6e306a5f52a0e043ab",
-		format: "json",
-		method: "album.getinfo"
+	var Spotify = {};
+
+	Spotify.SearchAlbum = $resource("https://api.spotify.com/v1/search", {
+		type: "album",
+		limit: 1
 	}, {
 		get: { method: "GET", cache: true }
 	});
@@ -36,33 +31,38 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Get album art for an array of tracks or albums.
 	 *
-	 * size parameter is based on last.fm API
-	 *  1: 64 x 64
-	 *  2: 174 x 174
+	 * The Spotify API seems to consistently provide album art
+	 * in sizes 64x64, 300x300, and 640x640, so the size
+	 * parameter should be one of these three values.
 	 *
 	 * @param items  array of tracks or albums
 	 * @param size   size of album art
 	 * @return Promise of updated items
 	 */
 	this.getAlbumArt = function(items, size) {
-		return $q.all(items.map(function(item) {
-			// TODO: request artist photo?
+		var promises = items.map(function(item) {
 			if ( item.lb_album === "" ) {
 				return $q.resolve(item);
 			}
 
-			/* add image URL to each item */
-			return AlbumInfo.get({
-				artist: item.lb_artist,
-				album: item.lb_album
-			}).$promise.then(function(info) {
-				if ( !info.error ) {
-					item.imageUrl = info.album.image[size]["#text"];
-				}
+			return Spotify.SearchAlbum
+				.get({
+					q: "artist:" + item.lb_artist + " " + "album:" + item.lb_album
+				})
+				.$promise
+				.then(function(data) {
+					var album = data.albums.items[0];
 
-				return item;
-			});
-		}));
+					if ( album ) {
+						var image = _.find(album.images, { height: size });
+						item.imageUrl = image.url;
+					}
+
+					return item;
+				});
+		});
+
+		return $q.all(promises);
 	};
 
 	var Defs = $resource("/api/defs.php", {}, {

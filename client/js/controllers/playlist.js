@@ -10,7 +10,7 @@ playlistModule.controller("PlaylistCtrl", ["$scope", "$interval", "db", function
 	var getPlaylist = function() {
 		db.getPlaylist()
 			.then(function(playlist) {
-				return db.getAlbumArt(playlist, 1);
+				return db.getAlbumArt(playlist, 64);
 			})
 			.then(function(playlist) {
 				$scope.playlist = playlist;

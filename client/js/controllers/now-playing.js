@@ -10,7 +10,7 @@ nowPlayingModule.controller("NowPlayingCtrl", ["$scope", "$interval", "db", func
 	var getNowPlaying = function() {
 		db.getNowPlaying()
 			.then(function(track) {
-				return db.getAlbumArt([track], 2);
+				return db.getAlbumArt([track], 300);
 			})
 			.then(function(array) {
 				$scope.track = array[0];
