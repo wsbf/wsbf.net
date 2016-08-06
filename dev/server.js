@@ -101,19 +101,18 @@ app.use("/api", express.static(path.join(__dirname, "api")));
 app.use("/", express.static(DOC_ROOT));
 
 // define 404 handler
-app.use(function(req, res, next) {
-	var err = new Error("Not Found: " + req.originalUrl);
-	err.status = 404;
-	next(err);
+app.use(function(req, res) {
+	res.status(404).send("Not Found: " + req.originalUrl);
 });
 
 // define error handler
 app.use(function(err, req, res, next) {
-	console.error(err);
-	res.status(err.status || 500).send({ message: err.message });
+	if ( res.headersSent ) {
+		return next(err);
+	}
+
+	res.status(500).send({ message: err.message });
 });
 
 // start HTTP web server
-var server = app.listen(8080, function() {
-	console.log("Listening on port", server.address().port);
-});
+app.listen(8080);
