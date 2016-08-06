@@ -9,7 +9,7 @@ mainModule.controller("MainCtrl", ["$scope", "db", "alert", function($scope, db,
 	// temporary status/position sets
 	var statusSets = {
 		editProfile: ["0", "1", "2", "4"],
-		reviewer: ["0", "1", "5"]
+		reviewer: ["0", "1", "2", "4", "5"]
 	};
 
 	var positionSets = {

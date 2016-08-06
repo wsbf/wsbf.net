@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file users/reviews.php
+ * @author Ben Shealy
+ */
+require_once("../auth/auth.php");
 require_once("../connect.php");
 
 /**
@@ -32,7 +38,16 @@ function get_review_counts($mysqli, $date1, $date2)
 	return $review_counts;
 }
 
+authenticate();
+
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
+	$mysqli = construct_connection();
+
+	if ( !check_reviewer($mysqli) ) {
+		header("HTTP/1.1 401 Unauthorized");
+		exit;
+	}
+
 	$date1 = $_GET["date1"];
 	$date2 = $_GET["date2"];
 
@@ -40,8 +55,6 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
-
-	$mysqli = construct_connection();
 
 	$review_counts = get_review_counts($mysqli, $date1, $date2);
 	$mysqli->close();

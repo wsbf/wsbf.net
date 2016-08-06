@@ -95,6 +95,8 @@ function check_edit_profile($mysqli)
  * The following user statuses are included:
  *  0: Active
  *  1: Semi-Active
+ *  2: Inactive
+ *  4: Alumni
  *  5: Intern
  *
  * @param mysqli  MySQL connection
@@ -103,7 +105,7 @@ function check_edit_profile($mysqli)
  */
 function check_reviewer($mysqli)
 {
-	return in_array(get_status($mysqli), array(0, 1, 5));
+	return in_array(get_status($mysqli), array(0, 1, 2, 4, 5));
 }
 
 /**
