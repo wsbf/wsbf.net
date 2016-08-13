@@ -35,6 +35,11 @@ function get_fishbowl_app($mysqli, $id)
 		. "WHERE f.id='$id';";
 	$app = $mysqli->query($q)->fetch_assoc();
 
+	// cast boolean fields
+	$app["specialty"] = (bool) $app["specialty"];
+	$app["dead_hours"] = (bool) $app["dead_hours"];
+
+	// compute the number of album reviews
 	$q = "SELECT COUNT(*) FROM `libreview` AS r "
 		. "WHERE r.username = '$app[username]' "
 		. "AND " . REVIEW_BEGIN . " <= UNIX_TIMESTAMP(r.review_date) "
