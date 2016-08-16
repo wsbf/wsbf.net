@@ -3,6 +3,7 @@ client/bower_components
 client/camera
 client/wizbif/images/users
 client/wizbif/ZAutoLib
+client_build
 dev/api
 node_modules
 *.log

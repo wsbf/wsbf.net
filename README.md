@@ -61,10 +61,8 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 - discuss removing `libcart`.`play_mask`
 
 - album checkout interface
-- logbook
 - interface to request/grant/deny access to intern status and show times
 - maybe have account registration be approved
 - user profile photos
 - "spaz sheet" interface for logbook (with captcha)
-- move views into modals where appropriate
 - add help content/minigame to home page
