@@ -9,7 +9,7 @@ var symlink = require("gulp-symlink");
 var uglify = require("gulp-uglify");
 
 var SRC = "./client";
-var DST = "/var/www/wsbf";
+var DST = "./client_build";
 
 gulp.task("default", ["public", "private"]);
 
