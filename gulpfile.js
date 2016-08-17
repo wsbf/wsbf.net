@@ -11,7 +11,7 @@ var uglify = require("gulp-uglify");
 var SRC = "./client";
 var DST = "./client_build";
 
-gulp.task("default", ["public", "private"]);
+gulp.task("default", ["api", "public", "private"]);
 
 gulp.task("lint", function() {
 	return gulp
@@ -25,9 +25,28 @@ gulp.task("lint", function() {
 		.pipe(eslint.format());
 });
 
+gulp.task("api", function() {
+	return gulp.src([
+		path.join(SRC, "api/auth/**"),
+		path.join(SRC, "api/blog/**"),
+		path.join(SRC, "api/charts/**"),
+		path.join(SRC, "api/fishbowl/**"),
+		path.join(SRC, "api/import/**"),
+		path.join(SRC, "api/library/**"),
+		path.join(SRC, "api/logbook/**"),
+		path.join(SRC, "api/schedule/**"),
+		path.join(SRC, "api/shows/**"),
+		path.join(SRC, "api/showsub/**"),
+		path.join(SRC, "api/users/**"),
+		path.join(SRC, "api/connect.php"),
+		path.join(SRC, "api/defs.php")
+	], { base: SRC })
+		.pipe(newer(DST))
+		.pipe(gulp.dest(DST));
+});
+
 gulp.task("public", [
 	"bower-components",
-	"public-api",
 	"public-html",
 	"public-css",
 	"public-js",
@@ -40,23 +59,6 @@ gulp.task("bower-components", function() {
 	return gulp
 		.src(path.join(SRC, "bower_components"), { base: SRC })
 		.pipe(symlink(path.join(DST, "bower_components"), { force: true }));
-});
-
-gulp.task("public-api", function() {
-	return gulp.src([
-		path.join(SRC, "api/blog/preview.php"),
-		path.join(SRC, "api/charts/albums.php"),
-		path.join(SRC, "api/charts/tracks.php"),
-		path.join(SRC, "api/schedule/schedule.php"),
-		path.join(SRC, "api/shows/functions.php"),
-		path.join(SRC, "api/shows/now.php"),
-		path.join(SRC, "api/shows/playlist.php"),
-		path.join(SRC, "api/shows/shows.php"),
-		path.join(SRC, "api/connect.php"),
-		path.join(SRC, "api/defs.php")
-	], { base: SRC })
-		.pipe(newer(DST))
-		.pipe(gulp.dest(DST));
 });
 
 gulp.task("public-html", function() {
@@ -111,27 +113,10 @@ gulp.task("public-files", function() {
 });
 
 gulp.task("private", [
-	"private-api",
 	"private-html",
 	"private-css",
 	"private-js"
 ]);
-
-gulp.task("private-api", function() {
-	return gulp.src([
-		path.join(SRC, "api/auth/**/*"),
-		path.join(SRC, "api/fishbowl/**/*"),
-		path.join(SRC, "api/import/**/*"),
-		path.join(SRC, "api/library/**/*"),
-		path.join(SRC, "api/logbook/**/*"),
-		path.join(SRC, "api/schedule/**/*"),
-		path.join(SRC, "api/shows/**/*"),
-		path.join(SRC, "api/showsub/**/*"),
-		path.join(SRC, "api/users/**/*")
-	], { base: SRC })
-		.pipe(newer(DST))
-		.pipe(gulp.dest(DST));
-});
 
 gulp.task("private-html", function() {
 	return gulp.src([
