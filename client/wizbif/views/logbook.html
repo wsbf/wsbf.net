@@ -88,7 +88,7 @@
 					<input class="form-control input-sm" ng-model="newTrack.lb_album"/>
 				</td>
 				<td class="text-center h3">
-					<span class="button-icon" ng-hide="newTrack.airabilityID == 2" ng-click="newTrack.lb_rotation = newTrack.lb_rotation || 'O'; show.playlist.unshift(newTrack); newTrack = {}">&plus;</span>
+					<span class="button-icon" ng-hide="newTrack.airabilityID == 2" ng-click="addTrack(show.playlist, newTrack)">&plus;</span>
 				</td>
 			</tr>
 

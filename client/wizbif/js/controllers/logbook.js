@@ -52,8 +52,15 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 		});
 	};
 
+	$scope.addTrack = function(playlist, track) {
+		track.lb_rotation = track.lb_rotation || "O";
+		playlist.unshift(track);
+
+		$scope.newTrack = {};
+	};
+
 	$scope.logTrack = function(track) {
-		db.logTrack(track.albumID, track.lb_disc_num, track.lb_track_num)
+		db.logTrack(track)
 			.then(function() {
 				track.logged = true;
 			});

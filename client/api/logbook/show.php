@@ -175,6 +175,12 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		exit;
 	}
 
+	// sign off the current show
+	$showID = get_current_show_id($mysqli);
+	if ( $showID ) {
+		sign_off($mysqli);
+	}
+
 	$showID = sign_on($mysqli, $scheduleID);
 	$mysqli->close();
 

@@ -44,35 +44,10 @@ function get_album($mysqli, $album_code)
 function get_track($mysqli, $albumID, $disc_num, $track_num)
 {
 	$keys = array(
-		"track_name",
-		"airabilityID"
-	);
-
-	$q = "SELECT " . implode(",", $keys) . " FROM `libtrack` "
-		. "WHERE albumID = '$albumID' "
-		. "AND disc_num = '$disc_num' AND track_num = '$track_num';";
-	$track = $mysqli->query($q)->fetch_assoc();
-
-	return $track;
-}
-
-// TODO: duplicated from zautomate/log_track.php
-/**
- * Log a track in the logbook.
- *
- * @param mysqli     MySQL connection
- * @param showID     show ID
- * @param albumID    album ID
- * @param disc_num   disc number
- * @param track_num  track number
- */
-function log_track($mysqli, $showID, $albumID, $disc_num, $track_num)
-{
-	// get track
-	$keys = array(
 		"al.album_code",
 		"r.binAbbr AS rotation",
 		"t.track_name",
+		"t.airabilityID",
 		"al.album_name",
 		"ar.artist_name",
 		"la.label"
@@ -87,17 +62,32 @@ function log_track($mysqli, $showID, $albumID, $disc_num, $track_num)
 		. "AND t.disc_num = '$disc_num' AND t.track_num = '$track_num';";
 	$track = $mysqli->query($q)->fetch_assoc();
 
+	$track["disc_num"] = $disc_num;
+	$track["track_num"] = $track_num;
+
+	return $track;
+}
+
+/**
+ * Log a track in the logbook.
+ *
+ * @param mysqli  MySQL connection
+ * @param showID  show ID
+ * @param track   associative array of track
+ */
+function log_track($mysqli, $showID, $track)
+{
 	// log track
 	$q = "INSERT INTO `logbook` SET "
 		. "showID = '$showID', "
-		. "lb_album_code = '$track[album_code]', "
-		. "lb_rotation = '$track[rotation]', "
-		. "lb_disc_num = '$disc_num', "
-		. "lb_track_num = '$track_num', "
-		. "lb_track_name = '$track[track_name]', "
-		. "lb_artist = '$track[artist_name]', "
-		. "lb_album = '$track[album_name]', "
-		. "lb_label = '$track[label]', "
+		. "lb_album_code = '$track[lb_album_code]', "
+		. "lb_rotation = '$track[lb_rotation]', "
+		. "lb_disc_num = '$track[lb_disc_num]', "
+		. "lb_track_num = '$track[lb_track_num]', "
+		. "lb_track_name = '$track[lb_track_name]', "
+		. "lb_artist = '$track[lb_artist]', "
+		. "lb_album = '$track[lb_album]', "
+		. "lb_label = '$track[lb_label]', "
 		. "played = 1;";
 	$mysqli->query($q);
 
@@ -141,17 +131,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
-	$albumID = $_GET["albumID"];
-	$disc_num = $_GET["disc_num"];
-	$track_num = $_GET["track_num"];
-
-	if ( !is_numeric($albumID)
-	  || !is_numeric($disc_num)
-	  || !is_numeric($track_num) ) {
-		header("HTTP/1.1 404 Not Found");
-		exit;
-	}
-
+	// validate show
 	$showID = get_current_show_id($mysqli);
 
 	if ( $showID == null ) {
@@ -159,7 +139,11 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		exit;
 	}
 
-	log_track($mysqli, $showID, $albumID, $disc_num, $track_num);
+	// validate track
+	$track = json_decode(file_get_contents("php://input"), true);
+	$track = escape_json($mysqli, $track);
+
+	log_track($mysqli, $showID, $track);
 	$mysqli->close();
 
 	exit;

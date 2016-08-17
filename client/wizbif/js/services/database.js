@@ -365,17 +365,11 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Log a track in the current show.
 	 *
-	 * @param albumID	album ID
-	 * @param disc_num   disc number
-	 * @param track_num  track number
+	 * @param track
 	 * @return Promise of http response
 	 */
-	this.logTrack = function(albumID, disc_num, track_num) {
-		return LogbookTrack.save({
-			albumID: albumID,
-			disc_num: disc_num,
-			track_num: track_num
-		}, null).$promise;
+	this.logTrack = function(track) {
+		return LogbookTrack.save({}, track).$promise;
 	};
 
 	/**

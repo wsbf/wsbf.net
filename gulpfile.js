@@ -17,6 +17,7 @@ gulp.task("lint", function() {
 	return gulp
 		.src([
 			"**/*.js",
+			"!client_build/**",
 			"!client/bower_components/**",
 			"!node_modules/**"
 		])
