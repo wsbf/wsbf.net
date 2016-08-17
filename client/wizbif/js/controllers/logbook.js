@@ -29,11 +29,21 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 	};
 
 	$scope.signOn = function(scheduleID) {
-		db.signOn(scheduleID).then(getCurrentShow);
+		db.signOn(scheduleID).then(function() {
+			getCurrentShow();
+			alert.success("Successfully signed on.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
+		});
 	};
 
 	$scope.signOff = function() {
-		db.signOff().then(getCurrentShow);
+		db.signOff().then(function() {
+			getCurrentShow();
+			alert.success("Successfully signed off.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
+		});
 	};
 
 	$scope.getAlbum = function(album_code) {
@@ -60,10 +70,12 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 	};
 
 	$scope.logTrack = function(track) {
-		db.logTrack(track)
-			.then(function() {
-				track.logged = true;
-			});
+		db.logTrack(track).then(function() {
+			track.logged = true;
+			alert.success("Successfully logged track.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
+		});
 	};
 
 	// initialize
