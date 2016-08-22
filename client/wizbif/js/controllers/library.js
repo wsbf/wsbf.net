@@ -43,7 +43,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "a
 
 	$scope.printLabels = function(albums) {
 		// collect album IDs that are checked
-		albums = albums
+		var albumIDs = albums
 			.filter(function(a) {
 				return a.label;
 			})
@@ -52,7 +52,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "a
 			});
 
 		// create url and open in new tab
-		var param = albums.map(function(a) {
+		var param = albumIDs.map(function(a) {
 			return "albums[]=" + a;
 		}).join("&");
 

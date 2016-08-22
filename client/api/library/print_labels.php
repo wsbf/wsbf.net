@@ -107,7 +107,7 @@ function render_label($pdf, $section, $album)
 	$pdf->Rect($x - MARGIN_X, $y - MARGIN_Y, LENGTH_X, LENGTH_Y);
 
 	$pdf->Image(
-		"$_SERVER[DOCUMENT_ROOT]/images/wsbflady_100.png",
+		"$_SERVER[DOCUMENT_ROOT]/images/wsbflady_100.jpg",
 		$x, $y,
 		$ladywidth - $ladyoffset
 	);
