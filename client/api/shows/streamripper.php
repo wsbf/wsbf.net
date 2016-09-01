@@ -39,8 +39,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	$showID = get_current_show($mysqli);
 
-	exit("TITLE=\"$showID\"\n"
-		. "ARTIST=\"WSBF\"\n"
+	exit("TITLE=$showID\n"
+		. "ARTIST=WSBF\n"
 		. ".\n");
 }
 ?>
