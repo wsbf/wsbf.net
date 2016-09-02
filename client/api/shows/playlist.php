@@ -7,12 +7,12 @@
 require_once("../connect.php");
 
 /**
- * Get the current show.
+ * Get the current show ID.
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return current show ID
  */
-function get_current_show($mysqli)
+function get_current_show_id($mysqli)
 {
 	$q = "SELECT showID FROM `show` AS s "
 		. "ORDER BY s.showID DESC "
@@ -23,14 +23,14 @@ function get_current_show($mysqli)
 }
 
 /**
- * Get the playlist for a show, or the current show
- * if no show ID is provided.
+ * Get the playlist for a show.
  *
- * @param mysqli  MySQL connection
- * @param showID  show ID
+ * @param mysqli
+ * @param showID
+ * @param limit
  * @return array of tracks for show
  */
-function get_show_playlist($mysqli, $showID)
+function get_show_playlist($mysqli, $showID, $limit)
 {
 	$keys = array(
 		"l.lb_track_name",
@@ -40,17 +40,11 @@ function get_show_playlist($mysqli, $showID)
 		"l.lb_rotation",
 		"UNIX_TIMESTAMP(l.time_played) * 1000 AS time_played"
 	);
-	$max = PHP_INT_MAX;
-
-	if ( empty($showID) ) {
-		$showID = get_current_show($mysqli);
-		$max = 20;
-	}
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `logbook` AS l "
 		. "WHERE l.showID='$showID' AND l.played=1 "
 		. "ORDER BY l.time_played DESC "
-		. "LIMIT $max;";
+		. "LIMIT $limit;";
 	$result = $mysqli->query($q);
 
 	$tracks = array();
@@ -64,6 +58,7 @@ function get_show_playlist($mysqli, $showID)
 $showID = array_key_exists("showID", $_GET)
 	? $_GET["showID"]
 	: null;
+$limit = PHP_INT_MAX;
 
 if ( !empty($showID) && !is_numeric($showID) ) {
 	header("HTTP/1.1 404 Not Found");
@@ -71,7 +66,13 @@ if ( !empty($showID) && !is_numeric($showID) ) {
 }
 
 $mysqli = construct_connection();
-$playlist = get_show_playlist($mysqli, $showID);
+
+if ( !$showID ) {
+	$showID = get_current_show_id($mysqli);
+	$limit = 20;
+}
+
+$playlist = get_show_playlist($mysqli, $showID, $limit);
 $mysqli->close();
 
 header("Content-Type: application/json");
