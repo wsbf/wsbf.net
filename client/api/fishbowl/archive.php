@@ -15,26 +15,8 @@ require_once("../connect.php");
  */
 function archive_fishbowl($mysqli)
 {
-	$keys = array(
-		"timestamp",
-		"username",
-		"semesters",
-		"missedShows",
-		"liveShows",
-		"springFest",
-		"specialty",
-		"dead_hours",
-		"other",
-		"average",
-		"weight"
-	);
-
-	$q = "INSERT INTO `fishbowl_log` (" . implode(",", $keys) . ") "
-		. "SELECT " . implode(",", $keys) . " FROM `fishbowl`;";
+	$q = "UPDATE `fishbowl` SET active=0 WHERE active=1;";
 	$mysqli->query($q);
-
-	// DELETE is slow, but TRUNCATE requires DROP privilege
-	$mysqli->query("DELETE FROM `fishbowl`;");
 }
 
 authenticate();
@@ -44,7 +26,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 
 	if ( !check_senior_staff($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to view the fishbowl.");
+		exit;
 	}
 
 	archive_fishbowl($mysqli);

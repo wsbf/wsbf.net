@@ -25,7 +25,8 @@ function get_fishbowl($mysqli)
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl` AS f "
-		. "INNER JOIN `users` AS u ON u.username=f.username;";
+		. "INNER JOIN `users` AS u ON u.username=f.username "
+		. "WHERE active=1;";
 	$result = $mysqli->query($q);
 
 	$fishbowl = array();
@@ -43,7 +44,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	if ( !check_senior_staff($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to view the fishbowl.");
+		exit;
 	}
 
 	$fishbowl = get_fishbowl($mysqli);

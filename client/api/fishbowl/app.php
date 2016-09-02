@@ -28,7 +28,7 @@ function validate_fishbowl_app($mysqli, $app)
 
 	// current user must not have already submitted an app
 	$q = "SELECT COUNT(*) FROM `fishbowl` "
-		. "WHERE username='$_SESSION[username]';";
+		. "WHERE active=1 AND username='$_SESSION[username]';";
 	$result = $mysqli->query($q)->fetch_row();
 
 	if ( $result[0] > 0 ) {
@@ -54,7 +54,8 @@ function submit_fishbowl_app($mysqli, $app)
 		. "springFest = '$app[springFest]', "
 		. "specialty = '$app[specialty]', "
 		. "dead_hours = '$app[dead_hours]', "
-		. "other = '$app[other]';";
+		. "other = '$app[other]', "
+		. "active = 1;";
 	$mysqli->query($q);
 }
 
