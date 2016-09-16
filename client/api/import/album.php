@@ -11,8 +11,9 @@
  * <artist> - <album> - <track_num> - <track_name>[ - Disc <disc_num>].mp3
  *
  * Track file names are URL encoded when they are saved to the database,
- * even though cart file names are not, because of how ZAutomate uses
- * the digital library.
+ * even though cart file names are not. I don't really see the purpose
+ * of this step so it could probably be eliminated, but then the database
+ * entries will need to be decoded.
  *
  * Also, the use of '-' requires that none of the track fields
  * contain '-', or else the tracks will be interpreted incorrectly.
@@ -114,12 +115,17 @@ function validate_album($mysqli, $album)
  */
 function import_album($mysqli, $album)
 {
-	/* unescape track file names before URL-encoding */
+	// unescape track file names before URL-encoding
 	foreach ( $album["tracks"] as &$t ) {
 		$t["file_name"] = stripslashes($t["file_name"]);
 	}
 
-	/* construct file paths */
+	// added because of stupid foreach behavior in PHP 5
+	// when iterating by reference instead of value
+	// might not be needed in PHP 7
+	unset($t);
+
+	// construct file paths
 	$src_base = IMPORT_SRC . stripslashes($album["path"]) . "/";
 	$dir_name = directory_name($album["artist_name"]);
 	$dst_base = IMPORT_DST . $dir_name[0] . "/" . $dir_name[1] . "/";
@@ -135,7 +141,7 @@ function import_album($mysqli, $album)
 		);
 	}, $album["tracks"]);
 
-	/* move files to digital library */
+	// move files to digital library
 	foreach ( $pairs as $p ) {
 		if ( !copy($p["src"], $p["dst"]) ) {
 			header("HTTP/1.1 404 Not Found");
@@ -143,11 +149,11 @@ function import_album($mysqli, $album)
 		}
 	}
 
-	foreach ( $pairs as $p ) {
-		unlink($p["src"]);
-	}
+//	foreach ( $pairs as $p ) {
+//		unlink($p["src"]);
+//	}
 
-	/* insert album */
+	// insert album
 	$artistID = find_artist($mysqli, $album["artist_name"])
 			or add_artist($mysqli, $album["artist_name"]);
 
@@ -165,18 +171,18 @@ function import_album($mysqli, $album)
 
 	$albumID = $mysqli->insert_id;
 
+	// initialize album_code to albumID
 	$q = "UPDATE `libalbum` SET album_code = '$albumID' "
 		. "WHERE albumID = '$albumID';";
 	$mysqli->query($q);
 
-	/* insert tracks */
+	// insert tracks
 	foreach ( $album["tracks"] as $t ) {
 		$artistID = find_artist($mysqli, $t["artist_name"])
 				or add_artist($mysqli, $t["artist_name"]);
 
 		$file_name = urlencode(substr($dir_name, 0, 2) . $t["file_name"]);
 
-		// TODO: Chick Corea/Further Explorations/2/9 was not inserted
 		$q = "INSERT INTO `libtrack` SET "
 			. "track_name = '$t[track_name]', "
 			. "disc_num = '$t[disc_num]', "
@@ -187,7 +193,7 @@ function import_album($mysqli, $album)
 		$mysqli->query($q) or die($mysqli->error);
 	}
 
-	/* insert action */
+	// insert action
 	add_action($mysqli, "INSERTED " . count($album["tracks"]) . " tracks for new album: $albumID");
 }
 
