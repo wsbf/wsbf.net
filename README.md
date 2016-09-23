@@ -58,6 +58,7 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 
 ### Client (private)
 
+- delete button for albums in TBR
 - album checkout interface
 - interface to request/grant/deny access to intern status and show times
 - maybe have account registration be approved

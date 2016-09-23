@@ -1,0 +1,31 @@
+<div class="text-center" ng-show="!check.editProfile">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you don't have access to a fishbowl log.</p>
+</div>
+
+<div class="panel panel-default" ng-show="check.editProfile">
+	<div class="panel-heading">
+		<h3 class="panel-title">Fishbowl Log</h3>
+	</div>
+
+	<div class="panel-body">
+		<a href="" ng-click="addItem()">Log a new item</a>
+	</div>
+
+	<table class="table">
+		<thead>
+			<th>Date</th>
+			<th>Type</th>
+			<th>Description</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="f in fishbowlLog">
+				<td>{{f.date | date:'short'}}</td>
+				<td>{{fishbowl_log_types[f.log_type].type}}</td>
+				<td>{{f.description}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

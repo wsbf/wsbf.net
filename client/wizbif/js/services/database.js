@@ -32,6 +32,25 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
+	 * Get the current user's fishbowl log.
+	 */
+	this.getFishbowlLog = function() {
+		return $http.get("/api/fishbowl/fishbowl_log.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Submit a fishbowl log item.
+	 *
+	 * @param item
+	 */
+	this.submitFishbowlLog = function(item) {
+		return $http.post("/api/fishbowl/fishbowl_log.php", item);
+	};
+
+	/**
 	 * Get the parameters for the current fishbowl application.
 	 *
 	 * @return Promise of fishbowl app info

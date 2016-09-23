@@ -5,7 +5,7 @@ var app = angular.module("wizbif", [
 	"wizbif.main",
 	"wizbif.archives",
 	"wizbif.fishbowl-admin",
-	"wizbif.fishbowl-app",
+	"wizbif.fishbowl",
 	"wizbif.import",
 	"wizbif.library",
 	"wizbif.logbook",
@@ -35,6 +35,10 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/fishbowl/app", {
 			templateUrl: "views/fishbowl_app.html",
 			controller: "FishbowlAppCtrl"
+		})
+		.when("/fishbowl/log", {
+			templateUrl: "views/fishbowl_log.html",
+			controller: "FishbowlLogCtrl"
 		})
 		.when("/import", {
 			templateUrl: "views/import.html",
