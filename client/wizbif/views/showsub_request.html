@@ -15,7 +15,7 @@
 	<div class="form-group" ng-class="{'has-error': form.date.$touched && form.date.$invalid}">
 		<label class="col-sm-3 control-label">Date</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="date" name="date" ng-model="request.date" required min="{{today | date:'yyyy-MM-dd'}}"/>
+			<input class="form-control" type="date" name="date" ng-model="request.date" required min="{{today | date:'yyyy-MM-dd'}}" placeholder="yyyy-mm-dd"/>
 		</div>
 	</div>
 
