@@ -32,6 +32,7 @@ $suffixes = array(
 	"airability",
 	"cart_type",
 	"days",
+	"fishbowl_log_types",
 	"general_genres",
 	"positions",
 	"rotations",

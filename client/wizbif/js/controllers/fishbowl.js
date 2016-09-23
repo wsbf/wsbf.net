@@ -42,7 +42,7 @@ fishbowlModule.controller("FishbowlLogCtrl", ["$scope", "$uibModal", "db", funct
 			.open({
 				templateUrl: "views/fishbowl_log_item.html",
 				controller: "FishbowlLogItemCtrl"
-			})
+			}).result
 			.then(getFishbowlLog);
 	};
 
