@@ -64,16 +64,16 @@ function search_tracks($mysqli, $term)
 		"al.album_name"
 	);
 
-	// TODO: search also by album code?
-
 	$q = "SELECT " . implode(", ", $keys) . " FROM `libtrack` AS t "
 		. "INNER JOIN `libartist` AS ar ON t.artistID=ar.artistID "
 		. "INNER JOIN `libalbum` AS al ON t.albumID=al.albumID "
 		. "INNER JOIN `def_rotations` AS r ON r.rotationID=al.rotationID "
 		. "WHERE t.airabilityID != 2 AND t.file_name != '' "
-		. "AND (t.track_name LIKE '%$term%' "
-		. "OR ar.artist_name LIKE '%$term%' "
-		. "OR al.album_name LIKE '%$term%');";
+		. "AND ("
+			. "t.track_name LIKE '%$term%' "
+			. "OR ar.artist_name LIKE '%$term%' "
+			. "OR al.album_name LIKE '%$term%' "
+		. ");";
 	$result = $mysqli->query($q) or exit($mysqli->error);
 
 	$tracks = array();

@@ -41,4 +41,19 @@ function escape_json($mysqli, $json)
 
 	return $mysqli->escape_string($json);
 }
+
+/**
+ * Helper function to access an array key which
+ * may not be defined.
+ *
+ * @param array
+ * @param key
+ * @return array[key], or null if key is undefined
+ */
+function array_access($array, $key)
+{
+	return array_key_exists($key, $array)
+		? $array[$key]
+		: null;
+}
 ?>
