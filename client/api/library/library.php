@@ -27,6 +27,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 		"al.albumID",
 		"al.album_code",
 		"al.album_name",
+		"al.general_genreID",
 		"al.rotationID",
 		"ar.artist_name",
 		"UNIX_TIMESTAMP(r.review_date) * 1000 AS review_date",
