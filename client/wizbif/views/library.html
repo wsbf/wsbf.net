@@ -66,6 +66,7 @@
 			<th>Album Code</th>
 			<th>Album</th>
 			<th>Artist</th>
+			<th ng-show="rotationID == 0">Genre</th>
 			<th ng-show="rotationID != 0">Reviewer</th>
 			<th ng-show="rotationID != 0">Review Date</th>
 		</thead>
@@ -78,6 +79,7 @@
 				</td>
 				<td>{{a.album_name}}</td>
 				<td>{{a.artist_name}}</td>
+				<td ng-show="rotationID == 0">{{general_genres[a.general_genreID].genre}}</td>
 				<td ng-show="rotationID != 0">{{a.reviewer}}</td>
 				<td ng-show="rotationID != 0">{{a.review_date | date:'yyyy-MM-dd'}}</td>
 			</tr>
