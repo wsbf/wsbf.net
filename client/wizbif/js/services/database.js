@@ -193,19 +193,19 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Get albums in the music library.
 	 *
-	 * @param rotationID	   rotation ID
-	 * @param general_genreID  general genre ID
-	 * @param page			 page offset
-	 * @param term			 search term
+	 * @param rotationID
+	 * @param general_genreID
+	 * @param query
+	 * @param page
 	 * @return Promise of albums array
 	 */
-	this.getLibrary = function(rotationID, general_genreID, page, term) {
+	this.getLibrary = function(rotationID, general_genreID, query, page) {
 		return $http.get("/api/library/library.php", {
 			params: {
 				rotationID: rotationID,
 				general_genreID: general_genreID,
-				page: page,
-				term: term
+				query: query,
+				page: page
 			}
 		}).then(function(res) {
 			return res.data;

@@ -12,28 +12,28 @@
 	<div class="panel-body">
 		<ul class="nav nav-pills nav-justified">
 			<li ng-class="{ 'active': rotationID === '0' }">
-				<a href="#/library/r/0">To Be Reviewed</a>
+				<a href="#/library/r/0/page/0">To Be Reviewed</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '7' }">
-				<a href="#/library/r/7">Recently Reviewed</a>
+				<a href="#/library/r/7/page/0">Recently Reviewed</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '1' }">
-				<a href="#/library/r/1">New</a>
+				<a href="#/library/r/1/page/0">New</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '2' }">
-				<a href="#/library/r/2">Heavy</a>
+				<a href="#/library/r/2/page/0">Heavy</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '3' }">
-				<a href="#/library/r/3">Medium</a>
+				<a href="#/library/r/3/page/0">Medium</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '4' }">
-				<a href="#/library/r/4">Light</a>
+				<a href="#/library/r/4/page/0">Light</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '5' }">
-				<a href="#/library/r/5">Optional</a>
+				<a href="#/library/r/5/page/0">Optional</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '6' }">
-				<a href="#/library/r/6">Jazz</a>
+				<a href="#/library/r/6/page/0">Jazz</a>
 			</li>
 		</ul>
 
@@ -41,22 +41,22 @@
 
 		<div class="row">
 			<div class="col-sm-3">
-				<select class="form-control" ng-model="general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres" ng-change="getLibrary(0)">
+				<select class="form-control" ng-model="general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres" ng-change="select(rotationID, general_genreID, null, 0)">
 					<option value="">All Genres</option>
 				</select>
 			</div>
 
 			<div class="col-sm-3">
-				<button class="btn btn-sm" ng-click="page > 0 && getLibrary(page - 1)" ng-disabled="page == 0">newer</button>
-				<button class="btn btn-sm" ng-click="getLibrary(page + 1)">older</button>
+				<button class="btn btn-sm" ng-click="page > 0 && select(rotationID, general_genreID, query, page - 1)" ng-disabled="page == 0">newer</button>
+				<button class="btn btn-sm" ng-click="select(rotationID, general_genreID, query, page + 1)">older</button>
 			</div>
 
 			<div class="col-sm-4">
-				<input class="form-control" ng-model="searchTerm" placeholder="DJ Name"/>
+				<input class="form-control" ng-model="query" placeholder="Search"/>
 			</div>
 
 			<div class="col-sm-2">
-				<button class="btn btn-sm btn-default" ng-click="getLibrary(null, searchTerm)" ng-disabled="!searchTerm || searchTerm.length < 3">search</button>
+				<button class="btn btn-sm btn-default" ng-click="select(rotationID, null, query, 0)" ng-disabled="!query || query.length < 3">search</button>
 			</div>
 		</div>
 	</div>

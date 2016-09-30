@@ -6,19 +6,32 @@ var libraryModule = angular.module("wizbif.library", [
 	"wizbif.database"
 ]);
 
-libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "alert", "db", function($scope, $routeParams, $window, alert, db) {
+libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "$location", "alert", "db", function($scope, $routeParams, $window, $location, alert, db) {
 	$scope.rotations = db.getDefs("rotations");
 	$scope.general_genres = db.getDefs("general_genres");
 	$scope.rotationID = $routeParams.rotationID;
-	$scope.page = 0;
+	$scope.general_genreID = $routeParams.general_genreID;
+	$scope.query = $routeParams.query;
+	$scope.page = Number.parseInt($routeParams.page);
 	$scope.albums = [];
 
-	$scope.getLibrary = function(page, term) {
-		db.getLibrary($scope.rotationID, $scope.general_genreID, page, term)
-			.then(function(albums) {
-				$scope.page = page;
-				$scope.albums = albums;
-			});
+	$scope.select = function(rotationID, general_genreID, query, page, admin) {
+		var url_base = admin
+			? "/library/admin"
+			: "/library";
+		var url;
+
+		if ( general_genreID ) {
+			url = url_base + "/r/" + rotationID + "/genre/" + general_genreID + "/page/" + page;
+		}
+		else if ( query ) {
+			url = url_base + "/r/" + rotationID + "/search/" + query + "/page/" + page;
+		}
+		else {
+			url = url_base + "/r/" + rotationID + "/page/" + page;
+		}
+
+		$location.url(url);
 	};
 
 	$scope.moveRotation = function(albums) {
@@ -65,7 +78,10 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "a
 	};
 
 	// initialize
-	$scope.getLibrary($scope.page);
+	db.getLibrary($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page)
+		.then(function(albums) {
+			$scope.albums = albums;
+		});
 }]);
 
 libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {

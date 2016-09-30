@@ -45,16 +45,28 @@ app.config(["$routeProvider", function($routeProvider) {
 			controller: "ImportCtrl"
 		})
 		.when("/library", {
-			redirectTo: "/library/r/0"
+			redirectTo: "/library/r/0/page/0"
 		})
-		.when("/library/r/:rotationID", {
+		.when("/library/r/:rotationID/page/:page", {
+			templateUrl: "views/library.html",
+			controller: "LibraryCtrl"
+		})
+		.when("/library/r/:rotationID/genre/:general_genreID/page/:page", {
+			templateUrl: "views/library.html",
+			controller: "LibraryCtrl"
+		})
+		.when("/library/r/:rotationID/search/:query/page/:page", {
 			templateUrl: "views/library.html",
 			controller: "LibraryCtrl"
 		})
 		.when("/library/admin", {
-			redirectTo: "/library/admin/r/7"
+			redirectTo: "/library/admin/r/7/page/0"
 		})
-		.when("/library/admin/r/:rotationID", {
+		.when("/library/admin/r/:rotationID/page/:page", {
+			templateUrl: "views/library_admin.html",
+			controller: "LibraryCtrl"
+		})
+		.when("/library/admin/r/:rotationID/genre/:general_genreID/page/:page", {
 			templateUrl: "views/library_admin.html",
 			controller: "LibraryCtrl"
 		})
