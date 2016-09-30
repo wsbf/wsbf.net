@@ -118,34 +118,32 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		return $http.post("/api/fishbowl/review.php", apps);
 	};
 
+	this.Import = {};
+
 	/**
-	 * Get the artists and other files in an import directory.
+	 * Get the albums and carts in the import directory.
 	 *
-	 * @param path  path string
 	 * @return Promise of directory info object
 	 */
-	this.getImportDirectory = function(path) {
-		return $http.get("/api/import/directory.php", {
-			params: {
-				path: path
-			}
-		}).then(function(res) {
-			return res.data;
-		});
+	this.Import.getDirectory = function() {
+		return $http.get("/api/import/directory.php")
+			.then(function(res) {
+				return res.data;
+			});
 	};
 
 	/**
-	 * Get an album that is staged for import.
+	 * Get an album in the import directory.
 	 *
-	 * @param path	path string
-	 * @param artist  artist name
+	 * @param artist_name
+	 * @param album_name
 	 * @param Promise of album object
 	 */
-	this.getImportAlbum = function(path, artist) {
+	this.Import.getAlbum = function(artist_name, album_name) {
 		return $http.get("/api/import/album.php", {
 			params: {
-				path: path,
-				artist: artist
+				artist_name: artist_name,
+				album_name: album_name
 			}
 		}).then(function(res) {
 			return res.data;
@@ -153,17 +151,15 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
-	 * Get a cart that is staged for import.
+	 * Get a cart in the import directory.
 	 *
-	 * @param path  path string
-	 * @param cart  cart name
+	 * @param filename
 	 * @param Promise of cart object
 	 */
-	this.getImportCart = function(path, cart) {
+	this.Import.getCart = function(filename) {
 		return $http.get("/api/import/cart.php", {
 			params: {
-				path: path,
-				cart: cart
+				filename: filename
 			}
 		}).then(function(res) {
 			return res.data;
@@ -173,20 +169,20 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Import an album.
 	 *
-	 * @param album  album object
+	 * @param album
 	 * @return Promise of http response
 	 */
-	this.importAlbum = function(album) {
+	this.Import.importAlbum = function(album) {
 		return $http.post("/api/import/album.php", album);
 	};
 
 	/**
 	 * Import a cart.
 	 *
-	 * @param cart  cart object
+	 * @param cart
 	 * @return Promise of http response
 	 */
-	this.importCart = function(cart) {
+	this.Import.importCart = function(cart) {
 		return $http.post("/api/import/cart.php", cart);
 	};
 

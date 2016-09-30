@@ -10,39 +10,23 @@
 	</div>
 
 	<div class="panel-body">
-		<ol class="breadcrumb">
-			<li ng-repeat="t in trail track by $index">
-				<a href="" ng-click="openDirectory($index)">{{t}}</a>
-			</li>
-		</ol>
-
 		<div class="row">
-			<div class="col-sm-4">
-				<h4 class="text-center">Directories</h4>
-
-				<ul class="list-unstyled">
-					<li ng-repeat="d in directories">
-						<a href="" ng-click="openDirectory(null, d)">{{d}}</a>
-					</li>
-				</ul>
-			</div>
-
-			<div class="col-sm-4">
-				<h4 class="text-center">Carts</h4>
+			<div class="col-sm-6 text-center">
+				<h4>Carts</h4>
 
 				<ul class="list-unstyled">
 					<li ng-repeat="c in carts">
-						<a href="" ng-click="openCart(path, c)">{{c}}</a>
+						<a href="" ng-click="openCart(c)">{{c}}</a>
 					</li>
 				</ul>
 			</div>
 
-			<div class="col-sm-4">
-				<h4 class="text-center">Artists</h4>
+			<div class="col-sm-6 text-center">
+				<h4>Albums</h4>
 
 				<ul class="list-unstyled">
-					<li ng-repeat="a in artists">
-						<a href="" ng-click="openAlbum(path, a)">{{a}}</a>
+					<li ng-repeat="a in albums">
+						<a href="" ng-click="openAlbum(a)">{{a.artist_name}} - {{a.album_name}}</a>
 					</li>
 				</ul>
 			</div>
