@@ -186,6 +186,8 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		return $http.post("/api/import/cart.php", cart);
 	};
 
+	this.Library = {};
+
 	/**
 	 * Get albums in the music library.
 	 *
@@ -195,7 +197,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param page
 	 * @return Promise of albums array
 	 */
-	this.getLibrary = function(rotationID, general_genreID, query, page) {
+	this.Library.getLibrary = function(rotationID, general_genreID, query, page) {
 		return $http.get("/api/library/library.php", {
 			params: {
 				rotationID: rotationID,
@@ -211,10 +213,10 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Move albums through rotation.
 	 *
-	 * @param albums  array of albums
+	 * @param albums
 	 * @return Promise of http response
 	 */
-	this.moveRotation = function(albums) {
+	this.Library.moveRotation = function(albums) {
 		return $http.post("/api/library/library.php", albums);
 	};
 
@@ -224,13 +226,13 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * Currently this function is not used. Instead,
 	 * the PDF is opened in a new tab with window.open().
 	 *
-	 * @param albums  array of album IDs
+	 * @param albumIDs
 	 * @return Promise of http response
 	 */
-	this.printLabels = function(albums) {
+	this.Library.printLabels = function(albumIDs) {
 		return $http.get("/api/library/print_labels.php", {
 			params: {
-				"albums[]": albums
+				"albums[]": albumIDs
 			}
 		});
 	};
@@ -238,10 +240,10 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Get an album in the library.
 	 *
-	 * @param albumID  album ID
+	 * @param albumID
 	 * @return Promise of album object
 	 */
-	this.getLibraryAlbum = function(albumID) {
+	this.Library.getAlbum = function(albumID) {
 		return $http.get("/api/library/album.php", {
 			params: {
 				albumID: albumID
@@ -270,7 +272,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param artist_name
 	 * @return Promise of related artists array
 	 */
-	this.getRelatedArtists = function(artist_name) {
+	this.Library.getRelatedArtists = function(artist_name) {
 		return Spotify.SearchArtist
 			.get({ q: artist_name }).$promise
 			.then(function(data) {
@@ -290,21 +292,34 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Save an album.
 	 *
-	 * @param album  album
+	 * @param album
 	 * @return Promise of http response
 	 */
-	this.saveAlbum = function(album) {
+	this.Library.saveAlbum = function(album) {
 		return $http.post("/api/library/album.php", album);
 	};
 
 	/**
 	 * Submit an album review.
 	 *
-	 * @param album  album review
+	 * @param album
 	 * @return Promise of http response
 	 */
-	this.reviewAlbum = function(album) {
+	this.Library.reviewAlbum = function(album) {
 		return $http.post("/api/library/review.php", album);
+	};
+
+	/**
+	 * Delete an album.
+	 *
+	 * @param albumID
+	 */
+	this.Library.deleteAlbum = function(albumID) {
+		return $http.delete("/api/library/album.php", {
+			params: {
+				albumID: albumID
+			}
+		});
 	};
 
 	/**

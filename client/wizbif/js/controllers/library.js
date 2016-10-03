@@ -46,7 +46,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "$
 				};
 			});
 
-		db.moveRotation(albums).then(function() {
+		db.Library.moveRotation(albums).then(function() {
 			$scope.getLibrary($scope.rotationID);
 			alert.success("Rotation successfully moved.");
 		}, function(res) {
@@ -77,8 +77,22 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "$
 		});
 	};
 
+	$scope.deleteAlbum = function(albums, index) {
+		var album = albums[index];
+
+		if ( confirm("Delete album " + album.albumID + "?") ) {
+			db.Library.deleteAlbum(album.albumID)
+				.then(function() {
+					albums.splice(index, 1);
+					alert.success("Album deleted.");
+				}, function(res) {
+					alert.error(res.data || res.statusText);
+				});
+		}
+	};
+
 	// initialize
-	db.getLibrary($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page)
+	db.Library.getLibrary($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page)
 		.then(function(albums) {
 			$scope.albums = albums;
 		});
@@ -91,11 +105,11 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$locati
 	$scope.related_artists = [];
 
 	var getAlbum = function() {
-		db.getLibraryAlbum($routeParams.albumID)
+		db.Library.getAlbum($routeParams.albumID)
 			.then(function(album) {
 				$scope.album = album;
 
-				return db.getRelatedArtists(album.artist_name);
+				return db.Library.getRelatedArtists(album.artist_name);
 			})
 			.then(function(related_artists) {
 				$scope.related_artists = related_artists;
@@ -103,7 +117,7 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$locati
 	};
 
 	$scope.save = function() {
-		db.saveAlbum($scope.album).then(function() {
+		db.Library.saveAlbum($scope.album).then(function() {
 			$location.url("/library/admin");
 			alert.success("Album successfully saved.");
 		}, function(res) {
@@ -112,7 +126,7 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$locati
 	};
 
 	$scope.review = function() {
-		db.reviewAlbum($scope.album).then(function() {
+		db.Library.reviewAlbum($scope.album).then(function() {
 			$location.url("/library");
 			alert.success("Album successfully reviewed!");
 		}, function(res) {
