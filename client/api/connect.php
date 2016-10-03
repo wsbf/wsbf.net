@@ -1,6 +1,14 @@
 <?php
 
 /**
+ * @file connect.php
+ * @author Ben Shealy
+ *
+ * Helper functions for common tasks such as creating
+ * a database connection, escaping JSON data, and so on.
+ */
+
+/**
  * Create a connection to the MySQL database.
  *
  * Default credentials are stored in the php config file.
@@ -40,6 +48,26 @@ function escape_json($mysqli, $json)
 	}
 
 	return $mysqli->escape_string($json);
+}
+
+/**
+ * Execute a MySQL query. If an error occurs,
+ * return an HTTP error code immediately.
+ *
+ * @param mysqli
+ * @param q
+ * @return result of query
+ */
+function exec_query($mysqli, $q)
+{
+	$result = $mysqli->query($q);
+
+	if ( !$result ) {
+		header("HTTP/1.1 500 Internal Server Error");
+		exit($mysqli->error);
+	}
+
+	return $result;
 }
 
 /**

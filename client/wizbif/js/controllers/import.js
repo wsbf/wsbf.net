@@ -45,12 +45,8 @@ importModule.controller("ImportAlbumCtrl", ["$scope", "db", "alert", function($s
 	$scope.album = {};
 
 	$scope.save = function(album) {
-		db.Import.importAlbum(album).then(function(res) {
-
-			// temporary code to check for random import errors
-			var message = res.data || res.statusText;
-
-			alert.success("Album successfully imported: " + message);
+		db.Import.importAlbum(album).then(function() {
+			alert.success("Album successfully imported.");
 			$scope.$close();
 		}, function(res) {
 			alert.error(res.data || res.statusText);

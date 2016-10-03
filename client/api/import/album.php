@@ -204,17 +204,24 @@ function import_album($mysqli, $album)
 		}
 	}
 
-//	foreach ( $pairs as $p ) {
-//		unlink($p["src"]);
-//	}
+	foreach ( $pairs as $p ) {
+		unlink($p["src"]);
+	}
+
+	// fetch artist and label IDs
+	$artistID = find_artist($mysqli, $album["artist_name"]);
+
+	if ( !isset($artistID) ) {
+		$artistID = add_artist($mysqli, $album["artist_name"]);
+	}
+
+	$labelID = find_label($mysqli, $album["label"]);
+
+	if ( !isset($labelID) ) {
+		$labelID = add_label($mysqli, $album["label"]);
+	}
 
 	// insert album
-	$artistID = find_artist($mysqli, $album["artist_name"])
-			or add_artist($mysqli, $album["artist_name"]);
-
-	$labelID = find_label($mysqli, $album["label"])
-			or add_label($mysqli, $album["label"]);
-
 	$q = "INSERT INTO `libalbum` SET "
 		. "album_name = '$album[album_name]', "
 		. "num_discs = '$album[num_discs]', "
@@ -222,14 +229,14 @@ function import_album($mysqli, $album)
 		. "labelID = '$labelID', "
 		. "general_genreID = '$album[general_genreID]', "
 		. "genre = '$album[genre]';";
-	$mysqli->query($q) or die($mysqli->error);
+	exec_query($mysqli, $q);
 
 	$albumID = $mysqli->insert_id;
 
 	// initialize album_code to albumID
 	$q = "UPDATE `libalbum` SET album_code = '$albumID' "
 		. "WHERE albumID = '$albumID';";
-	$mysqli->query($q) or die($mysqli->error);
+	exec_query($mysqli, $q);
 
 	// insert tracks
 	foreach ( $album["tracks"] as $t ) {
@@ -245,7 +252,7 @@ function import_album($mysqli, $album)
 			. "artistID = '$artistID', "
 			. "file_name = '$file_name', "
 			. "albumID = '$albumID';";
-		$mysqli->query($q) or die($mysqli->error);
+		exec_query($mysqli, $q);
 	}
 
 	// insert action

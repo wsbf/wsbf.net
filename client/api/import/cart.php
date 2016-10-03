@@ -65,7 +65,7 @@ function import_cart($mysqli, $cart)
 		exit("Could not copy files.");
 	}
 
-//	unlink($src);
+	unlink($src);
 
 	$q = "INSERT INTO `libcart` SET "
 		. "start_date = '$cart[start_date]', "
@@ -74,7 +74,7 @@ function import_cart($mysqli, $cart)
 		. "title = '$cart[title]', "
 		. "cart_typeID = '$cart[cart_typeID]', "
 		. "filename = '$cart[filename]';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 authenticate();

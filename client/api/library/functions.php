@@ -6,31 +6,32 @@
  *
  * Functions for interacting with the music library.
  */
+require_once("../connect.php");
 
 /**
  * Add an action by the current user to `libaction`.
  *
- * @param mysqli       MySQL connection
- * @param description  description of action
+ * @param mysqli
+ * @param description
  */
 function add_action($mysqli, $description)
 {
 	$q = "INSERT INTO `libaction` (username, change_description) "
 		. "VALUES ('$_SESSION[username]', '$description');";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 /**
  * Search `libartist` by artist name.
  *
- * @param mysqli       MySQL connection
- * @param artist_name  artist name
+ * @param mysqli
+ * @param artist_name
  * @return artist ID, or null if not found
  */
 function find_artist($mysqli, $artist_name)
 {
 	$q = "SELECT artistID FROM `libartist` WHERE artist_name='$artist_name';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows > 0 ) {
 		$assoc = $result->fetch_assoc();
@@ -43,14 +44,14 @@ function find_artist($mysqli, $artist_name)
 /**
  * Add an artist to `libartist`.
  *
- * @param mysqli       MySQL connection
- * @param artist_name  artist name
+ * @param mysqli
+ * @param artist_name
  * @return ID of the inserted artist
  */
 function add_artist($mysqli, $artist_name)
 {
 	$q = "INSERT INTO `libartist` (artist_name) VALUES ('$artist_name');";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
 	return $mysqli->insert_id;
 }
@@ -58,14 +59,14 @@ function add_artist($mysqli, $artist_name)
 /**
  * Search `liblabel` by label name.
  *
- * @param mysqli      MySQL connection
- * @param label_name  label name
+ * @param mysqli
+ * @param label_name
  * @return label ID, or null if not found
  */
 function find_label($mysqli, $label)
 {
 	$q = "SELECT labelID FROM `liblabel` WHERE label='$label';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows > 0 ) {
 		$assoc = $result->fetch_assoc();
@@ -78,14 +79,14 @@ function find_label($mysqli, $label)
 /**
  * Add a label to `liblabel`.
  *
- * @param mysqli      MySQL connection
- * @param label_name  label name
+ * @param mysqli
+ * @param label_name
  * @return ID of the inserted label
  */
 function add_label($mysqli, $label)
 {
 	$q = "INSERT INTO `liblabel` (label) VALUES ('$label');";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
 	return $mysqli->insert_id;
 }
@@ -123,7 +124,7 @@ function search_albums($mysqli, $rotationID, $term, $page)
 			. "OR u.preferred_name LIKE '%$term%' "
 		. ") "
 		. "ORDER BY al.albumID DESC;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$albums = array();
 	while ( ($a = $result->fetch_assoc()) ) {
