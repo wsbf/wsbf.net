@@ -8,15 +8,15 @@
  *
  * Tracks are assumed to have the following filename pattern:
  *
- * <artist> - <album> - <track_num> - <track_name>[ - Disc <disc_num>].mp3
+ * <artist_name> - <album_name> - <track_num> - <track_name>[ - Disc <disc_num>].mp3
  *
  * Track file names are URL encoded when they are saved to the database,
  * even though cart file names are not. I don't really see the purpose
  * of this step so it could probably be eliminated, but then the database
  * entries will need to be decoded.
  *
- * Also, the use of '-' requires that none of the track fields
- * contain '-', or else the tracks will be interpreted incorrectly.
+ * Also, the use of ' - ' requires that none of the track fields
+ * contain ' - ', or else the tracks will be interpreted incorrectly.
  *
  * TODO: read MP3 tags from tracks instead of file name conventions
  */
@@ -54,7 +54,7 @@ $REPLACE_PAIRS = array(
  * 4) "the " is removed from the beginning if it is present
  * 5) spaces are removed
  *
- * @param str  string
+ * @param str
  * @return directory name of string
  */
 function directory_name($str)
@@ -77,17 +77,72 @@ function directory_name($str)
 }
 
 /**
+ * Get an album in the import directory.
+ *
+ * @param artist_name
+ * @param album_name
+ * @return associative array of album
+ */
+function get_album($artist_name, $album_name)
+{
+	// scan and parse tracks
+	$path = IMPORT_SRC . "/albums/";
+
+	$files = array_filter(scandir($path), function($f) use($artist_name, $album_name) {
+		return strpos($f, $artist_name) !== false
+			&& strpos($f, $album_name) !== false;
+	});
+
+	$tracks = array_map(function($f) {
+		$parts = explode(" - ", substr($f, 0, strlen($f) - strlen(".mp3")));
+
+		$parts[4] = (count($parts) == 5)
+			? substr($parts[4], 5)
+			: 1;
+
+		return array(
+			"disc_num" => (int) $parts[4],
+			"track_num" => (int) $parts[2],
+			"track_name" => $parts[3],
+			"artist_name" => $parts[0],
+			"album_name" => $parts[1],
+			"file_name" => $f
+		);
+	}, $files);
+	$tracks = array_values($tracks);
+
+	usort($tracks, function($a, $b) {
+		if ( $a["disc_num"] == $b["disc_num"] ) {
+			return $a["track_num"] - $b["track_num"];
+		}
+
+		return $a["disc_num"] - $b["disc_num"];
+	});
+
+	$num_discs = array_reduce($tracks, function($max, $t) {
+		return max($max, $t["disc_num"]);
+	}, 1);
+
+	// construct album object
+	return array(
+		"artist_name" => $artist_name,
+		"album_name" => $album_name,
+		"num_discs" => $num_discs,
+		"tracks" => $tracks
+	);
+}
+
+/**
  * Validate an album.
  *
- * @param mysqli  MySQL connection
- * @param album   associative array of album
+ * @param mysqli
+ * @param album
  * @return true if album is valid, false otherwise
  */
 function validate_album($mysqli, $album)
 {
 	// required fields should be defined
-	if ( !isset($album["path"])
-	  || empty($album["artist_name"])
+	if ( empty($album["artist_name"])
 	  || empty($album["album_name"])
 	  || !is_numeric($album["general_genreID"])
 	  || !is_array($album["tracks"]) ) {
@@ -110,8 +165,8 @@ function validate_album($mysqli, $album)
 /**
  * Import an album.
  *
- * @param mysqli  MySQL connection
- * @param album   associative array of album
+ * @param mysqli
+ * @param album
  */
 function import_album($mysqli, $album)
 {
@@ -126,12 +181,12 @@ function import_album($mysqli, $album)
 	unset($t);
 
 	// construct file paths
-	$src_base = IMPORT_SRC . stripslashes($album["path"]) . "/";
+	$src_base = IMPORT_SRC . "/albums/";
 	$dir_name = directory_name($album["artist_name"]);
 	$dst_base = IMPORT_DST . $dir_name[0] . "/" . $dir_name[1] . "/";
 
 	if ( !file_exists($dst_base) ) {
-		mkdir($dst_base, 0777, true);
+		mkdir($dst_base, 0775, true);
 	}
 
 	$pairs = array_map(function($t) use($src_base, $dst_base) {
@@ -144,7 +199,7 @@ function import_album($mysqli, $album)
 	// move files to digital library
 	foreach ( $pairs as $p ) {
 		if ( !copy($p["src"], $p["dst"]) ) {
-			header("HTTP/1.1 404 Not Found");
+			header("HTTP/1.1 500 Internal Server Error");
 			exit("Could not copy files.");
 		}
 	}
@@ -167,14 +222,14 @@ function import_album($mysqli, $album)
 		. "labelID = '$labelID', "
 		. "general_genreID = '$album[general_genreID]', "
 		. "genre = '$album[genre]';";
-	$mysqli->query($q);
+	$mysqli->query($q) or die($mysqli->error);
 
 	$albumID = $mysqli->insert_id;
 
 	// initialize album_code to albumID
 	$q = "UPDATE `libalbum` SET album_code = '$albumID' "
 		. "WHERE albumID = '$albumID';";
-	$mysqli->query($q);
+	$mysqli->query($q) or die($mysqli->error);
 
 	// insert tracks
 	foreach ( $album["tracks"] as $t ) {
@@ -203,69 +258,19 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_music_director($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to import files.");
-	}
-
-	// validate directory path
-	$path_offset = urldecode($_GET["path"]);
-	$path = realpath(IMPORT_SRC . $path_offset) . "/";
-
-	if ( strpos($path, IMPORT_SRC) === false ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
 
-	// validate artist name
-	$artist_name = urldecode($_GET["artist"]);
+	$artist_name = urldecode($_GET["artist_name"]);
+	$album_name = urldecode($_GET["album_name"]);
 
-	if ( empty($artist_name) ) {
+	if ( empty($artist_name) || empty($album_name) ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
 
-	// scan and parse matching files
-	$files = array_filter(scandir($path), function($f) use($artist_name) {
-		return strpos($f, $artist_name) !== false;
-	});
-	$tracks = array_map(function($f) {
-		$parts = explode(" - ", substr($f, 0, strlen($f) - 4));
-
-		$parts[4] =	count($parts) == 5
-			? substr($parts[4], 5)
-			: 1;
-
-		return array(
-			"disc_num" => (int) $parts[4],
-			"track_num" => (int) $parts[2],
-			"track_name" => $parts[3],
-			"artist_name" => $parts[0],
-			"album_name" => $parts[1],
-			"file_name" => $f
-		);
-	}, $files);
-	$tracks = array_values($tracks);
-
-	usort($tracks, function($a, $b) {
-		if ( $a["disc_num"] == $b["disc_num"] ) {
-			return $a["track_num"] - $b["track_num"];
-		}
-
-		return $a["disc_num"] - $b["disc_num"];
-	});
-
-	$num_discs = array_reduce($tracks, function($max, $t) {
-		return max($max, $t["disc_num"]);
-	}, 1);
-
-	// construct album object
-	$album = array(
-		"artist_name" => $artist_name,
-		"album_name" => $tracks[0]["album_name"],
-		"num_discs" => $num_discs,
-		"tracks" => $tracks
-	);
-
+	$album = get_album($artist_name, $album_name);
 	$mysqli->close();
 
 	header("Content-Type: application/json");
@@ -275,8 +280,8 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_music_director($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to import files.");
+		header("HTTP/1.1 404 Not Found");
+		exit;
 	}
 
 	$album = json_decode(file_get_contents("php://input"), true);

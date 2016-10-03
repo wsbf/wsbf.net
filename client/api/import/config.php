@@ -7,5 +7,5 @@
  * Constants used by the import API.
  */
 define('IMPORT_SRC', "/home/compe/RIPPED_MUSIC/");
-define('IMPORT_DST', "/var/www/wizbif/ZAutoLib/");
+define('IMPORT_DST', "/var/www/ZAutoLib/");
 ?>
