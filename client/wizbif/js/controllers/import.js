@@ -10,6 +10,14 @@ importModule.controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db"
 	$scope.carts = [];
 	$scope.albums = [];
 
+	var getDirectory = function() {
+		db.Import.getDirectory()
+			.then(function(info) {
+				$scope.carts = info.carts;
+				$scope.albums = info.albums;
+			});
+	};
+
 	$scope.openCart = function(filename) {
 		$uibModal.open({
 			templateUrl: "views/import_cart.html",
@@ -17,7 +25,7 @@ importModule.controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db"
 			scope: angular.extend($rootScope.$new(), {
 				filename: filename
 			})
-		});
+		}).result.then(getDirectory);
 	};
 
 	$scope.openAlbum = function(album) {
@@ -29,15 +37,11 @@ importModule.controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db"
 				album_name: album.album_name
 			}),
 			size: "lg"
-		});
+		}).result.then(getDirectory);
 	};
 
 	// initialize
-	db.Import.getDirectory()
-		.then(function(info) {
-			$scope.carts = info.carts;
-			$scope.albums = info.albums;
-		});
+	getDirectory();
 }]);
 
 importModule.controller("ImportAlbumCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
