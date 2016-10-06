@@ -10,7 +10,7 @@ userModule.controller("UserCtrl", ["$scope", "$location", "db", "alert", functio
 	$scope.general_genres = db.getDefs("general_genres");
 
 	$scope.save = function() {
-		db.saveUser($scope.user).then(function() {
+		db.User.save($scope.user).then(function() {
 			$location.url("/");
 			alert.success("Profile successfully saved.");
 		}, function(res) {

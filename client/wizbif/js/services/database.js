@@ -523,6 +523,8 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		return ShowSub.remove({ requestID: requestID }).$promise;
 	};
 
+	this.Users = {};
+
 	/**
 	 * Get a chart of album reviews for each user.
 	 *
@@ -530,7 +532,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param date2  end date timestamp
 	 * @return Promise of user array
 	 */
-	this.getAlbumReviewChart = function(date1, date2) {
+	this.Users.getAlbumReviewChart = function(date1, date2) {
 		return $http.get("/api/users/reviews.php", {
 			params: {
 				date1: date1 / 1000,
@@ -547,7 +549,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param admin  whether to use admin API
 	 * @return Promise of user array
 	 */
-	this.getUsers = function(admin) {
+	this.Users.getUsers = function(admin) {
 		var url = admin
 			? "/api/users/users_admin.php"
 			: "/api/users/users.php";
@@ -559,22 +561,22 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
-	 * Update users.
+	 * Save a user.
 	 *
-	 * @param users  array of users
+	 * @param user
 	 * @return Promise of http response
 	 */
-	this.updateUsers = function(users) {
-		return $http.post("/api/users/users_admin.php", users);
+	this.Users.saveUser = function(user) {
+		return $http.post("/api/users/users_admin.php", user);
 	};
 
 	/**
 	 * Search the list of users.
 	 *
-	 * @param term  search term
+	 * @param term
 	 * @return Promise of users array
 	 */
-	this.searchUsers = function(term) {
+	this.Users.search = function(term) {
 		return $http.get("/api/users/search.php", {
 			params: {
 				term: term
@@ -584,12 +586,14 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		});
 	};
 
+	this.User = {};
+
 	/**
 	 * Get the current user.
 	 *
 	 * @return Promise of user object
 	 */
-	this.getUser = function() {
+	this.User.get = function() {
 		return $http.get("/api/users/user.php")
 			.then(function(res) {
 				return res.data;
@@ -602,7 +606,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param user
 	 * @return Promise of http response
 	 */
-	this.saveUser = function(user) {
+	this.User.save = function(user) {
 		return $http.post("/api/users/user.php", user);
 	};
 }]);

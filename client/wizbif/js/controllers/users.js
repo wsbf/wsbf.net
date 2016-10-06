@@ -10,48 +10,49 @@ usersModule.controller("UsersCtrl", ["$scope", "db", function($scope, db) {
 	$scope.users = [];
 
 	// initialize
-	db.getUsers(false).then(function(users) {
+	db.Users.getUsers(false).then(function(users) {
 		$scope.users = users;
 	});
 }]);
 
-usersModule.controller("UsersAdminCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
+usersModule.controller("UsersAdminCtrl", ["$scope", "$rootScope", "$uibModal", "db", function($scope, $rootScope, $uibModal, db) {
 	$scope.statuses = db.getDefs("status");
 	$scope.teams = db.getDefs("teams");
 	$scope.users = [];
 	$scope.statusID = "0";
 
 	var getUsers = function() {
-		db.getUsers(true).then(function(users) {
+		db.Users.getUsers(true).then(function(users) {
 			$scope.users = users;
 		});
 	};
 
-	$scope.save = function() {
-		var users = $scope.users
-			.filter(function(u) {
-				return u.changed;
+	$scope.editUser = function(user) {
+		$uibModal.open({
+			templateUrl: "views/users_admin_edit.html",
+			controller: "UsersAdminEditCtrl",
+			scope: angular.extend($rootScope.$new(), {
+				user: angular.copy(user)
 			})
-			.map(function(u) {
-				return {
-					username: u.username,
-					statusID: u.statusID,
-					teamID: u.teamID
-				};
-			});
-
-		db.updateUsers(users).then(function() {
-			$scope.users.forEach(function(u) {
-				u.changed = false;
-			});
-			alert.success("Users successfully updated.");
-		}, function(res) {
-			alert.error(res.data || res.statusText);
-		});
+		}).result.then(getUsers);
 	};
 
 	// initialize
 	getUsers();
+}]);
+
+usersModule.controller("UsersAdminEditCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
+	$scope.statuses = db.getDefs("status");
+	$scope.teams = db.getDefs("teams");
+
+	$scope.save = function(user) {
+		db.Users.saveUser(user).then(function() {
+			$scope.$close();
+			alert.success("User successfully saved.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
+		});
+	};
 }]);
 
 usersModule.controller("UsersReviewsCtrl", ["$scope", "db", function($scope, db) {
@@ -63,7 +64,7 @@ usersModule.controller("UsersReviewsCtrl", ["$scope", "db", function($scope, db)
 
 		date2.setUTCMonth(date2.getUTCMonth() + 1);
 
-		db.getAlbumReviewChart(date1.getTime(), date2.getTime())
+		db.Users.getAlbumReviewChart(date1.getTime(), date2.getTime())
 			.then(function(users) {
 				$scope.users = users;
 			});

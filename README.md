@@ -58,12 +58,18 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 
 ### Client (private)
 
+- allow users to modify first name, last name, general genre
 - carts control panel
 - senior staff control panel
-- modal view for user control panel
 - album checkout interface
 - interface to request/grant/deny access to intern status and show times
 - maybe have account registration be approved
 - user profile photos
 - "spaz sheet" interface for logbook (with captcha)
-- add help content/minigame to home page
+
+#### Frontpage Ideas
+
+- helpful bullet points
+- points/rankings for teams and DJs
+- announcements from senior staff
+- minigame

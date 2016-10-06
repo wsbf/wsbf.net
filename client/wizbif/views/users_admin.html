@@ -16,10 +16,6 @@
 					<option value="">All Statuses</option>
 				</select>
 			</div>
-
-			<div class="col-sm-6 text-right">
-				<button class="btn btn-default" ng-click="save()">Save Changes</button>
-			</div>
 		</div>
 	</div>
 
@@ -30,7 +26,7 @@
 			<th>Preferred Name</th>
 			<th>Email</th>
 			<th>Team</th>
-			<th>Status</th>
+			<th></th>
 		</thead>
 
 		<tbody>
@@ -39,11 +35,11 @@
 				<td>{{u.last_name}}</td>
 				<td>{{u.preferred_name}}</td>
 				<td>{{u.email_addr}}</td>
+				<td>{{teams[u.teamID].team}}</td>
 				<td>
-					<select class="form-control input-sm" ng-model="u.teamID" ng-options="t.teamID as t.team for t in teams" ng-change="u.changed = true"></select>
-				</td>
-				<td>
-					<select class="form-control input-sm" ng-model="u.statusID" ng-options="s.statusID as s.status for s in statuses" ng-change="u.changed = true"></select>
+					<span class="button-icon" ng-click="editUser(u)">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</span>
 				</td>
 			</tr>
 		</tbody>

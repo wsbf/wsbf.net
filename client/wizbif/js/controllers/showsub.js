@@ -79,7 +79,7 @@ showsubModule.controller("ShowSubRequestCtrl", ["$scope", "db", "alert", functio
 	};
 
 	// initialize
-	db.getUser().then(function(user) {
+	db.User.get().then(function(user) {
 		$scope.user = user;
 	});
 }]);

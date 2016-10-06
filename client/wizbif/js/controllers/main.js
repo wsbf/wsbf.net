@@ -23,7 +23,7 @@ mainModule.controller("MainCtrl", ["$scope", "db", "alert", function($scope, db,
 	$scope.alert = alert;
 
 	var getUser = function() {
-		db.getUser().then(function(user) {
+		db.User.get().then(function(user) {
 			$scope.user = user;
 
 			_.assign($scope.check, _.mapValues(statusSets, function(set) {

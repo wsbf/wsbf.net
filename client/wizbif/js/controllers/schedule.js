@@ -78,7 +78,7 @@ scheduleModule.controller("ScheduleAddCtrl", ["$scope", "db", "alert", function(
 	$scope.show_types = db.getDefs("show_types");
 
 	$scope.searchUsers = function(term) {
-		return db.searchUsers(term);
+		return db.Users.search(term);
 	};
 
 	$scope.addHost = function() {
