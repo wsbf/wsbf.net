@@ -57,6 +57,7 @@ function validate_review($mysqli, $album)
 	  || empty($album["artist_name"])
 	  || empty($album["album_name"])
 	  || empty($album["label"])
+	  || !is_numeric($album["general_genreID"])
 	  || empty($album["genre"])
 	  || empty($album["tracks"])
 	  || empty($album["review"]) ) {
@@ -121,6 +122,7 @@ function review_album($mysqli, $album)
 		. "album_code = '$album[album_code]', "
 		. "artistID = '$artistID', "
 		. "labelID = '$labelID', "
+		. "general_genreID = '$album[general_genreID]', "
 		. "genre = '$album[genre]', "
 		. "rotationID = 7 "
 		. "WHERE albumID = '$album[albumID]';";

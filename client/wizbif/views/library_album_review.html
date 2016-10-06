@@ -44,12 +44,10 @@
 			</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" ng-class="{'has-error': form.general_genreID.$touched && form.general_genreID.$invalid}">
 			<label class="col-sm-3 control-label">General Genre</label>
 			<div class="col-sm-6">
-				<select class="form-control" name="general_genreID" ng-model="album.general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres" disabled>
-					<option></option>
-				</select>
+				<select class="form-control" name="general_genreID" ng-model="album.general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres" required></select>
 			</div>
 		</div>
 
