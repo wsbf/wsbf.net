@@ -114,14 +114,14 @@ function validate_album($mysqli, $album)
 
 		// reviewed albums should have at least one recommended track
 		// and by extension, not all tracks as no-air
-		$count_rec = 0;
+		$num_rec = 0;
 		foreach ( $album["tracks"] as $t ) {
 			if ( $t["airabilityID"] == 1 ) {
-				$count_rec++;
+				$num_rec++;
 			}
 		}
 
-		if ( $count_rec == 0 ) {
+		if ( $num_rec == 0 ) {
 			return false;
 		}
 	}
@@ -185,36 +185,6 @@ function update_album($mysqli, $album)
 }
 
 /**
- * Determine whether an album can be deleted.
- *
- * @param mysqli
- * @param albumID
- * @return true if the album can be deleted, false otherwise
- */
-function validate_album_delete($mysqli, $albumID)
-{
-	if ( !is_numeric($albumID) ) {
-		return false;
-	}
-
-	// album must be in To Be Reviewed (rotationID = 0)
-	$q = "SELECT rotationID FROM `libalbum` WHERE albumID='$albumID';";
-	$result = exec_query($mysqli, $q);
-
-	if ( $result->num_rows == 0 ) {
-		return false;
-	}
-
-	$album = $result->fetch_assoc();
-
-	if ( $album["rotationID"] != 0 ) {
-		return false;
-	}
-
-	return true;
-}
-
-/**
  * Delete an album.
  *
  * All files associated with the album are moved to the import directory.
@@ -256,8 +226,11 @@ function delete_album($mysqli, $albumID)
 		unlink($p["src"]);
 	}
 
-	// delete album and track records
+	// delete album, track, and review records
 	$q = "DELETE FROM `libtrack` WHERE albumID='$albumID';";
+	exec_query($mysqli, $q);
+
+	$q = "DELETE FROM `libreview` WHERE albumID='$albumID';";
 	exec_query($mysqli, $q);
 
 	$q = "DELETE FROM `libalbum` WHERE albumID='$albumID';";
@@ -322,7 +295,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
 
 	$albumID = $_GET["albumID"];
 
-	if ( !validate_album_delete($mysqli, $albumID) ) {
+	if ( !is_numeric($albumID) ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}

@@ -47,8 +47,8 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "$
 			});
 
 		db.Library.moveRotation(albums).then(function() {
-			$scope.getLibrary($scope.rotationID);
 			alert.success("Rotation successfully moved.");
+			$scope.select($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page, true);
 		}, function(res) {
 			alert.error(res.data || res.statusText);
 		});
