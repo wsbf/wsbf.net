@@ -4,22 +4,23 @@
  * @file library/album.php
  * @author Ben Shealy
  *
- * Get an album in the music library.
+ * Get, update, or delete an album in the music library.
  */
 require_once("../auth/auth.php");
 require_once("../connect.php");
+require_once("../import/config.php");
 require_once("functions.php");
 
 /**
  * Get an album in the music library.
  *
- * @param mysqli   MySQL connection
- * @param albumID  album ID
+ * @param mysqli
+ * @param albumID
  * @return associative array of album
  */
 function get_album($mysqli, $albumID)
 {
-	/* get album object */
+	// get album object
 	$keys = array(
 		"al.albumID",
 		"al.album_code",
@@ -39,9 +40,9 @@ function get_album($mysqli, $albumID)
 		. "LEFT OUTER JOIN `libreview` AS r ON r.albumID=al.albumID "
 		. "LEFT OUTER JOIN `users` AS u ON u.username=r.username "
 		. "WHERE al.albumID='$albumID';";
-	$album = $mysqli->query($q)->fetch_assoc();
+	$album = exec_query($mysqli, $q)->fetch_assoc();
 
-	/* get array of tracks  */
+	// get array of tracks
 	$track_keys = array(
 		"t.disc_num",
 		"t.track_num",
@@ -54,7 +55,7 @@ function get_album($mysqli, $albumID)
 	$q = "SELECT " . implode(",", $track_keys) . " FROM `libtrack` AS t "
 		. "INNER JOIN `libartist` AS ar ON t.artistID=ar.artistID "
 		. "WHERE t.albumID='$albumID';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$album["tracks"] = array();
 	while ( ($t = $result->fetch_assoc()) ) {
@@ -63,7 +64,7 @@ function get_album($mysqli, $albumID)
 		$t["track_num"] = (int) $t["track_num"];
 
 		// temporary hack to transform file_name to path
-		$f = str_replace("+", " ", $t["file_name"]);
+		$f = urldecode($t["file_name"]);
 		$t["file_name"] = "/wizbif/ZAutoLib/$f[0]/$f[1]/" . substr($f, 2);
 
 		$album["tracks"][] = $t;
@@ -75,8 +76,8 @@ function get_album($mysqli, $albumID)
 /**
  * Validate an album.
  *
- * @param mysqli  MySQL connection
- * @param album   associative array of album
+ * @param mysqli
+ * @param album
  * @return true if album is valid, false otherwise
  */
 function validate_album($mysqli, $album)
@@ -95,7 +96,7 @@ function validate_album($mysqli, $album)
 	// album should exist in `libalbum`
 	$q = "SELECT rotationID FROM `libalbum` "
 		. "WHERE albumID = '$album[albumID]';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows == 0 ) {
 		return false;
@@ -131,18 +132,23 @@ function validate_album($mysqli, $album)
 /**
  * Update an album.
  *
- * @param mysqli  MySQL connection
- * @param album   associative array of album
+ * @param mysqli
+ * @param album
  */
 function update_album($mysqli, $album)
 {
-	/* update album */
-	$artistID = find_artist($mysqli, $album["artist_name"])
-			or add_artist($mysqli, $album["artist_name"]);
+	// fetch artist and label IDs
+	$artistID = find_artist($mysqli, $album["artist_name"]);
+	if ( !isset($artistID) ) {
+		$artistID = add_artist($mysqli, $album["artist_name"]);
+	}
 
-	$labelID = find_label($mysqli, $album["label"])
-			or add_label($mysqli, $album["label"]);
+	$labelID = find_label($mysqli, $album["label"]);
+	if ( !isset($labelID) ) {
+		$labelID = add_label($mysqli, $album["label"]);
+	}
 
+	// update album
 	$q = "UPDATE `libalbum` SET "
 		. "album_name = '$album[album_name]', "
 		. "artistID = '$artistID', "
@@ -150,12 +156,14 @@ function update_album($mysqli, $album)
 		. "general_genreID = '$album[general_genreID]', "
 		. "genre = '$album[genre]' "
 		. "WHERE albumID = '$album[albumID]';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
-	/* update tracks */
+	// update tracks
 	foreach ( $album["tracks"] as $t ) {
-		$artistID = find_artist($mysqli, $t["artist_name"])
-				or add_artist($mysqli, $t["artist_name"]);
+		$artistID = find_artist($mysqli, $t["artist_name"]);
+		if ( !isset($artistID) ) {
+			$artistID = add_artist($mysqli, $t["artist_name"]);
+		}
 
 		$q = "UPDATE `libtrack` SET "
 			. "track_name = '$t[track_name]', "
@@ -163,17 +171,100 @@ function update_album($mysqli, $album)
 			. "airabilityID = '$t[airabilityID]' "
 			. "WHERE albumID = '$album[albumID]' "
 			. "AND disc_num='$t[disc_num]' AND track_num='$t[track_num]';";
-		$mysqli->query($q);
+		exec_query($mysqli, $q);
 	}
 
-	/* update review */
+	// update review
 	$q = "UPDATE `libreview` SET "
-		. "review = '$album[review]', "
+		. "review = '$album[review]' "
 		. "WHERE albumID = '$album[albumID]';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
-	/* add action */
+	// add action
 	add_action($mysqli, "EDITED REVIEW FOR albumID = $album[albumID]");
+}
+
+/**
+ * Determine whether an album can be deleted.
+ *
+ * @param mysqli
+ * @param albumID
+ * @return true if the album can be deleted, false otherwise
+ */
+function validate_album_delete($mysqli, $albumID)
+{
+	if ( !is_numeric($albumID) ) {
+		return false;
+	}
+
+	// album must be in To Be Reviewed (rotationID = 0)
+	$q = "SELECT rotationID FROM `libalbum` WHERE albumID='$albumID';";
+	$result = exec_query($mysqli, $q);
+
+	if ( $result->num_rows == 0 ) {
+		return false;
+	}
+
+	$album = $result->fetch_assoc();
+
+	if ( $album["rotationID"] != 0 ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Delete an album.
+ *
+ * All files associated with the album are moved to the import directory.
+ *
+ * @param mysqli
+ * @param albumID
+ */
+function delete_album($mysqli, $albumID)
+{
+	// get track filenames
+	$q = "SELECT file_name FROM `libtrack` WHERE albumID='$albumID';";
+	$result = exec_query($mysqli, $q);
+
+	$tracks = array();
+
+	while ( ($t = $result->fetch_assoc()) ) {
+		$f = urldecode($t["file_name"]);
+		$t["file_name"] = "/$f[0]/$f[1]/" . substr($f, 2);
+
+		$tracks[] = $t;
+	}
+
+	// move files from digital library to import directory
+	$pairs = array_map(function($t) {
+		return array(
+			"src" => IMPORT_DST . $t["file_name"],
+			"dst" => IMPORT_SRC . "/albums/" . substr($t["file_name"], 4)
+		);
+	}, $tracks);
+
+	foreach ( $pairs as $p ) {
+		if ( !copy($p["src"], $p["dst"]) ) {
+			header("HTTP/1.1 500 Internal Server Error");
+			exit("Could not copy files.");
+		}
+	}
+
+	foreach ( $pairs as $p ) {
+		unlink($p["src"]);
+	}
+
+	// delete album and track records
+	$q = "DELETE FROM `libtrack` WHERE albumID='$albumID';";
+	exec_query($mysqli, $q);
+
+	$q = "DELETE FROM `libalbum` WHERE albumID='$albumID';";
+	exec_query($mysqli, $q);
+
+	// insert action
+	add_action($mysqli, "DELETED album $albumID");
 }
 
 authenticate();
@@ -182,15 +273,15 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_reviewer($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to view the music library.");
+		header("HTTP/1.1 404 Not Found");
+		exit;
 	}
 
 	$albumID = $_GET["albumID"];
 
 	if ( !is_numeric($albumID) ) {
 		header("HTTP/1.1 404 Not Found");
-		exit("Album ID is empty or invalid.");
+		exit;
 	}
 
 	$album = get_album($mysqli, $albumID);
@@ -203,8 +294,8 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_music_director($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to edit albums.");
+		header("HTTP/1.1 404 Not Found");
+		exit;
 	}
 
 	$album = json_decode(file_get_contents("php://input"), true);
@@ -220,5 +311,25 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 
 	header("Content-Type: application/json");
 	exit(json_encode($album));
+}
+else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
+	$mysqli = construct_connection();
+
+	if ( !check_music_director($mysqli) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+
+	$albumID = $_GET["albumID"];
+
+	if ( !validate_album_delete($mysqli, $albumID) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+
+	delete_album($mysqli, $albumID);
+	$mysqli->close();
+
+	exit;
 }
 ?>
