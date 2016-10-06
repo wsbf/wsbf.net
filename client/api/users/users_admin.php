@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file users/admin.php
+ * @file users/users_admin.php
  * @author Ben Shealy
  */
 require_once("../auth/auth.php");
@@ -10,8 +10,8 @@ require_once("../connect.php");
 /**
  * Get a list of users.
  *
- * @param mysqli  MySQL connection
- * @return array of active users
+ * @param mysqli
+ * @return array of users
  */
 function get_users($mysqli)
 {
@@ -27,7 +27,7 @@ function get_users($mysqli)
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `users` AS u "
 		. "WHERE 1;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$users = array();
 	while ( ($u = $result->fetch_assoc()) ) {
@@ -38,20 +38,35 @@ function get_users($mysqli)
 }
 
 /**
- * Update users.
+ * Validate a user.
  *
- * @param mysqli  MySQL connection
- * @param users   array of usernames, status IDs and team IDs
+ * @param mysqli
+ * @param user
+ * @return true if user is valid, false otherwise
  */
-function update_users($mysqli, $users)
+function validate_user($mysqli, $user)
 {
-	foreach ( $users as $u ) {
-		$q = "UPDATE `users` SET "
-			. "statusID = '$u[statusID]',"
-			. "teamID = '$u[teamID]' "
-			. "WHERE username = '$u[username]';";
-		$mysqli->query($q);
+	if ( empty($user["username"])
+	  || empty($user["statusID"]) ) {
+		return false;
 	}
+
+	return true;
+}
+
+/**
+ * Update a user.
+ *
+ * @param mysqli
+ * @param user
+ */
+function update_user($mysqli, $user)
+{
+	$q = "UPDATE `users` SET "
+		. "statusID = '$user[statusID]',"
+		. "teamID = '$user[teamID]' "
+		. "WHERE username = '$user[username]';";
+	exec_query($mysqli, $q);
 }
 
 authenticate();
@@ -60,7 +75,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_senior_staff($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
+		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
 
@@ -74,14 +89,19 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_senior_staff($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
+		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
 
-	$users = json_decode(file_get_contents("php://input"), true);
-	$users = escape_json($mysqli, $users);
+	$user = json_decode(file_get_contents("php://input"), true);
+	$user = escape_json($mysqli, $user);
 
-	update_users($mysqli, $users);
+	if ( !validate_user($mysqli, $user) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit("Invalid input.");
+	}
+
+	update_user($mysqli, $user);
 	$mysqli->close();
 
 	exit;
