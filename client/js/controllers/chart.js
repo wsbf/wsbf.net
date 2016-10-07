@@ -14,7 +14,7 @@ chartModule.controller("AlbumChartCtrl", ["$scope", "db", function($scope, db) {
 	$scope.albums = [];
 
 	$scope.getChart = function(date1, date2) {
-		db.getTopAlbums(date1, date2, $scope.general_genreID)
+		db.Charts.getTopAlbums(date1, date2, $scope.general_genreID)
 			.then(function(albums) {
 				$scope.albums = albums;
 			});
@@ -57,7 +57,7 @@ chartModule.controller("TrackChartCtrl", ["$scope", "db", function($scope, db) {
 	$scope.tracks = [];
 
 	var getTracks = function(date1, date2) {
-		db.getTopTracks(date1, date2).then(function(tracks) {
+		db.Charts.getTopTracks(date1, date2).then(function(tracks) {
 			$scope.tracks = tracks;
 		});
 	};
@@ -82,7 +82,7 @@ chartModule.controller("ChartWidgetCtrl", ["$scope", "db", function($scope, db) 
 	$scope.albums = [];
 
 	var getChart = function(date1, date2) {
-		db.getTopAlbums(date1, date2)
+		db.Charts.getTopAlbums(date1, date2)
 			.then(function(albums) {
 				albums = albums.slice(0, count);
 

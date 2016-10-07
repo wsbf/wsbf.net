@@ -7,7 +7,7 @@ var carouselModule = angular.module("app.carousel", [
 carouselModule.controller("CarouselCtrl", ["$scope", "db", function($scope, db) {
 	$scope.posts = [];
 
-	db.getBlogPreview().then(function(posts) {
+	db.Blog.getPreview().then(function(posts) {
 		$scope.posts = posts;
 	});
 }]);

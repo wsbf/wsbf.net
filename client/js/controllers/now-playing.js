@@ -8,7 +8,7 @@ nowPlayingModule.controller("NowPlayingCtrl", ["$scope", "$interval", "db", func
 	$scope.track = {};
 
 	var getNowPlaying = function() {
-		db.getNowPlaying()
+		db.Show.getNowPlaying()
 			.then(function(track) {
 				return db.getAlbumArt([track], 300);
 			})

@@ -13,7 +13,7 @@ describe("NowPlayingCtrl", function() {
 
 		track = {};
 
-		spyOn(db, "getNowPlaying").and.returnValue($q.resolve(track));
+		spyOn(db.Show, "getNowPlaying").and.returnValue($q.resolve(track));
 		spyOn(db, "getAlbumArt").and.returnValue($q.resolve([track]));
 
 		$controller("NowPlayingCtrl", {
@@ -24,7 +24,7 @@ describe("NowPlayingCtrl", function() {
 	it("should add current track with album art to scope", function() {
 		scope.$digest();
 
-		expect(db.getNowPlaying).toHaveBeenCalled();
+		expect(db.Show.getNowPlaying).toHaveBeenCalled();
 		expect(db.getAlbumArt).toHaveBeenCalled();
 		expect(scope.track).toEqual(track);
 	});

@@ -13,7 +13,7 @@ describe("PlaylistCtrl", function() {
 
 		playlist = [];
 
-		spyOn(db, "getPlaylist").and.returnValue($q.resolve(playlist));
+		spyOn(db.Show, "getPlaylist").and.returnValue($q.resolve(playlist));
 		spyOn(db, "getAlbumArt").and.returnValue($q.resolve(playlist));
 
 		$controller("PlaylistCtrl", {
@@ -24,7 +24,7 @@ describe("PlaylistCtrl", function() {
 	it("should add current playlist with album art to scope", function() {
 		scope.$digest();
 
-		expect(db.getPlaylist).toHaveBeenCalled();
+		expect(db.Show.getPlaylist).toHaveBeenCalled();
 		expect(db.getAlbumArt).toHaveBeenCalled();
 		expect(scope.playlist).toEqual(playlist);
 	});

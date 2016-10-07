@@ -14,7 +14,7 @@ describe("AlbumChartCtrl", function() {
 		albums = [];
 
 		spyOn(db, "getDefs");
-		spyOn(db, "getTopAlbums").and.returnValue($q.resolve(albums));
+		spyOn(db.Charts, "getTopAlbums").and.returnValue($q.resolve(albums));
 
 		$controller("AlbumChartCtrl", {
 			$scope: scope
@@ -24,7 +24,11 @@ describe("AlbumChartCtrl", function() {
 	it("should add current chart to scope", function() {
 		scope.$digest();
 
-		expect(db.getTopAlbums).toHaveBeenCalled();
+		expect(db.Charts.getTopAlbums).toHaveBeenCalled();
 		expect(scope.albums).toEqual(albums);
 	});
+});
+
+xdescribe("TrackChartCtrl", function() {
+
 });

@@ -12,7 +12,7 @@ describe("ScheduleCtrl", function() {
 
 		schedule = [];
 
-		spyOn(db, "getSchedule").and.returnValue(schedule);
+		spyOn(db.Schedule, "get").and.returnValue(schedule);
 
 		$controller("ScheduleCtrl", {
 			$scope: scope
@@ -22,7 +22,7 @@ describe("ScheduleCtrl", function() {
 	it("should add today's schedule to scope", function() {
 		var day = new Date().getDay();
 
-		expect(db.getSchedule).toHaveBeenCalledWith(day);
+		expect(db.Schedule.get).toHaveBeenCalledWith(day);
 		expect(scope.dayID).toEqual(day);
 		expect(scope.schedule).toEqual(schedule);
 	});

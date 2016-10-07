@@ -19,9 +19,19 @@ var databaseModule = angular.module("app.database", [
  */
 databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 
-	var Spotify = {};
+	var api = {};
 
-	Spotify.SearchAlbum = $resource("https://api.spotify.com/v1/search", {
+	api.Defs = $resource("/api/defs.php", {}, {
+		get: { method: "GET", isArray: true, cache: true }
+	});
+
+	api.Schedule = $resource("/api/schedule/schedule.php");
+
+	api.Show = $resource("/api/shows/shows.php");
+
+	api.Spotify = {};
+
+	api.Spotify.SearchAlbum = $resource("https://api.spotify.com/v1/search", {
 		type: "album",
 		limit: 1
 	}, {
@@ -45,7 +55,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 				return $q.resolve(item);
 			}
 
-			return Spotify.SearchAlbum
+			return api.Spotify.SearchAlbum
 				.get({
 					q: "artist:" + item.lb_artist + " " + "album:" + item.lb_album
 				})
@@ -65,10 +75,6 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		return $q.all(promises);
 	};
 
-	var Defs = $resource("/api/defs.php", {}, {
-		get: { method: "GET", isArray: true, cache: true }
-	});
-
 	/**
 	 * Get a definitions table.
 	 *
@@ -76,20 +82,24 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @return table array
 	 */
 	this.getDefs = function(tableName) {
-		return Defs.get({ table: tableName });
+		return api.Defs.get({ table: tableName });
 	};
+
+	this.Blog = {};
 
 	/**
 	 * Get a preview of the most recent blog posts.
 	 *
 	 * @return Promise of blog posts array
 	 */
-	this.getBlogPreview = function() {
+	this.Blog.getPreview = function() {
 		return $http.get("/api/blog/preview.php")
 			.then(function(res) {
 				return res.data;
 			});
 	};
+
+	this.Charts = {};
 
 	/**
 	 * Get album charting over a period of time.
@@ -102,7 +112,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param general_genreID  general genre ID
 	 * @return Promise of chart array
 	 */
-	this.getTopAlbums = function(date1, date2, general_genreID) {
+	this.Charts.getTopAlbums = function(date1, date2, general_genreID) {
 		return $http.get("/api/charts/albums.php", {
 			params: {
 				date1: Math.floor(date1 / 1000),
@@ -121,7 +131,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param date2  end timestamp
 	 * @return Promise of tracks array
 	 */
-	this.getTopTracks = function(date1, date2) {
+	this.Charts.getTopTracks = function(date1, date2) {
 		return $http.get("/api/charts/tracks.php", {
 			params: {
 				date1: date1,
@@ -132,7 +142,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		});
 	};
 
-	var Schedule = $resource("/api/schedule/schedule.php");
+	this.Schedule = {};
 
 	/**
 	 * Get the schedule for a day of the week.
@@ -140,21 +150,21 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param day  day of the week (0 is Sunday, etc.)
 	 * @return schedule array
 	 */
-	this.getSchedule = function(day) {
-		return Schedule.query({ day: day });
+	this.Schedule.get = function(day) {
+		return api.Schedule.query({ day: day });
 	};
 
-	var Show = $resource("/api/shows/shows.php");
+	this.Show = {};
 
 	/**
 	 * Get a list of shows by page or DJ name.
 	 *
-	 * @param page   page offset
-	 * @param query  search term
+	 * @param page
+	 * @param query
 	 * @return shows array
 	 */
-	this.getShows = function(page, query) {
-		return Show.query({
+	this.Show.getShows = function(page, query) {
+		return api.Show.query({
 			page: page,
 			term: query
 		});
@@ -164,10 +174,10 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * Get the playlist for a show, or the current
 	 * show if no show ID is provided.
 	 *
-	 * @param showID  show ID
+	 * @param showID
 	 * @return Promise of playlist array
 	 */
-	this.getPlaylist = function(showID) {
+	this.Show.getPlaylist = function(showID) {
 		return $http.get("/api/shows/playlist.php", {
 			params: {
 				showID: showID
@@ -182,7 +192,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 *
 	 * @return Promise of track object
 	 */
-	this.getNowPlaying = function() {
+	this.Show.getNowPlaying = function() {
 		return $http.get("/api/shows/now.php")
 			.then(function(res) {
 				return res.data;

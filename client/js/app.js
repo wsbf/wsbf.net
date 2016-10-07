@@ -10,7 +10,6 @@ var app = angular.module("app", [
 	"app.now-playing",
 	"app.playlist",
 	"app.schedule",
-	"app.show-list",
 	"app.show",
 	"app.staff",
 	"app.webcam"

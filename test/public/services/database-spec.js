@@ -20,7 +20,7 @@ describe("app.database", function() {
 
 		$httpBackend.expectGET("/api/blog/preview.php").respond(posts);
 
-		db.getBlogPreview()
+		db.Blog.getPreview()
 			.then(function(result) {
 				expect(result).toEqual(posts);
 			})
@@ -50,7 +50,7 @@ describe("app.database", function() {
 
 		$httpBackend.expectGET("/api/shows/now.php").respond(track);
 
-		db.getNowPlaying()
+		db.Show.getNowPlaying()
 			.then(function(result) {
 				expect(result).toEqual(track);
 			})
