@@ -535,6 +535,15 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		return api.ShowSub.remove({ requestID: requestID }).$promise;
 	};
 
+	this.Staff = {};
+
+	this.Staff.get = function() {
+		return $http.get("/api/staff/staff.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
 	this.Users = {};
 
 	/**

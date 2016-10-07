@@ -61,7 +61,6 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 - make shows editable in schedule control panel
 - add intern scheduler view
 - carts control panel
-- senior staff control panel
 - album checkout interface
 - interface to request/grant/deny access to intern status and show times
 - maybe have account registration be approved

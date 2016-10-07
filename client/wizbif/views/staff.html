@@ -1,0 +1,29 @@
+<div class="text-center" ng-show="!check.seniorStaff">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't allowed to use the staff control panel.</p>
+</div>
+
+<div class="panel panel-default" ng-show="check.seniorStaff">
+	<div class="panel-heading">
+		<h3 class="panel-title">Staff Control Panel</h3>
+	</div>
+
+	<table class="table">
+		<thead>
+			<th>Position</th>
+			<th>Name</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="s in staff">
+				<td>{{positions[s.positionID].position}}</td>
+				<td>{{s.preferred_name}}</td>
+				<td>{{s.start_date}}</td>
+				<td>{{s.end_date}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

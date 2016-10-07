@@ -11,6 +11,7 @@ var app = angular.module("wizbif", [
 	"wizbif.logbook",
 	"wizbif.schedule",
 	"wizbif.showsub",
+	"wizbif.staff",
 	"wizbif.user",
 	"wizbif.users"
 ]);
@@ -97,6 +98,10 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/showsub", {
 			templateUrl: "views/showsub.html",
 			controller: "ShowSubCtrl"
+		})
+		.when("/staff/admin", {
+			templateUrl: "views/staff.html",
+			controller: "StaffCtrl"
 		})
 		.when("/users", {
 			templateUrl: "views/users.html",
