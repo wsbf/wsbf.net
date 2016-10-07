@@ -23,7 +23,7 @@ if ( empty($data["username"]) || empty($data["password"]) ) {
 
 /* retrieve the user's password hash */
 $q = "SELECT password FROM users WHERE username='$data[username]';";
-$user = $mysqli->query($q)->fetch_assoc();
+$user = exec_query($mysqli, $q)->fetch_assoc();
 
 $hash = $user["password"];
 

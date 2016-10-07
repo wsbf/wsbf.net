@@ -32,7 +32,7 @@ function get_top_tracks($mysqli, $date1, $date2, $count)
 		. "GROUP BY l.lb_track_name "
 		. "ORDER BY plays DESC "
 		. "LIMIT $count;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$tracks = array();
 	while ( ($t = $result->fetch_assoc()) ) {

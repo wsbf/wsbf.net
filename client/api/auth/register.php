@@ -29,7 +29,7 @@ function validate_user($mysqli, $user)
 
 	// username should be available
 	$q = "SELECT username FROM `users` WHERE username='$user[username]';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows > 0 ) {
 		return "Username is already in use.";
@@ -60,7 +60,7 @@ function register_user($mysqli, $user)
 		. "last_name = '$user[last_name]', "
 		. "preferred_name = '$user[first_name] $user[last_name]', "
 		. "email_addr = '$user[email_addr]';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {

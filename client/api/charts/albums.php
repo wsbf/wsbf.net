@@ -35,7 +35,7 @@ function get_top_albums($mysqli, $date1, $date2, $general_genreID)
 		. "GROUP BY l.lb_album_code "
 		. "ORDER BY count DESC "
 		. "LIMIT 100;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$albums = array();
 	while ( ($a = $result->fetch_assoc()) ) {

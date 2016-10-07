@@ -36,7 +36,7 @@ function get_status($mysqli)
 	if ( !isset($_SESSION["statusID"]) ) {
 		$q = "SELECT statusID FROM `users` "
 			. "WHERE username='$_SESSION[username]';";
-		$result = $mysqli->query($q)->fetch_assoc();
+		$result = exec_query($mysqli, $q)->fetch_assoc();
 
 		$_SESSION["statusID"] = $result["statusID"];
 	}
@@ -57,7 +57,7 @@ function get_position($mysqli)
 		$q = "SELECT positionID FROM `staff` "
 			. "WHERE username='$_SESSION[username]' "
 			. "AND NOW() BETWEEN start_date AND end_date;";
-		$result = $mysqli->query($q);
+		$result = exec_query($mysqli, $q);
 
 		if ( $result->num_rows > 0 ) {
 			$assoc = $result->fetch_assoc();

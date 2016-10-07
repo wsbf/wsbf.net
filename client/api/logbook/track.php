@@ -28,7 +28,7 @@ function get_album($mysqli, $album_code)
 		. "INNER JOIN `libartist` AS ar ON ar.artistID=al.artistID "
 		. "INNER JOIN `def_rotations` AS r ON r.rotationID=al.rotationID "
 		. "WHERE al.album_code = '$album_code';";
-	$album = $mysqli->query($q)->fetch_assoc();
+	$album = exec_query($mysqli, $q)->fetch_assoc();
 
 	return $album;
 }
@@ -60,7 +60,7 @@ function get_track($mysqli, $albumID, $disc_num, $track_num)
 		. "INNER JOIN `def_rotations` AS r ON r.rotationID=al.rotationID "
 		. "WHERE t.albumID = '$albumID' "
 		. "AND t.disc_num = '$disc_num' AND t.track_num = '$track_num';";
-	$track = $mysqli->query($q)->fetch_assoc();
+	$track = exec_query($mysqli, $q)->fetch_assoc();
 
 	$track["disc_num"] = $disc_num;
 	$track["track_num"] = $track_num;
@@ -89,14 +89,14 @@ function log_track($mysqli, $showID, $track)
 		. "lb_album = '$track[lb_album]', "
 		. "lb_label = '$track[lb_label]', "
 		. "played = 1;";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
 	// update now playing
 	$q = "UPDATE `now_playing` SET "
 		. "logbookID = LAST_INSERT_ID(), "
 		. "lb_track_name = '$track[track_name]', "
 		. "lb_artist_name = '$track[artist_name]';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
 	// TODO: send RDS
 }

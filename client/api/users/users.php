@@ -26,7 +26,7 @@ function get_users($mysqli)
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `users` AS u "
 		. "WHERE u.statusID = 0;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$users = array();
 	while ( ($u = $result->fetch_assoc()) ) {

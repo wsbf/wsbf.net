@@ -29,7 +29,7 @@ function get_shows($mysqli, $page, $page_size, $automation)
 		. ($automation ? "" : "WHERE s.show_typeID != 8 ")
 		. "ORDER BY s.showID DESC "
 		. "LIMIT "  . ($page * $page_size) . ", $page_size;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$shows = array();
 	while ( ($s = $result->fetch_assoc()) ) {
@@ -37,7 +37,7 @@ function get_shows($mysqli, $page, $page_size, $automation)
 		$q = "SELECT u.preferred_name FROM `show_hosts` AS h "
 			. "INNER JOIN `users` AS u ON u.username=h.username "
 			. "WHERE h.showID='$s[showID]';";
-		$result_hosts = $mysqli->query($q);
+		$result_hosts = exec_query($mysqli, $q);
 
 		$s["show_hosts"] = array();
 		while ( ($h = $result_hosts->fetch_assoc()) ) {
@@ -66,7 +66,7 @@ function search_shows($mysqli, $name)
 {
 	/* get username */
 	$q = "SELECT username FROM `users` WHERE preferred_name='$name';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows == 0 ) {
 		return array();
@@ -88,7 +88,7 @@ function search_shows($mysqli, $name)
 		. "INNER JOIN `show_hosts` AS h ON h.showID=s.showID "
 		. "WHERE h.username='$username' "
 		. "ORDER BY s.showID DESC;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$shows = array();
 	while ( ($s = $result->fetch_assoc()) ) {
@@ -96,7 +96,7 @@ function search_shows($mysqli, $name)
 		$q = "SELECT u.preferred_name FROM `show_hosts` AS h "
 			. "INNER JOIN `users` AS u ON u.username=h.username "
 			. "WHERE h.showID='$s[showID]';";
-		$result_hosts = $mysqli->query($q);
+		$result_hosts = exec_query($mysqli, $q);
 
 		$s["show_hosts"] = array();
 		while ( ($h = $result_hosts->fetch_assoc()) ) {

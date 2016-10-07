@@ -42,7 +42,7 @@ function get_playlist($mysqli, $showID)
 		. "AND al.rotationID IN (1, 2, 3, 4) "
 		. "GROUP BY l.lb_album_code " 
 		. "ORDER BY l.logbookID ASC;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$playlist = array();
 	while ( ($t = $result->fetch_assoc()) ) {

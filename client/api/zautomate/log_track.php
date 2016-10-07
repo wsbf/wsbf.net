@@ -22,7 +22,7 @@ function get_current_show($mysqli)
 	$q = "SELECT showID, end_time FROM `show` "
 		. "ORDER BY start_time DESC "
 		. "LIMIT 1;";
-	$show = $mysqli->query($q)->fetch_assoc();
+	$show = exec_query($mysqli, $q)->fetch_assoc();
 
 	// check whether the show has ended yet
 	if ( $show["end_time"] == null ) {
@@ -33,14 +33,14 @@ function get_current_show($mysqli)
 		$q = "INSERT INTO `show` SET "
 			. "show_name = 'The Best of WSBF', "
 			. "show_typeID = 8;";
-		$mysqli->query($q);
+		exec_query($mysqli, $q);
 
 		$showID = $mysqli->insert_id;
 
 		$q = "INSERT INTO `show_hosts` SET "
 			. "showID = '$showID', "
 			. "username = 'Automation';";
-		$mysqli->query($q);
+		exec_query($mysqli, $q);
 
 		return $showID;
 	}
@@ -75,7 +75,7 @@ function log_track($mysqli, $showID, $albumID, $disc_num, $track_num)
 //		. "WHERE t.albumID = '$albumID' "
 		. "WHERE al.album_code = '$albumID' "
 		. "AND t.disc_num = '$disc_num' AND t.track_num = '$track_num';";
-	$track = $mysqli->query($q)->fetch_assoc();
+	$track = exec_query($mysqli, $q)->fetch_assoc();
 
 	// log track
 	$q = "INSERT INTO `logbook` SET "
@@ -89,14 +89,14 @@ function log_track($mysqli, $showID, $albumID, $disc_num, $track_num)
 		. "lb_album = '$track[album_name]', "
 		. "lb_label = '$track[label]', "
 		. "played = 1;";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
 	// update now playing
 	$q = "UPDATE `now_playing` SET "
 		. "logbookID = LAST_INSERT_ID(), "
 		. "lb_track_name = '$track[track_name]', "
 		. "lb_artist_name = '$track[artist_name]';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
 	// TODO: send RDS
 }

@@ -43,7 +43,7 @@ function validate_show($mysqli, $show)
 	$q = "SELECT s.scheduleID FROM `schedule` AS s "
 		. "WHERE s.active=1 AND s.dayID='$show[dayID]' "
 		. "AND s.start_time='$show[start_time]';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows > 0 ) {
 		return false;
@@ -68,7 +68,7 @@ function add_show($mysqli, $show)
 		. "end_time = '$show[end_time]', "
 		. "show_typeID = '$show[show_typeID]', "
 		. "active = 1;";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
 	/* add show hosts */
 	$scheduleID = $mysqli->insert_id;
@@ -77,7 +77,7 @@ function add_show($mysqli, $show)
 		$q = "INSERT INTO `schedule_hosts` SET "
 			. "scheduleID = '$scheduleID', "
 			. "username = '$h';";
-		$mysqli->query($q);
+		exec_query($mysqli, $q);
 	}
 }
 
@@ -106,7 +106,7 @@ function get_show($mysqli, $scheduleID)
 		. "INNER JOIN `def_days` AS d ON s.dayID=d.dayID "
 		. "INNER JOIN `def_show_types` AS t ON t.show_typeID=s.show_typeID "
 		. "WHERE s.scheduleID = '$scheduleID';";
-	$show = $mysqli->query($q)->fetch_assoc();
+	$show = exec_query($mysqli, $q)->fetch_assoc();
 
 	/* get show hosts */
 	$host_keys = array(
@@ -117,7 +117,7 @@ function get_show($mysqli, $scheduleID)
 	$q = "SELECT " . implode(",", $host_keys) . " FROM `schedule_hosts` AS h "
 		. "INNER JOIN `users` AS u ON h.username=u.username "
 		. "WHERE h.scheduleID = '$scheduleID';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$show["hosts"] = array();
 
@@ -139,7 +139,7 @@ function remove_show($mysqli, $scheduleID)
 	$q = "UPDATE `schedule` SET "
 		. "active = 0 "
 		. "WHERE scheduleID = '$scheduleID';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {

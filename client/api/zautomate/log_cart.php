@@ -21,7 +21,7 @@ function get_current_show($mysqli)
 	$q = "SELECT showID, end_time FROM `show` "
 		. "ORDER BY start_time DESC "
 		. "LIMIT 1;";
-	$show = $mysqli->query($q)->fetch_assoc();
+	$show = exec_query($mysqli, $q)->fetch_assoc();
 
 	// check whether the show has ended yet
 	if ( $show["end_time"] == null ) {
@@ -32,14 +32,14 @@ function get_current_show($mysqli)
 		$q = "INSERT INTO `show` SET "
 			. "show_name = 'The Best of WSBF', "
 			. "show_typeID = 8;";
-		$mysqli->query($q);
+		exec_query($mysqli, $q);
 
 		$showID = $mysqli->insert_id;
 
 		$q = "INSERT INTO `show_hosts` SET "
 			. "showID = '$showID', "
 			. "username = 'Automation';";
-		$mysqli->query($q);
+		exec_query($mysqli, $q);
 
 		return $showID;
 	}
@@ -58,7 +58,7 @@ function log_cart($mysqli, $showID, $cartID)
 	$q = "SELECT * FROM `libcart` AS c "
 		. "INNER JOIN `def_cart_type` AS t ON t.cart_typeID=c.cart_typeID "
 		. "WHERE c.cartID = '$cartID';";
-	$cart = $mysqli->query($q)->fetch_assoc();
+	$cart = exec_query($mysqli, $q)->fetch_assoc();
 
 	// log cart
 	$q = "INSERT INTO `logbook` SET "
@@ -68,7 +68,7 @@ function log_cart($mysqli, $showID, $cartID)
 		. "lb_artist = '$cart[issuer]', "
 		. "lb_track_name = '$cart[title]', "
 		. "played = 1;";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {

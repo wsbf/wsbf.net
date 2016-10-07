@@ -33,7 +33,7 @@ function get_fishbowl_app($mysqli, $id)
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl` AS f "
 		. "INNER JOIN `users` AS u ON u.username=f.username "
 		. "WHERE f.id='$id';";
-	$app = $mysqli->query($q)->fetch_assoc();
+	$app = exec_query($mysqli, $q)->fetch_assoc();
 
 	// cast boolean fields
 	$app["specialty"] = (bool) $app["specialty"];
@@ -44,7 +44,7 @@ function get_fishbowl_app($mysqli, $id)
 		. "WHERE r.username = '$app[username]' "
 		. "AND " . REVIEW_BEGIN . " <= UNIX_TIMESTAMP(r.review_date) "
 		. "AND UNIX_TIMESTAMP(r.review_date) <= " . DEADLINE . ";";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 	$row = $result->fetch_row();
 
 	$app["num_reviews"] = $row[0];
@@ -85,7 +85,7 @@ function rate_fishbowl_apps($mysqli, $apps)
 		// get fishbowl app
 		$q = "SELECT average, weight FROM `fishbowl` "
 			. "WHERE id='$a[id]';";
-		$app = $mysqli->query($q)->fetch_assoc();
+		$app = exec_query($mysqli, $q)->fetch_assoc();
 
 		$average = $app["average"];
 		$weight = $app["weight"];
@@ -101,7 +101,7 @@ function rate_fishbowl_apps($mysqli, $apps)
 			. "average = '$average', "
 			. "weight = '$weight' "
 			. "WHERE id='$a[id]';";
-		$mysqli->query($q);
+		exec_query($mysqli, $q);
 	}
 }
 

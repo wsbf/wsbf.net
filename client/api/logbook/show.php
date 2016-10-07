@@ -34,13 +34,13 @@ function get_show($mysqli, $showID)
 			. "LEFT OUTER JOIN `schedule` AS sc ON sh.scheduleID=sc.scheduleID "
 			. "LEFT OUTER JOIN `def_show_types` AS t ON sc.show_typeID=t.show_typeID "
 			. "WHERE sh.showID = '$showID';";
-	$show = $mysqli->query($q)->fetch_assoc();
+	$show = exec_query($mysqli, $q)->fetch_assoc();
 
 	// get show hosts
 	$q = "SELECT u.preferred_name FROM `show_hosts` AS h "
 		. "INNER JOIN `users` AS u ON u.username=h.username "
 		. "WHERE h.showID='$show[showID]';";
-	$result_hosts = $mysqli->query($q);
+	$result_hosts = exec_query($mysqli, $q);
 
 	$show["hosts"] = array();
 	while ( ($h = $result_hosts->fetch_assoc()) ) {
@@ -63,7 +63,7 @@ function get_show($mysqli, $showID)
 	$q = "SELECT " . implode(",", $keys_playlist) . " FROM `logbook` AS l "
 		. "WHERE l.showID = '$show[showID]' "
 		. "ORDER BY l.time_played DESC;";
-	$result_playlist = $mysqli->query($q);
+	$result_playlist = exec_query($mysqli, $q);
 
 	$show["playlist"] = array();
 	while ( ($t = $result_playlist->fetch_assoc()) ) {
@@ -90,7 +90,7 @@ function validate_show($mysqli, $scheduleID)
 	$q = "SELECT h.username FROM `schedule_hosts` AS h "
 		. "WHERE h.scheduleID = '$scheduleID' "
 		. "AND h.username = '$_SESSION[username]';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows == 0 ) {
 		return false;
@@ -111,12 +111,12 @@ function sign_on($mysqli, $scheduleID)
 	// get show hosts from schedule
 	$q = "SELECT username FROM `schedule_hosts` "
 		. "WHERE scheduleID = '$scheduleID';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	// insert show
 	$q = "INSERT INTO `show` SET "
 		. "scheduleID = '$scheduleID';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
 	$showID = $mysqli->insert_id;
 
@@ -125,7 +125,7 @@ function sign_on($mysqli, $scheduleID)
 		$q = "INSERT INTO `show_hosts` SET "
 			. "showID = '$showID', "
 			. "username = '$h[username]';";
-		$mysqli->query($q);
+		exec_query($mysqli, $q);
 	}
 
 	return $showID;
@@ -142,7 +142,7 @@ function sign_off($mysqli)
 
 	$q = "UPDATE `show` SET end_time = NOW() "
 		. "WHERE showID = '$showID' AND end_time IS NULL;";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 authenticate();

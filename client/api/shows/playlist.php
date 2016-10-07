@@ -17,7 +17,7 @@ function get_current_show_id($mysqli)
 	$q = "SELECT showID FROM `show` AS s "
 		. "ORDER BY s.showID DESC "
 		. "LIMIT 1;";
-	$show = $mysqli->query($q)->fetch_assoc();
+	$show = exec_query($mysqli, $q)->fetch_assoc();
 
 	return $show["showID"];
 }
@@ -45,7 +45,7 @@ function get_show_playlist($mysqli, $showID, $limit)
 		. "WHERE l.showID='$showID' AND l.played=1 "
 		. "ORDER BY l.time_played DESC "
 		. "LIMIT $limit;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$tracks = array();
 	while ( ($t = $result->fetch_assoc()) ) {

@@ -16,7 +16,7 @@ require_once("../connect.php");
 function archive_fishbowl($mysqli)
 {
 	$q = "UPDATE `fishbowl` SET active=0 WHERE active=1;";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 authenticate();

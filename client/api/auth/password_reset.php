@@ -16,7 +16,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	// validate transaction
 	$q = "SELECT username FROM `password_reset` "
 		. "WHERE transaction_id='$data[transactionID]';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows == 0 ) {
 		header("HTTP/1.1 404 Not Found");
@@ -31,11 +31,11 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$q = "UPDATE `users` SET "
 		. "password = '$password_hash' "
 		. "WHERE username='$username';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
 	$q = "DELETE FROM `password_reset` "
 		. "WHERE username='$username';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
 	$mysqli->close();
 

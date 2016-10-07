@@ -18,7 +18,7 @@ require_once("connect.php");
 function get_def_table($mysqli, $suffix)
 {
 	$q = "SELECT * FROM `def_$suffix` ORDER BY 1;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$table = array();
 	while ( ($r = $result->fetch_assoc()) ) {

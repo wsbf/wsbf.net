@@ -37,7 +37,7 @@ function get_sub_requests($mysqli)
 		. "LEFT OUTER JOIN `users` AS uf ON uf.username=f.username "
 		. "WHERE NOW() <= r.date "
 		. "ORDER BY r.date;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$requests = array();
 

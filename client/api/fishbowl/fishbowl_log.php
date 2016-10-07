@@ -25,7 +25,7 @@ function get_fishbowl_log($mysqli)
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_log` "
 		. "WHERE username='$_SESSION[username]';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$logs = array();
 	while ( ($log = $result->fetch_assoc()) ) {
@@ -65,7 +65,7 @@ function log_fishbowl_item($mysqli, $item)
 		. "date = '$item[date]', "
 		. "log_type = '$item[log_type]', "
 		. "description = '$item[description]';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 authenticate();

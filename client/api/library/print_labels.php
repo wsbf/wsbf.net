@@ -47,13 +47,13 @@ function get_albums($mysqli, $albumIDs)
 		. "INNER JOIN `libreview` AS r ON r.albumID=al.albumID "
 		. "INNER JOIN `users` AS u ON u.username=r.username "
 		. "WHERE al.albumID IN ('" . implode("', '", $albumIDs) . "')";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$albums = array();
 	while ( ($a = $result->fetch_assoc()) ) {
 		$q = "SELECT disc_num, track_num, track_name, airabilityID FROM `libtrack` "
 			. "WHERE albumID = '$a[albumID]';";
-		$result_tracks = $mysqli->query($q);
+		$result_tracks = exec_query($mysqli, $q);
 
 		$a["tracks"] = array();
 		while ( ($t = $result_tracks->fetch_assoc()) ) {

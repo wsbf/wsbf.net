@@ -28,7 +28,7 @@ function get_review_counts($mysqli, $date1, $date2)
 		. "AND UNIX_TIMESTAMP(r.review_date) < '$date2' "
 		. "GROUP BY r.username "
 		. "ORDER BY num_reviews DESC;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$review_counts = array();
 	while ( ($r = $result->fetch_assoc()) ) {

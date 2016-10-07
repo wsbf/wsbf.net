@@ -29,7 +29,7 @@ function validate_fishbowl_app($mysqli, $app)
 	// current user must not have already submitted an app
 	$q = "SELECT COUNT(*) FROM `fishbowl` "
 		. "WHERE active=1 AND username='$_SESSION[username]';";
-	$result = $mysqli->query($q)->fetch_row();
+	$result = exec_query($mysqli, $q)->fetch_row();
 
 	if ( $result[0] > 0 ) {
 		return false;
@@ -56,7 +56,7 @@ function submit_fishbowl_app($mysqli, $app)
 		. "dead_hours = '$app[dead_hours]', "
 		. "other = '$app[other]', "
 		. "active = 1;";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 authenticate();

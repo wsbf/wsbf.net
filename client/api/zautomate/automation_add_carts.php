@@ -29,7 +29,7 @@ function get_random_cart($mysqli, $cart_typeID)
 		. "WHERE c.cart_typeID = '$cart_typeID' "
 		. "AND c.start_date < NOW() "
 		. "AND (NOW() < c.end_date OR c.end_date IS NULL);";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$carts = array();
 	while ( ($c = $result->fetch_assoc()) ) {

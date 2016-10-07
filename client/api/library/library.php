@@ -44,7 +44,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 			: "")
 		. "ORDER BY al.albumID DESC "
 		. "LIMIT "  . ($page * $page_size) . ", $page_size;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$albums = array();
 	while ( ($a = $result->fetch_assoc()) ) {
@@ -65,7 +65,7 @@ function move_rotation($mysqli, $albums)
 	foreach ( $albums as $a ) {
 		$q = "UPDATE `libalbum` SET rotationID = '$a[rotationID]' "
 			. " WHERE albumID = '$a[albumID]';";
-		$mysqli->query($q);
+		exec_query($mysqli, $q);
 	}
 }
 

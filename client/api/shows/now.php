@@ -27,13 +27,13 @@ function get_current_track($mysqli)
 			. "FROM `now_playing` AS n "
 			. "INNER JOIN `logbook` AS l ON n.logbookID=l.logbookID "
 			. "LEFT OUTER JOIN `show` AS s ON s.showID=l.showID;";
-	$track = $mysqli->query($q)->fetch_assoc();
+	$track = exec_query($mysqli, $q)->fetch_assoc();
 
 	/* get show hosts */
 	$q = "SELECT u.preferred_name FROM `show_hosts` AS h "
 		. "INNER JOIN `users` AS u ON u.username=h.username "
 		. "WHERE h.showID='$track[showID]';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$track["show_hosts"] = array();
 	while ( ($h = $result->fetch_assoc()) ) {

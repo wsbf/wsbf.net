@@ -38,7 +38,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$username = $mysqli->escape_string($_GET["username"]);
 
 	$q = "SELECT username, email_addr FROM `users` WHERE username='$username';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows == 0 ) {
 		header("HTTP/1.1 404 Not Found");
@@ -52,7 +52,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		. "transaction_id = '$transaction_id',"
 		. "username = '$username',"
 		. "expiration_date = ADDDATE(CURDATE(), 7);";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 
 	// send email to user
 	$user = $result->fetch_assoc();

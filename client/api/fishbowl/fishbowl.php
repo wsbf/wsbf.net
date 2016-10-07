@@ -27,7 +27,7 @@ function get_fishbowl($mysqli)
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl` AS f "
 		. "INNER JOIN `users` AS u ON u.username=f.username "
 		. "WHERE active=1;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$fishbowl = array();
 	while ( ($f = $result->fetch_assoc()) ) {

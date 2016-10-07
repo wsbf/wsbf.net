@@ -15,7 +15,7 @@ function get_current_show_id($mysqli)
 {
 	$q = "SELECT MAX(showID) AS showID FROM `show` "
 		. "WHERE end_time IS NULL;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows > 0 ) {
 		$show = $result->fetch_assoc();

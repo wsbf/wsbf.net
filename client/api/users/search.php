@@ -27,7 +27,7 @@ function search_users($mysqli, $term)
 		. "WHERE u.first_name LIKE '%$term%' "
 		. "OR u.last_name LIKE '%$term%' "
 		. "OR u.preferred_name LIKE '%$term%';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$users = array();
 	while ( ($u = $result->fetch_assoc()) ) {

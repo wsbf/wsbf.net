@@ -29,7 +29,7 @@ function get_current_show($mysqli)
 	$q = "SELECT showID FROM `show` "
 		. "ORDER BY showID DESC "
 		. "LIMIT 1;";
-	$show = $mysqli->query($q)->fetch_assoc();
+	$show = exec_query($mysqli, $q)->fetch_assoc();
 
 	return $show["showID"];
 }

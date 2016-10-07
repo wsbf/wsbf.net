@@ -27,7 +27,7 @@ function validate_request_fill($mysqli, $requestID)
 		. "LEFT OUTER JOIN `sub_fill` AS f "
 		. "ON f.sub_requestID=r.sub_requestID "
 		. "WHERE r.sub_requestID='$requestID';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	// sub request must exist
 	if ( $result->num_rows == 0 ) {
@@ -67,7 +67,7 @@ function validate_request_remove($mysqli, $requestID)
 		. "LEFT OUTER JOIN `sub_fill` AS f "
 		. "ON f.sub_requestID=r.sub_requestID "
 		. "WHERE r.sub_requestID='$requestID';";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	// sub request must exist
 	if ( $result->num_rows == 0 ) {
@@ -111,7 +111,7 @@ function add_sub_request($mysqli, $request)
 			. "SELECT h.username FROM `schedule_hosts` AS h "
 			. "WHERE h.scheduleID='$request[scheduleID]'"
 		. ");";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	// request should be for a valid show
 	if ( $result->num_rows == 0 ) {
@@ -136,7 +136,7 @@ function add_sub_request($mysqli, $request)
 		. "end_time = '$show[end_time]', "
 		. "show_name = '$show[show_name]', "
 		. "show_typeID = '$show[show_typeID]';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 /**
@@ -149,7 +149,7 @@ function fill_sub_request($mysqli, $requestID)
 {
 	$q = "INSERT INTO `sub_fill` (sub_requestID, username) "
 		. "VALUES ('$requestID', '$_SESSION[username]');";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 /**
@@ -163,7 +163,7 @@ function remove_sub_request($mysqli, $requestID)
 	$q = "DELETE FROM `sub_request` "
 		. "WHERE sub_requestID = '$requestID' "
 		. "AND username = '$_SESSION[username]';";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 authenticate();

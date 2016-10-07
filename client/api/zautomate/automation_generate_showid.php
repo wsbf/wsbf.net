@@ -22,7 +22,7 @@ function get_random_show($mysqli, $prev)
 		. "AND TIMESTAMPDIFF(MINUTE, start_time, end_time) > 60 "
 		. "ORDER BY showID DESC "
 		. "LIMIT 100;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$shows = array();
 	while ( ($s = $result->fetch_assoc()) ) {

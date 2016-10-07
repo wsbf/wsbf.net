@@ -30,7 +30,7 @@ function get_schedule($mysqli, $day)
 	$q = "SELECT " . implode(",", $keys) . " FROM `schedule` AS s "
 		. "WHERE s.active=1 AND s.dayID='$day' "
 		. "ORDER BY s.start_time ASC;";
-	$result = $mysqli->query($q);
+	$result = exec_query($mysqli, $q);
 
 	$schedule = array();
 	while ( ($s = $result->fetch_assoc()) ) {
@@ -38,7 +38,7 @@ function get_schedule($mysqli, $day)
 		$q = "SELECT u.preferred_name FROM `schedule_hosts` AS h "
 			. "INNER JOIN `users` AS u ON u.username=h.username "
 			. "WHERE h.scheduleID='$s[scheduleID]';";
-		$result_hosts = $mysqli->query($q);
+		$result_hosts = exec_query($mysqli, $q);
 
 		$s["hosts"] = array();
 		while ( ($h = $result_hosts->fetch_assoc()) ) {
@@ -61,7 +61,7 @@ function remove_schedule($mysqli)
 	$q = "UPDATE `schedule` SET "
 		. "active = 0 "
 		. "WHERE active = 1;";
-	$mysqli->query($q);
+	exec_query($mysqli, $q);
 }
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {

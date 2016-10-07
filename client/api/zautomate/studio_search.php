@@ -33,7 +33,7 @@ function search_carts($mysqli, $term)
 		. "AND (t.type LIKE '%$term%' "
 		. "OR c.title LIKE '%$term%' "
 		. "OR c.issuer LIKE '%$term%');";
-	$result = $mysqli->query($q) or exit($mysqli->error);
+	$result = exec_query($mysqli, $q);
 
 	$carts = array();
 	while ( ($c = $result->fetch_assoc()) ) {
@@ -74,7 +74,7 @@ function search_tracks($mysqli, $term)
 			. "OR ar.artist_name LIKE '%$term%' "
 			. "OR al.album_name LIKE '%$term%' "
 		. ");";
-	$result = $mysqli->query($q) or exit($mysqli->error);
+	$result = exec_query($mysqli, $q);
 
 	$tracks = array();
 	while ( ($t = $result->fetch_assoc()) ) {
