@@ -58,7 +58,6 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 
 ### Client (private)
 
-- allow users to modify first name, last name, general genre
 - carts control panel
 - senior staff control panel
 - album checkout interface

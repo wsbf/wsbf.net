@@ -5,13 +5,12 @@ var userModule = angular.module("wizbif.user", [
 	"wizbif.database"
 ]);
 
-userModule.controller("UserCtrl", ["$scope", "$location", "db", "alert", function($scope, $location, db, alert) {
+userModule.controller("UserCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	$scope.days = db.getDefs("days");
 	$scope.general_genres = db.getDefs("general_genres");
 
 	$scope.save = function() {
 		db.User.save($scope.user).then(function() {
-			$location.url("/");
 			alert.success("Profile successfully saved.");
 		}, function(res) {
 			alert.error(res.data || res.statusText);
