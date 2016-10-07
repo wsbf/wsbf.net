@@ -13,7 +13,7 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootSc
 
 	var getSchedule = function() {
 		$q.all($scope.days.map(function(day) {
-			return db.getSchedule(day.dayID);
+			return db.Schedule.get(day.dayID);
 		})).then(function(daySchedules) {
 			$scope.schedule = $scope.show_times.map(function(t) {
 				return daySchedules.map(function(day) {
@@ -27,7 +27,7 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootSc
 		if ( confirm("Are you sure you want to remove the entire show schedule?")
 			&& confirm("So you're absolutely sure? I don't want to have to fix everything if you mess up.")
 			&& prompt("Type 'STATHGAR' to show me that you're for real.") === "STATHGAR" ) {
-			db.removeSchedule().then(function() {
+			db.Schedule.clear().then(function() {
 				getSchedule();
 				alert.success("Schedule successfully cleared.");
 			}, function(res) {
@@ -51,13 +51,13 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootSc
 		$uibModal.open({
 			templateUrl: "views/schedule_show.html",
 			scope: angular.extend($rootScope.$new(), {
-				show: db.getShow(scheduleID)
+				show: db.Schedule.getShow(scheduleID)
 			})
 		});
 	};
 
 	$scope.removeShow = function(scheduleID) {
-		db.removeShow(scheduleID).then(function() {
+		db.Schedule.removeShow(scheduleID).then(function() {
 			getSchedule();
 			alert.success("Show successfully removed.");
 		}, function(res) {
@@ -94,7 +94,7 @@ scheduleModule.controller("ScheduleAddCtrl", ["$scope", "db", "alert", function(
 			return h.username;
 		});
 
-		db.addShow(show).then(function() {
+		db.Schedule.addShow(show).then(function() {
 			alert.success("Show successfully added.");
 			$scope.$close();
 		}, function(res) {

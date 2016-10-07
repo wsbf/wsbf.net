@@ -10,14 +10,14 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	$scope.bowls = [];
 
 	var getFishbowlApps = function() {
-		return db.getFishbowl().then(function(apps) {
+		return db.Fishbowl.get().then(function(apps) {
 			$scope.apps = apps;
 		});
 	};
 
 	$scope.archiveFishbowl = function() {
 		if ( confirm("Are you sure you want to archive the fishbowl?") ) {
-			db.archiveFishbowl().then(function() {
+			db.Fishbowl.archive().then(function() {
 				getFishbowlApps();
 				alert.success("Fishbowl archived.");
 			}, function(res) {
@@ -49,7 +49,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 			};
 		});
 
-		db.rateFishbowlApps(apps).then(function() {
+		db.Fishbowl.rateApps(apps).then(function() {
 			getFishbowlApps();
 			alert.success("Fishbowl ratings updated.");
 		}, function(res) {
@@ -88,7 +88,7 @@ fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", function($
 	$scope.get = function(apps, index) {
 		var id = apps[index].id;
 
-		db.getFishbowlApp(id).then(function(app) {
+		db.Fishbowl.getApp(id).then(function(app) {
 			$scope.index = index;
 			$scope.app = app;
 		});

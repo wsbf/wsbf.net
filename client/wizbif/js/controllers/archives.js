@@ -10,7 +10,7 @@ archivesModule.controller("ArchivesCtrl", ["$scope", "db", function($scope, db) 
 	$scope.archives = [];
 
 	var getArchives = function(page, term) {
-		db.getArchives(page, term).then(function(archives) {
+		db.Show.getArchives(page, term).then(function(archives) {
 			$scope.archives = archives;
 		});
 	};

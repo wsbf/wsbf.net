@@ -17,24 +17,51 @@ var databaseModule = angular.module("wizbif.database", [
  */
 databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 
-	var Defs = $resource("/api/defs.php", {}, {
+	var api = {};
+
+	api.Defs = $resource("/api/defs.php", {}, {
 		get: { method: "GET", isArray: true, cache: true }
+	});
+
+	api.LogbookShow = $resource("/api/logbook/show.php");
+
+	api.LogbookTrack = $resource("/api/logbook/track.php");
+
+	api.Show = $resource("/api/schedule/show.php");
+
+	api.ShowSub = $resource("/api/showsub/request.php", {}, {
+		fill: { method: "POST" }
+	});
+
+	api.Spotify = {};
+
+	api.Spotify.SearchArtist = $resource("https://api.spotify.com/v1/search", {
+		type: "artist",
+		limit: 1
+	}, {
+		get: { method: "GET", cache: true }
+	});
+
+	api.Spotify.RelatedArtists = $resource("https://api.spotify.com/v1/artists/:id/related-artists", {}, {
+		get: { method: "GET", cache: true }
 	});
 
 	/**
 	 * Get a definitions table.
 	 *
-	 * @param tableName  table name
+	 * @param tableName
 	 * @return table array
 	 */
 	this.getDefs = function(tableName) {
-		return Defs.get({ table: tableName });
+		return api.Defs.get({ table: tableName });
 	};
+
+	this.Fishbowl = {};
 
 	/**
 	 * Get the current user's fishbowl log.
 	 */
-	this.getFishbowlLog = function() {
+	this.Fishbowl.getLog = function() {
 		return $http.get("/api/fishbowl/fishbowl_log.php")
 			.then(function(res) {
 				return res.data;
@@ -46,7 +73,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 *
 	 * @param item
 	 */
-	this.submitFishbowlLog = function(item) {
+	this.Fishbowl.submitLog = function(item) {
 		return $http.post("/api/fishbowl/fishbowl_log.php", item);
 	};
 
@@ -55,7 +82,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 *
 	 * @return Promise of fishbowl app info
 	 */
-	this.getFishbowlInfo = function() {
+	this.Fishbowl.getInfo = function() {
 		return $http.get("/api/fishbowl/app.php")
 			.then(function(res) {
 				res.data.deadline *= 1000;
@@ -67,10 +94,10 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Submit a fishbowl application for the current user.
 	 *
-	 * @param app  fishbowl application object
+	 * @param app
 	 * @return Promise of http response
 	 */
-	this.submitFishbowlApp = function(app) {
+	this.Fishbowl.submitApp = function(app) {
 		return $http.post("/api/fishbowl/app.php", app);
 	};
 
@@ -79,7 +106,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 *
 	 * @return Promise of http response
 	 */
-	this.archiveFishbowl = function() {
+	this.Fishbowl.archive = function() {
 		return $http.post("/api/fishbowl/archive.php");
 	};
 
@@ -88,7 +115,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 *
 	 * @return Promise of fishbowl array
 	 */
-	this.getFishbowl = function() {
+	this.Fishbowl.get = function() {
 		return $http.get("/api/fishbowl/fishbowl.php")
 			.then(function(res) {
 				return res.data;
@@ -98,10 +125,10 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Get a fishbowl app.
 	 *
-	 * @param id  fishbowl app id
+	 * @param id
 	 * @return Promise of fishbowl app object
 	 */
-	this.getFishbowlApp = function(id) {
+	this.Fishbowl.getApp = function(id) {
 		return $http.get("/api/fishbowl/review.php", { params: { id: id } })
 			.then(function(res) {
 				return res.data;
@@ -111,10 +138,10 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Rate all fishbowl apps.
 	 *
-	 * @param array of fishbowl app id's and ratings
+	 * @param apps  array of fishbowl app id's and ratings
 	 * @return Promise of http response
 	 */
-	this.rateFishbowlApps = function(apps) {
+	this.Fishbowl.rateApps = function(apps) {
 		return $http.post("/api/fishbowl/review.php", apps);
 	};
 
@@ -253,19 +280,6 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		});
 	};
 
-	var Spotify = {};
-
-	Spotify.SearchArtist = $resource("https://api.spotify.com/v1/search", {
-		type: "artist",
-		limit: 1
-	}, {
-		get: { method: "GET", cache: true }
-	});
-
-	Spotify.RelatedArtists = $resource("https://api.spotify.com/v1/artists/:id/related-artists", {}, {
-		get: { method: "GET", cache: true }
-	});
-
 	/**
 	 * Get a list of related artists.
 	 *
@@ -273,13 +287,13 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @return Promise of related artists array
 	 */
 	this.Library.getRelatedArtists = function(artist_name) {
-		return Spotify.SearchArtist
+		return api.Spotify.SearchArtist
 			.get({ q: artist_name }).$promise
 			.then(function(data) {
 				var artist = data.artists.items[0];
 
 				return artist
-					? Spotify.RelatedArtists.get({ id: artist.id }).$promise
+					? api.Spotify.RelatedArtists.get({ id: artist.id }).$promise
 					: $q.resolve({ artists: [] });
 			})
 			.then(function(data) {
@@ -322,37 +336,37 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		});
 	};
 
+	this.Logbook = {};
+
 	/**
 	 * Get the current listener count.
 	 *
 	 * @return Promise of listener count
 	 */
-	this.getLogbookListenerCount = function() {
+	this.Logbook.getListenerCount = function() {
 		return $http.get("/api/logbook/listener_count.php")
 			.then(function(res) {
 				return res.data;
 			});
 	};
 
-	var LogbookShow = $resource("/api/logbook/show.php");
-
 	/**
 	 * Get the current show.
 	 *
 	 * @return Promise of current show object
 	 */
-	this.getLogbookCurrentShow = function() {
-		return LogbookShow.get().$promise;
+	this.Logbook.getCurrentShow = function() {
+		return api.LogbookShow.get().$promise;
 	};
 
 	/**
 	 * Start a new show with the current user.
 	 *
-	 * @param scheduleID  schedule ID
+	 * @param scheduleID
 	 * @return Promise of new show ID
 	 */
-	this.signOn = function(scheduleID) {
-		return LogbookShow.save({ scheduleID: scheduleID }, null).$promise;
+	this.Logbook.signOn = function(scheduleID) {
+		return api.LogbookShow.save({ scheduleID: scheduleID }, null).$promise;
 	};
 
 	/**
@@ -360,32 +374,30 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 *
 	 * @return Promise of http response
 	 */
-	this.signOff = function() {
-		return LogbookShow.remove().$promise;
+	this.Logbook.signOff = function() {
+		return api.LogbookShow.remove().$promise;
 	};
-
-	var LogbookTrack = $resource("/api/logbook/track.php");
 
 	/**
 	 * Get the information for an album.
 	 *
-	 * @param album_code  album code
+	 * @param album_code
 	 * @return Promise of album object
 	 */
-	this.getLogbookAlbum = function(album_code) {
-		return LogbookTrack.get({ album_code: album_code }).$promise;
+	this.Logbook.getAlbum = function(album_code) {
+		return api.LogbookTrack.get({ album_code: album_code }).$promise;
 	};
 
 	/**
 	 * Get the information for a track.
 	 *
-	 * @param album_code  album code
-	 * @param disc_num	disc number
-	 * @param track_num   track number
+	 * @param album_code
+	 * @param disc_num
+	 * @param track_num
 	 * @return Promise of track object
 	 */
-	this.getLogbookTrack = function(album_code, disc_num, track_num) {
-		return LogbookTrack.get({
+	this.Logbook.getTrack = function(album_code, disc_num, track_num) {
+		return api.LogbookTrack.get({
 			album_code: album_code,
 			disc_num: disc_num,
 			track_num: track_num
@@ -398,9 +410,11 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param track
 	 * @return Promise of http response
 	 */
-	this.logTrack = function(track) {
-		return LogbookTrack.save({}, track).$promise;
+	this.Logbook.logTrack = function(track) {
+		return api.LogbookTrack.save({}, track).$promise;
 	};
+
+	this.Schedule = {};
 
 	/**
 	 * Get the show schedule for a day of the week.
@@ -408,7 +422,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param day  day of the week (0: Sunday, etc.)
 	 * @return Promise of schedule array
 	 */
-	this.getSchedule = function(day) {
+	this.Schedule.get = function(day) {
 		return $http.get("/api/schedule/schedule.php", {
 			params: {
 				day: day
@@ -419,54 +433,54 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
-	 * Remove the entire show schedule.
+	 * Clear the entire show schedule.
 	 *
 	 * @return Promise of http response
 	 */
-	this.removeSchedule = function() {
+	this.Schedule.clear = function() {
 		return $http.delete("/api/schedule/schedule.php");
 	};
-
-	var Show = $resource("/api/schedule/show.php");
 
 	/**
 	 * Get a show in the schedule.
 	 *
-	 * @param scheduleID  schedule ID
+	 * @param scheduleID
 	 * @return show object
 	 */
-	this.getShow = function(scheduleID) {
-		return Show.get({ scheduleID: scheduleID });
+	this.Schedule.getShow = function(scheduleID) {
+		return api.Show.get({ scheduleID: scheduleID });
 	};
 
 	/**
 	 * Add a show to the schedule.
 	 *
-	 * @param show  show object
+	 * @param show
 	 * @return Promise of http response
 	 */
-	this.addShow = function(show) {
-		return Show.save({}, show).$promise;
+	this.Schedule.addShow = function(show) {
+		return api.Show.save({}, show).$promise;
 	};
 
 	/**
 	 * Remove a show from the schedule.
 	 *
-	 * @param scheduleID  schedule ID
+	 * @param scheduleID
 	 * @return Promise of http response
 	 */
-	this.removeShow = function(scheduleID) {
-		return Show.remove({ scheduleID: scheduleID }).$promise;
+	this.Schedule.removeShow = function(scheduleID) {
+		return api.Show.remove({ scheduleID: scheduleID }).$promise;
 	};
+
+	this.Show = {};
 
 	/**
 	 * Get a list of show archives by page or DJ name.
 	 *
-	 * @param page  page offset
-	 * @param term  search term
+	 * @param page
+	 * @param term
 	 * @return Promise of archives array
 	 */
-	this.getArchives = function(page, term) {
+	this.Show.getArchives = function(page, term) {
 		return $http.get("/api/shows/archives.php", {
 			params: {
 				page: page,
@@ -477,21 +491,19 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		});
 	};
 
+	this.ShowSub = {};
+
 	/**
 	 * Get the list of show sub requests.
 	 *
 	 * @return Promise of requests array
 	 */
-	this.getSubRequests = function() {
+	this.ShowSub.getSubRequests = function() {
 		return $http.get("/api/showsub/request_list.php")
 			.then(function(res) {
 				return res.data;
 			});
 	};
-
-	var ShowSub = $resource("/api/showsub/request.php", {}, {
-		fill: { method: "POST" }
-	});
 
 	/**
 	 * Submit a sub request.
@@ -499,28 +511,28 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param request
 	 * @return Promise of http response
 	 */
-	this.submitSubRequest = function(request) {
-		return ShowSub.save({}, request).$promise;
+	this.ShowSub.submitSubRequest = function(request) {
+		return api.ShowSub.save({}, request).$promise;
 	};
 
 	/**
 	 * Fill a sub request.
 	 *
-	 * @param requestID  sub request ID
+	 * @param requestID
 	 * @return Promise of http response
 	 */
-	this.fillSubRequest = function(requestID) {
-		return ShowSub.fill({ requestID: requestID }, null).$promise;
+	this.ShowSub.fillSubRequest = function(requestID) {
+		return api.ShowSub.fill({ requestID: requestID }, null).$promise;
 	};
 
 	/**
 	 * Remove a sub request.
 	 *
-	 * @param requestID  sub request ID
+	 * @param requestID
 	 * @return Promise of http response
 	 */
-	this.removeSubRequest = function(requestID) {
-		return ShowSub.remove({ requestID: requestID }).$promise;
+	this.ShowSub.removeSubRequest = function(requestID) {
+		return api.ShowSub.remove({ requestID: requestID }).$promise;
 	};
 
 	this.Users = {};

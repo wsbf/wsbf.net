@@ -11,13 +11,13 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 	$scope.listenerCount = 0;
 
 	var getListenerCount = function() {
-		db.getLogbookListenerCount().then(function(count) {
+		db.Logbook.getListenerCount().then(function(count) {
 			$scope.listenerCount = count;
 		});
 	};
 
 	var getCurrentShow = function() {
-		db.getLogbookCurrentShow().then(function(show) {
+		db.Logbook.getCurrentShow().then(function(show) {
 			$scope.scheduleID = (_.find($scope.user.shows, {
 				scheduleID: show.scheduleID
 			}) || {}).scheduleID;
@@ -29,7 +29,7 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 	};
 
 	$scope.signOn = function(scheduleID) {
-		db.signOn(scheduleID).then(function() {
+		db.Logbook.signOn(scheduleID).then(function() {
 			getCurrentShow();
 			alert.success("Successfully signed on.");
 		}, function(res) {
@@ -38,7 +38,7 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 	};
 
 	$scope.signOff = function() {
-		db.signOff().then(function() {
+		db.Logbook.signOff().then(function() {
 			getCurrentShow();
 			alert.success("Successfully signed off.");
 		}, function(res) {
@@ -47,7 +47,7 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 	};
 
 	$scope.getAlbum = function(album_code) {
-		db.getLogbookAlbum(album_code).then(function(album) {
+		db.Logbook.getAlbum(album_code).then(function(album) {
 			$scope.newTrack.albumID = album.albumID;
 			$scope.newTrack.lb_rotation = album.rotation;
 			$scope.newTrack.lb_artist = album.artist_name;
@@ -56,7 +56,7 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 	};
 
 	$scope.getTrack = function(album_code, disc_num, track_num) {
-		db.getLogbookTrack(album_code, disc_num, track_num).then(function(track) {
+		db.Logbook.getTrack(album_code, disc_num, track_num).then(function(track) {
 			$scope.newTrack.lb_track_name = track.track_name;
 			$scope.newTrack.airabilityID = track.airabilityID;
 		});
@@ -70,7 +70,7 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 	};
 
 	$scope.logTrack = function(track) {
-		db.logTrack(track).then(function() {
+		db.Logbook.logTrack(track).then(function() {
 			track.logged = true;
 			alert.success("Successfully logged track.");
 		}, function(res) {

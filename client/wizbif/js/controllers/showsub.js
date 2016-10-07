@@ -10,7 +10,7 @@ showsubModule.controller("ShowSubCtrl", ["$scope", "$uibModal", "db", "alert", f
 	$scope.requests = [];
 
 	var getSubRequests = function() {
-		db.getSubRequests().then(function(requests) {
+		db.ShowSub.getSubRequests().then(function(requests) {
 			$scope.requests = requests;
 		});
 	};
@@ -24,7 +24,7 @@ showsubModule.controller("ShowSubCtrl", ["$scope", "$uibModal", "db", "alert", f
 
 	$scope.fill = function(request, user) {
 		if ( confirm("Are you sure you want to sub this show on " + request.date + "? You will be held responsible if the show is missed.") ) {
-			db.fillSubRequest(request.sub_requestID).then(function() {
+			db.ShowSub.fillSubRequest(request.sub_requestID).then(function() {
 				request.filled_by = user.preferred_name;
 				alert.success("Sub request filled.");
 			}, function(res) {
@@ -37,7 +37,7 @@ showsubModule.controller("ShowSubCtrl", ["$scope", "$uibModal", "db", "alert", f
 		var request = requests[index];
 
 		if ( confirm("Are you sure you want to remove your sub request? If you request another one less than 24 hours before your show, you will be held responsible for missing your show.") ) {
-			db.removeSubRequest(request.sub_requestID).then(function() {
+			db.ShowSub.removeSubRequest(request.sub_requestID).then(function() {
 				requests.splice(index, 1);
 				alert.success("Sub request removed.");
 			}, function(res) {
@@ -70,7 +70,7 @@ showsubModule.controller("ShowSubRequestCtrl", ["$scope", "db", "alert", functio
 	};
 
 	$scope.submit = function(request) {
-		db.submitSubRequest(request).then(function() {
+		db.ShowSub.submitSubRequest(request).then(function() {
 			alert.success("Sub request successfully added.");
 			$scope.$close();
 		}, function(res) {

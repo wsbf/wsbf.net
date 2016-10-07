@@ -12,7 +12,7 @@ fishbowlModule.controller("FishbowlAppCtrl", ["$scope", "$location", "db", "aler
 	$scope.app = {};
 
 	$scope.submit = function(app) {
-		db.submitFishbowlApp(app).then(function() {
+		db.Fishbowl.submitApp(app).then(function() {
 			$location.url("/");
 			alert.success("Fishbowl app submitted.");
 		}, function(res) {
@@ -21,7 +21,7 @@ fishbowlModule.controller("FishbowlAppCtrl", ["$scope", "$location", "db", "aler
 	};
 
 	// initialize
-	db.getFishbowlInfo().then(function(info) {
+	db.Fishbowl.getInfo().then(function(info) {
 		$scope.info = info;
 		$scope.info.missed = info.deadline < Date.now();
 	});
@@ -32,7 +32,7 @@ fishbowlModule.controller("FishbowlLogCtrl", ["$scope", "$uibModal", "db", funct
 	$scope.fishbowlLog = [];
 
 	var getFishbowlLog = function() {
-		db.getFishbowlLog().then(function(fishbowlLog) {
+		db.Fishbowl.getLog().then(function(fishbowlLog) {
 			$scope.fishbowlLog = fishbowlLog;
 		});
 	};
@@ -55,7 +55,7 @@ fishbowlModule.controller("FishbowlLogItemCtrl", ["$scope", "db", "alert", funct
 	$scope.item = {};
 
 	$scope.submit = function(item) {
-		db.submitFishbowlLog(item).then(function() {
+		db.Fishbowl.submitLog(item).then(function() {
 			alert.success("Fishbowl item submitted.");
 			$scope.$close();
 		}, function(res) {
