@@ -71,6 +71,23 @@ function exec_query($mysqli, $q)
 }
 
 /**
+ * Fetch an array from a result set.
+ *
+ * @param result
+ * @return array of result rows
+ */
+function fetch_array($result)
+{
+	$array = array();
+
+	while ( ($r = $result->fetch_assoc()) ) {
+		$array[] = $r;
+	}
+
+	return $array;
+}
+
+/**
  * Helper function to access an array key which
  * may not be defined.
  *

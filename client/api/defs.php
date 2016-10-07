@@ -11,8 +11,8 @@ require_once("connect.php");
 /**
  * Get a definitions table.
  *
- * @param mysqli  MySQL connection
- * @param suffix  table suffix
+ * @param mysqli
+ * @param suffix
  * @return array of defs table
  */
 function get_def_table($mysqli, $suffix)
