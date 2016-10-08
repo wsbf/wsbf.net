@@ -5,8 +5,7 @@
  * @author Ben Shealy
  */
 require_once("../connect.php");
-
-define('VALID_IP_ADDR', "130.127.17.5");
+require_once("auth.php");
 
 /**
  * Get the current show, or create a new
@@ -71,12 +70,9 @@ function log_cart($mysqli, $showID, $cartID)
 	exec_query($mysqli, $q);
 }
 
-if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
-	if ( $_SERVER["REMOTE_ADDR"] !== VALID_IP_ADDR ) {
-		header("HTTP/1.1 404 Not Found");
-		exit;
-	}
+authenticate_automation();
 
+if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$cartID = $_GET["cartid"];
 
 	if ( !is_numeric($cartID) ) {

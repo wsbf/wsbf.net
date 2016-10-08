@@ -6,8 +6,7 @@
  */
 require_once("../connect.php");
 require_once("../logbook/functions.php");
-
-define('VALID_IP_ADDR', "130.127.17.5");
+require_once("auth.php");
 
 // TODO: duplicated from log_cart.php
 /**
@@ -47,12 +46,9 @@ function get_current_show($mysqli)
 	}
 }
 
-if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
-	if ( $_SERVER["REMOTE_ADDR"] !== VALID_IP_ADDR ) {
-		header("HTTP/1.1 404 Not Found");
-		exit;
-	}
+authenticate_automation();
 
+if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$album_code = $_GET["albumID"];
 	$disc_num = $_GET["disc_num"];
 	$track_num = $_GET["track_num"];
