@@ -42,7 +42,7 @@ function get_users($mysqli)
 function validate_user($mysqli, $user)
 {
 	if ( empty($user["username"])
-	  || empty($user["statusID"]) ) {
+	  || !is_numeric($user["statusID"]) ) {
 		return false;
 	}
 
