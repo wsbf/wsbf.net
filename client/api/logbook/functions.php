@@ -4,6 +4,7 @@
  * @file logbook/functions.php
  * @author Ben Shealy
  */
+require_once("../schedule/functions.php");
 
 /**
  * Get the current show.
@@ -13,17 +14,64 @@
  */
 function get_current_show_id($mysqli)
 {
-	$q = "SELECT MAX(showID) AS showID FROM `show` "
-		. "WHERE end_time IS NULL;";
-	$result = exec_query($mysqli, $q);
+	$q = "SELECT showID, end_time FROM `show` "
+		. "ORDER BY start_time DESC "
+		. "LIMIT 1;";
+	$show = exec_query($mysqli, $q)->fetch_assoc();
 
-	if ( $result->num_rows > 0 ) {
-		$show = $result->fetch_assoc();
+	if ( $show["end_time"] == null ) {
 		return $show["showID"];
 	}
 	else {
 		return null;
 	}
+}
+
+/**
+ * Start a new show with a given schedule ID.
+ *
+ * @param mysqli
+ * @param scheduleID
+ * @return new show ID
+ */
+function sign_on($mysqli, $scheduleID)
+{
+	// get show from schedule
+	$schedule_show = get_schedule_show($mysqli, $scheduleID);
+
+	// insert show
+	$q = "INSERT INTO `show` SET "
+		. "show_name = '$schedule_show[show_name]', "
+		. "show_typeID = '$schedule_show[show_typeID]', "
+		. "scheduleID = '$scheduleID';";
+	exec_query($mysqli, $q);
+
+	$showID = $mysqli->insert_id;
+
+	// insert show hosts
+	foreach ( $schedule_show["hosts"] as $h ) {
+		$q = "INSERT INTO `show_hosts` SET "
+			. "showID = '$showID', "
+			. "username = '$h[username]', "
+			. "show_alias = '$h[schedule_alias]';";
+		exec_query($mysqli, $q);
+	}
+
+	return $showID;
+}
+
+/**
+ * End the current show.
+ *
+ * @param mysqli
+ */
+function sign_off($mysqli)
+{
+	$showID = get_current_show_id($mysqli);
+
+	$q = "UPDATE `show` SET end_time = NOW() "
+		. "WHERE showID = '$showID' AND end_time IS NULL;";
+	exec_query($mysqli, $q);
 }
 
 /**

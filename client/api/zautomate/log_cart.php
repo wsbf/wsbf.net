@@ -6,43 +6,7 @@
  */
 require_once("../connect.php");
 require_once("auth.php");
-
-/**
- * Get the current show, or create a new
- * Automation show if there is no show.
- *
- * @param mysqli
- * @return current show ID
- */
-function get_current_show($mysqli)
-{
-	// get the most recent show
-	$q = "SELECT showID, end_time FROM `show` "
-		. "ORDER BY start_time DESC "
-		. "LIMIT 1;";
-	$show = exec_query($mysqli, $q)->fetch_assoc();
-
-	// check whether the show has ended yet
-	if ( $show["end_time"] == null ) {
-		return $show["showID"];
-	}
-	else {
-		// login Automation (confer logbook/sign_on.php)
-		$q = "INSERT INTO `show` SET "
-			. "show_name = 'The Best of WSBF', "
-			. "show_typeID = 8;";
-		exec_query($mysqli, $q);
-
-		$showID = $mysqli->insert_id;
-
-		$q = "INSERT INTO `show_hosts` SET "
-			. "showID = '$showID', "
-			. "username = 'Automation';";
-		exec_query($mysqli, $q);
-
-		return $showID;
-	}
-}
+require_once("../logbook/functions.php");
 
 /**
  * Log a cart in the logbook.
@@ -82,7 +46,12 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 
 	$mysqli = construct_connection();
 
-	$showID = get_current_show($mysqli);
+	// get current show or login Automation
+	$showID = get_current_show_id($mysqli);
+
+	if ( !isset($showID) ) {
+		$showID = sign_on($mysqli, AUTOMATION_SCHEDULE_ID);
+	}
 
 	log_cart($mysqli, $showID, $cartID);
 	$mysqli->close();

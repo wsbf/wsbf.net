@@ -7,6 +7,7 @@
  * Verify that the client address is the Automation
  * computer in Studio A.
  */
+define('AUTOMATION_SCHEDULE_ID', 0);
 define('VALID_IP_ADDR', "130.127.17.5");
 
 function authenticate_automation()
