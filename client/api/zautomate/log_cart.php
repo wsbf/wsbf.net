@@ -12,7 +12,7 @@ define('VALID_IP_ADDR', "130.127.17.5");
  * Get the current show, or create a new
  * Automation show if there is no show.
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return current show ID
  */
 function get_current_show($mysqli)
@@ -48,9 +48,9 @@ function get_current_show($mysqli)
 /**
  * Log a cart in the logbook.
  *
- * @param mysqli  MySQL connection
- * @param showID  show ID
- * @param cartID  cart ID
+ * @param mysqli
+ * @param showID
+ * @param cartID
  */
 function log_cart($mysqli, $showID, $cartID)
 {
@@ -74,7 +74,7 @@ function log_cart($mysqli, $showID, $cartID)
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	if ( $_SERVER["REMOTE_ADDR"] !== VALID_IP_ADDR ) {
 		header("HTTP/1.1 404 Not Found");
-		exit("Yeah, I logged that cart...");
+		exit;
 	}
 
 	$cartID = $_GET["cartid"];

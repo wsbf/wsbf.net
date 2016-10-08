@@ -9,8 +9,8 @@ require_once("../connect.php");
 /**
  * Get valid carts of a particular type.
  *
- * @param mysqli       MySQL connection
- * @param cart_typeID  cart type ID
+ * @param mysqli
+ * @param cart_typeID
  * @return array of carts
  */
 function get_carts($mysqli, $cart_typeID)
@@ -30,12 +30,7 @@ function get_carts($mysqli, $cart_typeID)
 		. "AND (NOW() < c.end_date OR c.end_date IS NULL);";
 	$result = exec_query($mysqli, $q);
 
-	$carts = array();
-	while ( ($c = $result->fetch_assoc()) ) {
-		$carts[] = $c;
-	}
-
-	return $carts;
+	return fetch_array($result);
 }
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {

@@ -27,12 +27,7 @@ function get_fishbowl_log($mysqli)
 		. "WHERE username='$_SESSION[username]';";
 	$result = exec_query($mysqli, $q);
 
-	$logs = array();
-	while ( ($log = $result->fetch_assoc()) ) {
-		$logs[] = $log;
-	}
-
-	return $logs;
+	return fetch_array($result);
 }
 
 /**

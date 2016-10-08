@@ -11,8 +11,8 @@ require_once("config.php");
 /**
  * Validate fishbowl app.
  *
- * @param mysqli  MySQL connection
- * @param app     fishbowl app
+ * @param mysqli
+ * @param app
  * @return true if app is valid, false otherwise
  */
 function validate_fishbowl_app($mysqli, $app)
@@ -41,8 +41,8 @@ function validate_fishbowl_app($mysqli, $app)
 /**
  * Submit a fishbowl application for the current user.
  *
- * @param mysqli  MySQL connection
- * @param app     fishbowl application
+ * @param mysqli
+ * @param app
  */
 function submit_fishbowl_app($mysqli, $app)
 {

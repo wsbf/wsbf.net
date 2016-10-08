@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file auth.php
+ * @file auth/auth.php
  * @author Ben Shealy
  *
  * Authentication and authorization functions for
@@ -27,7 +27,7 @@ function authenticate()
 /**
  * Get the status of the current user.
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return status ID
  */
 function get_status($mysqli)
@@ -47,7 +47,7 @@ function get_status($mysqli)
 /**
  * Get the staff position of the current user.
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return position ID, or false if user has no position
  */
 function get_position($mysqli)
@@ -80,7 +80,7 @@ function get_position($mysqli)
  *  2: Inactive
  *  4: Alumni
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return true if current user has one of the above statuses,
  *         false otherwise
  */
@@ -99,7 +99,7 @@ function check_edit_profile($mysqli)
  *  4: Alumni
  *  5: Intern
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return true if current user has one of the above statuses,
  *         false otherwise
  */
@@ -122,7 +122,7 @@ function check_reviewer($mysqli)
  *   7: Member-At-Large
  *   8: Computer Engineer
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return true if current user holds one of the above staff
  *         positions, false otherwise
  */
@@ -147,7 +147,7 @@ function check_senior_staff($mysqli)
  *  19: Hip-Hop Director
  *  20: New World Director
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return true if current user holds one of the above staff
  *         positions, false otherwise
  */
@@ -167,7 +167,7 @@ function check_music_director($mysqli)
  *   8: Computer Engineer
  *  10: Equipment Engineer
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return true if current user holds one of the above staff
  *         positions, false otherwise
  */

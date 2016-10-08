@@ -12,8 +12,8 @@ require_once("../connect.php");
 /**
  * Search the cart library.
  *
- * @param mysqli  MySQL connection
- * @param term    search term
+ * @param mysqli
+ * @param term
  * @return array of matching carts
  */
 function search_carts($mysqli, $term)
@@ -35,19 +35,14 @@ function search_carts($mysqli, $term)
 		. "OR c.issuer LIKE '%$term%');";
 	$result = exec_query($mysqli, $q);
 
-	$carts = array();
-	while ( ($c = $result->fetch_assoc()) ) {
-		$carts[] = $c;
-	}
-
-	return $carts;
+	return fetch_array($result);
 }
 
 /**
  * Search the music library.
  *
- * @param mysqli  MySQL connection
- * @param term    search term
+ * @param mysqli
+ * @param term
  * @return array of matching tracks
  */
 function search_tracks($mysqli, $term)

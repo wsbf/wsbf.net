@@ -10,9 +10,9 @@ require_once("../connect.php");
 /**
  * Get a list of album review counts by users.
  *
- * @param mysqli  MySQL connection
- * @param date1   start timestamp
- * @param date2   end timestamp
+ * @param mysqli
+ * @param date1
+ * @param date2
  * @return array of review counts by user
  */
 function get_review_counts($mysqli, $date1, $date2)
@@ -30,12 +30,7 @@ function get_review_counts($mysqli, $date1, $date2)
 		. "ORDER BY num_reviews DESC;";
 	$result = exec_query($mysqli, $q);
 
-	$review_counts = array();
-	while ( ($r = $result->fetch_assoc()) ) {
-		$review_counts[] = $r;
-	}
-
-	return $review_counts;
+	return fetch_array($result);
 }
 
 authenticate();

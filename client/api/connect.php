@@ -33,8 +33,8 @@ function construct_connection()
 /**
  * Escape JSON data for SQL statements.
  *
- * @param mysqli  MySQL connection
- * @param json    any data type from JSON
+ * @param mysqli
+ * @param json
  * @param escaped JSON data
  */
 function escape_json($mysqli, $json)

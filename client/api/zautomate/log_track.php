@@ -13,7 +13,7 @@ define('VALID_IP_ADDR', "130.127.17.5");
  * Get the current show, or create a new
  * Automation show if there is no show.
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return current show ID
  */
 function get_current_show($mysqli)
@@ -46,14 +46,15 @@ function get_current_show($mysqli)
 	}
 }
 
+// TODO: combine with get_track() in logbook/functions.php
 /**
  * Log a track in the logbook.
  *
- * @param mysqli     MySQL connection
- * @param showID     show ID
- * @param albumID    album ID
- * @param disc_num   disc number
- * @param track_num  track number
+ * @param mysqli
+ * @param showID
+ * @param albumID
+ * @param disc_num
+ * @param track_num
  */
 function log_track($mysqli, $showID, $albumID, $disc_num, $track_num)
 {
@@ -104,7 +105,7 @@ function log_track($mysqli, $showID, $albumID, $disc_num, $track_num)
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	if ( $_SERVER["REMOTE_ADDR"] !== VALID_IP_ADDR ) {
 		header("HTTP/1.1 404 Not Found");
-		exit("Yeah, I logged that cart...");
+		exit;
 	}
 
 	$albumID = $_GET["albumID"];

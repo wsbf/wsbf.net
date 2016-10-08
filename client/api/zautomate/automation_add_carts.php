@@ -10,8 +10,8 @@ require_once("../connect.php");
 /**
  * Get a random cart from the list of valid carts.
  *
- * @param mysqli       MySQL connection
- * @param cart_typeID  cart type ID
+ * @param mysqli
+ * @param cart_typeID
  * @return associative array of random cart
  */
 function get_random_cart($mysqli, $cart_typeID)
@@ -31,11 +31,7 @@ function get_random_cart($mysqli, $cart_typeID)
 		. "AND (NOW() < c.end_date OR c.end_date IS NULL);";
 	$result = exec_query($mysqli, $q);
 
-	$carts = array();
-	while ( ($c = $result->fetch_assoc()) ) {
-		$carts[] = $c;
-	}
-
+	$carts = fetch_array($carts);
 	$i = rand(0, count($carts) - 1);
 
 	return $carts[$i];

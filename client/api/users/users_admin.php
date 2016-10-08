@@ -29,12 +29,7 @@ function get_users($mysqli)
 		. "WHERE 1;";
 	$result = exec_query($mysqli, $q);
 
-	$users = array();
-	while ( ($u = $result->fetch_assoc()) ) {
-		$users[] = $u;
-	}
-
-	return $users;
+	return fetch_array($result);
 }
 
 /**

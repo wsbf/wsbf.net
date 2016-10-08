@@ -10,8 +10,8 @@ require_once("../connect.php");
 /**
  * Search for users by name.
  *
- * @param mysqli  MySQL connection
- * @param term    search term
+ * @param mysqli
+ * @param term
  * @return array of matching users
  */
 function search_users($mysqli, $term)
@@ -53,7 +53,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_reviewer($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
+		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
 

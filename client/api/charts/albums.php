@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @file charts/albums.php
+ * @author Ben Shealy
+ */
 require_once("../connect.php");
 
 /**
@@ -6,10 +11,10 @@ require_once("../connect.php");
  * albums currently in rotation that weren't played by
  * Automation.
  *
- * @param mysqli           MySQL connection
- * @param date1            start timestamp
- * @param date2            end timestamp
- * @param general_genreID  general genre ID
+ * @param mysqli
+ * @param date1
+ * @param date2
+ * @param general_genreID
  * @return array of top albums
  */
 function get_top_albums($mysqli, $date1, $date2, $general_genreID)
@@ -37,31 +42,26 @@ function get_top_albums($mysqli, $date1, $date2, $general_genreID)
 		. "LIMIT 100;";
 	$result = exec_query($mysqli, $q);
 
-	$albums = array();
-	while ( ($a = $result->fetch_assoc()) ) {
-		$albums[] = $a;
+	return fetch_array($result);
+}
+
+if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
+	$date1 = $_GET["date1"];
+	$date2 = $_GET["date2"];
+	$general_genreID = array_access($_GET, "general_genreID");
+
+	if ( !is_numeric($date1)
+	  || !is_numeric($date2)
+	  || (isset($general_genreID) && !is_numeric($general_genreID)) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit("Parameters are empty or invalid.");
 	}
 
-	return $albums;
+	$mysqli = construct_connection();
+	$albums = get_top_albums($mysqli, $date1, $date2, $general_genreID);
+	$mysqli->close();
+
+	header("Content-Type: application/json");
+	exit(json_encode($albums));
 }
-
-$date1 = $_GET["date1"];
-$date2 = $_GET["date2"];
-$general_genreID = array_key_exists("general_genreID", $_GET)
-	? $_GET["general_genreID"]
-	: null;
-
-if ( !is_numeric($date1)
-  || !is_numeric($date2)
-  || (isset($general_genreID) && !is_numeric($general_genreID)) ) {
-	header("HTTP/1.1 404 Not Found");
-	exit("Parameters are empty or invalid.");
-}
-
-$mysqli = construct_connection();
-$albums = get_top_albums($mysqli, $date1, $date2, $general_genreID);
-$mysqli->close();
-
-header("Content-Type: application/json");
-exit(json_encode($albums));
 ?>

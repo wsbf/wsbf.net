@@ -10,7 +10,7 @@ require_once("../connect.php");
 /**
  * Get the list of active users.
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return array of active users
  */
 function get_users($mysqli)
@@ -28,12 +28,7 @@ function get_users($mysqli)
 		. "WHERE u.statusID = 0;";
 	$result = exec_query($mysqli, $q);
 
-	$users = array();
-	while ( ($u = $result->fetch_assoc()) ) {
-		$users[] = $u;
-	}
-
-	return $users;
+	return fetch_array($result);
 }
 
 authenticate();
@@ -42,7 +37,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_reviewer($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
+		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
 

@@ -12,8 +12,8 @@ require_once("../connect.php");
 /**
  * Validate a sub request fill.
  *
- * @param mysqli     MySQL connection
- * @param requestID  sub request ID
+ * @param mysqli
+ * @param requestID
  * @return true if request fill is valid, false otherwise
  */
 function validate_request_fill($mysqli, $requestID)
@@ -37,7 +37,7 @@ function validate_request_fill($mysqli, $requestID)
 	$request = $result->fetch_assoc();
 
 	// sub request must not already be filled
-	if ( !empty($request["filled_by"]) ) {
+	if ( isset($request["filled_by"]) ) {
 		return false;
 	}
 
@@ -52,8 +52,8 @@ function validate_request_fill($mysqli, $requestID)
 /**
  * Validate a sub request remove.
  *
- * @param mysqli     MySQL connection
- * @param requestID  sub request ID
+ * @param mysqli
+ * @param requestID
  * @return true if request remove is valid, false otherwise
  */
 function validate_request_remove($mysqli, $requestID)
@@ -76,10 +76,10 @@ function validate_request_remove($mysqli, $requestID)
 
 	$request = $result->fetch_assoc();
 
-	// TODO: sub request must not already be filled?
-//	if ( !empty($request["filled_by"]) ) {
-//		return false;
-//	}
+	// sub request must not already be filled
+	if ( isset($request["filled_by"]) ) {
+		return false;
+	}
 
 	// sub request must belong to the current user
 	if ( $request["username"] != $_SESSION["username"] ) {
@@ -92,8 +92,8 @@ function validate_request_remove($mysqli, $requestID)
 /**
  * Add a show sub request for the current user.
  *
- * @param mysqli   MySQL connection
- * @param request  associative array of sub request
+ * @param mysqli
+ * @param request
  */
 function add_sub_request($mysqli, $request)
 {
@@ -142,21 +142,22 @@ function add_sub_request($mysqli, $request)
 /**
  * Fill a sub request with the current user.
  *
- * @param mysqli     MySQL connection
- * @param requestID  sub request ID
+ * @param mysqli
+ * @param requestID
  */
 function fill_sub_request($mysqli, $requestID)
 {
-	$q = "INSERT INTO `sub_fill` (sub_requestID, username) "
-		. "VALUES ('$requestID', '$_SESSION[username]');";
+	$q = "INSERT INTO `sub_fill` SET "
+		. "sub_requestID = '$requestID', "
+		. "username = '$_SESSION[username]';";
 	exec_query($mysqli, $q);
 }
 
 /**
  * Remove a show sub request for the current user.
  *
- * @param mysqli     MySQL connection
- * @param requestID  sub request ID
+ * @param mysqli
+ * @param requestID
  */
 function remove_sub_request($mysqli, $requestID)
 {
@@ -176,9 +177,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		exit;
 	}
 
-	$requestID = array_key_exists("requestID", $_GET)
-		? $_GET["requestID"]
-		: null;
+	$requestID = array_access($_GET, "requestID");
 
 	if ( isset($requestID) ) {
 		if ( !validate_request_fill($mysqli, $requestID) ) {

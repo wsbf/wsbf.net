@@ -57,10 +57,7 @@ function get_user($mysqli, $username)
 		. "WHERE h.username='$username' AND s.active=1;";
 	$result = exec_query($mysqli, $q);
 
-	$user["shows"] = array();
-	while ( ($s = $result->fetch_assoc()) ) {
-		$user["shows"][] = $s;
-	}
+	$user["shows"] = fetch_array($result);
 
 	// convert boolean and numeric types
 	$user["has_picture"] = (bool) $user["has_picture"];

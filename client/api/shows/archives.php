@@ -14,7 +14,7 @@ define('BASE_PATH', "/wizbif/Archibald/archives/");
  * Get the archive filenames for a show. The array
  * of filenames are added to the "files" key.
  *
- * @param show  associative array of show
+ * @param show
  */
 function get_filenames(&$show)
 {
@@ -43,8 +43,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_reviewer($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to view archives.");
+		header("HTTP/1.1 404 Not Found");
+		exit;
 	}
 
 	$page = $_GET["page"];

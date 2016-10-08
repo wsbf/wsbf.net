@@ -24,8 +24,8 @@ define('MARGIN_Y', 0.18);
  *
  * TODO: try to merge with get_album() from music library functions.
  *
- * @param mysqli     MySQL connection
- * @param album_IDs  array of album IDs
+ * @param mysqli
+ * @param albumIDs
  * @return array of albums
  */
 function get_albums($mysqli, $albumIDs)

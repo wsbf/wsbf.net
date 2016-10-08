@@ -10,7 +10,7 @@ require_once("../connect.php");
 /**
  * Get the list of outstanding sub requests.
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return array of sub requests
  */
 function get_sub_requests($mysqli)
@@ -39,13 +39,7 @@ function get_sub_requests($mysqli)
 		. "ORDER BY r.date;";
 	$result = exec_query($mysqli, $q);
 
-	$requests = array();
-
-	while ( ($r = $result->fetch_assoc()) ) {
-		$requests[] = $r;
-	}
-
-	return $requests;
+	return fetch_array($result);
 }
 
 authenticate();
@@ -54,8 +48,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_reviewer($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
-		exit("Current user is not allowed to view sub requests.");
+		header("HTTP/1.1 404 Not Found");
+		exit;
 	}
 
 	$requests = get_sub_requests($mysqli);

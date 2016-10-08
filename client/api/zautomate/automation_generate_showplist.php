@@ -16,15 +16,15 @@ define('MIN_PLAYLIST_SIZE', 10);
  * Selected tracks must currently be in rotation, and no
  * more than one track from each album is included.
  *
- * @param mysqli  MySQL connection
- * @param showID  show ID
+ * @param mysqli
+ * @param showID
  * @return array of tracks
  */
 function get_playlist($mysqli, $showID)
 {
 	$keys = array(
 		"l.lb_album_code",
-//		"l.lb_disc_num",
+		"l.lb_disc_num",
 		"l.lb_track_num",
 		"l.lb_track_name",
 		"r.binAbbr AS rotation",

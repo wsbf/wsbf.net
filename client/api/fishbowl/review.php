@@ -11,8 +11,8 @@ require_once("config.php");
 /**
  * Get a fishbowl app.
  *
- * @param mysqli  MySQL connection
- * @param id      fishbowl app id
+ * @param mysqli
+ * @param id
  * @return associative array of fishbowl app
  */
 function get_fishbowl_app($mysqli, $id)
@@ -57,7 +57,7 @@ function get_fishbowl_app($mysqli, $id)
 /**
  * Validate fishbowl ratings.
  *
- * @param apps  array of app id's and ratings
+ * @param apps
  * @return true if app ratings are valid, false otherwise
  */
 function validate_fishbowl_ratings($apps)
@@ -76,8 +76,8 @@ function validate_fishbowl_ratings($apps)
 /**
  * Rate all fishbowl apps.
  *
- * @param mysqli  MySQL connection
- * @param apps    array of app id's and ratings
+ * @param mysqli
+ * @param apps
  */
 function rate_fishbowl_apps($mysqli, $apps)
 {

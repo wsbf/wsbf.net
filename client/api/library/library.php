@@ -46,19 +46,14 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 		. "LIMIT "  . ($page * $page_size) . ", $page_size;";
 	$result = exec_query($mysqli, $q);
 
-	$albums = array();
-	while ( ($a = $result->fetch_assoc()) ) {
-		$albums[] = $a;
-	}
-
-	return $albums;
+	return fetch_array($result);
 }
 
 /**
  * Move albums through rotation.
  *
- * @param mysqli  MySQL connection
- * @param albums  array of album IDs and rotation IDs
+ * @param mysqli
+ * @param albums
  */
 function move_rotation($mysqli, $albums)
 {
@@ -115,7 +110,13 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$albums = json_decode(file_get_contents("php://input"), true);
 	$albums = escape_json($mysqli, $albums);
 
-	// TODO: validate albums
+	// validate albums
+	foreach ( $albums as $a ) {
+		if ( !is_numeric($a["albumID"]) || !is_numeric($a["rotationID"]) ) {
+			header("HTTP/1.1 404 Not Found");
+			exit;
+		}
+	}
 
 	move_rotation($mysqli, $albums);
 	$mysqli->close();

@@ -210,13 +210,11 @@ function import_album($mysqli, $album)
 
 	// fetch artist and label IDs
 	$artistID = find_artist($mysqli, $album["artist_name"]);
-
 	if ( !isset($artistID) ) {
 		$artistID = add_artist($mysqli, $album["artist_name"]);
 	}
 
 	$labelID = find_label($mysqli, $album["label"]);
-
 	if ( !isset($labelID) ) {
 		$labelID = add_label($mysqli, $album["label"]);
 	}
@@ -240,8 +238,10 @@ function import_album($mysqli, $album)
 
 	// insert tracks
 	foreach ( $album["tracks"] as $t ) {
-		$artistID = find_artist($mysqli, $t["artist_name"])
-				or add_artist($mysqli, $t["artist_name"]);
+		$artistID = find_artist($mysqli, $t["artist_name"]);
+		if ( !isset($artistID) ) {
+			$artistID = add_artist($mysqli, $t["artist_name"]);
+		}
 
 		$file_name = urlencode(substr($dir_name, 0, 2) . $t["file_name"]);
 

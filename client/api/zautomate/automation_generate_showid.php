@@ -10,8 +10,8 @@ require_once("../connect.php");
  * Get a random show ID from the last 100 rotation shows,
  * excluding the previous show played by Automation.
  *
- * @param mysqli  MySQL connection
- * @param prev    previous show ID
+ * @param mysqli
+ * @param prev
  * @return random show ID
  */
 function get_random_show($mysqli, $prev)
@@ -24,11 +24,7 @@ function get_random_show($mysqli, $prev)
 		. "LIMIT 100;";
 	$result = exec_query($mysqli, $q);
 
-	$shows = array();
-	while ( ($s = $result->fetch_assoc()) ) {
-		$shows[] = $s;
-	}
-
+	$shows = fetch_array($result);
 	$i = rand(0, count($shows) - 1);
 
 	return (int) $shows[$i]["showID"];
