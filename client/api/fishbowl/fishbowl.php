@@ -12,7 +12,7 @@ require_once("../connect.php");
 /**
  * Get the current fishbowl.
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return array of fishbowl applications
  */
 function get_fishbowl($mysqli)
@@ -29,12 +29,18 @@ function get_fishbowl($mysqli)
 		. "WHERE active=1;";
 	$result = exec_query($mysqli, $q);
 
-	$fishbowl = array();
-	while ( ($f = $result->fetch_assoc()) ) {
-		$fishbowl[] = $f;
-	}
+	return fetch_array($result);
+}
 
-	return $fishbowl;
+/**
+ * Archive the current fishbowl.
+ *
+ * @param mysqli
+ */
+function archive_fishbowl($mysqli)
+{
+	$q = "UPDATE `fishbowl` SET active=0 WHERE active=1;";
+	exec_query($mysqli, $q);
 }
 
 authenticate();
@@ -43,7 +49,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	if ( !check_senior_staff($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
+		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
 
@@ -52,5 +58,18 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	header("Content-Type: application/json");
 	exit(json_encode($fishbowl));
+}
+else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
+	$mysqli = construct_connection();
+
+	if ( !check_senior_staff($mysqli) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+
+	archive_fishbowl($mysqli);
+	$mysqli->close();
+
+	exit;
 }
 ?>

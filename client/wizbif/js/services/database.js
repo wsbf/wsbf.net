@@ -107,7 +107,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @return Promise of http response
 	 */
 	this.Fishbowl.archive = function() {
-		return $http.post("/api/fishbowl/archive.php");
+		return $http.delete("/api/fishbowl/fishbowl.php");
 	};
 
 	/**
