@@ -31,7 +31,7 @@ function get_random_cart($mysqli, $cart_typeID)
 		. "AND (NOW() < c.end_date OR c.end_date IS NULL);";
 	$result = exec_query($mysqli, $q);
 
-	$carts = fetch_array($carts);
+	$carts = fetch_array($result);
 	$i = rand(0, count($carts) - 1);
 
 	return $carts[$i];
