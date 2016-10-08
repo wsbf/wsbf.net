@@ -14,7 +14,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$term = $mysqli->escape_string($_GET["term"]);
 
 	if ( is_numeric($page) && $page >= 0 ) {
-		$shows = get_shows($mysqli, $page, 50, false);
+		$shows = get_shows($mysqli, $page, 50, true);
 	}
 	else if ( strlen($term) >= 3 ) {
 		$shows = search_shows($mysqli, $term);
