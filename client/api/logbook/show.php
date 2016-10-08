@@ -8,6 +8,7 @@
  */
 require_once("../auth/auth.php");
 require_once("../connect.php");
+require_once("../schedule/functions.php");
 require_once("auth.php");
 require_once("functions.php");
 
@@ -102,25 +103,24 @@ function validate_show($mysqli, $scheduleID)
  */
 function sign_on($mysqli, $scheduleID)
 {
-	// get show hosts from schedule
-	$q = "SELECT username FROM `schedule_hosts` "
-		. "WHERE scheduleID = '$scheduleID';";
-	$result = exec_query($mysqli, $q);
-
-	$hosts = fetch_array($result);
+	// get show from schedule
+	$schedule_show = get_schedule_show($mysqli, $scheduleID);
 
 	// insert show
 	$q = "INSERT INTO `show` SET "
+		. "show_name = '$schedule_show[show_name]', "
+		. "show_typeID = '$schedule_show[show_typeID]', "
 		. "scheduleID = '$scheduleID';";
 	exec_query($mysqli, $q);
 
 	$showID = $mysqli->insert_id;
 
 	// insert show hosts
-	foreach ( $hosts as $h ) {
+	foreach ( $schedule_show["hosts"] as $h ) {
 		$q = "INSERT INTO `show_hosts` SET "
 			. "showID = '$showID', "
-			. "username = '$h[username]';";
+			. "username = '$h[username]', "
+			. "show_alias = '$h[schedule_alias]';";
 		exec_query($mysqli, $q);
 	}
 
