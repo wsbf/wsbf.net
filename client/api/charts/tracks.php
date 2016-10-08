@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @file charts/tracks.php
+ * @author Ben Shealy
+ */
 require_once("../connect.php");
 
 /**
@@ -6,10 +11,10 @@ require_once("../connect.php");
  * tracks currently in rotation that weren't played by
  * Automation.
  *
- * @param mysqli  MySQL connection
- * @param date1   start timestamp
- * @param date2   end timestamp
- * @param count   number of tracks
+ * @param mysqli
+ * @param date1
+ * @param date2
+ * @param count
  * @return array of top tracks
  */
 function get_top_tracks($mysqli, $date1, $date2, $count)
@@ -34,30 +39,23 @@ function get_top_tracks($mysqli, $date1, $date2, $count)
 		. "LIMIT $count;";
 	$result = exec_query($mysqli, $q);
 
-	$tracks = array();
-	while ( ($t = $result->fetch_assoc()) ) {
-		$tracks[] = $t;
+	return fetch_array($result);
+}
+
+if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
+	$date1 = $_GET["date1"];
+	$date2 = $_GET["date2"];
+
+	if ( !is_numeric($date1) || !is_numeric($date2) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit("Start and end dates are empty or invalid.");
 	}
 
-	return $tracks;
+	$mysqli = construct_connection();
+	$tracks = get_top_tracks($mysqli, $date1, $date2, 20);
+	$mysqli->close();
+
+	header("Content-Type: application/json");
+	exit(json_encode($tracks));
 }
-
-$date1 = $_GET["date1"];
-$date2 = $_GET["date2"];
-
-if ( !is_numeric($date1) || !is_numeric($date2) ) {
-	header("HTTP/1.1 404 Not Found");
-	exit("Start and end dates are empty or invalid.");
-}
-
-// remove millisecond component used in Javascript
-$date1 = $date1 / 1000;
-$date2 = $date2 / 1000;
-
-$mysqli = construct_connection();
-$tracks = get_top_tracks($mysqli, $date1, $date2, 20);
-$mysqli->close();
-
-header("Content-Type: application/json");
-exit(json_encode($tracks));
 ?>

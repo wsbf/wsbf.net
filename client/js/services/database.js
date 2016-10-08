@@ -134,8 +134,8 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	this.Charts.getTopTracks = function(date1, date2) {
 		return $http.get("/api/charts/tracks.php", {
 			params: {
-				date1: date1,
-				date2: date2
+				date1: Math.floor(date1 / 1000),
+				date2: Math.floor(date2 / 1000)
 			}
 		}).then(function(res) {
 			return res.data;
