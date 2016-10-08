@@ -14,8 +14,8 @@ require_once("../connect.php");
 /**
  * Validate a show.
  *
- * @param mysqli  MySQL connection
- * @param show    associative array of show
+ * @param mysqli
+ * @param show
  * @return true if show is valid, false otherwise
  */
 function validate_show($mysqli, $show)
@@ -55,12 +55,12 @@ function validate_show($mysqli, $show)
 /**
  * Add a show to the schedule.
  *
- * @param mysqli  MySQL connection
- * @param show    associative array of show
+ * @param mysqli
+ * @param show
  */
 function add_show($mysqli, $show)
 {
-	/* add show */
+	// add show
 	$q = "INSERT INTO `schedule` SET "
 		. "show_name = '$show[show_name]', "
 		. "dayID = '$show[dayID]', "
@@ -70,13 +70,13 @@ function add_show($mysqli, $show)
 		. "active = 1;";
 	exec_query($mysqli, $q);
 
-	/* add show hosts */
+	// add show hosts
 	$scheduleID = $mysqli->insert_id;
 
 	foreach ( $show["hosts"] as $h ) {
 		$q = "INSERT INTO `schedule_hosts` SET "
 			. "scheduleID = '$scheduleID', "
-			. "username = '$h';";
+			. "username = '$h[username]';";
 		exec_query($mysqli, $q);
 	}
 }
@@ -84,13 +84,13 @@ function add_show($mysqli, $show)
 /**
  * Get a show in the schedule.
  *
- * @param mysqli      MySQL connection
- * @param scheduleID  schedule ID
+ * @param mysqli
+ * @param scheduleID
  * @return associative array of show
  */
 function get_show($mysqli, $scheduleID)
 {
-	/* get show */
+	// get show
 	$keys = array(
 		"s.scheduleID",
 		"s.show_name",
@@ -108,7 +108,7 @@ function get_show($mysqli, $scheduleID)
 		. "WHERE s.scheduleID = '$scheduleID';";
 	$show = exec_query($mysqli, $q)->fetch_assoc();
 
-	/* get show hosts */
+	// get show hosts
 	$host_keys = array(
 		"u.preferred_name",
 		"h.schedule_alias"
@@ -119,11 +119,7 @@ function get_show($mysqli, $scheduleID)
 		. "WHERE h.scheduleID = '$scheduleID';";
 	$result = exec_query($mysqli, $q);
 
-	$show["hosts"] = array();
-
-	while ( ($h = $result->fetch_assoc()) ) {
-		$show["hosts"][] = $h;
-	}
+	$show["hosts"] = fetch_array($result);
 
 	return $show;
 }
@@ -131,8 +127,8 @@ function get_show($mysqli, $scheduleID)
 /**
  * Remove a show from the schedule.
  *
- * @param mysqli      MySQL connection
- * @param scheduleID  schedule ID
+ * @param mysqli
+ * @param scheduleID
  */
 function remove_show($mysqli, $scheduleID)
 {

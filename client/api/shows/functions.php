@@ -6,17 +6,33 @@
  */
 
 /**
+ * Get the current show ID.
+ *
+ * @param mysqli
+ * @return current show ID
+ */
+function get_current_show_id($mysqli)
+{
+	$q = "SELECT showID FROM `show` AS s "
+		. "ORDER BY s.showID DESC "
+		. "LIMIT 1;";
+	$show = exec_query($mysqli, $q)->fetch_assoc();
+
+	return $show["showID"];
+}
+
+/**
  * Get a list of recorded shows.
  *
- * @param mysqli      MySQL connection
- * @param page        page offset
- * @param page_size   number of shows
- * @param automation  whether to include automation
+ * @param mysqli
+ * @param page
+ * @param page_size
+ * @param automation
  * @return array of shows
  */
 function get_shows($mysqli, $page, $page_size, $automation)
 {
-	/* get shows */
+	// get shows
 	$keys = array(
 		"s.showID",
 		"s.show_name",
@@ -31,21 +47,18 @@ function get_shows($mysqli, $page, $page_size, $automation)
 		. "LIMIT "  . ($page * $page_size) . ", $page_size;";
 	$result = exec_query($mysqli, $q);
 
-	$shows = array();
-	while ( ($s = $result->fetch_assoc()) ) {
-		/* get show hosts for each show */
+	$shows = fetch_array($result);
+
+	// get show hosts for each show
+	foreach ( $shows as &$s ) {
 		$q = "SELECT u.preferred_name FROM `show_hosts` AS h "
 			. "INNER JOIN `users` AS u ON u.username=h.username "
 			. "WHERE h.showID='$s[showID]';";
 		$result_hosts = exec_query($mysqli, $q);
 
-		$s["show_hosts"] = array();
-		while ( ($h = $result_hosts->fetch_assoc()) ) {
-			$s["show_hosts"][] = $h["preferred_name"];
-		}
-
-		$shows[] = $s;
+		$s["show_hosts"] = fetch_array($result_hosts);
 	}
+	unset($s);
 
 	return $shows;
 }
@@ -58,13 +71,13 @@ function get_shows($mysqli, $page, $page_size, $automation)
  * be expanded in the future to perform more sophisticated
  * queries.
  *
- * @param mysqli  MySQL connection
- * @param name    DJ name
+ * @param mysqli
+ * @param name
  * @return array of shows
  */
 function search_shows($mysqli, $name)
 {
-	/* get username */
+	// get username
 	$q = "SELECT username FROM `users` WHERE preferred_name='$name';";
 	$result = exec_query($mysqli, $q);
 
@@ -75,7 +88,7 @@ function search_shows($mysqli, $name)
 	$user = $result->fetch_assoc();
 	$username = $user["username"];
 
-	/* get shows */
+	// get shows
 	$keys = array(
 		"s.showID",
 		"s.show_name",
@@ -90,21 +103,18 @@ function search_shows($mysqli, $name)
 		. "ORDER BY s.showID DESC;";
 	$result = exec_query($mysqli, $q);
 
-	$shows = array();
-	while ( ($s = $result->fetch_assoc()) ) {
-		/* get show hosts for each show */
+	$shows = fetch_array($result);
+
+	// get show hosts for each show
+	foreach ( $shows as &$s ) {
 		$q = "SELECT u.preferred_name FROM `show_hosts` AS h "
 			. "INNER JOIN `users` AS u ON u.username=h.username "
 			. "WHERE h.showID='$s[showID]';";
 		$result_hosts = exec_query($mysqli, $q);
 
-		$s["show_hosts"] = array();
-		while ( ($h = $result_hosts->fetch_assoc()) ) {
-			$s["show_hosts"][] = $h["preferred_name"];
-		}
-
-		$shows[] = $s;
+		$s["show_hosts"] = fetch_array($result_hosts);
 	}
+	unset($s);
 
 	return $shows;
 }

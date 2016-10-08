@@ -31,7 +31,7 @@
 			<tr ng-repeat="s in shows">
 				<td>
 					<strong>{{s.show_name}}</strong>
-					<div ng-repeat="h in s.show_hosts">{{h}}</div>
+					<div ng-repeat="h in s.show_hosts">{{h.preferred_name}}</div>
 				</td>
 				<td>
 					<a ng-href="#/playlists/show/{{s.showID}}">Playlist</a>

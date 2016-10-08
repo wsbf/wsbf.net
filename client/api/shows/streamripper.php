@@ -16,28 +16,12 @@
  * [dcohen @ 2015-02-05] 
  */    
 require_once("../connect.php");
-
-/**
- * Get the current show.
- *
- * @param mysqli  MySQL connection
- * @return current show ID
- */
-function get_current_show($mysqli)
-{
-	// get show
-	$q = "SELECT showID FROM `show` "
-		. "ORDER BY showID DESC "
-		. "LIMIT 1;";
-	$show = exec_query($mysqli, $q)->fetch_assoc();
-
-	return $show["showID"];
-}
+require_once("functions.php");
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
-	$showID = get_current_show($mysqli);
+	$showID = get_current_show_id($mysqli);
 
 	exit("TITLE=$showID\n"
 		. "ARTIST=WSBF\n"

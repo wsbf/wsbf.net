@@ -87,13 +87,6 @@ scheduleModule.controller("ScheduleAddCtrl", ["$scope", "db", "alert", function(
 	};
 
 	$scope.save = function(show) {
-		// transform show object from view to server
-		show = angular.copy(show);
-
-		show.hosts = show.hosts.map(function(h) {
-			return h.username;
-		});
-
 		db.Schedule.addShow(show).then(function() {
 			alert.success("Show successfully added.");
 			$scope.$close();

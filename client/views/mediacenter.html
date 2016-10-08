@@ -25,7 +25,9 @@
 							<dd>{{track.show_name || '--'}}</dd>
 
 							<dt>Hosts</dt>
-							<dd>{{track.show_hosts.length > 0 ? track.show_hosts.join(', ') : '--'}}</dd>
+							<dd>
+								<div ng-repeat="h in track.show_hosts">{{h.preferred_name}}</div>
+							</dd>
 						</dl>
 
 						<audio class="center-block" controls>

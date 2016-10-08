@@ -39,7 +39,9 @@
 			<dd>{{show.show_name || '--'}}</dd>
 
 			<dt>Hosts</dt>
-			<dd>{{show.hosts.length ? show.hosts.join(', ') : '--'}}</dd>
+			<dd>
+				<div ng-repeat="h in show.hosts">{{h.preferred_name}}</div>
+			</dd>
 
 			<dt>Start Time</dt>
 			<dd>{{(show.start_time | date:'medium') || '--'}}</dd>

@@ -5,22 +5,7 @@
  * @author Ben Shealy
  */
 require_once("../connect.php");
-
-/**
- * Get the current show ID.
- *
- * @param mysqli
- * @return current show ID
- */
-function get_current_show_id($mysqli)
-{
-	$q = "SELECT showID FROM `show` AS s "
-		. "ORDER BY s.showID DESC "
-		. "LIMIT 1;";
-	$show = exec_query($mysqli, $q)->fetch_assoc();
-
-	return $show["showID"];
-}
+require_once("functions.php");
 
 /**
  * Get the playlist for a show.
@@ -47,34 +32,29 @@ function get_show_playlist($mysqli, $showID, $limit)
 		. "LIMIT $limit;";
 	$result = exec_query($mysqli, $q);
 
-	$tracks = array();
-	while ( ($t = $result->fetch_assoc()) ) {
-		$tracks[] = $t;
+	return fetch_array($result);
+}
+
+if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
+	$showID = array_access($_GET, "showID");
+	$limit = PHP_INT_MAX;
+
+	if ( isset($showID) && !is_numeric($showID) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit("Show ID is invalid.");
 	}
 
-	return $tracks;
+	$mysqli = construct_connection();
+
+	if ( !isset($showID) ) {
+		$showID = get_current_show_id($mysqli);
+		$limit = 20;
+	}
+
+	$playlist = get_show_playlist($mysqli, $showID, $limit);
+	$mysqli->close();
+
+	header("Content-Type: application/json");
+	exit(json_encode($playlist));
 }
-
-$showID = array_key_exists("showID", $_GET)
-	? $_GET["showID"]
-	: null;
-$limit = PHP_INT_MAX;
-
-if ( !empty($showID) && !is_numeric($showID) ) {
-	header("HTTP/1.1 404 Not Found");
-	exit("Show ID is invalid.");
-}
-
-$mysqli = construct_connection();
-
-if ( !$showID ) {
-	$showID = get_current_show_id($mysqli);
-	$limit = 20;
-}
-
-$playlist = get_show_playlist($mysqli, $showID, $limit);
-$mysqli->close();
-
-header("Content-Type: application/json");
-exit(json_encode($playlist));
 ?>

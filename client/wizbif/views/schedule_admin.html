@@ -40,7 +40,7 @@
 
 				<div class="text-center small show-type-{{s.show_typeID}}" ng-click="s && getShow(s.scheduleID)">
 					<strong>{{s.show_name}}</strong>
-					<div ng-repeat="h in s.hosts">{{h}}</div>
+					<div ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
 				</div>
 			</td>
 		</tr>

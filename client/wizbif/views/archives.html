@@ -50,7 +50,7 @@
 					<a ng-href="/#/playlists/show/{{a.showID}}" target="_blank">Playlist</a>
 				</td>
 				<td>
-					<div ng-repeat="n in a.show_hosts">{{n}}</div>
+					<div ng-repeat="h in a.show_hosts">{{h.preferred_name}}</div>
 				</td>
 				<td>{{a.show_name}}</td>
 				<td>{{show_types[a.show_typeID].type}}</td>

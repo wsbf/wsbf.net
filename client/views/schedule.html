@@ -37,7 +37,7 @@
 				<div class="media-body">
 					<p>{{s.start_time}} - {{s.end_time}}</p>
 					<p><strong>{{s.show_name}}</strong></p>
-					<div ng-repeat="h in s.hosts">{{h}}</div>
+					<div ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
 				</div>
 			</div>
 		</div>

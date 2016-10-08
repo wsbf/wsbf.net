@@ -14,7 +14,7 @@ require_once("functions.php");
 /**
  * Get a show.
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  * @return associative array of show
  */
 function get_show($mysqli, $showID)
@@ -42,10 +42,7 @@ function get_show($mysqli, $showID)
 		. "WHERE h.showID='$show[showID]';";
 	$result_hosts = exec_query($mysqli, $q);
 
-	$show["hosts"] = array();
-	while ( ($h = $result_hosts->fetch_assoc()) ) {
-		$show["hosts"][] = $h["preferred_name"];
-	}
+	$show["hosts"] = fetch_array($result_hosts);
 
 	// get show playlist
 	$keys_playlist = array(
@@ -65,10 +62,7 @@ function get_show($mysqli, $showID)
 		. "ORDER BY l.time_played DESC;";
 	$result_playlist = exec_query($mysqli, $q);
 
-	$show["playlist"] = array();
-	while ( ($t = $result_playlist->fetch_assoc()) ) {
-		$show["playlist"][] = $t;
-	}
+	$show["playlist"] = fetch_array($result_playlist);
 
 	return $show;
 }
@@ -76,9 +70,9 @@ function get_show($mysqli, $showID)
 /**
  * Validate a schedule ID.
  *
- * @param mysqli      MySQL connection
- * @param scheduleID  schedule ID
- * @param true if schedule ID is valid, false otherwise
+ * @param mysqli
+ * @param scheduleID
+ * @return true if schedule ID is valid, false otherwise
  */
 function validate_show($mysqli, $scheduleID)
 {
@@ -102,9 +96,9 @@ function validate_show($mysqli, $scheduleID)
 /**
  * Start a new show with a given schedule ID.
  *
- * @param mysqli      MySQL connection
- * @param scheduleID  schedule ID
- * @param new show ID
+ * @param mysqli
+ * @param scheduleID
+ * @return new show ID
  */
 function sign_on($mysqli, $scheduleID)
 {
@@ -112,6 +106,8 @@ function sign_on($mysqli, $scheduleID)
 	$q = "SELECT username FROM `schedule_hosts` "
 		. "WHERE scheduleID = '$scheduleID';";
 	$result = exec_query($mysqli, $q);
+
+	$hosts = fetch_array($result);
 
 	// insert show
 	$q = "INSERT INTO `show` SET "
@@ -121,7 +117,7 @@ function sign_on($mysqli, $scheduleID)
 	$showID = $mysqli->insert_id;
 
 	// insert show hosts
-	while ( ($h = $result->fetch_assoc()) ) {
+	foreach ( $hosts as $h ) {
 		$q = "INSERT INTO `show_hosts` SET "
 			. "showID = '$showID', "
 			. "username = '$h[username]';";
@@ -134,7 +130,7 @@ function sign_on($mysqli, $scheduleID)
 /**
  * End the current show.
  *
- * @param mysqli  MySQL connection
+ * @param mysqli
  */
 function sign_off($mysqli)
 {
@@ -153,12 +149,9 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	$showID = get_current_show_id($mysqli);
 
-	if ( $showID == null ) {
-		$show = array();
-	}
-	else {
-		$show = get_show($mysqli, $showID);
-	}
+	$show = isset($showID)
+		? get_show($mysqli, $showID)
+		: array();
 
 	$mysqli->close();
 
