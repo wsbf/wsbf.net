@@ -12,8 +12,8 @@ require_once("functions.php");
 /**
  * Get information about an album.
  *
- * @param mysqli      MySQL connection
- * @param album_code  album code
+ * @param mysqli
+ * @param album_code
  */
 function get_album($mysqli, $album_code)
 {
@@ -36,15 +36,17 @@ function get_album($mysqli, $album_code)
 /**
  * Get information about a track.
  *
- * @param mysqli     MySQL connection
- * @param albumID    album ID
- * @param disc_num   disc number
- * @param track_num  track number
+ * @param mysqli
+ * @param albumID
+ * @param disc_num
+ * @param track_num
  */
 function get_track($mysqli, $albumID, $disc_num, $track_num)
 {
 	$keys = array(
 		"al.album_code",
+		"t.disc_num",
+		"t.track_num",
 		"r.binAbbr AS rotation",
 		"t.track_name",
 		"t.airabilityID",
@@ -62,43 +64,7 @@ function get_track($mysqli, $albumID, $disc_num, $track_num)
 		. "AND t.disc_num = '$disc_num' AND t.track_num = '$track_num';";
 	$track = exec_query($mysqli, $q)->fetch_assoc();
 
-	$track["disc_num"] = $disc_num;
-	$track["track_num"] = $track_num;
-
 	return $track;
-}
-
-/**
- * Log a track in the logbook.
- *
- * @param mysqli  MySQL connection
- * @param showID  show ID
- * @param track   associative array of track
- */
-function log_track($mysqli, $showID, $track)
-{
-	// log track
-	$q = "INSERT INTO `logbook` SET "
-		. "showID = '$showID', "
-		. "lb_album_code = '$track[lb_album_code]', "
-		. "lb_rotation = '$track[lb_rotation]', "
-		. "lb_disc_num = '$track[lb_disc_num]', "
-		. "lb_track_num = '$track[lb_track_num]', "
-		. "lb_track_name = '$track[lb_track_name]', "
-		. "lb_artist = '$track[lb_artist]', "
-		. "lb_album = '$track[lb_album]', "
-		. "lb_label = '$track[lb_label]', "
-		. "played = 1;";
-	exec_query($mysqli, $q);
-
-	// update now playing
-	$q = "UPDATE `now_playing` SET "
-		. "logbookID = LAST_INSERT_ID(), "
-		. "lb_track_name = '$track[track_name]', "
-		. "lb_artist_name = '$track[artist_name]';";
-	exec_query($mysqli, $q);
-
-	// TODO: send RDS
 }
 
 authenticate();
@@ -108,8 +74,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	$album_code = $mysqli->escape_string($_GET["album_code"]);
-	$disc_num = $_GET["disc_num"];
-	$track_num = $_GET["track_num"];
+	$disc_num = array_access($_GET, "disc_num");
+	$track_num = array_access($_GET, "track_num");
 
 	if ( empty($album_code) ) {
 		header("HTTP/1.1 404 Not Found");
