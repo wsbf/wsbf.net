@@ -5,6 +5,7 @@
  * @author Ben Shealy
  */
 require_once("../connect.php");
+require_once("../logbook/functions.php");
 
 define('VALID_IP_ADDR', "130.127.17.5");
 
@@ -46,74 +47,17 @@ function get_current_show($mysqli)
 	}
 }
 
-// TODO: combine with get_track() in logbook/functions.php
-/**
- * Log a track in the logbook.
- *
- * @param mysqli
- * @param showID
- * @param albumID
- * @param disc_num
- * @param track_num
- */
-function log_track($mysqli, $showID, $albumID, $disc_num, $track_num)
-{
-	// get track
-	$keys = array(
-		"al.album_code",
-		"r.binAbbr AS rotation",
-		"t.track_name",
-		"al.album_name",
-		"ar.artist_name",
-		"la.label"
-	);
-
-	$q = "SELECT " . implode(",", $keys) . " FROM `libtrack` AS t "
-		. "INNER JOIN `libalbum` AS al ON al.albumID=t.albumID "
-		. "INNER JOIN `libartist` AS ar ON ar.artistID=al.artistID "
-		. "INNER JOIN `liblabel` AS la ON la.labelID=al.labelID "
-		. "INNER JOIN `def_rotations` AS r ON r.rotationID=al.rotationID "
-//		. "WHERE t.albumID = '$albumID' "
-		. "WHERE al.album_code = '$albumID' "
-		. "AND t.disc_num = '$disc_num' AND t.track_num = '$track_num';";
-	$track = exec_query($mysqli, $q)->fetch_assoc();
-
-	// log track
-	$q = "INSERT INTO `logbook` SET "
-		. "showID = '$showID', "
-		. "lb_album_code = '$track[album_code]', "
-		. "lb_rotation = '$track[rotation]', "
-		. "lb_disc_num = '$disc_num', "
-		. "lb_track_num = '$track_num', "
-		. "lb_track_name = '$track[track_name]', "
-		. "lb_artist = '$track[artist_name]', "
-		. "lb_album = '$track[album_name]', "
-		. "lb_label = '$track[label]', "
-		. "played = 1;";
-	exec_query($mysqli, $q);
-
-	// update now playing
-	$q = "UPDATE `now_playing` SET "
-		. "logbookID = LAST_INSERT_ID(), "
-		. "lb_track_name = '$track[track_name]', "
-		. "lb_artist_name = '$track[artist_name]';";
-	exec_query($mysqli, $q);
-
-	// TODO: send RDS
-}
-
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	if ( $_SERVER["REMOTE_ADDR"] !== VALID_IP_ADDR ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
 
-	$albumID = $_GET["albumID"];
+	$album_code = $_GET["albumID"];
 	$disc_num = $_GET["disc_num"];
 	$track_num = $_GET["track_num"];
 
-//	if ( !is_numeric($albumID)
-	if ( !isset($albumID)
+	if ( !isset($album_code)
 	  || !is_numeric($disc_num)
 	  || !is_numeric($track_num) ) {
 		header("HTTP/1.1 404 Not Found");
@@ -123,10 +67,12 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
 	$showID = get_current_show($mysqli);
+	$album = get_album($mysqli, $album_code);
+	$track = get_track($mysqli, $album["albumID"], $disc_num, $track_num);
 
-	log_track($mysqli, $showID, $albumID, $disc_num, $track_num);
+	log_track($mysqli, $showID, $track);
 	$mysqli->close();
 
-	exit("Successfully logged track $albumID-$disc_num-$track_num to show $showID.");
+	exit("Successfully logged track $album_code-$disc_num-$track_num to show $showID.");
 }
 ?>

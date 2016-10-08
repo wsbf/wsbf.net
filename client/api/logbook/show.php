@@ -46,14 +46,14 @@ function get_show($mysqli, $showID)
 
 	// get show playlist
 	$keys_playlist = array(
-		"l.lb_album_code",
-		"l.lb_disc_num",
-		"l.lb_rotation",
-		"l.lb_track_num",
-		"l.lb_track_name",
-		"l.lb_artist",
-		"l.lb_album",
-		"l.lb_label",
+		"l.lb_album_code AS album_code",
+		"l.lb_disc_num AS disc_num",
+		"l.lb_rotation AS rotation",
+		"l.lb_track_num AS track_num",
+		"l.lb_track_name AS track_name",
+		"l.lb_artist AS artist_name",
+		"l.lb_album AS album_name",
+		"l.lb_label AS label",
 		"1 AS logged"
 	);
 

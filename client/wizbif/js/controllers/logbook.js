@@ -1,10 +1,11 @@
 "use strict";
 
 var logbookModule = angular.module("wizbif.logbook", [
+	"wizbif.alert",
 	"wizbif.database"
 ]);
 
-logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($scope, $interval, db) {
+logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", function($scope, $interval, alert, db) {
 	$scope.days = db.getDefs("days");
 	$scope.showID = null;
 	$scope.show = {};
@@ -49,21 +50,22 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "db", function($
 	$scope.getAlbum = function(album_code) {
 		db.Logbook.getAlbum(album_code).then(function(album) {
 			$scope.newTrack.albumID = album.albumID;
-			$scope.newTrack.lb_rotation = album.rotation;
-			$scope.newTrack.lb_artist = album.artist_name;
-			$scope.newTrack.lb_album = album.album_name;
+			$scope.newTrack.rotation = album.rotation;
+			$scope.newTrack.artist_name = album.artist_name;
+			$scope.newTrack.album_name = album.album_name;
+			$scope.newTrack.label = album.label;
 		});
 	};
 
 	$scope.getTrack = function(album_code, disc_num, track_num) {
 		db.Logbook.getTrack(album_code, disc_num, track_num).then(function(track) {
-			$scope.newTrack.lb_track_name = track.track_name;
+			$scope.newTrack.track_name = track.track_name;
 			$scope.newTrack.airabilityID = track.airabilityID;
 		});
 	};
 
 	$scope.addTrack = function(playlist, track) {
-		track.lb_rotation = track.lb_rotation || "O";
+		track.rotation = track.rotation || "O";
 		playlist.unshift(track);
 
 		$scope.newTrack = {};
