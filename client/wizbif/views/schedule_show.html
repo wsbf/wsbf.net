@@ -9,7 +9,7 @@
 		<dd>{{show.show_name || '--'}}</dd>
 
 		<dt>Show Time</dt>
-		<dd>{{show.day}} {{show.start_time}} - {{show.end_time}}</dd>
+		<dd>{{days[show.dayID].day}} {{show.start_time}} - {{show.end_time}}</dd>
 
 		<dt>Hosts</dt>
 		<dd>
@@ -18,7 +18,7 @@
 		</dd>
 
 		<dt>Type</dt>
-		<dd>{{show.type || '--'}}</dd>
+		<dd>{{show_types[show.show_typeID].type || '--'}}</dd>
 
 		<dt>Genre</dt>
 		<dd>{{show.genre || '--'}}</dd>

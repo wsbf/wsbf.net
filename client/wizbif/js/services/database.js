@@ -452,12 +452,12 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
-	 * Add a show to the schedule.
+	 * Save a show to the schedule.
 	 *
 	 * @param show
 	 * @return Promise of http response
 	 */
-	this.Schedule.addShow = function(show) {
+	this.Schedule.saveShow = function(show) {
 		return api.Show.save({}, show).$promise;
 	};
 

@@ -36,33 +36,37 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootSc
 		}
 	};
 
-	$scope.addShow = function(dayID, timeID) {
+	$scope.getShow = function(scheduleID) {
 		$uibModal.open({
-			templateUrl: "views/schedule_admin_add.html",
-			controller: "ScheduleAddCtrl",
+			templateUrl: "views/schedule_show.html",
+			controller: "ScheduleShowCtrl",
 			scope: angular.extend($rootScope.$new(), {
+				scheduleID: scheduleID
+			})
+		});
+	};
+
+	$scope.editShow = function(scheduleID, dayID, timeID) {
+		$uibModal.open({
+			templateUrl: "views/schedule_admin_edit.html",
+			controller: "ScheduleEditCtrl",
+			scope: angular.extend($rootScope.$new(), {
+				scheduleID: scheduleID,
 				dayID: dayID,
 				timeID: timeID
 			})
 		}).result.then(getSchedule);
 	};
 
-	$scope.getShow = function(scheduleID) {
-		$uibModal.open({
-			templateUrl: "views/schedule_show.html",
-			scope: angular.extend($rootScope.$new(), {
-				show: db.Schedule.getShow(scheduleID)
-			})
-		});
-	};
-
 	$scope.removeShow = function(scheduleID) {
-		db.Schedule.removeShow(scheduleID).then(function() {
-			getSchedule();
-			alert.success("Show successfully removed.");
-		}, function(res) {
-			alert.error(res.data || res.statusText);
-		});
+		if ( confirm("Remove show " + scheduleID + " from the schedule?") ) {
+			db.Schedule.removeShow(scheduleID).then(function() {
+				getSchedule();
+				alert.success("Show successfully removed.");
+			}, function(res) {
+				alert.error(res.data || res.statusText);
+			});
+		}
 	};
 
 	// initialize
@@ -72,13 +76,29 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootSc
 	]).then(getSchedule);
 }]);
 
-scheduleModule.controller("ScheduleAddCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
+scheduleModule.controller("ScheduleShowCtrl", ["$scope", "db", function($scope, db) {
+	$scope.days = db.getDefs("days");
+	$scope.show_times = db.getDefs("show_times");
+	$scope.show_types = db.getDefs("show_types");
+	$scope.show = db.Schedule.getShow($scope.scheduleID);
+}]);
+
+scheduleModule.controller("ScheduleEditCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	$scope.days = db.getDefs("days");
 	$scope.show_times = db.getDefs("show_times");
 	$scope.show_types = db.getDefs("show_types");
 
 	$scope.searchUsers = function(term) {
-		return db.Users.search(term);
+		return db.Users.search(term)
+			.then(function(users) {
+				users.forEach(function(u) {
+					u.name = (u.preferred_name === u.first_name + " " + u.last_name)
+						? u.preferred_name
+						: u.first_name + " " + u.last_name + " (" + u.preferred_name + ")";
+				});
+
+				return users;
+			});
 	};
 
 	$scope.addHost = function() {
@@ -87,8 +107,8 @@ scheduleModule.controller("ScheduleAddCtrl", ["$scope", "db", "alert", function(
 	};
 
 	$scope.save = function(show) {
-		db.Schedule.addShow(show).then(function() {
-			alert.success("Show successfully added.");
+		db.Schedule.saveShow(show).then(function() {
+			alert.success("Show successfully saved.");
 			$scope.$close();
 		}, function(res) {
 			alert.error(res.data || res.statusText);
@@ -100,11 +120,16 @@ scheduleModule.controller("ScheduleAddCtrl", ["$scope", "db", "alert", function(
 		var startID = Number.parseInt($scope.timeID);
 		var endID = (startID + 1) % $scope.show_times.length;
 
-		$scope.show = {
-			dayID: $scope.dayID,
-			start_time: $scope.show_times[startID].show_time,
-			end_time: $scope.show_times[endID].show_time,
-			hosts: []
-		};
+		if ( $scope.scheduleID ) {
+			$scope.show = db.Schedule.getShow($scope.scheduleID);
+		}
+		else {
+			$scope.show = {
+				dayID: $scope.dayID,
+				start_time: $scope.show_times[startID].show_time,
+				end_time: $scope.show_times[endID].show_time,
+				hosts: []
+			};
+		}
 	});
 }]);

@@ -58,7 +58,6 @@ Currently, server-side development (PHP scripts) must be done on the web server 
 
 ### Client (private)
 
-- make shows editable in schedule control panel
 - add intern scheduler view
 - carts control panel
 - album checkout interface

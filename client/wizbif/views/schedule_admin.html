@@ -31,14 +31,17 @@
 
 			<td ng-repeat="s in time track by $index">
 				<div class="text-center h4" ng-show="!s">
-					<a class="button-icon" ng-href="" ng-click="addShow($index, timeIndex)">&plus;</a>
+					<a class="button-icon" ng-href="" ng-click="editShow(null, $index, timeIndex)">&plus;</a>
 				</div>
 
 				<div class="text-right" ng-show="s">
+					<span class="button-icon" ng-click="s && editShow(s.scheduleID)">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</span>
 					<span class="button-icon" ng-click="s && removeShow(s.scheduleID)">&times;</span>
 				</div>
 
-				<div class="text-center small show-type-{{s.show_typeID}}" ng-click="s && getShow(s.scheduleID)">
+				<div class="text-center small show-type-{{s.show_typeID}}" ng-show="s" ng-click="s && getShow(s.scheduleID)">
 					<strong>{{s.show_name}}</strong>
 					<div ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
 				</div>

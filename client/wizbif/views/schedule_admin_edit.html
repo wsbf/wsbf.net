@@ -1,6 +1,6 @@
 <div class="modal-header">
 	<span class="close" ng-click="$dismiss()">&times;</span>
-	<h3 class="text-center">Add Show</h3>
+	<h3 class="text-center">Edit Show</h3>
 </div>
 
 <form class="modal-body form-horizontal" name="form">
@@ -30,7 +30,7 @@
 		<div class="col-xs-6">
 			<table class="table">
 				<tr ng-repeat="h in show.hosts">
-					<td>{{h.name}}</td>
+					<td>{{h.preferred_name}}</td>
 					<td class="text-center">
 						<span class="button-icon" ng-click="show.hosts.splice($index, 1)">&times;</span>
 					</td>
