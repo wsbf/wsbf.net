@@ -18,17 +18,15 @@ function get_schedule_show($mysqli, $scheduleID)
 	$keys = array(
 		"s.scheduleID",
 		"s.show_name",
-		"d.day",
+		"s.dayID",
 		"s.start_time",
 		"s.end_time",
-		"t.type",
+		"s.show_typeID",
 		"s.description",
 		"s.genre"
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `schedule` AS s "
-		. "INNER JOIN `def_days` AS d ON s.dayID=d.dayID "
-		. "INNER JOIN `def_show_types` AS t ON t.show_typeID=s.show_typeID "
 		. "WHERE s.scheduleID = '$scheduleID';";
 	$show = exec_query($mysqli, $q)->fetch_assoc();
 

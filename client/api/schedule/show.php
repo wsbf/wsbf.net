@@ -4,9 +4,7 @@
  * @file schedule/show.php
  * @author Ben Shealy
  *
- * Get, add, or remove a show in the schedule.
- *
- * TODO: add update function
+ * Get, update, or remove a show in the schedule.
  */
 require_once("../auth/auth.php");
 require_once("../connect.php");
@@ -43,7 +41,8 @@ function validate_show($mysqli, $show)
 	// show should not start at the same time as another active show
 	$q = "SELECT s.scheduleID FROM `schedule` AS s "
 		. "WHERE s.active=1 AND s.dayID='$show[dayID]' "
-		. "AND s.start_time='$show[start_time]';";
+		. "AND s.start_time='$show[start_time]' "
+		. "AND s.scheduleID != '$show[scheduleID]';";
 	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows > 0 ) {
@@ -61,7 +60,7 @@ function validate_show($mysqli, $show)
  */
 function add_show($mysqli, $show)
 {
-	// add show
+	// insert show
 	$q = "INSERT INTO `schedule` SET "
 		. "show_name = '$show[show_name]', "
 		. "dayID = '$show[dayID]', "
@@ -71,12 +70,43 @@ function add_show($mysqli, $show)
 		. "active = 1;";
 	exec_query($mysqli, $q);
 
-	// add show hosts
+	// insert show hosts
 	$scheduleID = $mysqli->insert_id;
 
 	foreach ( $show["hosts"] as $h ) {
 		$q = "INSERT INTO `schedule_hosts` SET "
 			. "scheduleID = '$scheduleID', "
+			. "username = '$h[username]';";
+		exec_query($mysqli, $q);
+	}
+}
+
+/**
+ * Update a show in the schedule.
+ *
+ * @param mysqli
+ * @param show
+ */
+function update_show($mysqli, $show)
+{
+	// update show
+	$q = "UPDATE `schedule` SET "
+		. "show_name = '$show[show_name]', "
+		. "dayID = '$show[dayID]', "
+		. "start_time = '$show[start_time]', "
+		. "end_time = '$show[end_time]', "
+		. "show_typeID = '$show[show_typeID]', "
+		. "active = 1 "
+		. "WHERE scheduleID = '$show[scheduleID]';";
+	exec_query($mysqli, $q);
+
+	// update show hosts
+	$q = "DELETE FROM `schedule_hosts` WHERE scheduleID='$show[scheduleID]';";
+	exec_query($mysqli, $q);
+
+	foreach ( $show["hosts"] as $h ) {
+		$q = "INSERT INTO `schedule_hosts` SET "
+			. "scheduleID = '$show[scheduleID]', "
 			. "username = '$h[username]';";
 		exec_query($mysqli, $q);
 	}
@@ -129,7 +159,14 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		exit("Submitted show data is invalid.");
 	}
 
-	add_show($mysqli, $show);
+	if ( isset($show["scheduleID"]) ) {
+		update_show($mysqli, $show);
+	}
+	else {
+		add_show($mysqli, $show);
+	}
+
+	$show = update_show($mysqli, $show);
 	$mysqli->close();
 
 	header("Content-Type: application/json");

@@ -29,22 +29,7 @@ function search_users($mysqli, $term)
 		. "OR u.preferred_name LIKE '%$term%';";
 	$result = exec_query($mysqli, $q);
 
-	$users = array();
-	while ( ($u = $result->fetch_assoc()) ) {
-		if ( $u["preferred_name"] == "$u[first_name] $u[last_name]" ) {
-			$name = $u["preferred_name"];
-		}
-		else {
-			$name = "$u[first_name] $u[last_name] [$u[preferred_name]]";
-		}
-
-		$users[] = array(
-			"username" => $u["username"],
-			"name" => $name
-		);
-	}
-
-	return $users;
+	return fetch_array($result);
 }
 
 authenticate();
