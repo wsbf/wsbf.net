@@ -78,6 +78,19 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
+	 * Delete a fishbowl log item.
+	 *
+	 * @param fishbowlLogID
+	 */
+	this.Fishbowl.deleteLogItem = function(fishbowlLogID) {
+		return $http.delete("/api/fishbowl/fishbowl_log.php", {
+			params: {
+				fishbowlLogID: fishbowlLogID
+			}
+		});
+	};
+
+	/**
 	 * Get the parameters for the current fishbowl application.
 	 *
 	 * @return Promise of fishbowl app info
