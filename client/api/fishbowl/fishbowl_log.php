@@ -4,7 +4,7 @@
  * @file fishbowl/fishbowl_log.php
  * @author Ben Shealy
  *
- * Get the current user's fishbowl log.
+ * Get, update, or delete from the current user's fishbowl log.
  */
 require_once("../auth/auth.php");
 require_once("../connect.php");
@@ -63,6 +63,18 @@ function log_fishbowl_item($mysqli, $item)
 	exec_query($mysqli, $q);
 }
 
+/**
+ * Delete an item in the current user's fishbowl log.
+ *
+ * @param mysqli
+ * @param fishbowlLogID
+ */
+function delete_fishbowl_log_item($mysqli, $fishbowlLogID)
+{
+	$q = "DELETE FROM `fishbowl_log` WHERE fishbowlLogID='$fishbowlLogID';";
+	exec_query($mysqli, $q);
+}
+
 authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
@@ -86,6 +98,21 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	}
 
 	log_fishbowl_item($mysqli, $item);
+	$mysqli->close();
+
+	exit;
+}
+else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
+	$mysqli = construct_connection();
+
+	$fishbowlLogID = $_GET["fishbowlLogID"];
+
+	if ( !is_numeric($fishbowlLogID) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+
+	delete_fishbowl_log_item($mysqli, $fishbowlLogID);
 	$mysqli->close();
 
 	exit;
