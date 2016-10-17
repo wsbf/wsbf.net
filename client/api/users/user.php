@@ -34,7 +34,7 @@ function get_user($mysqli, $username)
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `users` AS u "
 		. "LEFT OUTER JOIN `staff` AS s ON s.username=u.username "
-		. "AND s.start_date <= NOW() AND NOW() <= s.end_date "
+		. "AND s.end_date IS NULL "
 		. "WHERE u.username='$username';";
 	$user = exec_query($mysqli, $q)->fetch_assoc();
 

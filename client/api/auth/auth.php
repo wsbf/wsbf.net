@@ -56,7 +56,7 @@ function get_position($mysqli)
 	if ( !isset($_SESSION["positionID"]) ) {
 		$q = "SELECT positionID FROM `staff` "
 			. "WHERE username='$_SESSION[username]' "
-			. "AND NOW() BETWEEN start_date AND end_date;";
+			. "AND end_date IS NULL;";
 		$result = exec_query($mysqli, $q);
 
 		if ( $result->num_rows > 0 ) {
