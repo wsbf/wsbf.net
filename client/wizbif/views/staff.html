@@ -9,21 +9,32 @@
 		<h3 class="panel-title">Staff Control Panel</h3>
 	</div>
 
-	<table class="table">
-		<thead>
-			<th>Position</th>
-			<th>Name</th>
-			<th>Start Date</th>
-			<th>End Date</th>
-		</thead>
+	<form class="panel-body form-horizontal" name="form">
+		<div class="form-group">
+			<div class="col-sm-3">
+				<select class="form-control" ng-model="newMember.positionID" ng-options="p.positionID as p.position for p in positions"></select>
+			</div>
+			<div class="col-sm-6">
+				<input class="form-control" ng-model="newMember.user"
+					uib-typeahead="u as u.name for u in searchUsers($viewValue)"
+					typeahead-min-length="3"
+					typeahead-wait-ms="200"/>
+			</div>
+			<div class="col-sm-3">
+				<button type="button" class="btn btn-default" ng-disabled="!newMember.positionID || !newMember.user" ng-click="addStaffMember(staff, newMember)">Add</button>
+			</div>
+		</div>
 
-		<tbody>
-			<tr ng-repeat="s in staff">
-				<td>{{positions[s.positionID].position}}</td>
-				<td>{{s.preferred_name}}</td>
-				<td>{{s.start_date}}</td>
-				<td>{{s.end_date}}</td>
-			</tr>
-		</tbody>
-	</table>
+		<div class="form-group">
+			<div class="row" ng-repeat="p in positions" ng-show="staff[p.positionID]">
+				<label class="col-sm-3 control-label">{{p.position}}</label>
+				<div class="col-sm-6">
+					<p class="form-control-static">{{staff[p.positionID].preferred_name}}</p>
+				</div>
+				<div class="col-sm-3 text-center">
+					<span class="button-icon" ng-click="removeStaffMember(staff, p.positionID)">&times;</span>
+				</div>
+			</div>
+		</div>
+	</form>
 </div>

@@ -550,11 +550,40 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 
 	this.Staff = {};
 
+	/**
+	 * Get the list of staff members.
+	 *
+	 * @return Promise of staff array
+	 */
 	this.Staff.get = function() {
 		return $http.get("/api/staff/staff.php")
 			.then(function(res) {
 				return res.data;
 			});
+	};
+
+	/**
+	 * Add a member to the staff.
+	 *
+	 * @param member
+	 * @return Promise of http response
+	 */
+	this.Staff.addMember = function(member) {
+		return $http.post("/api/staff/staff.php", member);
+	};
+
+	/**
+	 * Remove a member from the staff.
+	 *
+	 * @param positionID
+	 * @return Promise of http response
+	 */
+	this.Staff.removeMember = function(positionID) {
+		return $http.delete("/api/staff/staff.php", {
+			params: {
+				positionID: positionID
+			}
+		});
 	};
 
 	this.Users = {};

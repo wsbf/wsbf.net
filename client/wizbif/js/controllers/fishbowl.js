@@ -47,8 +47,6 @@ fishbowlModule.controller("FishbowlLogCtrl", ["$scope", "$uibModal", "alert", "d
 	};
 
 	$scope.deleteItem = function(fishbowlLogID) {
-		console.log(fishbowlLogID);
-
 		db.Fishbowl.deleteLogItem(fishbowlLogID)
 			.then(function() {
 				alert.success("Fishbowl item deleted.");
