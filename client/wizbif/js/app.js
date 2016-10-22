@@ -95,6 +95,10 @@ app.config(["$routeProvider", function($routeProvider) {
 			templateUrl: "views/schedule_admin.html",
 			controller: "ScheduleCtrl"
 		})
+		.when("/schedule/interns", {
+			templateUrl: "views/schedule_interns.html",
+			controller: "ScheduleInternsCtrl"
+		})
 		.when("/showsub", {
 			templateUrl: "views/showsub.html",
 			controller: "ShowSubCtrl"
