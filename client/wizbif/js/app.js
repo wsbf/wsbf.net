@@ -4,6 +4,7 @@ var app = angular.module("wizbif", [
 	"ui.bootstrap",
 	"wizbif.main",
 	"wizbif.archives",
+	"wizbif.carts",
 	"wizbif.fishbowl-admin",
 	"wizbif.fishbowl",
 	"wizbif.import",
@@ -28,6 +29,13 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/archives", {
 			templateUrl: "views/archives.html",
 			controller: "ArchivesCtrl"
+		})
+		.when("/carts/admin", {
+			redirectTo: "/carts/admin/t/0"
+		})
+		.when("/carts/admin/t/:cart_typeID", {
+			templateUrl: "views/carts_admin.html",
+			controller: "CartsCtrl"
 		})
 		.when("/fishbowl/admin", {
 			templateUrl: "views/fishbowl_admin.html",

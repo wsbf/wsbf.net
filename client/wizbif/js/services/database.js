@@ -56,6 +56,53 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		return api.Defs.get({ table: tableName });
 	};
 
+	this.Carts = {};
+
+	/**
+	 * Get the carts of a cart type.
+	 *
+	 * @param cart_typeID
+	 * @return Promise of carts array
+	 */
+	this.Carts.getCarts = function(cart_typeID) {
+		return $http.get("/api/carts/carts.php", {
+			params: {
+				cart_typeID: cart_typeID
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Get a cart.
+	 *
+	 * @param cartID
+	 * @return Promise of cart object
+	 */
+	this.Carts.getCart = function(cartID) {
+		return $http.get("/api/carts/cart.php", {
+			params: {
+				cartID: cartID
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
+	 * Save a cart.
+	 *
+	 * @param cart
+	 * @return Promise of http response
+	 */
+	this.Carts.saveCart = function(cart) {
+		return $http.post("/api/carts/cart.php", cart)
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
 	this.Fishbowl = {};
 
 	/**
