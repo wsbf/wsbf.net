@@ -25,15 +25,31 @@ app.config(["$routeProvider", function($routeProvider) {
 			templateUrl: "views/slider_main.html",
 			controller: "CarouselCtrl"
 		})
-		.when("/philosophy", {
-			templateUrl: "views/philosophy.html"
+		.when("/booking", {
+			templateUrl: "views/booking.html"
 		})
-		.when("/staff", {
-			templateUrl: "views/staff.html",
-			controller: "StaffCtrl"
+		.when("/charts", {
+			redirectTo: "/charts/albums"
+		})
+		.when("/charts/albums", {
+			templateUrl: "views/charts_albums.html",
+			controller: "AlbumChartCtrl"
+		})
+		.when("/charts/tracks", {
+			templateUrl: "views/charts_tracks.html",
+			controller: "TrackChartCtrl"
+		})
+		.when("/contact", {
+			templateUrl: "views/contact.html"
 		})
 		.when("/history", {
 			templateUrl: "views/history.html"
+		})
+		.when("/join", {
+			templateUrl: "views/join.html"
+		})
+		.when("/philosophy", {
+			templateUrl: "views/philosophy.html"
 		})
 		.when("/playlists", {
 			redirectTo: "/playlists/page/0"
@@ -47,37 +63,18 @@ app.config(["$routeProvider", function($routeProvider) {
 		.when("/playlists/show/:showID", {
 			templateUrl: "views/show.html"
 		})
-		.when("/schedule/:dayID?", {
-			templateUrl: "views/schedule.html"
-		})
-		.when("/charts", {
-			redirectTo: "/charts/albums"
-		})
-		.when("/charts/albums", {
-			templateUrl: "views/charts_albums.html",
-			controller: "AlbumChartCtrl"
-		})
-		.when("/charts/tracks", {
-			templateUrl: "views/charts_tracks.html",
-			controller: "TrackChartCtrl"
-		})
-		.when("/equipment", {
-			templateUrl: "views/equipment.html"
+		.when("/promotion", {
+			templateUrl: "views/promotion.html"
 		})
 		.when("/recording", {
 			templateUrl: "views/recording.html"
 		})
-		.when("/booking", {
-			templateUrl: "views/booking.html"
+		.when("/schedule/:dayID?", {
+			templateUrl: "views/schedule.html"
 		})
-		.when("/join", {
-			templateUrl: "views/join.html"
-		})
-		.when("/promotion", {
-			templateUrl: "views/promotion.html"
-		})
-		.when("/contact", {
-			templateUrl: "views/contact.html"
+		.when("/staff", {
+			templateUrl: "views/staff.html",
+			controller: "StaffCtrl"
 		})
 		.otherwise("/");
 }]);
