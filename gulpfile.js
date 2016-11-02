@@ -29,6 +29,7 @@ gulp.task("api", function() {
 	return gulp.src([
 		path.join(SRC, "api/auth/**"),
 		path.join(SRC, "api/blog/**"),
+		path.join(SRC, "api/carts/**"),
 		path.join(SRC, "api/charts/**"),
 		path.join(SRC, "api/fishbowl/**"),
 		path.join(SRC, "api/import/**"),
