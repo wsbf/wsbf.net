@@ -50,27 +50,9 @@
 			</div>
 		</div>
 
-		<div class="form-group" ng-class="{'has-error': form.liveShows.$touched && form.liveShows.$invalid}">
-			<label class="col-sm-3 control-label">Live Shows</label>
-			<div class="col-sm-6">
-				<textarea class="form-control" name="liveShows" ng-model="app.liveShows" rows="8" required></textarea>
-				<span class="help-block">Did you help set up for live shows or events? List and describe briefly.</span>
-			</div>
-		</div>
-
-		<div class="form-group" ng-show="info.fall">
-			<label class="col-sm-3 control-label">Shark Week</label>
-			<div class="col-sm-6">
-				<textarea class="form-control" name="springFest" ng-model="app.springFest" rows="8"></textarea>
-				<span class="help-block">Did you help with Shark Week? In what capacity? Tell us about it.</span>
-			</div>
-		</div>
-
 		<div class="form-group">
-			<label class="col-sm-3 control-label">Miscellaneous</label>
-			<div class="col-sm-6">
-				<textarea class="form-control" name="other" ng-model="app.other" rows="8"></textarea>
-				<span class="help-block">Is there anything else that you've done for the station?</span>
+			<div class="col-sm-offset-3 col-sm-6">
+				<p class="form-control-static"><em>Use the <a href="#/fishbowl/log">fishbowl log</a> to document what you did for WSBF this semester (promo table, events, etc.).</em></p>
 			</div>
 		</div>
 

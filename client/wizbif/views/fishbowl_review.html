@@ -21,20 +21,21 @@
 		<dt>Specialty Show?</dt>
 		<dd>{{app.specialty ? 'Yes' : 'No'}}</dd>
 
-		<dt>Live Shows</dt>
-		<dd>
-			<pre>{{app.liveShows}}</pre>
-		</dd>
+		<table class="table">
+			<thead>
+				<th class="col-xs-2">Date</th>
+				<th class="col-xs-2">Type</th>
+				<th class="col-xs-8">Description</th>
+			</thead>
 
-		<dt>Shark Week</dt>
-		<dd>
-			<pre>{{app.springFest}}</pre>
-		</dd>
-
-		<dt>Miscellaneous</dt>
-		<dd>
-			<pre>{{app.other}}</pre>
-		</dd>
+			<tbody>
+				<tr ng-repeat="f in app.log">
+					<td>{{f.date}}</td>
+					<td>{{fishbowl_log_types[f.log_type].type}}</td>
+					<td>{{f.description}}</td>
+				</tr>
+			</tbody>
+		</table>
 	</dl>
 
 	<div class="form-group">

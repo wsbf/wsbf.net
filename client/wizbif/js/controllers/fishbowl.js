@@ -23,7 +23,7 @@ fishbowlModule.controller("FishbowlAppCtrl", ["$scope", "$location", "db", "aler
 	// initialize
 	db.Fishbowl.getInfo().then(function(info) {
 		$scope.info = info;
-		$scope.info.missed = info.deadline < Date.now();
+		$scope.info.missed = (info.deadline < Date.now());
 	});
 }]);
 

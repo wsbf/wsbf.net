@@ -82,6 +82,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 }]);
 
 fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", function($scope, db) {
+	$scope.fishbowl_log_types = db.getDefs("fishbowl_log_types");
 	$scope.index = -1;
 	$scope.app = {};
 
