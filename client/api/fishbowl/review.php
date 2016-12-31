@@ -23,17 +23,26 @@ function get_fishbowl_app($mysqli, $id)
 		"u.preferred_name",
 		"f.semesters",
 		"f.missedShows",
-		"f.liveShows",
-		"f.springFest",
 		"f.specialty",
-		"f.dead_hours",
-		"f.other"
+		"f.dead_hours"
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl` AS f "
 		. "INNER JOIN `users` AS u ON u.username=f.username "
 		. "WHERE f.id='$id';";
 	$app = exec_query($mysqli, $q)->fetch_assoc();
+
+	// get fishbowl log
+	$log_keys = array(
+		"fishbowlLogID",
+		"date",
+		"log_type",
+		"description"
+	);
+
+	$q = "SELECT " . implode(",", $log_keys) . " FROM `fishbowl_log` "
+		. "WHERE username='$app[username]';";
+	$app["log"] = fetch_array(exec_query($mysqli, $q));
 
 	// cast boolean fields
 	$app["specialty"] = (bool) $app["specialty"];
