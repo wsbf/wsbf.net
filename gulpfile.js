@@ -38,6 +38,7 @@ gulp.task("api", function() {
 		path.join(SRC, "api/schedule/**"),
 		path.join(SRC, "api/shows/**"),
 		path.join(SRC, "api/showsub/**"),
+		path.join(SRC, "api/staff/**"),
 		path.join(SRC, "api/users/**"),
 		path.join(SRC, "api/zautomate/**"),
 		path.join(SRC, "api/connect.php"),
