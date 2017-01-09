@@ -40,7 +40,7 @@ function get_fishbowl_log($mysqli)
 function validate_fishbowl_item($mysqli, $item)
 {
 	if ( empty($item["date"])
-	  || empty($item["log_type"]) ) {
+	  || !is_numeric($item["log_type"]) ) {
 		return false;
 	}
 
