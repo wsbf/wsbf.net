@@ -48,6 +48,9 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	// insert password reset request
 	$transaction_id = bin2hex(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM));
 
+	$q = "DELETE FROM `password_reset` WHERE username = '$username';";
+	exec_query($mysqli, $q);
+
 	$q = "INSERT INTO `password_reset` SET "
 		. "transaction_id = '$transaction_id',"
 		. "username = '$username',"
