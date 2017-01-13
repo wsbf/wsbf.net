@@ -31,6 +31,13 @@
 			</div>
 		</div>
 
+		<div class="form-group" ng-class="{'has-error': form.rotationID.$touched && form.rotationID.$invalid}">
+			<label class="col-sm-3 control-label">Rotation</label>
+			<div class="col-sm-6">
+				<select class="form-control input-sm" ng-model="album.rotationID" ng-options="r.rotationID as r.rotation_bin for r in rotations" required></select>
+			</div>
+		</div>
+
 		<div class="form-group" ng-class="{'has-error': form.general_genreID.$touched && form.general_genreID.$invalid}">
 			<label class="col-sm-3 control-label">General Genre</label>
 			<div class="col-sm-6">

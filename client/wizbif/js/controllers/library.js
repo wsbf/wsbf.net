@@ -6,16 +6,19 @@ var libraryModule = angular.module("wizbif.library", [
 	"wizbif.database"
 ]);
 
-libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "$location", "alert", "db", function($scope, $routeParams, $window, $location, alert, db) {
+libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "$location", "$q", "alert", "db", function($scope, $routeParams, $window, $location, $q, alert, db) {
 	$scope.rotations = db.getDefs("rotations");
 	$scope.general_genres = db.getDefs("general_genres");
+
 	$scope.rotationID = $routeParams.rotationID;
 	$scope.general_genreID = $routeParams.general_genreID;
 	$scope.query = $routeParams.query;
 	$scope.page = Number.parseInt($routeParams.page);
-	$scope.albums = [];
 
-	$scope.select = function(rotationID, general_genreID, query, page, admin) {
+	$scope.albums = [];
+	$scope.selectedAll = false;
+
+	$scope.go = function(rotationID, general_genreID, query, page, admin) {
 		var url_base = admin
 			? "/library/admin"
 			: "/library";
@@ -34,60 +37,90 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "$
 		$location.url(url);
 	};
 
+	/**
+	 * Select or unselect all albums.
+	 *
+	 * @param selectedAll
+	 */
+	$scope.setSelectedAll = function(selectedAll) {
+		$scope.selectedAll = selectedAll;
+
+		$scope.albums.forEach(function(album) {
+			album.selected = selectedAll;
+		});
+	};
+
+	/**
+	 * Move all selected albums down one rotation.
+	 *
+	 * @param albums
+	 */
 	$scope.moveRotation = function(albums) {
 		albums = albums
 			.filter(function(a) {
-				return a.rotationID !== $scope.rotationID;
+				return a.selected;
 			})
 			.map(function(a) {
 				return {
-					albumID: a.albumID,
-					rotationID: a.rotationID
+					albumID: a.albumID
 				};
 			});
 
 		db.Library.moveRotation(albums).then(function() {
 			alert.success("Rotation successfully moved.");
-			$scope.select($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page, true);
+			$scope.go($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page, true);
 		}, function(res) {
 			alert.error(res.data || res.statusText);
 		});
 	};
 
+	/**
+	 * Print labels for all selected albums.
+	 *
+	 * @param albums
+	 */
 	$scope.printLabels = function(albums) {
-		// collect album IDs that are checked
-		var albumIDs = albums
+		albums = albums
 			.filter(function(a) {
-				return a.label;
+				return a.selected;
 			})
 			.map(function(a) {
-				return a.albumID;
+				return {
+					albumID: a.albumID
+				};
 			});
 
 		// create url and open in new tab
-		var param = albumIDs.map(function(a) {
-			return "albums[]=" + a;
+		var param = albums.map(function(a) {
+			return "albums[]=" + a.albumID;
 		}).join("&");
 
 		$window.open("/api/library/print_labels.php?" + param);
 
-		// clear checkboxes
-		albums.forEach(function(a) {
-			a.label = false;
-		});
+		$scope.setSelectedAll(false);
 	};
 
-	$scope.deleteAlbum = function(albums, index) {
-		var album = albums[index];
+	/**
+	 * Delete all selected albums.
+	 *
+	 * @param albums
+	 */
+	$scope.deleteAlbums = function(albums) {
+		albums = albums.filter(function(album) {
+			return album.selected;
+		});
 
-		if ( confirm("Delete album " + album.albumID + "?") ) {
-			db.Library.deleteAlbum(album.albumID)
-				.then(function() {
-					albums.splice(index, 1);
-					alert.success("Album deleted.");
-				}, function(res) {
-					alert.error(res.data || res.statusText);
-				});
+		if ( confirm("Delete " + albums.length + " albums?") ) {
+			var promises = albums.map(function(album) {
+				return db.Library.deleteAlbum(album.albumID);
+			});
+
+			$q.all(promises).then(function() {
+				alert.success("Albums deleted.");
+				$scope.go($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page, true);
+			}, function(res) {
+				alert.error(res.data || res.statusText);
+			});
 		}
 	};
 
@@ -99,6 +132,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "$
 }]);
 
 libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {
+	$scope.rotations = db.getDefs("rotations");
 	$scope.general_genres = db.getDefs("general_genres");
 	$scope.airability = db.getDefs("airability");
 	$scope.album = {};

@@ -40,15 +40,21 @@
 		<hr>
 
 		<div class="row">
-			<div class="col-sm-6">
-				<select class="form-control" ng-model="general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres" ng-change="select(rotationID, general_genreID, null, 0, true)">
+			<div class="col-sm-4">
+				<select class="form-control" ng-model="general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres" ng-change="go(rotationID, general_genreID, null, 0, true)">
 					<option value="">All Genres</option>
 				</select>
 			</div>
 
-			<div class="col-sm-6">
-				<button class="btn btn-sm" ng-click="page > 0 && select(rotationID, general_genreID, query, page - 1, true)" ng-disabled="page == 0">newer</button>
-				<button class="btn btn-sm" ng-click="select(rotationID, general_genreID, query, page + 1, true)">older</button>
+			<div class="col-sm-4">
+				<button class="btn btn-sm" ng-click="page > 0 && go(rotationID, general_genreID, query, page - 1, true)" ng-disabled="page == 0">newer</button>
+				<button class="btn btn-sm" ng-click="go(rotationID, general_genreID, query, page + 1, true)">older</button>
+			</div>
+
+			<div class="col-sm-4 text-right">
+				<button class="btn btn-sm" ng-click="moveRotation(albums)">Move Rotation</button>
+				<button class="btn btn-sm" ng-show="rotationID != 0" ng-click="printLabels(albums)">Print Labels</button>
+				<button class="btn btn-sm" ng-show="rotationID == 0" ng-click="deleteAlbums(albums)">Delete</button>
 			</div>
 		</div>
 	</div>
@@ -59,13 +65,9 @@
 			<th>Album</th>
 			<th>Artist</th>
 			<th ng-show="rotationID == 0">Genre</th>
-			<th ng-show="rotationID == 0"></th>
 			<th ng-show="rotationID != 0">Review Date</th>
-			<th class="text-right" ng-show="rotationID != 0">
-				<button type="button" class="btn btn-sm" ng-click="moveRotation(albums)">Move Rotation</button>
-			</th>
-			<th class="text-right" ng-show="rotationID != 0">
-				<button type="button" class="btn btn-sm" ng-click="printLabels(albums)">Print Labels</button>
+			<th class="text-center">
+				<input type="checkbox" ng-model="selectedAll" ng-click="setSelectedAll(selectedAll)"/>
 			</th>
 		</thead>
 
@@ -77,15 +79,9 @@
 				<td>{{a.album_name}}</td>
 				<td>{{a.artist_name}}</td>
 				<td ng-show="rotationID == 0">{{general_genres[a.general_genreID].genre}}</td>
-				<td ng-show="rotationID == 0" class="text-center">
-					<span class="button-icon" ng-click="deleteAlbum(albums, $index)">&times;</span>
-				</td>
 				<td ng-show="rotationID != 0">{{a.review_date | date:'yyyy-MM-dd'}}</td>
-				<td ng-show="rotationID != 0">
-					<select class="form-control input-sm" ng-model="a.rotationID" ng-options="r.rotationID as r.rotation_bin for r in rotations" required></select>
-				</td>
-				<td class="text-center" ng-show="rotationID != 0">
-					<input type="checkbox" ng-model="a.label"/>
+				<td class="text-center">
+					<input type="checkbox" ng-model="a.selected"/>
 				</td>
 			</tr>
 		</tbody>
