@@ -27,8 +27,9 @@ function get_album($mysqli, $albumID)
 		"al.album_name",
 		"ar.artist_name",
 		"la.label",
-		"al.genre",
+		"al.rotationID",
 		"al.general_genreID",
+		"al.genre",
 		"UNIX_TIMESTAMP(r.review_date) * 1000 AS review_date",
 		"r.review",
 		"u.preferred_name AS reviewer"
@@ -87,6 +88,7 @@ function validate_album($mysqli, $album)
 	  || empty($album["artist_name"])
 	  || empty($album["album_name"])
 	  || empty($album["label"])
+	  || !is_numeric($album["rotationID"])
 	  || !is_numeric($album["general_genreID"])
 	  || empty($album["genre"])
 	  || !is_array($album["tracks"]) ) {
@@ -105,7 +107,7 @@ function validate_album($mysqli, $album)
 	$assoc = $result->fetch_assoc();
 	$rotationID = $assoc["rotationID"];
 
-	if ( $rotationID != 0 ) {
+	if ( $rotationID != "0" ) {
 		// reviewed albums should have a review
 		// (reviewer username is fixed upon review)
 		if ( empty($album["review"]) ) {
@@ -153,6 +155,7 @@ function update_album($mysqli, $album)
 		. "album_name = '$album[album_name]', "
 		. "artistID = '$artistID', "
 		. "labelID = '$labelID', "
+		. "rotationID = '$album[rotationID]', "
 		. "general_genreID = '$album[general_genreID]', "
 		. "genre = '$album[genre]' "
 		. "WHERE albumID = '$album[albumID]';";

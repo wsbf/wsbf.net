@@ -50,15 +50,39 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 }
 
 /**
- * Move albums through rotation.
+ * Move albums to the next rotation slot.
+ *
+ * Albums in Optional and Jazz are not moved.
  *
  * @param mysqli
  * @param albums
  */
 function move_rotation($mysqli, $albums)
 {
+	// get rotationID of first album
+	// (assume the other albums have the same rotationID)
+	$albumID = $albums[0]["albumID"];
+
+	$q = "SELECT rotationID FROM `libalbum`"
+		. "WHERE albumID = '$albumID';";
+	$assoc = exec_query($mysqli, $q)->fetch_assoc();
+	$src = $assoc["rotationID"];
+
+	// move each album to next rotation slot
+	$rotationMap = array(
+		"0" => "7",
+		"7" => "1",
+		"1" => "2",
+		"2" => "3",
+		"3" => "4",
+		"4" => "5",
+		"5" => "5",
+		"6" => "6"
+	);
+	$dst = $rotationMap[$src];
+
 	foreach ( $albums as $a ) {
-		$q = "UPDATE `libalbum` SET rotationID = '$a[rotationID]' "
+		$q = "UPDATE `libalbum` SET rotationID = '$dst' "
 			. " WHERE albumID = '$a[albumID]';";
 		exec_query($mysqli, $q);
 	}
@@ -112,7 +136,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 
 	// validate albums
 	foreach ( $albums as $a ) {
-		if ( !is_numeric($a["albumID"]) || !is_numeric($a["rotationID"]) ) {
+		if ( !is_numeric($a["albumID"]) ) {
 			header("HTTP/1.1 404 Not Found");
 			exit;
 		}
