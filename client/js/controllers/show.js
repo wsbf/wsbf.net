@@ -1,19 +1,19 @@
 "use strict";
 
 var showModule = angular.module("app.show", [
-	"ngRoute",
+	"ui.router",
 	"app.database"
 ]);
 
-showModule.controller("ShowListCtrl", ["$scope", "$routeParams", "db", function($scope, $routeParams, db) {
-	$scope.page = Number.parseInt($routeParams.page);
-	$scope.shows = db.Show.getShows($routeParams.page, $routeParams.query);
+showModule.controller("ShowListCtrl", ["$scope", "$stateParams", "db", function($scope, $stateParams, db) {
+	$scope.page = Number.parseInt($stateParams.page);
+	$scope.shows = db.Show.getShows($stateParams.page, $stateParams.query);
 }]);
 
-showModule.controller("ShowCtrl", ["$scope", "$routeParams", "db", function($scope, $routeParams, db) {
+showModule.controller("ShowCtrl", ["$scope", "$stateParams", "db", function($scope, $stateParams, db) {
 	$scope.playlist = [];
 
-	db.Show.getPlaylist($routeParams.showID)
+	db.Show.getPlaylist($stateParams.showID)
 		.then(function(playlist) {
 			$scope.playlist = playlist;
 		});

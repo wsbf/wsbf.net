@@ -1,40 +1,34 @@
 "use strict";
 
 var libraryModule = angular.module("wizbif.library", [
-	"ngRoute",
+	"ui.router",
 	"wizbif.alert",
 	"wizbif.database"
 ]);
 
-libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "$location", "$q", "alert", "db", function($scope, $routeParams, $window, $location, $q, alert, db) {
+libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "alert", "db", function($scope, $q, $state, $window, alert, db) {
 	$scope.rotations = db.getDefs("rotations");
 	$scope.general_genres = db.getDefs("general_genres");
 
-	$scope.rotationID = $routeParams.rotationID;
-	$scope.general_genreID = $routeParams.general_genreID;
-	$scope.query = $routeParams.query;
-	$scope.page = Number.parseInt($routeParams.page);
+	$scope.rotationID = $state.params.rotationID;
+	$scope.general_genreID = $state.params.general_genreID;
+	$scope.query = $state.params.query;
+	$scope.page = Number.parseInt($state.params.page);
 
 	$scope.albums = [];
 	$scope.selectedAll = false;
 
 	$scope.go = function(rotationID, general_genreID, query, page, admin) {
-		var url_base = admin
-			? "/library/admin"
-			: "/library";
-		var url;
+		var state = admin
+			? "library-admin"
+			: "library";
 
-		if ( general_genreID ) {
-			url = url_base + "/r/" + rotationID + "/genre/" + general_genreID + "/page/" + page;
-		}
-		else if ( query ) {
-			url = url_base + "/r/" + rotationID + "/search/" + query + "/page/" + page;
-		}
-		else {
-			url = url_base + "/r/" + rotationID + "/page/" + page;
-		}
-
-		$location.url(url);
+		$state.go(state, {
+			rotationID: rotationID,
+			general_genreID: general_genreID,
+			query: query,
+			page: page
+		});
 	};
 
 	/**
@@ -119,8 +113,8 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "$
 			});
 
 			$q.all(promises).then(function() {
+				$state.reload();
 				alert.success("Albums deleted.");
-				$scope.go($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page, true);
 			}, function(res) {
 				alert.error(res.data || res.statusText);
 			});
@@ -134,15 +128,15 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$routeParams", "$window", "$
 		});
 }]);
 
-libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$location", "db", "alert", function($scope, $routeParams, $location, db, alert) {
+libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$state", "db", "alert", function($scope, $state, db, alert) {
 	$scope.rotations = db.getDefs("rotations");
 	$scope.general_genres = db.getDefs("general_genres");
 	$scope.airability = db.getDefs("airability");
 	$scope.album = {};
 	$scope.related_artists = [];
 
-	var getAlbum = function() {
-		db.Library.getAlbum($routeParams.albumID)
+	var getAlbum = function(albumID) {
+		db.Library.getAlbum(albumID)
 			.then(function(album) {
 				$scope.album = album;
 
@@ -153,18 +147,18 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$locati
 			});
 	};
 
-	$scope.save = function() {
-		db.Library.saveAlbum($scope.album).then(function() {
-			$location.url("/library/admin");
+	$scope.save = function(album) {
+		db.Library.saveAlbum(album).then(function() {
+			$state.go("library-admin");
 			alert.success("Album successfully saved.");
 		}, function(res) {
 			alert.error(res.data || res.statusText);
 		});
 	};
 
-	$scope.review = function() {
-		db.Library.reviewAlbum($scope.album).then(function() {
-			$location.url("/library");
+	$scope.review = function(album) {
+		db.Library.reviewAlbum(album).then(function() {
+			$state.go("library");
 			alert.success("Album successfully reviewed!");
 		}, function(res) {
 			alert.error(res.data || res.statusText);
@@ -172,5 +166,5 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$routeParams", "$locati
 	};
 
 	// initialize
-	getAlbum();
+	getAlbum($state.params.albumID);
 }]);

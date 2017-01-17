@@ -1,7 +1,7 @@
 "use strict";
 var app = angular.module("wizbif", [
-	"ngRoute",
 	"ui.bootstrap",
+	"ui.router",
 	"wizbif.main",
 	"wizbif.archives",
 	"wizbif.carts",
@@ -21,115 +21,132 @@ app.config(["$compileProvider", function($compileProvider) {
 	$compileProvider.debugInfoEnabled(false);
 }]);
 
-app.config(["$routeProvider", function($routeProvider) {
-	$routeProvider
-		.when("/", {
+app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+	$stateProvider
+		.state("home", {
+			url: "/",
 			templateUrl: "views/home.html"
 		})
-		.when("/archives", {
+		.state("archives", {
+			url: "/archives",
 			templateUrl: "views/archives.html",
 			controller: "ArchivesCtrl"
 		})
-		.when("/carts/admin", {
-			redirectTo: "/carts/admin/t/0"
-		})
-		.when("/carts/admin/t/:cart_typeID", {
+		.state("carts-admin", {
+			url: "/carts/admin/t/:cart_typeID",
+			params: {
+				cart_typeID: "0"
+			},
 			templateUrl: "views/carts_admin.html",
 			controller: "CartsCtrl"
 		})
-		.when("/fishbowl/admin", {
+		.state("fishbowl-admin", {
+			url: "/fishbowl/admin",
 			templateUrl: "views/fishbowl_admin.html",
 			controller: "FishbowlAdminCtrl"
 		})
-		.when("/fishbowl/app", {
+		.state("fishbowl-app", {
+			url: "/fishbowl/app",
 			templateUrl: "views/fishbowl_app.html",
 			controller: "FishbowlAppCtrl"
 		})
-		.when("/fishbowl/log", {
+		.state("fishbowl-log", {
+			url: "/fishbowl/log",
 			templateUrl: "views/fishbowl_log.html",
 			controller: "FishbowlLogCtrl"
 		})
-		.when("/import", {
+		.state("import", {
+			url: "/import",
 			templateUrl: "views/import.html",
 			controller: "ImportCtrl"
 		})
-		.when("/library", {
-			redirectTo: "/library/r/0/page/0"
-		})
-		.when("/library/r/:rotationID/page/:page", {
+		.state("library", {
+			url: "/library/r/:rotationID",
+			params: {
+				rotationID: "0",
+				general_genreID: null,
+				query: null,
+				page: "0"
+			},
 			templateUrl: "views/library.html",
 			controller: "LibraryCtrl"
 		})
-		.when("/library/r/:rotationID/genre/:general_genreID/page/:page", {
-			templateUrl: "views/library.html",
-			controller: "LibraryCtrl"
-		})
-		.when("/library/r/:rotationID/search/:query/page/:page", {
-			templateUrl: "views/library.html",
-			controller: "LibraryCtrl"
-		})
-		.when("/library/admin", {
-			redirectTo: "/library/admin/r/7/page/0"
-		})
-		.when("/library/admin/r/:rotationID/page/:page", {
+		.state("library-admin", {
+			url: "/library/admin/r/:rotationID",
+			params: {
+				rotationID: "0",
+				general_genreID: null,
+				query: null,
+				page: "0"
+			},
 			templateUrl: "views/library_admin.html",
 			controller: "LibraryCtrl"
 		})
-		.when("/library/admin/r/:rotationID/genre/:general_genreID/page/:page", {
-			templateUrl: "views/library_admin.html",
-			controller: "LibraryCtrl"
-		})
-		.when("/library/album/:albumID", {
+		.state("library-album", {
+			url: "/library/album/:albumID",
 			templateUrl: "views/library_album.html",
 			controller: "LibraryAlbumCtrl"
 		})
-		.when("/library/album/:albumID/edit", {
+		.state("library-album-edit", {
+			url: "/library/album/:albumID/edit",
 			templateUrl: "views/library_album_edit.html",
 			controller: "LibraryAlbumCtrl"
 		})
-		.when("/library/album/:albumID/review", {
+		.state("library-album-review", {
+			url: "/library/album/:albumID/review",
 			templateUrl: "views/library_album_review.html",
 			controller: "LibraryAlbumCtrl"
 		})
-		.when("/logbook", {
+		.state("logbook", {
+			url: "/logbook",
 			templateUrl: "views/logbook.html",
 			controller: "LogbookCtrl"
 		})
-		.when("/schedule", {
+		.state("schedule", {
+			url: "/schedule",
 			templateUrl: "views/schedule.html",
 			controller: "ScheduleCtrl"
 		})
-		.when("/schedule/admin", {
+		.state("schedule-admin", {
+			url: "/schedule/admin",
 			templateUrl: "views/schedule_admin.html",
 			controller: "ScheduleCtrl"
 		})
-		.when("/schedule/interns", {
+		.state("schedule-interns", {
+			url: "/schedule/interns",
 			templateUrl: "views/schedule_interns.html",
 			controller: "ScheduleInternsCtrl"
 		})
-		.when("/showsub", {
+		.state("showsub", {
+			url: "/showsub",
 			templateUrl: "views/showsub.html",
 			controller: "ShowSubCtrl"
 		})
-		.when("/staff/admin", {
+		.state("staff-admin", {
+			url: "/staff/admin",
 			templateUrl: "views/staff.html",
 			controller: "StaffCtrl"
 		})
-		.when("/users", {
+		.state("users", {
+			url: "/users",
 			templateUrl: "views/users.html",
 			controller: "UsersCtrl"
 		})
-		.when("/users/:username/edit", {
+		.state("user", {
+			url: "/users/:username/edit",
 			templateUrl: "views/user_edit.html",
 			controller: "UserCtrl"
 		})
-		.when("/users/admin", {
+		.state("users-admin", {
+			url: "/users/admin",
 			templateUrl: "views/users_admin.html",
 			controller: "UsersAdminCtrl"
 		})
-		.when("/users/reviews", {
+		.state("users-reviews", {
+			url: "/users/reviews",
 			templateUrl: "views/users_reviews.html",
 			controller: "UsersReviewsCtrl"
-		})
-		.otherwise("/");
+		});
+
+		$urlRouterProvider.otherwise("/");
 }]);

@@ -1,13 +1,15 @@
 "use strict";
 
-var resetPasswordModule = angular.module("app.reset-password", []);
+var resetPasswordModule = angular.module("app.reset-password", [
+	"ui.router"
+]);
 
-resetPasswordModule.controller("ResetPasswordCtrl", ["$scope", "$routeParams", "$http", function($scope, $routeParams, $http) {
+resetPasswordModule.controller("ResetPasswordCtrl", ["$scope", "$stateParams", "$http", function($scope, $stateParams, $http) {
 	$scope.submitted = false;
 
 	$scope.submit = function(password) {
 		$http.post("/api/auth/password_reset.php", {
-			transactionID: $routeParams.transactionID,
+			transactionID: $stateParams.transactionID,
 			password: password
 		}).then(function() {
 			$scope.submitted = true;

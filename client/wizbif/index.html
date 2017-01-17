@@ -10,8 +10,8 @@
 
 		<script src="/bower_components/angular/angular.min.js"></script>
 		<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
-		<script src="/bower_components/angular-route/angular-route.min.js"></script>
 		<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+		<script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 		<script src="/bower_components/lodash/dist/lodash.min.js"></script>
 		<script src="/bower_components/ng-file-upload/ng-file-upload.min.js"></script>
 
@@ -62,10 +62,10 @@
 						<div class="panel-heading">Users</div>
 
 						<div class="list-group">
-							<a class="list-group-item" href="#/">Home</a>
+							<a class="list-group-item" ui-sref="home">Home</a>
 							<!-- TODO: move to public website -->
-							<a class="list-group-item" href="#/schedule">Show Schedule</a>
-							<a class="list-group-item" href="#/users/{{user.username}}/edit">User Profile</a>
+							<a class="list-group-item" ui-sref="schedule">Show Schedule</a>
+							<a class="list-group-item" ui-sref="user({ username: user.username })">User Profile</a>
 							<a class="list-group-item" href="/api/auth/logout.php">Log out</a>
 						</div>
 					</div>
@@ -74,14 +74,14 @@
 						<div class="panel-heading">Members</div>
 
 						<div class="list-group">
-							<a class="list-group-item" href="#/archives">Archives</a>
-							<a class="list-group-item" href="#/fishbowl/app">Fishbowl App</a>
-							<a class="list-group-item" href="#/fishbowl/log">Fishbowl Log</a>
-							<a class="list-group-item" href="#/library">Music Library</a>
-							<a class="list-group-item" href="#/logbook">Logbook</a>
-							<a class="list-group-item" href="#/showsub">Show Sub Requests</a>
-							<a class="list-group-item" href="#/users">User Directory</a>
-							<a class="list-group-item" href="#/users/reviews">Album Reviews</a>
+							<a class="list-group-item" ui-sref="archives">Archives</a>
+							<a class="list-group-item" ui-sref="fishbowl-app">Fishbowl App</a>
+							<a class="list-group-item" ui-sref="fishbowl-log">Fishbowl Log</a>
+							<a class="list-group-item" ui-sref="library">Music Library</a>
+							<a class="list-group-item" ui-sref="logbook">Logbook</a>
+							<a class="list-group-item" ui-sref="showsub">Show Sub Requests</a>
+							<a class="list-group-item" ui-sref="users">User Directory</a>
+							<a class="list-group-item" ui-sref="users-reviews">Album Reviews</a>
 						</div>
 					</div>
 
@@ -89,20 +89,20 @@
 						<div class="panel-heading">Senior Staff</div>
 
 						<div class="list-group">
-							<a class="list-group-item" href="#/carts/admin">Carts Control Panel</a>
-							<a class="list-group-item" href="#/fishbowl/admin">Fishbowl Control Panel</a>
-							<a class="list-group-item" href="#/import">Import Control Panel</a>
-							<a class="list-group-item" href="#/library/admin">Library Control Panel</a>
-							<a class="list-group-item" href="#/schedule/interns">Intern Scheduler</a>
-							<a class="list-group-item" href="#/schedule/admin">Schedule Control Panel</a>
-							<a class="list-group-item" href="#/staff/admin">Staff Control Panel</a>
-							<a class="list-group-item" href="#/users/admin">User Control Panel</a>
+							<a class="list-group-item" ui-sref="carts-admin">Carts Control Panel</a>
+							<a class="list-group-item" ui-sref="fishbowl-admin">Fishbowl Control Panel</a>
+							<a class="list-group-item" ui-sref="import">Import Control Panel</a>
+							<a class="list-group-item" ui-sref="library-admin">Library Control Panel</a>
+							<a class="list-group-item" ui-sref="schedule-interns">Intern Scheduler</a>
+							<a class="list-group-item" ui-sref="schedule-admin">Schedule Control Panel</a>
+							<a class="list-group-item" ui-sref="staff-admin">Staff Control Panel</a>
+							<a class="list-group-item" ui-sref="users-admin">User Control Panel</a>
 						</div>
 					</div>
 				</div>
 
 				<div class="col-xs-9 col-md-10">
-					<div ng-view></div>
+					<ui-view></ui-view>
 				</div>
 			</div>
 		</div>

@@ -1,15 +1,15 @@
 "use strict";
 
 var cartModule = angular.module("wizbif.carts", [
-	"ngRoute",
 	"ui.bootstrap",
+	"ui.router",
 	"wizbif.alert",
 	"wizbif.database"
 ]);
 
-cartModule.controller("CartsCtrl", ["$scope", "$routeParams", "$uibModal", "$rootScope", "alert", "db", function($scope, $routeParams, $uibModal, $rootScope, alert, db) {
+cartModule.controller("CartsCtrl", ["$scope", "$stateParams", "$uibModal", "$rootScope", "alert", "db", function($scope, $stateParams, $uibModal, $rootScope, alert, db) {
 	$scope.cart_types = db.getDefs("cart_type");
-	$scope.cart_typeID = $routeParams.cart_typeID;
+	$scope.cart_typeID = $stateParams.cart_typeID;
 	$scope.carts = [];
 
 	var getCarts = function(cart_typeID) {

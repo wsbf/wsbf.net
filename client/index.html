@@ -25,8 +25,8 @@
 		<script src="/bower_components/angular/angular.min.js"></script>
 		<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
 		<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
-		<script src="/bower_components/angular-route/angular-route.min.js"></script>
 		<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+		<script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 		<script src="/bower_components/lodash/dist/lodash.min.js"></script>
 
 		<script src="js/services/database.js"></script>
@@ -70,15 +70,15 @@
 							<a class="dropdown-toggle" href="" uib-dropdown-toggle>About</a>
 							<ul class="uib-dropdown-menu">
 								<li>
-									<a href="#/philosophy">Philosophy</a>
+									<a ui-sref="philosophy">Philosophy</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a href="#/history">History</a>
+									<a ui-sref="history">History</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a href="#/staff">Staff</a>
+									<a ui-sref="staff">Staff</a>
 								</li>
 							</ul>
 						</li>
@@ -86,15 +86,15 @@
 							<a class="dropdown-toggle" href="" uib-dropdown-toggle>Music</a>
 							<ul class="uib-dropdown-menu">
 								<li>
-									<a href="#/schedule">Schedule</a>
+									<a ui-sref="schedule">Schedule</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a href="#/playlists">Playlists</a>
+									<a ui-sref="playlists">Playlists</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a href="#/charts">Charting</a>
+									<a ui-sref="charts-albums">Charting</a>
 								</li>
 							</ul>
 						</li>
@@ -102,15 +102,15 @@
 							<a class="dropdown-toggle" href="" uib-dropdown-toggle>Services</a>
 							<ul class="uib-dropdown-menu">
 								<li>
-									<a href="#/booking">Booking</a>
+									<a ui-sref="booking">Booking</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a href="#/promotion">Promotion</a>
+									<a ui-sref="promotion">Promotion</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a href="#/recording">Recording</a>
+									<a ui-sref="recording">Recording</a>
 								</li>
 							</ul>
 						</li>
@@ -118,11 +118,11 @@
 							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Contact</a>
 							<ul class="uib-dropdown-menu">
 								<li>
-									<a href="#/contact">Contact</a>
+									<a ui-sref="contact">Contact</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a href="#/join">Join</a>
+									<a ui-sref="join">Join</a>
 								</li>
 								<li class="divider"></li>
 								<li>
@@ -156,13 +156,15 @@
 		<section class="container">
 			<div class="row">
 				<div class="col-md-8">
-					<div class="grid1" ng-view></div>
+					<div class="grid1">
+						<ui-view></ui-view>
+					</div>
 				</div>
 
 				<div class="col-md-4">
 					<div class="grid2" ng-controller="PlaylistCtrl">
 						<!-- Begin playlist.home -->
-						<h1>Playlist <small><a class="btn btn-default pull-right" href="#/playlists">View Show Playlists</a></small></h1>
+						<h1>Playlist <small><a class="btn btn-default pull-right" ui-sref="playlists">View Show Playlists</a></small></h1>
 						<hr>
 						<div class="scrollable">
 							<div class="media" ng-repeat="p in playlist">
@@ -206,7 +208,7 @@
 				<div class="col-md-4">
 					<div class="grid2" ng-controller="ChartWidgetCtrl">
 						<!-- Begin chart.home -->
-						<h1>Charting <small><a class="btn btn-default pull-right" href="#/charts">View More</a></small></h1>
+						<h1>Charting <small><a class="btn btn-default pull-right" ui-sref="charts-albums">View More</a></small></h1>
 						<hr>
 						<div class="scrollable">
 							<div class="media" ng-repeat="a in albums">
@@ -252,9 +254,9 @@
 						<div class="col-xs-4 col-sm-2">
 							<h4>About Us</h4>
 							<ul class="list-unstyled h4">
-								<li><a href="#/philosophy">Philosophy</a></li>
-								<li><a href="#/history">History</a></li>
-								<li><a href="#/staff">Staff</a></li>
+								<li><a ui-sref="philosophy">Philosophy</a></li>
+								<li><a ui-sref="history">History</a></li>
+								<li><a ui-sref="staff">Staff</a></li>
 								<li><a href="https://cualumni.clemson.edu/give/wsbf" target="_blank">Donate</a></li>
 							</ul>
 						</div>
@@ -262,26 +264,26 @@
 						<div class="col-xs-4 col-sm-2">
 							<h4>Music</h4>
 							<ul class="list-unstyled h4">
-								<li><a href="#/schedule">Schedule</a></li>
-								<li><a href="#/playlists">Playlists</a></li>
-								<li><a href="#/charts">Charting</a></li>
+								<li><a ui-sref="schedule">Schedule</a></li>
+								<li><a ui-sref="playlists">Playlists</a></li>
+								<li><a ui-sref="charts-albums">Charting</a></li>
 							</ul>
 						</div>
 
 						<div class="col-xs-4 col-sm-2">
 							<h4>Services</h4>
 							<ul class="list-unstyled h4">
-								<li><a href="#/booking">Booking</a></li>
-								<li><a href="#/promotion">Promotion</a></li>
-								<li><a href="#/recording">Recording</a></li>
+								<li><a ui-sref="booking">Booking</a></li>
+								<li><a ui-sref="promotion">Promotion</a></li>
+								<li><a ui-sref="recording">Recording</a></li>
 							</ul>
 						</div>
 
 						<div class="col-xs-4 col-sm-2">
 							<h4>Get In Touch</h4>
 							<ul class="list-unstyled h4">
-								<li><a href="#/contact">Contact</a></li>
-								<li><a href="#/join">Join</a></li>
+								<li><a ui-sref="contact">Contact</a></li>
+								<li><a ui-sref="join">Join</a></li>
 								<li><a href="login/">Login</a></li>
 							</ul>
 						</div>

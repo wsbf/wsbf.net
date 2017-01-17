@@ -12,28 +12,28 @@
 	<div class="panel-body">
 		<ul class="nav nav-pills nav-justified">
 			<li ng-class="{ 'active': rotationID === '0' }">
-				<a href="#/library/admin/r/0/page/0">To Be Reviewed</a>
+				<a ui-sref="library-admin({ rotationID: '0', page: 0 })">To Be Reviewed</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '7' }">
-				<a href="#/library/admin/r/7/page/0">Recently Reviewed</a>
+				<a ui-sref="library-admin({ rotationID: '7', page: 0 })">Recently Reviewed</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '1' }">
-				<a href="#/library/admin/r/1/page/0">New</a>
+				<a ui-sref="library-admin({ rotationID: '1', page: 0 })">New</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '2' }">
-				<a href="#/library/admin/r/2/page/0">Heavy</a>
+				<a ui-sref="library-admin({ rotationID: '2', page: 0 })">Heavy</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '3' }">
-				<a href="#/library/admin/r/3/page/0">Medium</a>
+				<a ui-sref="library-admin({ rotationID: '3', page: 0 })">Medium</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '4' }">
-				<a href="#/library/admin/r/4/page/0">Light</a>
+				<a ui-sref="library-admin({ rotationID: '4', page: 0 })">Light</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '5' }">
-				<a href="#/library/admin/r/5/page/0">Optional</a>
+				<a ui-sref="library-admin({ rotationID: '5', page: 0 })">Optional</a>
 			</li>
 			<li ng-class="{ 'active': rotationID === '6' }">
-				<a href="#/library/admin/r/6/page/0">Jazz</a>
+				<a ui-sref="library-admin({ rotationID: '6', page: 0 })">Jazz</a>
 			</li>
 		</ul>
 
@@ -74,7 +74,7 @@
 		<tbody>
 			<tr ng-repeat="a in albums">
 				<td>
-					<a ng-href="#/library/album/{{a.albumID}}/edit">{{a.album_code}}</a>
+					<a ui-sref="library-album-edit({ albumID: a.albumID })">{{a.album_code}}</a>
 				</td>
 				<td>{{a.album_name}}</td>
 				<td>{{a.artist_name}}</td>

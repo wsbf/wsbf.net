@@ -1,7 +1,7 @@
 "use strict";
 
 var app = angular.module("app", [
-	"ngRoute",
+	"ui.router",
 	"app.login",
 	"app.register",
 	"app.request-password",
@@ -12,24 +12,28 @@ app.config(["$compileProvider", function($compileProvider) {
 	$compileProvider.debugInfoEnabled(false);
 }]);
 
-app.config(["$routeProvider", function($routeProvider) {
-	$routeProvider
-		.when("/", {
+app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+	$stateProvider
+		.state("login", {
+			url: "/",
 			templateUrl: "views/login.html",
 			controller: "LoginCtrl"
 		})
-		.when("/login", { redirectTo: "/" })
-		.when("/register", {
+		.state("register", {
+			url: "/register",
 			templateUrl: "views/register.html",
 			controller: "RegisterCtrl"
 		})
-		.when("/request-password", {
+		.state("request-password", {
+			url: "/request-password",
 			templateUrl: "views/request_password.html",
 			controller: "RequestPasswordCtrl"
 		})
-		.when("/reset-password/:transactionID", {
+		.state("reset-password", {
+			url: "/reset-password/:transactionID",
 			templateUrl: "views/reset_password.html",
 			controller: "ResetPasswordCtrl"
-		})
-		.otherwise("/");
+		});
+
+	$urlRouterProvider.otherwise("/");
 }]);

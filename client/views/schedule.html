@@ -4,26 +4,8 @@
 
 <div id="schedule" ng-controller="ScheduleCtrl">
 	<ul class="list-inline text-center h4 text-uppercase">
-		<li ng-class="{ active: dayID == 0 }">
-			<a href="/#/schedule/0">Sun</a>
-		</li>
-		<li ng-class="{ active: dayID == 1 }">
-			<a href="/#/schedule/1">Mon</a>
-		</li>
-		<li ng-class="{ active: dayID == 2 }">
-			<a href="/#/schedule/2">Tue</a>
-		</li>
-		<li ng-class="{ active: dayID == 3 }">
-			<a href="/#/schedule/3">Wed</a>
-		</li>
-		<li ng-class="{ active: dayID == 4 }">
-			<a href="/#/schedule/4">Thu</a>
-		</li>
-		<li ng-class="{ active: dayID == 5 }">
-			<a href="/#/schedule/5">Fri</a>
-		</li>
-		<li ng-class="{ active: dayID == 6 }">
-			<a href="/#/schedule/6">Sat</a>
+		<li ng-repeat="d in days" ng-class="{ active: dayID == d.dayID }">
+			<a ui-sref="schedule({ dayID: d.dayID })">{{d.day}}</a>
 		</li>
 	</ul>
 

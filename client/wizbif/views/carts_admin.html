@@ -11,17 +11,8 @@
 
 	<div class="panel-body">
 		<ul class="nav nav-pills nav-justified">
-			<li ng-class="{ 'active': cart_typeID === '0' }">
-				<a href="#/carts/admin/t/0">PSA</a>
-			</li>
-			<li ng-class="{ 'active': cart_typeID === '1' }">
-				<a href="#/carts/admin/t/1">Underwriting</a>
-			</li>
-			<li ng-class="{ 'active': cart_typeID === '2' }">
-				<a href="#/carts/admin/t/2">Station ID</a>
-			</li>
-			<li ng-class="{ 'active': cart_typeID === '3' }">
-				<a href="#/carts/admin/t/3">Promotion</a>
+			<li ng-repeat="t in cart_types" ng-class="{ 'active': cart_typeID === t.cart_typeID }">
+				<a ui-sref="carts-admin({ cart_typeID: t.cart_typeID })">{{t.type}}</a>
 			</li>
 		</ul>
 	</div>

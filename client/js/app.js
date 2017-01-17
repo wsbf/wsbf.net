@@ -2,8 +2,8 @@
 
 var app = angular.module("app", [
 	"ngAnimate",
-	"ngRoute",
 	"ui.bootstrap",
+	"ui.router",
 	"app.main",
 	"app.carousel",
 	"app.chart",
@@ -19,62 +19,75 @@ app.config(["$compileProvider", function($compileProvider) {
 	$compileProvider.debugInfoEnabled(false);
 }]);
 
-app.config(["$routeProvider", function($routeProvider) {
-	$routeProvider
-		.when("/", {
+app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+	$stateProvider
+		.state("home", {
+			url: "/",
 			templateUrl: "views/slider_main.html",
 			controller: "CarouselCtrl"
 		})
-		.when("/booking", {
+		.state("booking", {
+			url: "/booking",
 			templateUrl: "views/booking.html"
 		})
-		.when("/charts", {
-			redirectTo: "/charts/albums"
-		})
-		.when("/charts/albums", {
+		.state("charts-albums", {
+			url: "/charts/albums",
 			templateUrl: "views/charts_albums.html",
 			controller: "AlbumChartCtrl"
 		})
-		.when("/charts/tracks", {
+		.state("charts-tracks", {
+			url: "/charts/tracks",
 			templateUrl: "views/charts_tracks.html",
 			controller: "TrackChartCtrl"
 		})
-		.when("/contact", {
+		.state("contact", {
+			url: "/contact",
 			templateUrl: "views/contact.html"
 		})
-		.when("/history", {
+		.state("history", {
+			url: "/history",
 			templateUrl: "views/history.html"
 		})
-		.when("/join", {
+		.state("join", {
+			url: "/join",
 			templateUrl: "views/join.html"
 		})
-		.when("/philosophy", {
+		.state("philosophy", {
+			url: "/philosophy",
 			templateUrl: "views/philosophy.html"
 		})
-		.when("/playlists", {
-			redirectTo: "/playlists/page/0"
-		})
-		.when("/playlists/page/:page", {
+		.state("playlists", {
+			url: "/playlists/page/:page",
+			params: {
+				page: "0",
+			},
 			templateUrl: "views/show_list.html"
 		})
-		.when("/playlists/search/:query", {
+		.state("playlists-search", {
+			url: "/playlists/search/:query",
 			templateUrl: "views/show_list.html"
 		})
-		.when("/playlists/show/:showID", {
+		.state("playlists-show", {
+			url: "/playlists/show/:showID",
 			templateUrl: "views/show.html"
 		})
-		.when("/promotion", {
+		.state("promotion", {
+			url: "/promotion",
 			templateUrl: "views/promotion.html"
 		})
-		.when("/recording", {
+		.state("recording", {
+			url: "/recording",
 			templateUrl: "views/recording.html"
 		})
-		.when("/schedule/:dayID?", {
+		.state("schedule", {
+			url: "/schedule/:dayID?",
 			templateUrl: "views/schedule.html"
 		})
-		.when("/staff", {
+		.state("staff", {
+			url: "/staff",
 			templateUrl: "views/staff.html",
 			controller: "StaffCtrl"
-		})
-		.otherwise("/");
+		});
+
+		$urlRouterProvider.otherwise("/");
 }]);
