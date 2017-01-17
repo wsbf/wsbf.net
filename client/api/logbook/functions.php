@@ -38,6 +38,7 @@ function sign_on($mysqli, $scheduleID)
 {
 	// get show from schedule
 	$schedule_show = get_schedule_show($mysqli, $scheduleID);
+	$schedule_show = escape_json($mysqli, $schedule_show);
 
 	// insert show
 	$q = "INSERT INTO `show` SET "

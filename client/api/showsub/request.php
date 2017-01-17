@@ -120,6 +120,7 @@ function add_sub_request($mysqli, $request)
 	}
 
 	$show = $result->fetch_assoc();
+	$show = escape_json($mysqli, $show);
 
 	// request date should be same day of week as show
 	if ( $show["dayID"] != date("w", strtotime($request["date"])) ) {

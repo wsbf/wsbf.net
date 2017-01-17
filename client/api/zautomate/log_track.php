@@ -34,6 +34,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	// log track
 	$album = get_album($mysqli, $album_code);
 	$track = get_track($mysqli, $album["albumID"], $disc_num, $track_num);
+	$track = escape_json($mysqli, $track);
 
 	log_track($mysqli, $showID, $track);
 	$mysqli->close();

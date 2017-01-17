@@ -22,6 +22,7 @@ function log_cart($mysqli, $showID, $cartID)
 		. "INNER JOIN `def_cart_type` AS t ON t.cart_typeID=c.cart_typeID "
 		. "WHERE c.cartID = '$cartID';";
 	$cart = exec_query($mysqli, $q)->fetch_assoc();
+	$cart = escape_json($mysqli, $cart);
 
 	// log cart
 	$q = "INSERT INTO `logbook` SET "
