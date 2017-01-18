@@ -20,6 +20,7 @@
 
 	<div class="panel-body" ng-show="stats.total">
 		<p><a ng-href="{{scheduleUrl}}" download="InternSchedule.csv">Download Schedule</a></p>
+		<p><a ng-href="{{prevInternTimesUrl}}" download="PrevInternTimes.csv">Download Prev. Intern Times</a></p>
 		<p>Empty slots: {{stats.empty}} / {{stats.total}}</p>
 		<p>Single slots: {{stats.single}} / {{stats.total}}</p>
 		<p>Double slots: {{stats.double}} / {{stats.total}}</p>

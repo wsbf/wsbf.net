@@ -326,12 +326,12 @@ scheduleModule.controller("ScheduleInternsCtrl", ["$scope", "$q", "alert", "db",
 
 		angular.extend($scope.stats, stats);
 
-		// create blob url
+		// create blob url for schedule
 		if ( $scope.scheduleUrl ) {
 			window.URL.revokeObjectURL($scope.scheduleUrl);
 		}
 
-		var data = schedule.map(function(time) {
+		var data1 = schedule.map(function(time) {
 			return time.map(function(show) {
 				return show
 					? show.interns.join(" ")
@@ -339,8 +339,41 @@ scheduleModule.controller("ScheduleInternsCtrl", ["$scope", "$q", "alert", "db",
 			}).join(",");
 		}).join("\n");
 
-		var blob = new Blob([data], { type: "text/csv" });
-		$scope.scheduleUrl = window.URL.createObjectURL(blob);
+		var blob1 = new Blob([data1], { type: "text/csv" });
+		$scope.scheduleUrl = window.URL.createObjectURL(blob1);
+
+		// create blob url for prev intern times
+		if ( $scope.prevInternTimesUrl ) {
+			window.URL.revokeObjectURL($scope.scheduleUrl);
+		}
+
+		var prevInternTimes = angular.copy($scope.prevInternTimes);
+
+		schedule.forEach(function(time, show_timeID) {
+			time.forEach(function(show, dayID) {
+					if ( !show ) {
+						return;
+					}
+
+					show.interns.forEach(function(intern) {
+						prevInternTimes[intern].push({
+							dayID: dayID,
+							show_timeID: show_timeID
+						});
+					});
+				});
+		});
+
+		var data2 = Object.keys(prevInternTimes).map(function(name) {
+			var slots = prevInternTimes[name].map(function(slot) {
+				return slot.dayID + " " + slot.show_timeID;
+			});
+
+			return [name].concat(slots).join(",");
+		}).join("\n");
+
+		var blob2 = new Blob([data2], { type: "text/csv" });
+		$scope.prevInternTimesUrl = window.URL.createObjectURL(blob2);
 	};
 
 	// initialize
