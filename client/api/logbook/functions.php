@@ -76,6 +76,42 @@ function sign_off($mysqli)
 }
 
 /**
+ * Get a cart.
+ *
+ * @param mysqli
+ * @param cartID
+ * @return associative array of cart
+ */
+function get_cart($mysqli, $cartID)
+{
+	$q = "SELECT * FROM `libcart` AS c "
+		. "INNER JOIN `def_cart_type` AS t ON t.cart_typeID=c.cart_typeID "
+		. "WHERE c.cartID = '$cartID';";
+	$cart = exec_query($mysqli, $q)->fetch_assoc();
+
+	return $cart;
+}
+
+/**
+ * Log a cart in the logbook.
+ *
+ * @param mysqli
+ * @param showID
+ * @param cart
+ */
+function log_cart($mysqli, $showID, $cart)
+{
+	$q = "INSERT INTO `logbook` SET "
+		. "showID = '$showID', "
+		. "lb_album_code = '$cart[cartID]', "
+		. "lb_rotation = '$cart[type]', "
+		. "lb_artist = '$cart[issuer]', "
+		. "lb_track_name = '$cart[title]', "
+		. "played = 1;";
+	exec_query($mysqli, $q);
+}
+
+/**
  * Get information about an album.
  *
  * @param mysqli
