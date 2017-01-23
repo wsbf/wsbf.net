@@ -15,19 +15,20 @@
 
 	<table class="table">
 		<thead>
-			<th>Name</th>
-			<th>Team</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Preferred Name</th>
 			<th>Email</th>
+			<th>Team</th>
 		</thead>
 
 		<tbody>
-			<tr ng-repeat="u in users" class="bg-team-{{u.teamID}}">
-				<td>
-					<span>{{u.preferred_name}}</span>
-					<span ng-show="u.preferred_name !== u.first_name + ' ' + u.last_name"> ({{u.first_name}} {{u.last_name}})</span>
-				</td>
-				<td>{{teams[u.teamID].team}}</td>
+			<tr ng-repeat="u in users | orderBy:['first_name', 'last_name']" class="bg-team-{{u.teamID}}">
+				<td>{{u.first_name}}</td>
+				<td>{{u.last_name}}</td>
+				<td>{{u.preferred_name}}</td>
 				<td>{{u.email_addr}}</td>
+				<td>{{teams[u.teamID].team}}</td>
 			</tr>
 		</tbody>
 	</table>
