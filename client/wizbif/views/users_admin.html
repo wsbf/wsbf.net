@@ -30,7 +30,7 @@
 		</thead>
 
 		<tbody>
-			<tr ng-repeat="u in users | filter:(statusID ? {statusID: statusID} : {})" class="bg-team-{{u.teamID}}">
+			<tr ng-repeat="u in users | filter:(statusID ? {statusID: statusID} : {}) | orderBy:['first_name', 'last_name']" class="bg-team-{{u.teamID}}">
 				<td>{{u.first_name}}</td>
 				<td>{{u.last_name}}</td>
 				<td>{{u.preferred_name}}</td>
