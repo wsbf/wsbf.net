@@ -19,7 +19,7 @@ function validate_fishbowl_app($mysqli, $app)
 {
 	// required fields should be defined
 	if ( !is_numeric($app["semesters"])
-	  || !is_numeric($app["missedShows"])
+	  || !is_numeric($app["missed_shows"])
 	  || !is_bool($app["dead_hours"])
 	  || !is_bool($app["specialty"]) ) {
 		return false;
@@ -48,7 +48,7 @@ function submit_fishbowl_app($mysqli, $app)
 	$q = "INSERT INTO `fishbowl` SET "
 		. "username = '$_SESSION[username]', "
 		. "semesters = '$app[semesters]', "
-		. "missedShows = '$app[missedShows]', "
+		. "missed_shows = '$app[missed_shows]', "
 		. "specialty = '$app[specialty]', "
 		. "dead_hours = '$app[dead_hours]', "
 		. "active = 1;";

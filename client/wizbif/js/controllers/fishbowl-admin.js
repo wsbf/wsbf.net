@@ -26,13 +26,13 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		}
 	};
 
-	$scope.review = function(apps, id) {
+	$scope.review = function(apps, fishbowlID) {
 		$uibModal.open({
 			templateUrl: "views/fishbowl_review.html",
 			controller: "FishbowlReviewCtrl",
 			scope: angular.extend($rootScope.$new(), {
 				apps: apps,
-				id: id
+				fishbowlID: fishbowlID
 			})
 		});
 	};
@@ -44,7 +44,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 
 		apps = apps.map(function(app) {
 			return {
-				id: app.id,
+				fishbowlID: app.fishbowlID,
 				rating: app.rating
 			};
 		});
@@ -87,14 +87,14 @@ fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", function($
 	$scope.app = {};
 
 	$scope.get = function(apps, index) {
-		var id = apps[index].id;
+		var fishbowlID = apps[index].fishbowlID;
 
-		db.Fishbowl.getApp(id).then(function(app) {
+		db.Fishbowl.getApp(fishbowlID).then(function(app) {
 			$scope.index = index;
 			$scope.app = app;
 		});
 	};
 
 	// initialize
-	$scope.get($scope.apps, _.findIndex($scope.apps, { id: $scope.id }));
+	$scope.get($scope.apps, _.findIndex($scope.apps, { fishbowlID: $scope.fishbowlID }));
 }]);

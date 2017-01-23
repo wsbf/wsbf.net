@@ -12,29 +12,30 @@ require_once("config.php");
  * Get a fishbowl app.
  *
  * @param mysqli
- * @param id
+ * @param fishbowlID
  * @return associative array of fishbowl app
  */
-function get_fishbowl_app($mysqli, $id)
+function get_fishbowl_app($mysqli, $fishbowlID)
 {
+	// get fishbowl app
 	$keys = array(
-		"f.id",
+		"f.fishbowlID",
 		"u.username",
 		"u.preferred_name",
 		"f.semesters",
-		"f.missedShows",
+		"f.missed_shows",
 		"f.specialty",
 		"f.dead_hours"
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl` AS f "
 		. "INNER JOIN `users` AS u ON u.username=f.username "
-		. "WHERE f.id='$id';";
+		. "WHERE f.fishbowlID='$fishbowlID';";
 	$app = exec_query($mysqli, $q)->fetch_assoc();
 
 	// get fishbowl log
 	$log_keys = array(
-		"fishbowlLogID",
+		"fishbowl_logID",
 		"date",
 		"log_type",
 		"description"
@@ -72,7 +73,7 @@ function get_fishbowl_app($mysqli, $id)
 function validate_fishbowl_ratings($apps)
 {
 	foreach ( $apps as $a ) {
-		if ( !is_numeric($a["id"])
+		if ( !is_numeric($a["fishbowlID"])
 		  || !is_numeric($a["rating"])
 		  || $a["rating"] < 1 || 5 < $a["rating"] ) {
 			return false;
@@ -93,7 +94,7 @@ function rate_fishbowl_apps($mysqli, $apps)
 	foreach ( $apps as $a ) {
 		// get fishbowl app
 		$q = "SELECT average, weight FROM `fishbowl` "
-			. "WHERE id='$a[id]';";
+			. "WHERE fishbowlID='$a[fishbowlID]';";
 		$app = exec_query($mysqli, $q)->fetch_assoc();
 
 		$average = $app["average"];
@@ -109,7 +110,7 @@ function rate_fishbowl_apps($mysqli, $apps)
 		$q = "UPDATE `fishbowl` SET "
 			. "average = '$average', "
 			. "weight = '$weight' "
-			. "WHERE id='$a[id]';";
+			. "WHERE fishbowlID='$a[fishbowlID]';";
 		exec_query($mysqli, $q);
 	}
 }
@@ -124,14 +125,14 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 		exit;
 	}
 
-	$id = $_GET["id"];
+	$fishbowlID = $_GET["fishbowlID"];
 
-	if ( !is_numeric($id) ) {
+	if ( !is_numeric($fishbowlID) ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
 
-	$app = get_fishbowl_app($mysqli, $id);
+	$app = get_fishbowl_app($mysqli, $fishbowlID);
 	$mysqli->close();
 
 	header("Content-Type: application/json");

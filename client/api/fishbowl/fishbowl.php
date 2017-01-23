@@ -18,7 +18,7 @@ require_once("../connect.php");
 function get_fishbowl($mysqli)
 {
 	$keys = array(
-		"f.id",
+		"f.fishbowlID",
 		"f.average",
 		"f.weight",
 		"u.preferred_name"

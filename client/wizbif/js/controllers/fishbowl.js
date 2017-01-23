@@ -29,11 +29,11 @@ fishbowlModule.controller("FishbowlAppCtrl", ["$scope", "$location", "db", "aler
 
 fishbowlModule.controller("FishbowlLogCtrl", ["$scope", "$uibModal", "alert", "db", function($scope, $uibModal, alert, db) {
 	$scope.fishbowl_log_types = db.getDefs("fishbowl_log_types");
-	$scope.fishbowlLog = [];
+	$scope.fishbowl_log = [];
 
 	var getFishbowlLog = function() {
-		db.Fishbowl.getLog().then(function(fishbowlLog) {
-			$scope.fishbowlLog = fishbowlLog;
+		db.Fishbowl.getLog().then(function(fishbowl_log) {
+			$scope.fishbowl_log = fishbowl_log;
 		});
 	};
 
@@ -46,8 +46,8 @@ fishbowlModule.controller("FishbowlLogCtrl", ["$scope", "$uibModal", "alert", "d
 			.then(getFishbowlLog);
 	};
 
-	$scope.deleteItem = function(fishbowlLogID) {
-		db.Fishbowl.deleteLogItem(fishbowlLogID)
+	$scope.deleteItem = function(fishbowl_logID) {
+		db.Fishbowl.deleteLogItem(fishbowl_logID)
 			.then(function() {
 				alert.success("Fishbowl item deleted.");
 				getFishbowlLog();

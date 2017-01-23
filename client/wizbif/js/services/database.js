@@ -127,12 +127,12 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Delete a fishbowl log item.
 	 *
-	 * @param fishbowlLogID
+	 * @param fishbowl_logID
 	 */
-	this.Fishbowl.deleteLogItem = function(fishbowlLogID) {
+	this.Fishbowl.deleteLogItem = function(fishbowl_logID) {
 		return $http.delete("/api/fishbowl/fishbowl_log.php", {
 			params: {
-				fishbowlLogID: fishbowlLogID
+				fishbowl_logID: fishbowl_logID
 			}
 		});
 	};
@@ -185,11 +185,11 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Get a fishbowl app.
 	 *
-	 * @param id
+	 * @param fishbowlID
 	 * @return Promise of fishbowl app object
 	 */
-	this.Fishbowl.getApp = function(id) {
-		return $http.get("/api/fishbowl/review.php", { params: { id: id } })
+	this.Fishbowl.getApp = function(fishbowlID) {
+		return $http.get("/api/fishbowl/review.php", { params: { fishbowlID: fishbowlID } })
 			.then(function(res) {
 				return res.data;
 			});

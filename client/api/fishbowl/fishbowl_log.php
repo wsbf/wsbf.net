@@ -17,7 +17,7 @@ require_once("../connect.php");
 function get_fishbowl_log($mysqli)
 {
 	$keys = array(
-		"fishbowlLogID",
+		"fishbowl_logID",
 		"date",
 		"log_type",
 		"description"
@@ -67,11 +67,11 @@ function log_fishbowl_item($mysqli, $item)
  * Delete an item in the current user's fishbowl log.
  *
  * @param mysqli
- * @param fishbowlLogID
+ * @param fishbowl_logID
  */
-function delete_fishbowl_log_item($mysqli, $fishbowlLogID)
+function delete_fishbowl_log_item($mysqli, $fishbowl_logID)
 {
-	$q = "DELETE FROM `fishbowl_log` WHERE fishbowlLogID='$fishbowlLogID';";
+	$q = "DELETE FROM `fishbowl_log` WHERE fishbowl_logID='$fishbowl_logID';";
 	exec_query($mysqli, $q);
 }
 
@@ -105,14 +105,14 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
 	$mysqli = construct_connection();
 
-	$fishbowlLogID = $_GET["fishbowlLogID"];
+	$fishbowl_logID = $_GET["fishbowl_logID"];
 
-	if ( !is_numeric($fishbowlLogID) ) {
+	if ( !is_numeric($fishbowl_logID) ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
 
-	delete_fishbowl_log_item($mysqli, $fishbowlLogID);
+	delete_fishbowl_log_item($mysqli, $fishbowl_logID);
 	$mysqli->close();
 
 	exit;

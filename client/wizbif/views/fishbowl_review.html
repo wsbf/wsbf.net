@@ -10,7 +10,7 @@
 		<dd>{{app.semesters}}</dd>
 
 		<dt>Missed Shows</dt>
-		<dd>{{app.missedShows}}</dd>
+		<dd>{{app.missed_shows}}</dd>
 
 		<dt>CD Reviews</dt>
 		<dd>{{app.num_reviews}}</dd>
@@ -29,7 +29,7 @@
 			</thead>
 
 			<tbody>
-				<tr ng-repeat="f in app.log">
+				<tr ng-repeat="f in app.log | orderBy:'date'">
 					<td>{{f.date}}</td>
 					<td>{{fishbowl_log_types[f.log_type].type}}</td>
 					<td>{{f.description}}</td>

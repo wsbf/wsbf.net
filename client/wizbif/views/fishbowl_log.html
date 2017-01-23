@@ -22,12 +22,12 @@
 		</thead>
 
 		<tbody>
-			<tr ng-repeat="f in fishbowlLog">
+			<tr ng-repeat="f in fishbowl_log | orderBy:'date'">
 				<td>{{f.date}}</td>
 				<td>{{fishbowl_log_types[f.log_type].type}}</td>
 				<td>{{f.description}}</td>
 				<td class="text-center">
-					<span class="button-icon" ng-click="deleteItem(f.fishbowlLogID)">&times;</span>
+					<span class="button-icon" ng-click="deleteItem(f.fishbowl_logID)">&times;</span>
 				</td>
 			</tr>
 		</tbody>
