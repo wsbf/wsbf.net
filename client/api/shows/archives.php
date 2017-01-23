@@ -48,7 +48,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	}
 
 	$page = $_GET["page"];
-	$term = $mysqli->escape_string($_GET["term"]);
+	$term = $mysqli->escape_string(array_access($_GET, "term"));
 
 	if ( is_numeric($page) && $page >= 0 ) {
 		$shows = get_shows($mysqli, $page, 50, false);
