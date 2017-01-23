@@ -166,11 +166,9 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		add_show($mysqli, $show);
 	}
 
-	$show = update_show($mysqli, $show);
 	$mysqli->close();
 
-	header("Content-Type: application/json");
-	exit(json_encode($show));
+	exit;
 }
 else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
 	authenticate();
