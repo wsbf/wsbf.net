@@ -156,84 +156,91 @@ scheduleModule.controller("ScheduleInternsCtrl", ["$scope", "$q", "alert", "db",
 		});
 	};
 
-	$scope.loadInternsCSV = function(file) {
-		var reader = new FileReader();
+	/**
+	 * Load some kind of intern data from a CSV file.
+	 *
+	 * The file should have the following format:
+	 *
+	 * [name],"[dayID],[show_timeID]","[dayID],[show_timeID]" ...
+	 * [name],"[dayID],[show_timeID]","[dayID],[show_timeID]" ...
+	 * ...
+	 *
+	 * The returned object has the following structure:
+	 *
+	 * {
+	 *   "[name]": [
+	 *     { dayID: [dayID], show_timeID: [show_timeID] },
+	 *     ...
+	 *   ],
+	 *   ...
+	 * }
+	 *
+	 * @param file
+	 * @return Promise of intern data object
+	 */
+	var loadCSV = function(file) {
+		return $q(function(resolve, reject) {
+			var reader = new FileReader();
 
-		reader.onload = function(event) {
-			var data = event.target.result;
-			var interns = data.split("\n")
-				.filter(function(line) {
-					return (line.length > 0);
-				})
-				.reduce(function(prev, line) {
-					var cells = line.split(",");
+			reader.onload = function(event) {
+				var data = event.target.result;
+				var output = data.split("\n")
+					.filter(function(line) {
+						return (line.length > 0);
+					})
+					.reduce(function(prev, line) {
+						var cells = line.split(",");
 
-					var name = cells[0];
-					var slots = cells.slice(1)
-						.filter(function(cell) {
-							return (cell.length > 0);
-						})
-						.map(function(cell) {
-							var nums = cell.split(" ");
+						var name = cells[0];
+						var slots = cells.slice(1)
+							.filter(function(cell) {
+								return (cell.length > 0);
+							})
+							.map(function(cell) {
+								var nums = cell.split(" ");
 
-							return {
-								dayID: nums[0],
-								show_timeID: nums[1]
-							};
-						});
+								return {
+									dayID: Number.parseInt(nums[0]),
+									show_timeID: Number.parseInt(nums[1])
+								};
+							});
 
-					prev[name] = slots;
-					return prev;
-				}, {});
+						prev[name] = slots;
+						return prev;
+					}, {});
 
-			$scope.interns = interns;
-		};
+				resolve(output);
+			};
 
-		reader.onerror = function(event) {
-			alert.error("Could not load file.");
-		};
+			reader.onerror = function(event) {
+				alert.error("Could not load file.");
+				reject();
+			};
 
-		reader.readAsText(file);
+			reader.readAsText(file);
+		});
 	};
 
+	/**
+	 * Load intern availability data from a CSV file.
+	 *
+	 * @param file
+	 */
+	$scope.loadInternsCSV = function(file) {
+		loadCSV(file).then(function(interns) {
+			$scope.interns = interns;
+		});
+	};
+
+	/**
+	 * Load previous intern times from a CSV file.
+	 *
+	 * @param file
+	 */
 	$scope.loadPrevInternTimesCSV = function(file) {
-		var reader = new FileReader();
-
-		reader.onload = function(event) {
-			var data = event.target.result;
-			var prevInternTimes = data.split("\n")
-				.filter(function(line) {
-					return (line.length > 0);
-				})
-				.reduce(function(prev, line) {
-					var cells = line.split(",");
-
-					var name = cells[0];
-					var slots = cells.slice(1)
-						.filter(function(cell) {
-							return (cell.length > 0);
-						})
-						.map(function(cell) {
-							var nums = cell.split(" ");
-
-							return {
-								dayID: nums[0],
-								show_timeID: nums[1]
-							};
-						});
-
-					prev[name] = slots;
-					return prev;
-				}, {});
-
+		loadCSV(file).then(function(prevInternTimes) {
 			$scope.prevInternTimes = prevInternTimes;
-		};
-
-		reader.onerror = function(event) {
-			alert.error("Could not load file.");
-		};
-
-		reader.readAsText(file);
+		});
 	};
 
 	$scope.scheduleInterns = function(schedule, interns, prevInternTimes) {
@@ -246,6 +253,11 @@ scheduleModule.controller("ScheduleInternsCtrl", ["$scope", "$q", "alert", "db",
 			.forEach(function(show) {
 				show.interns = [];
 			});
+
+		// initialize prev intern times if necessary
+		Object.keys(interns).forEach(function(name) {
+			prevInternTimes[name] = prevInternTimes[name] || [];
+		});
 
 		// filter intern availability by slots that have shows
 		// and that aren't on the intern's previous times
