@@ -194,7 +194,7 @@ scheduleModule.controller("ScheduleInternsCtrl", ["$scope", "$q", "alert", "db",
 						var name = cells[0];
 						var slots = cells.slice(1)
 							.filter(function(cell) {
-								return (cell.length > 0);
+								return (cell.length > 3);
 							})
 							.map(function(cell) {
 								var nums = cell.split(" ");
@@ -227,6 +227,10 @@ scheduleModule.controller("ScheduleInternsCtrl", ["$scope", "$q", "alert", "db",
 	 * @param file
 	 */
 	$scope.loadInternsCSV = function(file) {
+		if ( !file ) {
+			return;
+		}
+
 		loadCSV(file).then(function(interns) {
 			$scope.interns = interns;
 		});
@@ -238,6 +242,10 @@ scheduleModule.controller("ScheduleInternsCtrl", ["$scope", "$q", "alert", "db",
 	 * @param file
 	 */
 	$scope.loadPrevInternTimesCSV = function(file) {
+		if ( !file ) {
+			return;
+		}
+
 		loadCSV(file).then(function(prevInternTimes) {
 			$scope.prevInternTimes = prevInternTimes;
 		});
