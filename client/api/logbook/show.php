@@ -103,7 +103,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	$show = isset($showID)
 		? get_show($mysqli, $showID)
-		: array();
+		: json_decode("{}");
 
 	$mysqli->close();
 
