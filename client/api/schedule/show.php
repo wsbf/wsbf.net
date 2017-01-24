@@ -159,7 +159,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		exit("Submitted show data is invalid.");
 	}
 
-	if ( isset($show["scheduleID"]) ) {
+	if ( array_key_exists("scheduleID", $show) ) {
 		update_show($mysqli, $show);
 	}
 	else {

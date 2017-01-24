@@ -19,11 +19,11 @@ function get_sub_requests($mysqli)
 		"r.sub_requestID",
 		"r.username",
 		"ur.preferred_name AS requested_by",
-		"r.show_name",
+		"sc.show_name",
 		"t.type AS show_type",
 		"d.day",
-		"r.start_time",
-		"r.end_time",
+		"sc.start_time",
+		"sc.end_time",
 		"r.date",
 		"r.reason",
 		"uf.preferred_name AS filled_by"
@@ -31,8 +31,9 @@ function get_sub_requests($mysqli)
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `sub_request` AS r "
 		. "INNER JOIN `users` AS ur ON ur.username=r.username "
-		. "INNER JOIN `def_days` AS d ON d.dayID=r.dayID "
-		. "INNER JOIN `def_show_types` AS t ON t.show_typeID=r.show_typeID "
+		. "INNER JOIN `schedule` AS sc ON sc.scheduleID=r.scheduleID "
+		. "INNER JOIN `def_days` AS d ON d.dayID=sc.dayID "
+		. "INNER JOIN `def_show_types` AS t ON t.show_typeID=sc.show_typeID "
 		. "LEFT OUTER JOIN `sub_fill` AS f ON f.sub_requestID=r.sub_requestID "
 		. "LEFT OUTER JOIN `users` AS uf ON uf.username=f.username "
 		. "WHERE NOW() <= r.date "

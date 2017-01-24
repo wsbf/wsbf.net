@@ -19,7 +19,7 @@ showsubModule.controller("ShowSubCtrl", ["$scope", "$uibModal", "db", "alert", f
 		$uibModal.open({
 			templateUrl: "views/showsub_request.html",
 			controller: "ShowSubRequestCtrl"
-		});
+		}).result.then(getSubRequests);
 	};
 
 	$scope.fill = function(request, user) {

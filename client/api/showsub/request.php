@@ -8,6 +8,43 @@
  */
 require_once("../auth/auth.php");
 require_once("../connect.php");
+require_once("../schedule/functions.php");
+
+/**
+ * Validate a sub request.
+ *
+ * @param mysqli
+ * @param request
+ * @param show
+ * @return true if request is valid, false otherwise
+ */
+function validate_request($mysqli, $request, $show)
+{
+	// request show should exist
+	if ( !$show || $request["scheduleID"] != $show["scheduleID"] ) {
+		return false;
+	}
+
+	// request show should be hosted by the current user
+	$found_user = false;
+	foreach ( $show["hosts"] as $h ) {
+		if ( $h["username"] == $_SESSION["username"] ) {
+			$found_user = true;
+			break;
+		}
+	}
+
+	if ( !$found_user ) {
+		return false;
+	}
+
+	// request date should be same day of week as show
+	if ( $show["dayID"] != date("w", strtotime($request["date"])) ) {
+		return false;
+	}
+
+	return true;
+}
 
 /**
  * Validate a sub request fill.
@@ -97,46 +134,18 @@ function validate_request_remove($mysqli, $requestID)
  */
 function add_sub_request($mysqli, $request)
 {
-	$keys = array(
-		"s.show_name",
-		"s.dayID",
-		"s.start_time",
-		"s.end_time",
-		"s.show_typeID"
-	);
+	$show = get_schedule_show($mysqli, $request["scheduleID"]);
 
-	$q = "SELECT " . implode(",", $keys) . " FROM `schedule` AS s "
-		. "WHERE s.scheduleID='$request[scheduleID]' AND s.active=1 "
-		. "AND '$_SESSION[username]' IN ("
-			. "SELECT h.username FROM `schedule_hosts` AS h "
-			. "WHERE h.scheduleID='$request[scheduleID]'"
-		. ");";
-	$result = exec_query($mysqli, $q);
-
-	// request should be for a valid show
-	if ( $result->num_rows == 0 ) {
-		header("HTTP/1.1 404 Not Found");
-		exit("Show sub request is invalid.");
-	}
-
-	$show = $result->fetch_assoc();
-	$show = escape_json($mysqli, $show);
-
-	// request date should be same day of week as show
-	if ( $show["dayID"] != date("w", strtotime($request["date"])) ) {
+	if ( !validate_request($mysqli, $request, $show) ) {
 		header("HTTP/1.1 404 Not Found");
 		exit("Show sub request is invalid.");
 	}
 
 	$q = "INSERT INTO `sub_request` SET "
 		. "username = '$_SESSION[username]', "
+		. "scheduleID = '$request[scheduleID]', "
 		. "date = '$request[date]', "
-		. "reason = '$request[reason]', "
-		. "dayID = '$show[dayID]', "
-		. "start_time = '$show[start_time]', "
-		. "end_time = '$show[end_time]', "
-		. "show_name = '$show[show_name]', "
-		. "show_typeID = '$show[show_typeID]';";
+		. "reason = '$request[reason]';";
 	exec_query($mysqli, $q);
 }
 
