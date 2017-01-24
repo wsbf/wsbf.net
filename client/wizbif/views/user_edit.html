@@ -137,8 +137,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Show Genre</label>
 				<div class="col-sm-6">
-					<!-- TODO: use general_genreID after database is updated -->
-					<select class="form-control" name="genre" ng-model="s.genre" ng-options="g.genre as g.genre for g in general_genres">
+					<select class="form-control" name="general_genreID" ng-model="s.general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres">
 						<option></option>
 					</select>
 				</div>

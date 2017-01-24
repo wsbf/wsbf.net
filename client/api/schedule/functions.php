@@ -23,7 +23,7 @@ function get_schedule_show($mysqli, $scheduleID)
 		"s.end_time",
 		"s.show_typeID",
 		"s.description",
-		"s.genre"
+		"s.general_genreID"
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `schedule` AS s "

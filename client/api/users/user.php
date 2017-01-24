@@ -47,7 +47,7 @@ function get_user($mysqli, $username)
 		"t.type AS show_type",
 		"s.show_name",
 		"s.description",
-		"s.genre",
+		"s.general_genreID",
 		"h.schedule_alias"
 	);
 
@@ -123,7 +123,7 @@ function update_user($mysqli, $user)
 		$q = "UPDATE `schedule` AS s, `schedule_hosts` AS h SET "
 			. "s.show_name = '$s[show_name]', "
 			. "s.description = '$s[description]', "
-			. "s.genre = '$s[genre]', "
+			. "s.general_genreID = '$s[general_genreID]', "
 			. "h.schedule_alias = '$s[schedule_alias]' "
 			. "WHERE s.scheduleID='$s[scheduleID]' AND h.scheduleID='$s[scheduleID]';";
 		exec_query($mysqli, $q);

@@ -79,6 +79,7 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootSc
 
 scheduleModule.controller("ScheduleShowCtrl", ["$scope", "db", function($scope, db) {
 	$scope.days = db.getDefs("days");
+	$scope.general_genres = db.getDefs("general_genres");
 	$scope.show_times = db.getDefs("show_times");
 	$scope.show_types = db.getDefs("show_types");
 	$scope.show = db.Schedule.getShow($scope.scheduleID);
