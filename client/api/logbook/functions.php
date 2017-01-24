@@ -53,8 +53,7 @@ function sign_on($mysqli, $scheduleID)
 	foreach ( $schedule_show["hosts"] as $h ) {
 		$q = "INSERT INTO `show_hosts` SET "
 			. "showID = '$showID', "
-			. "username = '$h[username]', "
-			. "show_alias = '$h[schedule_alias]';";
+			. "username = '$h[username]';";
 		exec_query($mysqli, $q);
 	}
 
