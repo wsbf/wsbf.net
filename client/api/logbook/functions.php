@@ -121,7 +121,7 @@ function get_album($mysqli, $album_code)
 {
 	$keys = array(
 		"al.albumID",
-		"r.binAbbr AS rotation",
+		"r.bin_abbr AS rotation",
 		"ar.artist_name",
 		"al.album_name",
 		"la.label"
@@ -152,7 +152,7 @@ function get_track($mysqli, $albumID, $disc_num, $track_num)
 		"al.album_code",
 		"t.disc_num",
 		"t.track_num",
-		"r.binAbbr AS rotation",
+		"r.bin_abbr AS rotation",
 		"t.track_name",
 		"t.airabilityID",
 		"ar.artist_name",

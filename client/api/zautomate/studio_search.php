@@ -52,7 +52,7 @@ function search_tracks($mysqli, $term)
 		"al.album_code",
 		"t.disc_num",
 		"t.track_num",
-		"r.binAbbr AS rotation",
+		"r.bin_abbr AS rotation",
 		"t.track_name",
 		"t.file_name",
 		"ar.artist_name",

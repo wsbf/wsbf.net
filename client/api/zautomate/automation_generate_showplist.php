@@ -27,7 +27,7 @@ function get_playlist($mysqli, $showID)
 		"l.lb_disc_num",
 		"l.lb_track_num",
 		"l.lb_track_name",
-		"r.binAbbr AS rotation",
+		"r.bin_abbr AS rotation",
 		"al.album_name",
 		"ar.artist_name",
 		"t.file_name"
