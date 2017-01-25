@@ -132,7 +132,7 @@ function review_album($mysqli, $album)
 	foreach ( $album["tracks"] as $t ) {
 		$artistID = find_artist($mysqli, $t["artist_name"]);
 		if ( !isset($artistID) ) {
-			$artistID = add_artist($mysqli, $album["artist_name"]);
+			$artistID = add_artist($mysqli, $t["artist_name"]);
 		}
 
 		$q = "UPDATE `libtrack` SET "
