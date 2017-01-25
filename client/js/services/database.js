@@ -64,7 +64,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 					var album = data.albums.items[0];
 
 					if ( album ) {
-						var image = _.find(album.images, { height: size });
+						var image = _.find(album.images, { height: size }) || {};
 						item.imageUrl = image.url;
 					}
 

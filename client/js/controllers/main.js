@@ -1,10 +1,13 @@
 "use strict";
 
 var mainModule = angular.module("app.main", [
-	"ui.bootstrap"
+	"ui.bootstrap",
+	"app.database"
 ]);
 
-mainModule.controller("MainCtrl", ["$scope", "$uibModal", function($scope, $uibModal) {
+mainModule.controller("MainCtrl", ["$scope", "$uibModal", "db", function($scope, $uibModal, db) {
+	$scope.show_times = db.getDefs("show_times");
+
 	$scope.$on("$routeChangeSuccess", function() {
 		$scope.navCollapsed = false;
 	});

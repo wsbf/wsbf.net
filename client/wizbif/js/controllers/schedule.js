@@ -13,14 +13,22 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootSc
 	$scope.schedule = [];
 
 	var getSchedule = function() {
-		$q.all($scope.days.map(function(day) {
-			return db.Schedule.get(day.dayID);
-		})).then(function(daySchedules) {
-			$scope.schedule = $scope.show_times.map(function(t) {
-				return daySchedules.map(function(day) {
-					return _.find(day, { start_time: t.show_time });
-				});
+		var promises = $scope.days.map(function(d) {
+			return db.Schedule.get(d.dayID);
+		});
+
+		$q.all(promises).then(function(schedule) {
+			$scope.schedule = $scope.show_times.map(function() {
+				return new Array($scope.days.length);
 			});
+
+			schedule
+				.reduce(function(prev, shows) {
+					return prev.concat(shows);
+				}, [])
+				.forEach(function(s) {
+					$scope.schedule[s.show_timeID][s.dayID] = s;
+				});
 		});
 	};
 

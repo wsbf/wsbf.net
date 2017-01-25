@@ -19,8 +19,7 @@ function get_schedule_show($mysqli, $scheduleID)
 		"s.scheduleID",
 		"s.show_name",
 		"s.dayID",
-		"s.start_time",
-		"s.end_time",
+		"s.show_timeID",
 		"s.show_typeID",
 		"s.description",
 		"s.general_genreID"

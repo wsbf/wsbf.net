@@ -22,8 +22,7 @@ function get_sub_requests($mysqli)
 		"sc.show_name",
 		"t.type AS show_type",
 		"d.day",
-		"sc.start_time",
-		"sc.end_time",
+		"sc.show_timeID",
 		"r.date",
 		"r.reason",
 		"uf.preferred_name AS filled_by"

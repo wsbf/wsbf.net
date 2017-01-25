@@ -21,15 +21,15 @@ function get_schedule($mysqli, $dayID)
 	// get schedule
 	$keys = array(
 		"s.scheduleID",
+		"s.dayID",
+		"s.show_timeID",
 		"s.show_name",
-		"s.show_typeID",
-		"s.start_time",
-		"s.end_time"
+		"s.show_typeID"
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `schedule` AS s "
 		. "WHERE s.active=1 AND s.dayID='$dayID' "
-		. "ORDER BY s.start_time ASC;";
+		. "ORDER BY s.show_timeID;";
 	$result = exec_query($mysqli, $q);
 
 	$schedule = fetch_array($result);

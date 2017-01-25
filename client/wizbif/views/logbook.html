@@ -21,7 +21,7 @@
 				<select class="form-control" ng-model="scheduleID" ng-disabled="showID">
 					<option ng-repeat="s in user.shows" value="{{s.scheduleID}}">
 						<span>{{s.show_name}}</span>
-						<span>({{days[s.dayID].day}} {{s.start_time}} - {{s.end_time}})</span>
+						<span>({{days[s.dayID].day}} {{show_times[s.show_timeID].show_time}})</span>
 					</option>
 				</select>
 			</div>

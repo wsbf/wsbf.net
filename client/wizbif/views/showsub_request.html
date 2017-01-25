@@ -23,7 +23,7 @@
 		<label class="col-sm-3 control-label">Show</label>
 		<div class="col-sm-6">
 			<select class="form-control" name="scheduleID" ng-model="request.scheduleID">
-				<option ng-repeat="s in user.shows" value="{{s.scheduleID}}">{{days[s.dayID].day}} {{s.start_time}} - {{s.end_time}}</option>
+				<option ng-repeat="s in user.shows" value="{{s.scheduleID}}">{{days[s.dayID].day}} {{show_times[s.show_timeID].show_time}}</option>
 			</select>
 		</div>
 	</div>

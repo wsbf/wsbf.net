@@ -26,12 +26,12 @@
 			<th class="text-center" ng-repeat="d in days">{{d.day}}</th>
 		</tr>
 
-		<tr ng-repeat="time in schedule" ng-init="timeIndex = $index">
-			<td>{{show_times[$index].show_time}}</td>
+		<tr ng-repeat="t in show_times">
+			<td>{{t.show_time}}</td>
 
-			<td ng-repeat="s in time track by $index">
+			<td ng-repeat="s in schedule[t.show_timeID] track by $index" ng-init="d = days[$index]">
 				<div class="text-center h4" ng-show="!s">
-					<a class="button-icon" ng-href="" ng-click="editShow(null, $index, timeIndex)">&plus;</a>
+					<a class="button-icon" ng-href="" ng-click="editShow(null, d.dayID, t.show_timeID)">&plus;</a>
 				</div>
 
 				<div class="text-right" ng-show="s">

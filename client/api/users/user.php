@@ -42,8 +42,7 @@ function get_user($mysqli, $username)
 	$show_keys = array(
 		"s.scheduleID",
 		"s.dayID",
-		"s.start_time",
-		"s.end_time",
+		"s.show_timeID",
 		"t.type AS show_type",
 		"s.show_name",
 		"s.description",

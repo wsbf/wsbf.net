@@ -7,6 +7,7 @@ var showsubModule = angular.module("wizbif.showsub", [
 ]);
 
 showsubModule.controller("ShowSubCtrl", ["$scope", "$uibModal", "db", "alert", function($scope, $uibModal, db, alert) {
+	$scope.show_times = db.getDefs("show_times");
 	$scope.requests = [];
 
 	var getSubRequests = function() {
@@ -53,6 +54,7 @@ showsubModule.controller("ShowSubCtrl", ["$scope", "$uibModal", "db", "alert", f
 showsubModule.controller("ShowSubRequestCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	$scope.today = Date.now();
 	$scope.days = db.getDefs("days");
+	$scope.show_times = db.getDefs("show_times");
 	$scope.user = {};
 	$scope.request = {};
 

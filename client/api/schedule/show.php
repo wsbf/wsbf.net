@@ -20,16 +20,9 @@ require_once("functions.php");
 function validate_show($mysqli, $show)
 {
 	if ( !is_numeric($show["dayID"])
-	  || empty($show["start_time"])
-	  || empty($show["end_time"])
+	  || !is_numeric($show["show_timeID"])
 	  || !is_numeric($show["show_typeID"])
 	  || !is_array($show["hosts"]) ) {
-		return false;
-	}
-
-	// end time should be after start time
-	if ( $show["start_time"] != "23:00:00"
-		&& $show["end_time"] <= $show["start_time"] ) {
 		return false;
 	}
 
@@ -41,7 +34,7 @@ function validate_show($mysqli, $show)
 	// show should not start at the same time as another active show
 	$q = "SELECT s.scheduleID FROM `schedule` AS s "
 		. "WHERE s.active=1 AND s.dayID='$show[dayID]' "
-		. "AND s.start_time='$show[start_time]' "
+		. "AND s.show_timeID = '$show[show_timeID]' "
 		. "AND s.scheduleID != '$show[scheduleID]';";
 	$result = exec_query($mysqli, $q);
 
@@ -64,8 +57,7 @@ function add_show($mysqli, $show)
 	$q = "INSERT INTO `schedule` SET "
 		. "show_name = '$show[show_name]', "
 		. "dayID = '$show[dayID]', "
-		. "start_time = '$show[start_time]', "
-		. "end_time = '$show[end_time]', "
+		. "show_timeID = '$show[show_timeID]', "
 		. "show_typeID = '$show[show_typeID]', "
 		. "active = 1;";
 	exec_query($mysqli, $q);
@@ -93,8 +85,7 @@ function update_show($mysqli, $show)
 	$q = "UPDATE `schedule` SET "
 		. "show_name = '$show[show_name]', "
 		. "dayID = '$show[dayID]', "
-		. "start_time = '$show[start_time]', "
-		. "end_time = '$show[end_time]', "
+		. "show_timeID = '$show[show_timeID]', "
 		. "show_typeID = '$show[show_typeID]', "
 		. "active = 1 "
 		. "WHERE scheduleID = '$show[scheduleID]';";
