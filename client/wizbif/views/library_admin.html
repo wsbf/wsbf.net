@@ -11,29 +11,8 @@
 
 	<div class="panel-body">
 		<ul class="nav nav-pills nav-justified">
-			<li ng-class="{ 'active': rotationID === '0' }">
-				<a ui-sref="library-admin({ rotationID: '0', page: 0 })">To Be Reviewed</a>
-			</li>
-			<li ng-class="{ 'active': rotationID === '7' }">
-				<a ui-sref="library-admin({ rotationID: '7', page: 0 })">Recently Reviewed</a>
-			</li>
-			<li ng-class="{ 'active': rotationID === '1' }">
-				<a ui-sref="library-admin({ rotationID: '1', page: 0 })">New</a>
-			</li>
-			<li ng-class="{ 'active': rotationID === '2' }">
-				<a ui-sref="library-admin({ rotationID: '2', page: 0 })">Heavy</a>
-			</li>
-			<li ng-class="{ 'active': rotationID === '3' }">
-				<a ui-sref="library-admin({ rotationID: '3', page: 0 })">Medium</a>
-			</li>
-			<li ng-class="{ 'active': rotationID === '4' }">
-				<a ui-sref="library-admin({ rotationID: '4', page: 0 })">Light</a>
-			</li>
-			<li ng-class="{ 'active': rotationID === '5' }">
-				<a ui-sref="library-admin({ rotationID: '5', page: 0 })">Optional</a>
-			</li>
-			<li ng-class="{ 'active': rotationID === '6' }">
-				<a ui-sref="library-admin({ rotationID: '6', page: 0 })">Jazz</a>
+			<li ng-repeat="r in rotations" ng-class="{ 'active': rotationID === r.rotationID }">
+				<a ui-sref="library({ rotationID: r.rotationID, page: '0' })">{{r.rotation_bin}}</a>
 			</li>
 		</ul>
 

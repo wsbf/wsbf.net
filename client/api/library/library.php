@@ -52,7 +52,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 /**
  * Move albums to the next rotation slot.
  *
- * Albums in Optional and Jazz are not moved.
+ * Albums in TBR, Checked out, Optional, and Jazz are not moved.
  *
  * @param mysqli
  * @param albums
@@ -70,14 +70,15 @@ function move_rotation($mysqli, $albums)
 
 	// move each album to next rotation slot
 	$rotationMap = array(
-		"0" => "7",
-		"7" => "1",
-		"1" => "2",
+		"0" => "0",
+		"1" => "1",
 		"2" => "3",
 		"3" => "4",
 		"4" => "5",
-		"5" => "5",
-		"6" => "6"
+		"5" => "6",
+		"6" => "7",
+		"7" => "7",
+		"8" => "8"
 	);
 	$dst = $rotationMap[$src];
 

@@ -39,7 +39,7 @@ function get_playlist($mysqli, $showID)
 		. "INNER JOIN `libtrack` AS t ON t.albumID=al.albumID AND t.track_num=l.lb_track_num "
 		. "INNER JOIN `def_rotations` AS r on r.rotationID=al.rotationID "
 		. "WHERE l.showID = '$showID' "
-		. "AND al.rotationID IN (1, 2, 3, 4) "
+		. "AND al.rotationID IN (3, 4, 5, 6) "
 		. "GROUP BY l.lb_album_code " 
 		. "ORDER BY l.logbookID ASC;";
 	$result = exec_query($mysqli, $q);

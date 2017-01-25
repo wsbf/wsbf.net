@@ -86,9 +86,9 @@ function validate_review($mysqli, $album)
 		return false;
 	}
 
-	// album should be in "To Be Reviewed" (rotationID = 0)
+	// album should be in "To Be Reviewed"
 	$assoc = $result->fetch_assoc();
-	if ( $assoc["rotationID"] != 0 ) {
+	if ( $assoc["rotationID"] != "0" ) {
 		return false;
 	}
 
@@ -124,7 +124,7 @@ function review_album($mysqli, $album)
 		. "labelID = '$labelID', "
 		. "general_genreID = '$album[general_genreID]', "
 		. "genre = '$album[genre]', "
-		. "rotationID = 7 "
+		. "rotationID = 2 "
 		. "WHERE albumID = '$album[albumID]';";
 	exec_query($mysqli, $q);
 
