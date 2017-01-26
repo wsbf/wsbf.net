@@ -55,14 +55,14 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$q", "$uibModal", "$rootSc
 		});
 	};
 
-	$scope.editShow = function(scheduleID, dayID, timeID) {
+	$scope.editShow = function(scheduleID, dayID, show_timeID) {
 		$uibModal.open({
 			templateUrl: "views/schedule_admin_edit.html",
 			controller: "ScheduleEditCtrl",
 			scope: angular.extend($rootScope.$new(), {
 				scheduleID: scheduleID,
 				dayID: dayID,
-				timeID: timeID
+				show_timeID: show_timeID
 			})
 		}).result.then(getSchedule);
 	};
@@ -127,17 +127,13 @@ scheduleModule.controller("ScheduleEditCtrl", ["$scope", "db", "alert", function
 
 	// initialize
 	$scope.show_times.$promise.then(function() {
-		var startID = Number.parseInt($scope.timeID);
-		var endID = (startID + 1) % $scope.show_times.length;
-
 		if ( $scope.scheduleID ) {
 			$scope.show = db.Schedule.getShow($scope.scheduleID);
 		}
 		else {
 			$scope.show = {
 				dayID: $scope.dayID,
-				start_time: $scope.show_times[startID].show_time,
-				end_time: $scope.show_times[endID].show_time,
+				show_timeID: $scope.show_timeID,
 				hosts: []
 			};
 		}
