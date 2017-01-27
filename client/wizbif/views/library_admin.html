@@ -12,7 +12,7 @@
 	<div class="panel-body">
 		<ul class="nav nav-pills nav-justified">
 			<li ng-repeat="r in rotations" ng-class="{ 'active': rotationID === r.rotationID }">
-				<a ui-sref="library({ rotationID: r.rotationID, page: '0' })">{{r.rotation_bin}}</a>
+				<a ui-sref="library-admin({ rotationID: r.rotationID, page: '0' })">{{r.rotation_bin}}</a>
 			</li>
 		</ul>
 
