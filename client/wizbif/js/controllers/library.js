@@ -93,8 +93,6 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 		}).join("&");
 
 		$window.open("/api/library/print_labels.php?" + param);
-
-		$scope.setSelectedAll(false);
 	};
 
 	/**
