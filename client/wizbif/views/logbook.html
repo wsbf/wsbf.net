@@ -82,16 +82,16 @@
 				</td>
 				<td>{{newTrack.rotation}}</td>
 				<td ng-class="{ 'has-success': newTrack.airabilityID == 1, 'has-error': newTrack.airabilityID == 2 }">
-					<input class="form-control input-sm" ng-model="newTrack.track_name"/>
+					<input class="form-control input-sm" ng-model="newTrack.track_name" ng-keypress="$event.key == 'Enter' && addTrack(show.playlist, newTrack)"/>
 				</td>
 				<td>
-					<input class="form-control input-sm" ng-model="newTrack.artist_name"/>
+					<input class="form-control input-sm" ng-model="newTrack.artist_name" ng-keypress="$event.key == 'Enter' && addTrack(show.playlist, newTrack)"/>
 				</td>
 				<td>
-					<input class="form-control input-sm" ng-model="newTrack.album_name"/>
+					<input class="form-control input-sm" ng-model="newTrack.album_name" ng-keypress="$event.key == 'Enter' && addTrack(show.playlist, newTrack)"/>
 				</td>
 				<td>
-					<input class="form-control input-sm" ng-model="newTrack.label"/>
+					<input class="form-control input-sm" ng-model="newTrack.label" ng-keypress="$event.key == 'Enter' && addTrack(show.playlist, newTrack)"/>
 				</td>
 				<td class="text-center h3">
 					<span class="button-icon" ng-hide="newTrack.airabilityID == 2" ng-click="addTrack(show.playlist, newTrack)">&plus;</span>

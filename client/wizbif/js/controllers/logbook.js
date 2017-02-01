@@ -10,6 +10,7 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 	$scope.showID = null;
 	$scope.show = {};
 	$scope.listenerCount = 0;
+	$scope.newTrack = { disc_num: 1 };
 
 	var getListenerCount = function() {
 		db.Logbook.getListenerCount().then(function(count) {
@@ -68,7 +69,7 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 		track.rotation = track.rotation || "O";
 		playlist.unshift(track);
 
-		$scope.newTrack = {};
+		$scope.newTrack = { disc_num: 1 };
 	};
 
 	$scope.logTrack = function(track) {
