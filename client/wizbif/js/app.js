@@ -148,5 +148,5 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 			controller: "UsersReviewsCtrl"
 		});
 
-		$urlRouterProvider.otherwise("/");
+	$urlRouterProvider.otherwise("/");
 }]);

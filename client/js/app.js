@@ -89,5 +89,5 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 			controller: "StaffCtrl"
 		});
 
-		$urlRouterProvider.otherwise("/");
+	$urlRouterProvider.otherwise("/");
 }]);

@@ -217,7 +217,7 @@ scheduleModule.controller("ScheduleInternsCtrl", ["$scope", "$q", "alert", "db",
 				resolve(output);
 			};
 
-			reader.onerror = function(event) {
+			reader.onerror = function() {
 				alert.error("Could not load file.");
 				reject();
 			};
@@ -376,17 +376,17 @@ scheduleModule.controller("ScheduleInternsCtrl", ["$scope", "$q", "alert", "db",
 
 		schedule.forEach(function(time, show_timeID) {
 			time.forEach(function(show, dayID) {
-					if ( !show ) {
-						return;
-					}
+				if ( !show ) {
+					return;
+				}
 
-					show.interns.forEach(function(intern) {
-						prevInternTimes[intern].push({
-							dayID: dayID,
-							show_timeID: show_timeID
-						});
+				show.interns.forEach(function(intern) {
+					prevInternTimes[intern].push({
+						dayID: dayID,
+						show_timeID: show_timeID
 					});
 				});
+			});
 		});
 
 		var data2 = Object.keys(prevInternTimes).map(function(name) {
