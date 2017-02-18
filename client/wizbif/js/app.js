@@ -10,6 +10,7 @@ var app = angular.module("wizbif", [
 	"wizbif.import",
 	"wizbif.library",
 	"wizbif.logbook",
+	"wizbif.playlists",
 	"wizbif.schedule",
 	"wizbif.showsub",
 	"wizbif.staff",
@@ -101,6 +102,16 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 			url: "/logbook",
 			templateUrl: "views/logbook.html",
 			controller: "LogbookCtrl"
+		})
+		.state("playlists", {
+			url: "/playlists",
+			templateUrl: "views/playlists.html",
+			controller: "PlaylistsCtrl"
+		})
+		.state("playlist-edit", {
+			url: "/playlists/:playlistID",
+			templateUrl: "views/playlist_edit.html",
+			controller: "PlaylistEditCtrl"
 		})
 		.state("schedule", {
 			url: "/schedule",

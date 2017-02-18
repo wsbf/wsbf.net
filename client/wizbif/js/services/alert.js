@@ -1,15 +1,13 @@
-"use strict";
-
-var alertModule = angular.module("wizbif.alert", []);
-
 /**
  * The Alert service provides an Array-like interface to a
  * collection of arbitrary messages.
  *
  * This service uses lodash '_'.
- *
- * @param $interval  service in module ng
  */
+"use strict";
+
+var alertModule = angular.module("wizbif.alert", []);
+
 alertModule.service("alert", ["$interval", function($interval) {
 	this.alerts = [];
 

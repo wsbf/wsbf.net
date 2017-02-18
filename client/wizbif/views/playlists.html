@@ -1,0 +1,37 @@
+<div class="text-center" ng-show="!check.reviewer">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't allowed to use playlists.</p>
+</div>
+
+<div class="panel panel-default" ng-show="check.reviewer">
+	<div class="panel-heading">
+		<h3 class="panel-title">Playlists</h3>
+	</div>
+
+	<div class="panel-body">
+		<a ui-sref="playlist-edit({ playlistID: null })">Create a new playlist</a>
+	</div>
+
+	<table class="table">
+		<thead>
+			<th>Name</th>
+			<th></th>
+			<th></th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="p in playlists">
+				<td>{{p.name}}</td>
+				<td class="text-center">
+					<a class="button-icon" ui-sref="playlist-edit({ playlistID: p.playlistID })">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</a>
+				</td>
+				<td class="text-center">
+					<span class="button-icon" ng-click="deletePlaylist(p)">&times;</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

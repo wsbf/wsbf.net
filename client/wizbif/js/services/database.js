@@ -1,9 +1,3 @@
-"use strict";
-
-var databaseModule = angular.module("wizbif.database", [
-	"ngResource"
-]);
-
 /**
  * The Database service provides an interface to server-side data.
  * The entire server API is implemented here so that every controller
@@ -11,10 +5,13 @@ var databaseModule = angular.module("wizbif.database", [
  *
  * This service uses Promises, which are an abstraction of callbacks
  * that make asynchronous programming a little better.
- *
- * @param $http	  service in module ng
- * @param $resource  service in module ngResource
  */
+"use strict";
+
+var databaseModule = angular.module("wizbif.database", [
+	"ngResource"
+]);
+
 databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 
 	var api = {};
@@ -26,6 +23,8 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	api.LogbookShow = $resource("/api/logbook/show.php");
 
 	api.LogbookTrack = $resource("/api/logbook/track.php");
+
+	api.Playlist = $resource("/api/playlist/playlist.php");
 
 	api.Show = $resource("/api/schedule/show.php");
 
@@ -472,6 +471,50 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 */
 	this.Logbook.logTrack = function(track) {
 		return api.LogbookTrack.save({}, track).$promise;
+	};
+
+	this.Playlist = {};
+
+	/**
+	 * Get the list of the current user's playlists.
+	 *
+	 * @return Promise of playlists array
+	 */
+	this.Playlist.getPlaylists = function() {
+		return $http.get("/api/playlist/playlists.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
+	 * Get a playlist.
+	 *
+	 * @param playlistID
+	 * @return Promise of playlist object
+	 */
+	this.Playlist.get = function(playlistID) {
+		return api.Playlist.get({ playlistID: playlistID });
+	};
+
+	/**
+	 * Save a playlist.
+	 *
+	 * @param playlist
+	 * @return Promise of http response
+	 */
+	this.Playlist.save = function(playlist) {
+		return api.Playlist.save({}, playlist).$promise;
+	};
+
+	/**
+	 * Delete a playlist.
+	 *
+	 * @param playlistID
+	 * @return Promise of http response
+	 */
+	this.Playlist.delete = function(playlistID) {
+		return api.Playlist.remove({ playlistID: playlistID }).$promise;
 	};
 
 	this.Schedule = {};
