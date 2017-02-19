@@ -35,6 +35,7 @@ gulp.task("api", function() {
 		path.join(SRC, "api/import/**"),
 		path.join(SRC, "api/library/**"),
 		path.join(SRC, "api/logbook/**"),
+		path.join(SRC, "api/playlist/**"),
 		path.join(SRC, "api/schedule/**"),
 		path.join(SRC, "api/shows/**"),
 		path.join(SRC, "api/showsub/**"),
