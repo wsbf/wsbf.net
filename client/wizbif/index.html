@@ -44,7 +44,10 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					<li ng-show="user">
-						<p class="navbar-text">Signed in as {{user.preferred_name}}</p>
+						<p class="navbar-text">
+							<span>Signed in as {{user.preferred_name}}</span>
+							<span ng-show="user.positionID">({{positions[user.positionID].position}})</span></p>
+						</p>
 					</li>
 				</ul>
 			</div>

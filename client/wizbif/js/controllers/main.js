@@ -5,7 +5,7 @@ var mainModule = angular.module("wizbif.main", [
 	"wizbif.database"
 ]);
 
-mainModule.controller("MainCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
+mainModule.controller("MainCtrl", ["$scope", "alert", "db", function($scope, alert, db) {
 	// temporary status/position sets
 	var statusSets = {
 		editProfile: ["0", "1", "2", "4"],
@@ -18,6 +18,7 @@ mainModule.controller("MainCtrl", ["$scope", "db", "alert", function($scope, db,
 		engineer: [1, 5, 6, 8, 10]
 	};
 
+	$scope.positions = db.getDefs("positions");
 	$scope.user = {};
 	$scope.check = {};
 	$scope.alert = alert;
