@@ -73,9 +73,13 @@ function get_playlist($mysqli, $playlistID)
 
 	// get playlist tracks
 	$track_keys = array(
-		"albumID",
+		"album_code",
 		"disc_num",
-		"track_num"
+		"track_num",
+		"track_name",
+		"artist_name",
+		"album_name",
+		"label"
 	);
 
 	$q = "SELECT " . implode(",", $track_keys) . " FROM `playlist_track` "
@@ -139,7 +143,7 @@ function update_playlist($mysqli, $playlist)
 
 	foreach ( $playlist["tracks"] as $t ) {
 		$q = "INSERT INTO `playlist_track` SET "
-			. "playlistID = '$playlistID', "
+			. "playlistID = '$playlist[playlistID]', "
 			. "album_code = '$t[album_code]', "
 			. "disc_num = '$t[disc_num]', "
 			. "track_num = '$t[track_num]', "
