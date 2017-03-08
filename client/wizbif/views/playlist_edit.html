@@ -31,7 +31,7 @@
 			</thead>
 
 			<tbody>
-				<tr ng-class="{ 'has-success': newTrack.airabilityID == 1, 'has-error': newTrack.airabilityID == 2 }">
+				<tr ng-class="{ 'bg-success': newTrack.airabilityID == 1, 'bg-danger': newTrack.airabilityID == 2 }">
 					<td>
 						<input class="form-control input-sm" ng-model="newTrack.album_code" ng-blur="newTrack.album_code && getAlbum(newTrack.album_code)"/>
 					</td>
@@ -42,10 +42,18 @@
 						<input class="form-control input-sm" type="number" ng-model="newTrack.track_num" ng-blur="newTrack.album_code && getTrack(newTrack.album_code, newTrack.disc_num, newTrack.track_num)"/>
 					</td>
 					<td>{{newTrack.rotation}}</td>
-					<td>{{newTrack.track_name}}</td>
-					<td>{{newTrack.artist_name}}</td>
-					<td>{{newTrack.album_name}}</td>
-					<td>{{newTrack.label}}</td>
+					<td>
+						<input class="form-control input-sm" ng-model="newTrack.track_name" ng-keypress="$event.key == 'Enter' && addTrack(playlist.tracks, newTrack)"/>
+					</td>
+					<td>
+						<input class="form-control input-sm" ng-model="newTrack.artist_name" ng-keypress="$event.key == 'Enter' && addTrack(playlist.tracks, newTrack)"/>
+					</td>
+					<td>
+						<input class="form-control input-sm" ng-model="newTrack.album_name" ng-keypress="$event.key == 'Enter' && addTrack(playlist.tracks, newTrack)"/>
+					</td>
+					<td>
+						<input class="form-control input-sm" ng-model="newTrack.label" ng-keypress="$event.key == 'Enter' && addTrack(playlist.tracks, newTrack)"/>
+					</td>
 					<td class="text-center h3">
 						<span class="button-icon" ng-hide="newTrack.airabilityID == 2" ng-click="addTrack(playlist.tracks, newTrack)">&plus;</span>
 					</td>

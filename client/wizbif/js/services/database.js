@@ -21,10 +21,10 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	});
 
 	api.LogbookShow = $resource("/api/logbook/show.php");
-
 	api.LogbookTrack = $resource("/api/logbook/track.php");
 
 	api.Playlist = $resource("/api/playlist/playlist.php");
+	api.PlaylistTrack = $resource("/api/playlist/track.php");
 
 	api.Show = $resource("/api/schedule/show.php");
 
@@ -495,6 +495,32 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 */
 	this.Playlist.get = function(playlistID) {
 		return api.Playlist.get({ playlistID: playlistID });
+	};
+
+	/**
+	 * Get the information for an album.
+	 *
+	 * @param album_code
+	 * @return Promise of album object
+	 */
+	this.Playlist.getAlbum = function(album_code) {
+		return api.PlaylistTrack.get({ album_code: album_code }).$promise;
+	};
+
+	/**
+	 * Get the information for a track.
+	 *
+	 * @param album_code
+	 * @param disc_num
+	 * @param track_num
+	 * @return Promise of track object
+	 */
+	this.Playlist.getTrack = function(album_code, disc_num, track_num) {
+		return api.PlaylistTrack.get({
+			album_code: album_code,
+			disc_num: disc_num,
+			track_num: track_num
+		}).$promise;
 	};
 
 	/**

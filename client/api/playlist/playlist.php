@@ -50,14 +50,6 @@ function validate_playlist($mysqli, $playlist)
 		return false;
 	}
 
-	foreach ( $playlist["tracks"] as $t ) {
-		if ( !is_numeric($t["albumID"])
-		  || !is_numeric($t["disc_num"])
-		  || !is_numeric($t["track_num"]) ) {
-			return false;
-		}
-	}
-
 	return true;
 }
 
@@ -115,9 +107,13 @@ function create_playlist($mysqli, $playlist)
 	foreach ( $playlist["tracks"] as $t ) {
 		$q = "INSERT INTO `playlist_track` SET "
 			. "playlistID = '$playlistID', "
-			. "albumID = '$t[albumID]', "
+			. "album_code = '$t[album_code]', "
 			. "disc_num = '$t[disc_num]', "
-			. "track_num = '$t[track_num]';";
+			. "track_num = '$t[track_num]', "
+			. "track_name = '$t[track_name]', "
+			. "artist_name = '$t[artist_name]', "
+			. "album_name = '$t[album_name]', "
+			. "label = '$t[label]';";
 		exec_query($mysqli, $q);
 	}
 }
@@ -144,9 +140,13 @@ function update_playlist($mysqli, $playlist)
 	foreach ( $playlist["tracks"] as $t ) {
 		$q = "INSERT INTO `playlist_track` SET "
 			. "playlistID = '$playlistID', "
-			. "albumID = '$t[albumID]', "
+			. "album_code = '$t[album_code]', "
 			. "disc_num = '$t[disc_num]', "
-			. "track_num = '$t[track_num]';";
+			. "track_num = '$t[track_num]', "
+			. "track_name = '$t[track_name]', "
+			. "artist_name = '$t[artist_name]', "
+			. "album_name = '$t[album_name]', "
+			. "label = '$t[label]';";
 		exec_query($mysqli, $q);
 	}
 }
