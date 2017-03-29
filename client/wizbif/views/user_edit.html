@@ -45,18 +45,6 @@
 			</div>
 		</div>
 
-		<div class="form-group" ng-class="{'has-error': form.statusID.$touched && form.statusID.$invalid}">
-			<label class="col-sm-3 control-label">Status</label>
-			<div class="col-sm-6">
-				<select class="form-control" name="statusID" ng-model="user.statusID" required>
-					<option value="0">Active</option>
-					<option value="1">Semi-active</option>
-					<option value="2">Inactive</option>
-					<option value="4">Alumni</option>
-				</select>
-			</div>
-		</div>
-
 		<div class="form-group" ng-class="{'has-error': form.profile_paragraph.$invalid}">
 			<label class="col-sm-3 control-label">About You</label>
 			<div class="col-sm-6">
@@ -99,7 +87,7 @@
 		<div ng-repeat="s in user.shows">
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-6">
-					<pre>Show {{$index + 1}}: {{days[s.dayID].day}} @ {{s.start_time}} - {{s.end_time}}</pre>
+					<pre>Show {{$index + 1}}: {{days[s.dayID].day}} @ {{show_times[s.show_timeID].show_time}}</pre>
 				</div>
 			</div>
 

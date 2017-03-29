@@ -7,6 +7,7 @@ var logbookModule = angular.module("wizbif.logbook", [
 
 logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", function($scope, $interval, alert, db) {
 	$scope.days = db.getDefs("days");
+	$scope.show_times = db.getDefs("show_times");
 	$scope.showID = null;
 	$scope.show = {};
 	$scope.listenerCount = 0;
