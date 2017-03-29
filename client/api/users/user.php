@@ -82,7 +82,6 @@ function validate_user($mysqli, $user)
 	  || empty($user["last_name"])
 	  || empty($user["preferred_name"])
 	  || empty($user["email_addr"])
-	  || !is_numeric($user["statusID"])
 	  || !is_array($user["shows"]) ) {
 		return false;
 	}
@@ -111,7 +110,6 @@ function update_user($mysqli, $user)
 		. "last_name = '$user[last_name]', "
 		. "preferred_name = '$user[preferred_name]', "
 		. "email_addr = '$user[email_addr]', "
-		. "statusID = '$user[statusID]', "
 		. "profile_paragraph = '$user[profile_paragraph]', "
 		. "has_picture = '$user[has_picture]' "
 		. "WHERE username = '$user[username]';";
