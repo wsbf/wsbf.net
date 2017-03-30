@@ -32,11 +32,16 @@ foreach ( $wp_posts as $post ) {
 	// apply custom length to excerpt
 	add_filter("excerpt_length", "custom_excerpt_length", 20);
 
+	// temporary hack to remove "Continue Reading" from excerpt
+	$excerpt = get_the_excerpt();
+	$excerpt = preg_replace("/<p .*<\/p>/", "", $excerpt);
+	$excerpt = html_entity_decode($excerpt);
+
 	$posts[] = array(
 		"id" => $post->ID,
 		"title" => html_entity_decode(get_the_title()),
 		"imageUrl" => $imageUrl,
-		"excerpt" => html_entity_decode(get_the_excerpt())
+		"excerpt" => $excerpt
 	);
 }
 
