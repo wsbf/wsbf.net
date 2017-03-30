@@ -9,6 +9,7 @@ userModule.controller("UserCtrl", ["$scope", "db", "alert", function($scope, db,
 	$scope.days = db.getDefs("days");
 	$scope.general_genres = db.getDefs("general_genres");
 	$scope.show_times = db.getDefs("show_times");
+	$scope.statuses = db.getDefs("status");
 
 	$scope.save = function() {
 		db.User.save($scope.user).then(function() {
