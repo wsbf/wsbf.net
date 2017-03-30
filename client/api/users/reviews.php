@@ -38,7 +38,7 @@ authenticate();
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
-	if ( !check_reviewer($mysqli) ) {
+	if ( !check_member($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit;
 	}

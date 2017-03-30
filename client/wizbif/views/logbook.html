@@ -1,16 +1,16 @@
-<div class="text-center" ng-show="!check.reviewer">
+<div class="text-center" ng-show="!check.member">
 	<h3><strong>Nah.</strong></h3>
 
 	<p>It would seem that you aren't allowed to use the logbook.</p>
 </div>
 
-<div class="text-center" ng-show="check.reviewer && !show">
+<div class="text-center" ng-show="check.member && !show">
 	<h3><strong>Nah.</strong></h3>
 
 	<p>It would seem that you aren't in Studio A, so you can't use the logbook.</p>
 </div>
 
-<div class="panel panel-default" ng-show="check.reviewer && show">
+<div class="panel panel-default" ng-show="check.member && show">
 	<div class="panel-heading">
 		<h3 class="panel-title">Logbook</h3>
 	</div>

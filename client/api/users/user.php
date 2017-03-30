@@ -138,7 +138,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
-	if ( !check_member($mysqli) ) {
+	if ( !check_reviewer($mysqli) ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}

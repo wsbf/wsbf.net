@@ -182,7 +182,7 @@ authenticate();
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
-	if ( !check_reviewer($mysqli) ) {
+	if ( !check_member($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit;
 	}
@@ -210,7 +210,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
 	$mysqli = construct_connection();
 
-	if ( !check_reviewer($mysqli) ) {
+	if ( !check_member($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit;
 	}
