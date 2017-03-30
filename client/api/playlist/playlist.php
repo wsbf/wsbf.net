@@ -73,16 +73,19 @@ function get_playlist($mysqli, $playlistID)
 
 	// get playlist tracks
 	$track_keys = array(
-		"album_code",
-		"disc_num",
-		"track_num",
-		"track_name",
-		"artist_name",
-		"album_name",
-		"label"
+		"t.album_code",
+		"t.disc_num",
+		"t.track_num",
+		"r.bin_abbr AS rotation",
+		"t.track_name",
+		"t.artist_name",
+		"t.album_name",
+		"t.label"
 	);
 
-	$q = "SELECT " . implode(",", $track_keys) . " FROM `playlist_track` "
+	$q = "SELECT " . implode(",", $track_keys) . " FROM `playlist_track` AS t "
+		. "LEFT OUTER JOIN `libalbum` AS a ON a.album_code = t.album_code "
+		. "LEFT OUTER JOIN `def_rotations` AS r ON r.rotationID = a.rotationID "
 		. "WHERE playlistID = '$playlistID';";
 	$result = exec_query($mysqli, $q);
 

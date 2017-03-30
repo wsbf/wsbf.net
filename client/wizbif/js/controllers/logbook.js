@@ -11,13 +11,8 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 	$scope.showID = null;
 	$scope.show = {};
 	$scope.listenerCount = 0;
+	$scope.playlists = [];
 	$scope.newTrack = { disc_num: 1 };
-
-	var getListenerCount = function() {
-		db.Logbook.getListenerCount().then(function(count) {
-			$scope.listenerCount = count;
-		});
-	};
 
 	var getCurrentShow = function() {
 		db.Logbook.getCurrentShow().then(function(show) {
@@ -29,6 +24,19 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 		}, function() {
 			$scope.show = null;
 		});
+	};
+
+	var getListenerCount = function() {
+		db.Logbook.getListenerCount().then(function(count) {
+			$scope.listenerCount = count;
+		});
+	};
+
+	var getPlaylists = function() {
+		db.Playlist.getPlaylists()
+			.then(function(playlists) {
+				$scope.playlists = playlists;
+			});
 	};
 
 	$scope.signOn = function(scheduleID) {
@@ -47,6 +55,17 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 		}, function(res) {
 			alert.error(res.data || res.statusText);
 		});
+	};
+
+	$scope.addPlaylist = function(showPlaylist, playlistID) {
+		db.Playlist.get(playlistID)
+			.$promise
+			.then(function(playlist) {
+				playlist.tracks.forEach(function(track) {
+					track.rotation = track.rotation || "O";
+					showPlaylist.unshift(track);
+				});
+			});
 	};
 
 	$scope.getAlbum = function(album_code) {
@@ -83,8 +102,9 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 	};
 
 	// initialize
-	getListenerCount();
 	getCurrentShow();
+	getListenerCount();
+	getPlaylists();
 
 	$interval(getListenerCount, 5000);
 }]);
