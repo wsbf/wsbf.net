@@ -8,14 +8,13 @@ var mainModule = angular.module("wizbif.main", [
 mainModule.controller("MainCtrl", ["$scope", "alert", "db", function($scope, alert, db) {
 	// temporary status/position sets
 	var statusSets = {
-		editProfile: ["0", "1", "2", "4"],
-		reviewer: ["0", "1", "2", "4", "5"]
+		reviewer: ["0", "1", "2", "4", "5"],
+		member: ["0", "1", "2", "4"]
 	};
 
 	var positionSets = {
 		seniorStaff: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-		musicDirector: [0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20],
-		engineer: [1, 5, 6, 8, 10]
+		musicDirector: [0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20]
 	};
 
 	$scope.positions = db.getDefs("positions");

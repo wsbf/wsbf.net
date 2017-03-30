@@ -72,24 +72,6 @@ function get_position($mysqli)
 }
 
 /**
- * Check whether the current user can edit their profile.
- *
- * The following user statuses are included:
- *  0: Active
- *  1: Semi-Active
- *  2: Inactive
- *  4: Alumni
- *
- * @param mysqli
- * @return true if current user has one of the above statuses,
- *         false otherwise
- */
-function check_edit_profile($mysqli)
-{
-	return in_array(get_status($mysqli), array(0, 1, 2, 4));
-}
-
-/**
  * Check whether the current user can review albums.
  *
  * The following user statuses are included:
@@ -106,6 +88,24 @@ function check_edit_profile($mysqli)
 function check_reviewer($mysqli)
 {
 	return in_array(get_status($mysqli), array(0, 1, 2, 4, 5));
+}
+
+/**
+ * Check whether the current user is a member.
+ *
+ * The following user statuses are included:
+ *  0: Active
+ *  1: Semi-Active
+ *  2: Inactive
+ *  4: Alumni
+ *
+ * @param mysqli
+ * @return true if current user has one of the above statuses,
+ *         false otherwise
+ */
+function check_member($mysqli)
+{
+	return in_array(get_status($mysqli), array(0, 1, 2, 4));
 }
 
 /**
@@ -155,24 +155,5 @@ function check_music_director($mysqli)
 {
 	return in_array(get_position($mysqli),
 			array(0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20));
-}
-
-/**
- * Check whether the current user has engineer priviledges.
- *
- * The following staff positions are included:
- *   1: Chief Engineer
- *   5: Promotions Director
- *   6: Production Director
- *   8: Computer Engineer
- *  10: Equipment Engineer
- *
- * @param mysqli
- * @return true if current user holds one of the above staff
- *         positions, false otherwise
- */
-function check_engineer($mysqli)
-{
-	return in_array(get_position($mysqli), array(1, 5, 6, 8, 10));
 }
 ?>
