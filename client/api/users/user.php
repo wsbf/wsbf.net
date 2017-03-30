@@ -58,12 +58,8 @@ function get_user($mysqli, $username)
 
 	$user["shows"] = fetch_array($result);
 
-	// convert boolean and numeric types
+	// convert boolean types
 	$user["has_picture"] = (bool) $user["has_picture"];
-
-	if ( isset($user["positionID"]) ) {
-		$user["positionID"] = (int) $user["positionID"];
-	}
 
 	return $user;
 }
