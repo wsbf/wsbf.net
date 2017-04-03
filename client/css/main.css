@@ -47,9 +47,25 @@ h1, h2, h3 {
 	color: #E80200;
 }
 
-/* "Buy" and "Listen Live" buttons */
+/* Special button links */
 /* custom rules should only apply when navbar is not collapsed */
 @media (min-width: 768px) {
+	.navbar-nav > li.sharkweek {
+		margin-right: 10px;
+	}
+	.navbar-nav > li.sharkweek > a {
+		margin-top: 5px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		background-color: #458294;
+		color: #FFFFFF;
+	}
+	.navbar-nav > li.sharkweek > a:hover,
+	.navbar-nav > li.sharkweek > a:focus {
+		background-color: #347183;
+		color: #FFFFFF;
+	}
+
 	.navbar-nav > li.buy {
 		margin-right: 10px;
 	}
@@ -62,9 +78,10 @@ h1, h2, h3 {
 	}
 	.navbar-nav > li.buy > a:hover,
 	.navbar-nav > li.buy > a:focus {
-		background-color: #177726;
+		background-color: #357C0C;
 		color: #FFFFFF;
 	}
+
 	.navbar-nav > li.listen {
 		margin-right: 15px;
 	}
@@ -72,12 +89,12 @@ h1, h2, h3 {
 		margin-top: 5px;
 		padding-top: 10px;
 		padding-bottom: 10px;
-		background-color: #E80200;
+		background-color: #E81200;
 		color: #FFFFFF;
 	}
 	.navbar-nav > li.listen > a:hover,
 	.navbar-nav > li.listen > a:focus {
-		background-color: #A53E4A;
+		background-color: #D70100;
 		color: #FFFFFF;
 	}
 }
