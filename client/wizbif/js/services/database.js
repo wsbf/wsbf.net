@@ -55,6 +55,20 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		return api.Defs.get({ table: tableName });
 	};
 
+	this.Alumni = {};
+
+	/**
+	 * Get the list of alumni stories.
+	 *
+	 * @return Promise of alumni array
+	 */
+	this.Alumni.getAlumni = function() {
+		return $http.get("/api/alumni/alumni.php")
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
 	this.Carts = {};
 
 	/**

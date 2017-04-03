@@ -22,7 +22,7 @@ mainModule.constant("authSets", {
 		key: "positionID",
 		values: ["0", "1", "2", "3", "8", "13", "14", "17", "18", "19", "20"]
 	}
-})
+});
 
 mainModule.controller("MainCtrl", ["$scope", "alert", "db", "authSets", function($scope, alert, db, authSets) {
 	$scope.positions = db.getDefs("positions");
