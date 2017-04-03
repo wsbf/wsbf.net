@@ -29,6 +29,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 		"al.album_name",
 		"al.general_genreID",
 		"al.rotationID",
+		"al.date_moved",
 		"ar.artist_name",
 		"UNIX_TIMESTAMP(r.review_date) * 1000 AS review_date",
 		"u.preferred_name AS reviewer"
@@ -83,8 +84,10 @@ function move_rotation($mysqli, $albums)
 	$dst = $rotationMap[$src];
 
 	foreach ( $albums as $a ) {
-		$q = "UPDATE `libalbum` SET rotationID = '$dst' "
-			. " WHERE albumID = '$a[albumID]';";
+		$q = "UPDATE `libalbum` SET "
+			. (($src != $dst) ? "date_moved = CURRENT_DATE(), " : "")
+			. "rotationID = '$dst' "
+			. "WHERE albumID = '$a[albumID]';";
 		exec_query($mysqli, $q);
 	}
 }

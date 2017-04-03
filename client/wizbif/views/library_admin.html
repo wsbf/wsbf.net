@@ -44,7 +44,8 @@
 			<th>Album</th>
 			<th>Artist</th>
 			<th ng-show="rotationID == 0">Genre</th>
-			<th ng-show="rotationID != 0">Review Date</th>
+			<th ng-show="rotationID != 0">Date Reviewed</th>
+			<th ng-show="rotationID != 0">Date Moved</th>
 			<th class="text-center">
 				<input type="checkbox" ng-model="selectedAll" ng-click="setSelectedAll(selectedAll)"/>
 			</th>
@@ -59,6 +60,7 @@
 				<td>{{a.artist_name}}</td>
 				<td ng-show="rotationID == 0">{{general_genres[a.general_genreID].genre}}</td>
 				<td ng-show="rotationID != 0">{{a.review_date | date:'yyyy-MM-dd'}}</td>
+				<td ng-show="rotationID != 0">{{a.date_moved | date:'yyyy-MM-dd'}}</td>
 				<td class="text-center">
 					<input type="checkbox" ng-model="a.selected"/>
 				</td>

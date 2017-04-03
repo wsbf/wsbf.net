@@ -150,12 +150,22 @@ function update_album($mysqli, $album)
 		$labelID = add_label($mysqli, $album["label"]);
 	}
 
+	// fetch rotationID
+	$q = "SELECT rotationID FROM `libalbum` "
+		. "WHERE albumID = '$album[albumID]';";
+	$result = exec_query($mysqli, $q);
+	$assoc = $result->fetch_assoc();
+	$rotationID = $assoc["rotationID"];
+
+	$moveRotation = ($rotationID != $album["rotationID"]);
+
 	// update album
 	$q = "UPDATE `libalbum` SET "
 		. "album_name = '$album[album_name]', "
 		. "artistID = '$artistID', "
 		. "labelID = '$labelID', "
 		. "rotationID = '$album[rotationID]', "
+		. ($moveRotation ? "date_moved = CURRENT_DATE(), " : "")
 		. "general_genreID = '$album[general_genreID]', "
 		. "genre = '$album[genre]' "
 		. "WHERE albumID = '$album[albumID]';";
