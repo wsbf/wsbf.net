@@ -25,12 +25,3 @@ The development setup requires `node` and `npm`.
 - Create a Pull Request in this repository with your changes
 
 Currently, server-side development (PHP scripts) must be done on the web server because I don't have a test suite in place to mock the database and other PHP services.
-
-## TODO
-
-- create a specification for DJ points
-- Let's Encrypt auto-renewal
-- polish database (remove HTML entities like `&amp;`, check for invalid values, etc.)
-- upgrade MySQL and PHP to newest versions
-- server-side authentication/redirect to /wizbif directory
-- automated email for password reset, spaz sheet
