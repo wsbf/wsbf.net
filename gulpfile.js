@@ -27,6 +27,7 @@ gulp.task("lint", function() {
 
 gulp.task("api", function() {
 	return gulp.src([
+		path.join(SRC, "api/alumni/**"),
 		path.join(SRC, "api/auth/**"),
 		path.join(SRC, "api/blog/**"),
 		path.join(SRC, "api/carts/**"),
