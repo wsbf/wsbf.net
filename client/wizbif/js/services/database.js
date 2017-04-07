@@ -387,6 +387,20 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
+	 * Check out an album.
+	 *
+	 * @param albumID
+	 * @return Promise of http response
+	 */
+	this.Library.checkoutAlbum = function(albumID) {
+		return $http.post("/api/library/checkout.php", null, {
+			params: {
+				albumID: albumID
+			}
+		});
+	};
+
+	/**
 	 * Submit an album review.
 	 *
 	 * @param album

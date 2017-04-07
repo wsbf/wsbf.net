@@ -31,20 +31,28 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 		"al.rotationID",
 		"al.date_moved",
 		"ar.artist_name",
-		"UNIX_TIMESTAMP(r.review_date) * 1000 AS review_date",
+		"c.expiration_date",
+		"r.review_date",
 		"u.preferred_name AS reviewer"
 	);
 
+	// Checked-out albums are albums in TBR that have
+	// a non-expired record in `checkout`
+	$rotID_temp = ($rotationID == "1")
+		? "0"
+		: $rotationID;
+
 	$q = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
+		. "LEFT OUTER JOIN `checkout` AS c ON c.albumID=al.albumID AND c.username='$_SESSION[username]' "
 		. "INNER JOIN `libartist` AS ar ON al.artistID=ar.artistID "
 		. "LEFT OUTER JOIN `libreview` AS r ON r.albumID=al.albumID "
 		. "LEFT OUTER JOIN `users` AS u ON r.username=u.username "
-		. "WHERE al.rotationID='$rotationID' "
-		. (isset($general_genreID)
-			? "AND al.general_genreID = '$general_genreID' "
-			: "")
+		. "WHERE al.rotationID = '$rotID_temp' "
+		. "AND ('$rotationID' != 0 OR CURDATE() >= c.expiration_date OR c.expiration_date IS NULL) "
+		. "AND ('$rotationID' != 1 OR CURDATE() < c.expiration_date) "
+		. "AND (al.general_genreID IS NULL OR al.general_genreID = '$general_genreID') "
 		. "ORDER BY al.albumID DESC "
-		. "LIMIT "  . ($page * $page_size) . ", $page_size;";
+		. "LIMIT " . ($page * $page_size) . ", $page_size;";
 	$result = exec_query($mysqli, $q);
 
 	return fetch_array($result);

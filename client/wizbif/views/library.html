@@ -46,21 +46,24 @@
 			<th>Album</th>
 			<th>Artist</th>
 			<th ng-show="rotationID == 0">Genre</th>
-			<th ng-show="rotationID != 0">Reviewer</th>
-			<th ng-show="rotationID != 0">Review Date</th>
+			<th ng-show="rotationID == 1">Return Date</th>
+			<th ng-show="rotationID >= 2">Reviewer</th>
+			<th ng-show="rotationID >= 2">Review Date</th>
 		</thead>
 
 		<tbody>
 			<tr ng-repeat="a in albums">
 				<td>
-					<a ng-show="rotationID == 0" ui-sref="library-album-review({ albumID: a.albumID })">Review</a>
-					<a ng-show="rotationID != 0" ui-sref="library-album({ albumID: a.albumID })">{{a.album_code}}</a>
+					<a ng-show="rotationID == 0" href="" ng-click="checkoutAlbum(a.albumID)">Check out</a>
+					<a ng-show="rotationID == 1" ui-sref="library-album-review({ albumID: a.albumID })">Review</a>
+					<a ng-show="rotationID >= 2" ui-sref="library-album({ albumID: a.albumID })">{{a.album_code}}</a>
 				</td>
 				<td>{{a.album_name}}</td>
 				<td>{{a.artist_name}}</td>
 				<td ng-show="rotationID == 0">{{general_genres[a.general_genreID].genre}}</td>
-				<td ng-show="rotationID != 0">{{a.reviewer}}</td>
-				<td ng-show="rotationID != 0">{{a.review_date | date:'yyyy-MM-dd'}}</td>
+				<td ng-show="rotationID == 1">{{a.expiration_date}}</td>
+				<td ng-show="rotationID >= 2">{{a.reviewer}}</td>
+				<td ng-show="rotationID >= 2">{{a.review_date}}</td>
 			</tr>
 		</tbody>
 	</table>

@@ -77,18 +77,16 @@ function validate_review($mysqli, $album)
 		return false;
 	}
 
-	// album should exist in `libalbum`
-	$q = "SELECT rotationID FROM `libalbum` "
-		. "WHERE albumID = '$album[albumID]';";
+	// album should be checked out by the current user
+	$q = "SELECT a.rotationID FROM `libalbum` AS a "
+		. "INNER JOIN `checkout` as c ON c.albumID = a.albumID "
+		. "WHERE a.albumID = '$album[albumID]' "
+		. "AND a.rotationID = 0 "
+		. "AND c.username = '$_SESSION[username]' "
+		. "AND CURDATE() < c.expiration_date;";
 	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows == 0 ) {
-		return false;
-	}
-
-	// album should be in "To Be Reviewed"
-	$assoc = $result->fetch_assoc();
-	if ( $assoc["rotationID"] != "0" ) {
 		return false;
 	}
 

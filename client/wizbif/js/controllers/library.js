@@ -32,6 +32,20 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	};
 
 	/**
+	 * Check out an album.
+	 *
+	 * @param albumID
+	 */
+	$scope.checkoutAlbum = function(albumID) {
+		db.Library.checkoutAlbum(albumID).then(function() {
+			$state.reload();
+			alert.success("Album checked out.");
+		}, function(res) {
+			alert.error(res.data || res.statusText);
+		});
+	};
+
+	/**
 	 * Select or unselect all albums.
 	 *
 	 * @param selectedAll
