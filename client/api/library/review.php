@@ -146,7 +146,8 @@ function review_album($mysqli, $album)
 	$q = "REPLACE INTO `libreview` SET "
 		. "albumID = '$album[albumID]', "
 		. "review = '$album[review]', "
-		. "username = '$_SESSION[username]';";
+		. "username = '$_SESSION[username]', "
+		. "review_date = CURDATE();";
 	exec_query($mysqli, $q);
 
 	// add action

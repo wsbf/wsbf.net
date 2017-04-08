@@ -50,7 +50,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 		. "WHERE al.rotationID = '$rotID_temp' "
 		. "AND ('$rotationID' != 0 OR CURDATE() >= c.expiration_date OR c.expiration_date IS NULL) "
 		. "AND ('$rotationID' != 1 OR CURDATE() < c.expiration_date) "
-		. "AND (al.general_genreID IS NULL OR al.general_genreID = '$general_genreID') "
+		. "AND ('$general_genreID' = '' OR al.general_genreID = '$general_genreID') "
 		. "ORDER BY al.albumID DESC "
 		. "LIMIT " . ($page * $page_size) . ", $page_size;";
 	$result = exec_query($mysqli, $q);
@@ -93,7 +93,7 @@ function move_rotation($mysqli, $albums)
 
 	foreach ( $albums as $a ) {
 		$q = "UPDATE `libalbum` SET "
-			. (($src != $dst) ? "date_moved = CURRENT_DATE(), " : "")
+			. (($src != $dst) ? "date_moved = CURDATE(), " : "")
 			. "rotationID = '$dst' "
 			. "WHERE albumID = '$a[albumID]';";
 		exec_query($mysqli, $q);

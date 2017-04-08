@@ -30,7 +30,7 @@ function get_album($mysqli, $albumID)
 		"al.rotationID",
 		"al.general_genreID",
 		"al.genre",
-		"UNIX_TIMESTAMP(r.review_date) * 1000 AS review_date",
+		"r.review_date",
 		"r.review",
 		"u.preferred_name AS reviewer"
 	);
