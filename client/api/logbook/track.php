@@ -10,10 +10,11 @@ require_once("auth.php");
 require_once("functions.php");
 
 authenticate();
-authenticate_logbook();
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
+
+	authenticate_logbook($mysqli);
 
 	$album_code = $mysqli->escape_string($_GET["album_code"]);
 	$disc_num = array_access($_GET, "disc_num");
@@ -38,6 +39,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 }
 else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
+
+	authenticate_logbook($mysqli);
 
 	// validate show
 	$showID = get_current_show_id($mysqli);

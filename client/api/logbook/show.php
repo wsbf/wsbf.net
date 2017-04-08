@@ -94,10 +94,11 @@ function validate_show($mysqli, $scheduleID)
 }
 
 authenticate();
-authenticate_logbook();
 
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
+
+	authenticate_logbook($mysqli);
 
 	$showID = get_current_show_id($mysqli);
 
@@ -112,6 +113,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 }
 else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
+
+	authenticate_logbook($mysqli);
 
 	$scheduleID = $_GET["scheduleID"];
 
@@ -134,6 +137,8 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 }
 else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
 	$mysqli = construct_connection();
+
+	authenticate_logbook($mysqli);
 
 	sign_off($mysqli);
 	$mysqli->close();
