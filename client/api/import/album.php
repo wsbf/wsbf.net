@@ -226,7 +226,8 @@ function import_album($mysqli, $album)
 		. "artistID = '$artistID', "
 		. "labelID = '$labelID', "
 		. "general_genreID = '$album[general_genreID]', "
-		. "genre = '$album[genre]';";
+		. "genre = '$album[genre]', "
+		. "date_moved = CURDATE();";
 	exec_query($mysqli, $q);
 
 	$albumID = $mysqli->insert_id;
