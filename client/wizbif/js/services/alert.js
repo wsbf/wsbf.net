@@ -15,14 +15,15 @@ alertModule.service("alert", ["$interval", function($interval) {
 	var count = 0;
 
 	var addAlert = function(type, header, message) {
+		var id = count;
 		var promise = $interval(function() {
-			var index = _.findIndex(self.alerts, { id: count });
+			var index = _.findIndex(self.alerts, { id: id });
 
 			self.alerts.splice(index, 1);
 		}, 10000, 1);
 
 		self.alerts.push({
-			id: count,
+			id: id,
 			type: type,
 			header: header,
 			message: message,
