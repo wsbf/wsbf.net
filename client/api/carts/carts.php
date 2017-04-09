@@ -18,10 +18,11 @@ function get_carts($mysqli, $cart_typeID)
 {
 	$keys = array(
 		"c.cartID",
+		"c.start_date",
+		"c.end_date",
 		"c.issuer",
 		"c.title",
-		"c.start_date",
-		"c.end_date"
+		"c.cart_typeID"
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `libcart` AS c "
