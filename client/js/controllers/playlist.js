@@ -19,5 +19,10 @@ playlistModule.controller("PlaylistCtrl", ["$scope", "$interval", "db", function
 
 	// update playlist every 60 s
 	getPlaylist();
-	$interval(getPlaylist, 60000);
+
+	var playlist = $interval(getPlaylist, 60000);
+
+	$scope.$on("$destroy", function() {
+		$interval.cancel(playlist);
+	});
 }]);

@@ -6,7 +6,11 @@ webcamModule.controller("WebcamCtrl", ["$scope", "$interval", function($scope, $
 	$scope.now = 0;
 
 	// update time parameter to force refresh
-	$interval(function() {
+	var now = $interval(function() {
 		$scope.now = Date.now();
 	}, 5000);
+
+	$scope.$on("$destroy", function() {
+		$interval.cancel(now);
+	});
 }]);

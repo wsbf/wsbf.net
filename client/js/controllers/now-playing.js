@@ -19,5 +19,10 @@ nowPlayingModule.controller("NowPlayingCtrl", ["$scope", "$interval", "db", func
 
 	// update now playing every 10 s
 	getNowPlaying();
-	$interval(getNowPlaying, 10000);
+
+	var nowPlaying = $interval(getNowPlaying, 10000);
+
+	$scope.$on("$destroy", function() {
+		$interval.cancel(nowPlaying);
+	});
 }]);

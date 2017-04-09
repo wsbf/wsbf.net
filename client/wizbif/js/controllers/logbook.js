@@ -16,9 +16,11 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 
 	var getCurrentShow = function() {
 		db.Logbook.getCurrentShow().then(function(show) {
-			$scope.scheduleID = (_.find($scope.user.shows, {
+			var scheduleShow = _.find($scope.user.shows || [], {
 				scheduleID: show.scheduleID
-			}) || {}).scheduleID;
+			});
+
+			$scope.scheduleID = (scheduleShow || {}).scheduleID;
 			$scope.showID = $scope.scheduleID && show.showID;
 			$scope.show = show;
 		}, function() {
@@ -65,6 +67,8 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 					track.rotation = track.rotation || "O";
 					showPlaylist.unshift(track);
 				});
+
+				$scope.playlistID = null;
 			});
 	};
 
@@ -106,5 +110,9 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 	getListenerCount();
 	getPlaylists();
 
-	$interval(getListenerCount, 5000);
+	var listenerCount = $interval(getListenerCount, 5000);
+
+	$scope.$on("$destroy", function() {
+		$interval.cancel(listenerCount);
+	});
 }]);
