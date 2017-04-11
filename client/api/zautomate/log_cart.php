@@ -4,21 +4,21 @@
  * @file zautomate/log_cart.php
  * @author Ben Shealy
  */
+require_once("../auth/auth.php");
 require_once("../connect.php");
-require_once("auth.php");
 require_once("../logbook/functions.php");
 
-authenticate_automation();
-
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+	$mysqli = construct_connection();
+
+	authenticate_logbook($mysqli);
+
 	$cartID = $_GET["cartid"];
 
 	if ( !is_numeric($cartID) ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
-
-	$mysqli = construct_connection();
 
 	// get current show or login Automation
 	$showID = get_current_show_id($mysqli);

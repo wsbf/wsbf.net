@@ -4,13 +4,15 @@
  * @file zautomate/log_track.php
  * @author Ben Shealy
  */
+require_once("../auth/auth.php");
 require_once("../connect.php");
 require_once("../logbook/functions.php");
-require_once("auth.php");
-
-authenticate_automation();
 
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+	$mysqli = construct_connection();
+
+	authenticate_logbook($mysqli);
+
 	$album_code = $_GET["albumID"];
 	$disc_num = $_GET["disc_num"];
 	$track_num = $_GET["track_num"];
@@ -21,8 +23,6 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
-
-	$mysqli = construct_connection();
 
 	// get current show or login Automation
 	$showID = get_current_show_id($mysqli);
