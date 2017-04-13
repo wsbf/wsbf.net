@@ -77,7 +77,7 @@ authenticate();
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
-	if ( !check_senior_staff($mysqli) ) {
+	if ( !auth_senior_staff($mysqli) ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}

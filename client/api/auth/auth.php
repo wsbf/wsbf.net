@@ -112,7 +112,7 @@ function authenticate_logbook($mysqli)
  * @return true if current user has one of the above statuses,
  *         false otherwise
  */
-function check_reviewer($mysqli)
+function auth_reviewer($mysqli)
 {
 	return in_array(get_status($mysqli), array(0, 1, 2, 4, 5));
 }
@@ -130,7 +130,7 @@ function check_reviewer($mysqli)
  * @return true if current user has one of the above statuses,
  *         false otherwise
  */
-function check_member($mysqli)
+function auth_member($mysqli)
 {
 	return in_array(get_status($mysqli), array(0, 1, 2, 4));
 }
@@ -153,7 +153,7 @@ function check_member($mysqli)
  * @return true if current user holds one of the above staff
  *         positions, false otherwise
  */
-function check_senior_staff($mysqli)
+function auth_senior_staff($mysqli)
 {
 	return in_array(get_position($mysqli), array(0, 1, 2, 3, 4, 5, 6, 7, 8));
 }
@@ -178,7 +178,7 @@ function check_senior_staff($mysqli)
  * @return true if current user holds one of the above staff
  *         positions, false otherwise
  */
-function check_music_director($mysqli)
+function auth_music_director($mysqli)
 {
 	return in_array(get_position($mysqli),
 			array(0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20));

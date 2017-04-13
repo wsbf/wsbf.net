@@ -27,14 +27,14 @@ mainModule.constant("authSets", {
 mainModule.controller("MainCtrl", ["$scope", "alert", "db", "authSets", function($scope, alert, db, authSets) {
 	$scope.positions = db.getDefs("positions");
 	$scope.user = {};
-	$scope.check = {};
+	$scope.auth = {};
 	$scope.alert = alert;
 
 	var getUser = function() {
 		db.User.get().then(function(user) {
 			$scope.user = user;
 
-			$scope.check = _.mapValues(authSets, function(set) {
+			$scope.auth = _.mapValues(authSets, function(set) {
 				return set.values.indexOf(user[set.key]) !== -1;
 			});
 		}, function() {

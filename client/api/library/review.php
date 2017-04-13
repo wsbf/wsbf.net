@@ -159,7 +159,7 @@ authenticate();
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
-	if ( !check_reviewer($mysqli) ) {
+	if ( !auth_reviewer($mysqli) ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}

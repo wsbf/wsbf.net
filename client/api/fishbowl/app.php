@@ -60,7 +60,7 @@ authenticate();
 if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
-	if ( !check_member($mysqli) ) {
+	if ( !auth_member($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit("Current user is not allowed to submit a fishbowl app.");
 	}
@@ -78,7 +78,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
-	if ( !check_member($mysqli) ) {
+	if ( !auth_member($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit("Current user is not allowed to submit a fishbowl app.");
 	}

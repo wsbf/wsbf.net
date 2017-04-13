@@ -181,7 +181,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	authenticate();
 	$mysqli = construct_connection();
 
-	if ( !check_member($mysqli) ) {
+	if ( !auth_member($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit;
 	}
@@ -203,7 +203,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	authenticate();
 	$mysqli = construct_connection();
 
-	if ( !check_member($mysqli) ) {
+	if ( !auth_member($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit;
 	}
@@ -231,7 +231,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
 	authenticate();
 	$mysqli = construct_connection();
 
-	if ( !check_member($mysqli) ) {
+	if ( !auth_member($mysqli) ) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit;
 	}

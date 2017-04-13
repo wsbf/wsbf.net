@@ -80,7 +80,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
 	authenticate();
 	$mysqli = construct_connection();
 
-	if ( !check_senior_staff($mysqli) ) {
+	if ( !auth_senior_staff($mysqli) ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
