@@ -35,7 +35,7 @@ function get_recent_shows($mysqli, $size)
  *
  * Selected tracks must currently be in rotation, and they
  * must not have been played in the last hour. Also, no
- * more than one track from the same album is included.
+ * more than one track from the same artist is included.
  *
  * @param mysqli
  * @param showID
@@ -44,24 +44,28 @@ function get_recent_shows($mysqli, $size)
 function get_playlist($mysqli, $showID)
 {
 	$keys = array(
-		"l.lb_album_code",
-		"l.lb_disc_num",
-		"l.lb_track_num",
-		"l.lb_track_name",
-		"al.rotationID",
-		"al.album_name",
+		"al.album_code",
+		"t.disc_num",
+		"t.track_num",
+		"r.bin_abbr AS rotation",
+		"t.track_name",
 		"ar.artist_name",
+		"al.album_name",
+		"la.label",
 		"t.file_name"
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `logbook` AS l "
 		. "INNER JOIN `libalbum` AS al ON al.album_code=l.lb_album_code "
 		. "INNER JOIN `libartist` AS ar ON ar.artistID=al.artistID "
+		. "INNER JOIN `liblabel` AS la ON la.labelID=al.labelID "
+		. "INNER JOIN `def_rotations` AS r ON r.rotationID=al.rotationID "
 		. "INNER JOIN `libtrack` AS t ON t.albumID=al.albumID AND t.track_num=l.lb_track_num "
 		. "WHERE l.showID = '$showID' "
 		. "AND al.rotationID IN (3, 4, 5, 6) "
+		. "AND t.airabilityID != 2 "
 		. "AND TIMESTAMPDIFF(MINUTE, time_played, NOW()) > 60 "
-		. "GROUP BY al.albumID "
+		. "GROUP BY ar.artistID "
 		. "ORDER BY l.logbookID ASC;";
 	$result = exec_query($mysqli, $q);
 
