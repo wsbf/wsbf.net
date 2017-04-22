@@ -81,6 +81,8 @@ function authenticate()
  */
 function authenticate_logbook($mysqli)
 {
+	session_start();
+
 	// computer engineer always has access
 	if ( get_position($mysqli) == "8" ) {
 		return;
