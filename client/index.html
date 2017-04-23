@@ -319,7 +319,7 @@
 				<div class="text-right"><strong>{{track.lb_track_name || '--'}}</strong></div>
 				<div class="text-right">{{track.lb_artist || '--'}}</div>
 
-				<audio controls>
+				<audio controls preload="none">
 					<source src="/stream/high" type="audio/mpeg"></source>
 					<source src="/stream/8.ogg" type="audio/ogg"></source>
 				</audio>
