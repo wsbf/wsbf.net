@@ -25,9 +25,12 @@
 		<script src="/bower_components/angular/angular.min.js"></script>
 		<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
 		<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+		<script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 		<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 		<script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 		<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+		<script src="/bower_components/videogular/videogular.js"></script>
+		<script src="/bower_components/videogular-controls/vg-controls.js"></script>
 
 		<script src="js/services/database.js"></script>
 		<script src="js/controllers/carousel.js"></script>
@@ -311,18 +314,28 @@
 
 		<!-- Begin mediawidget -->
 		<div class="row" id="media-widget" ng-controller="NowPlayingCtrl">
-			<div class="col-xs-3">
+			<div class="col-xs-3 col-nopadding-left">
 				<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
 			</div>
 
-			<div class="col-xs-9">
+			<div class="col-xs-3 col-nopadding">
+				<videogular class="videogular-container" vg-theme="config.theme">
+					<vg-media vg-src="config.sources" vg-type="audio" vg-preload="config.preload"></vg-media>
+
+					<vg-controls>
+						<vg-play-pause-button></vg-play-pause-button>
+
+						<vg-volume>
+							<vg-mute-button></vg-mute-button>
+							<vg-volume-bar></vg-volume-bar>
+						</vg-volume>
+					</vg-controls>
+				</videogular>
+			</div>
+
+			<div class="col-xs-6 col-nopadding-right">
 				<div class="text-right"><strong>{{track.lb_track_name || '--'}}</strong></div>
 				<div class="text-right">{{track.lb_artist || '--'}}</div>
-
-				<audio controls preload="none">
-					<source src="/stream/high" type="audio/mpeg"></source>
-					<source src="/stream/8.ogg" type="audio/ogg"></source>
-				</audio>
 			</div>
 		</div>
 		<!-- End mediawidget -->

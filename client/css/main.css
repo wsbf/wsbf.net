@@ -150,19 +150,6 @@ h1, h2, h3 {
 	text-decoration: none;
 }
 
-/* Media widget rules */
-#media-widget {
-	position: fixed;
-	bottom: 0px;
-	right: 0px;
-	width: 100%;
-	max-width: 450px;
-	height: 94px;
-	padding: 15px 15px;
-	background-color: #111111;
-	color: #FFFFFF;
-}
-
 /* Footer rules */
 footer {
 	background: url("../images/footer/dsfgds.jpg") center right no-repeat;
@@ -196,4 +183,38 @@ footer ul > li > a:focus {
 footer .copyright {
 	margin-top: 150px;
 	color: #868484;
+}
+
+/* Media widget rules */
+#media-widget {
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	width: 100%;
+	height: 94px;
+	padding: 15px 15px;
+	background-color: #111111;
+	color: #FFFFFF;
+}
+
+@media (min-width: 768px) {
+	#media-widget {
+		width: 450px;
+	}
+}
+
+.col-nopadding {
+	padding-left: 1px;
+	padding-right: 1px;
+}
+.col-nopadding-left {
+	padding-right: 1px;
+}
+.col-nopadding-right {
+	padding-left: 1px;
+}
+
+.videogular-container {
+	max-width: 150px;
+	height: 50px;
 }

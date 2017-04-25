@@ -30,10 +30,18 @@
 							</dd>
 						</dl>
 
-						<audio class="center-block" controls preload="none">
-							<source src="/stream/high" type="audio/mpeg"></source>
-							<source src="/stream/8.ogg" type="audio/ogg"></source>
-						</audio>
+						<videogular class="videogular-container center-block" vg-theme="config.theme">
+							<vg-media vg-src="config.sources" vg-type="audio" vg-preload="config.preload"></vg-media>
+
+							<vg-controls>
+								<vg-play-pause-button></vg-play-pause-button>
+
+								<vg-volume>
+									<vg-mute-button></vg-mute-button>
+									<vg-volume-bar></vg-volume-bar>
+								</vg-volume>
+							</vg-controls>
+						</videogular>
 					</div>
 				</div>
 			</div>
