@@ -401,6 +401,20 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
+	 * Return a checked out album.
+	 *
+	 * @param albumID
+	 * @return Promise of http response
+	 */
+	this.Library.returnAlbum = function(albumID) {
+		return $http.delete("/api/library/checkout.php", {
+			params: {
+				albumID: albumID
+			}
+		});
+	};
+
+	/**
 	 * Submit an album review.
 	 *
 	 * @param album

@@ -14,7 +14,6 @@ require_once("../connect.php");
  *
  * @param mysqli
  * @param albumID
- * @return true if album can be checked out, false otherwise
  */
 function validate_checkout($mysqli, $albumID)
 {
@@ -38,6 +37,32 @@ function validate_checkout($mysqli, $albumID)
 }
 
 /**
+ * Determine whether an album can be returned.
+ *
+ * @param mysqli
+ * @param albumID
+ */
+function validate_return($mysqli, $albumID)
+{
+	if ( !is_numeric($albumID) ) {
+		return false;
+	}
+
+	// album should be checked out by current user
+	$q = "SELECT c.albumID FROM `checkout` AS c "
+		. "WHERE c.username = '$_SESSION[username]' "
+		. "AND c.albumID = '$albumID' "
+		. "AND CURDATE() < c.expiration_date;";
+	$result = exec_query($mysqli, $q);
+
+	if ( $result->num_rows == 0 ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
  * Check out an album.
  *
  * @param mysqli
@@ -45,15 +70,27 @@ function validate_checkout($mysqli, $albumID)
  */
 function checkout_album($mysqli, $albumID)
 {
-	$q = "UPDATE `libalbum` SET "
-		. "rotationID = 0 "
-		. "WHERE albumID = '$albumID';";
-	exec_query($mysqli, $q);
+	// album rotation remains equal to 0
 
 	$q = "INSERT INTO `checkout` SET "
 		. "username = '$_SESSION[username]', "
 		. "albumID = '$albumID', "
 		. "expiration_date = ADDDATE(CURDATE(), 7);";
+	exec_query($mysqli, $q);
+}
+
+/**
+ * Return a checked-out album.
+ *
+ * @param mysqli
+ * @param albumID
+ */
+function return_album($mysqli, $albumID)
+{
+	$q = "DELETE FROM `checkout` "
+		. "WHERE username = '$_SESSION[username]' "
+		. "AND albumID = '$albumID' "
+		. "AND CURDATE() < expiration_date;";
 	exec_query($mysqli, $q);
 }
 
@@ -75,6 +112,27 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	}
 
 	checkout_album($mysqli, $albumID);
+	$mysqli->close();
+
+	header("Content-Type: application/json");
+	exit;
+}
+else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
+	$mysqli = construct_connection();
+
+	if ( !auth_reviewer($mysqli) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+
+	$albumID = $_GET["albumID"];
+
+	if ( !validate_return($mysqli, $albumID) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+
+	return_album($mysqli, $albumID);
 	$mysqli->close();
 
 	header("Content-Type: application/json");
