@@ -29,6 +29,30 @@ describe("AlbumChartCtrl", function() {
 	});
 });
 
-xdescribe("TrackChartCtrl", function() {
+describe("TrackChartCtrl", function() {
+	var scope, db, $q;
+	var tracks;
 
+	beforeEach(module("app.chart"));
+
+	beforeEach(inject(function($controller, $injector) {
+		scope = $injector.get("$rootScope").$new();
+		db = $injector.get("db");
+		$q = $injector.get("$q");
+
+		tracks = [];
+
+		spyOn(db.Charts, "getTopTracks").and.returnValue($q.resolve(tracks));
+
+		$controller("TrackChartCtrl", {
+			$scope: scope
+		});
+	}));
+
+	it("should add current chart to scope", function() {
+		scope.$digest();
+
+		expect(db.Charts.getTopTracks).toHaveBeenCalled();
+		expect(scope.tracks).toEqual(tracks);
+	});
 });
