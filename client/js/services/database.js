@@ -1,23 +1,23 @@
+/**
+ * The Database service provides an interface to server-side data.
+ * The entire server API is implemented here so that every controller
+ * uses this service instead of using HTTP requests directly.
+ *
+ * This service uses Promises, which are an abstraction of callbacks
+ * that make asynchronous programming a little better.
+ */
 "use strict";
 
 var databaseModule = angular.module("app.database", [
 	"ngResource"
 ]);
 
-/**
- * The Database service provides a single interface to server-side data.
- * The entire server API is implemented here so that every controller
- * uses this service instead of $http, which is an Angular service
- * that provides low-level HTTP operations.
- *
- * This service uses Promises, which are an abstraction of callbacks
- * that make asynchronous programming a little better.
- *
- * @param $http      service in module ng
- * @param $q         service in module ng
- * @param $resource  service in module ngResource
- */
-databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
+databaseModule.constant("spotifyClient", {
+	id: "6ebcab35516d4b45b69e855cd6aba3be",
+	secret: "d19152f3dd1b41f3b3acbcb8c30658d3"
+});
+
+databaseModule.service("db", ["$http", "$q", "$resource", "spotifyClient", function($http, $q, $resource, spotifyClient) {
 
 	var api = {};
 
@@ -29,14 +29,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 
 	api.Show = $resource("/api/shows/shows.php");
 
-	api.Spotify = {};
-
-	api.Spotify.SearchAlbum = $resource("https://api.spotify.com/v1/search", {
-		type: "album",
-		limit: 1
-	}, {
-		get: { method: "GET", cache: true }
-	});
+	var _auth = null;
 
 	/**
 	 * Get album art for an array of tracks or albums.
@@ -50,29 +43,49 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @return Promise of updated items
 	 */
 	this.getAlbumArt = function(items, size) {
-		var promises = items.map(function(item) {
-			if ( item.lb_album === "" ) {
-				return $q.resolve(item);
-			}
+		var authPromise = (_auth !== null)
+			? $q.resolve(_auth)
+			: $http({
+				method: "POST",
+				url: "https://accounts.spotify.com/api/token",
+				data: { grant_type: "client_credentials" },
+				headers: { Authorization: "Basic " + btoa(spotifyClient.id + ":" + spotifyClient.secret) },
+				// withCredentials: true
+			});
 
-			return api.Spotify.SearchAlbum
-				.get({
-					q: "artist:" + item.lb_artist + " " + "album:" + item.lb_album
-				})
-				.$promise
-				.then(function(data) {
-					var album = data.albums.items[0];
+		return authPromise.then(function(auth) {
+			var promises = items.map(function(item) {
+				if ( item.lb_album === "" ) {
+					return $q.resolve(item);
+				}
 
-					if ( album ) {
-						var image = _.find(album.images, { height: size }) || {};
-						item.imageUrl = image.url;
-					}
+				return $http
+					.get("https://api.spotify.com/v1/search", {
+						params: {
+							type: "album",
+							limit: 1,
+							q: "artist:" + item.lb_artist + " " + "album:" + item.lb_album
+						}
+					}, {
+						cache: true,
+						headers: {
+							Authorization: "Bearer " + auth.access_token
+						}
+					})
+					.then(function(data) {
+						var album = data.albums.items[0];
 
-					return item;
-				});
+						if ( album ) {
+							var image = _.find(album.images, { height: size }) || {};
+							item.imageUrl = image.url;
+						}
+
+						return item;
+					});
+			});
+
+			return $q.all(promises);
 		});
-
-		return $q.all(promises);
 	};
 
 	/**
