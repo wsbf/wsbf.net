@@ -12,12 +12,7 @@ var databaseModule = angular.module("app.database", [
 	"ngResource"
 ]);
 
-databaseModule.constant("spotifyClient", {
-	id: "6ebcab35516d4b45b69e855cd6aba3be",
-	secret: "d19152f3dd1b41f3b3acbcb8c30658d3"
-});
-
-databaseModule.service("db", ["$http", "$q", "$resource", "spotifyClient", function($http, $q, $resource, spotifyClient) {
+databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $resource) {
 
 	var api = {};
 
@@ -29,7 +24,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", "spotifyClient", funct
 
 	api.Show = $resource("/api/shows/shows.php");
 
-	var _auth = null;
+	var _spotifyAuth = null;
 
 	/**
 	 * Get album art for an array of tracks or albums.
@@ -43,17 +38,11 @@ databaseModule.service("db", ["$http", "$q", "$resource", "spotifyClient", funct
 	 * @return Promise of updated items
 	 */
 	this.getAlbumArt = function(items, size) {
-		var authPromise = (_auth !== null)
-			? $q.resolve(_auth)
-			: $http({
-				method: "POST",
-				url: "https://accounts.spotify.com/api/token",
-				data: { grant_type: "client_credentials" },
-				headers: { Authorization: "Basic " + btoa(spotifyClient.id + ":" + spotifyClient.secret) },
-				// withCredentials: true
-			});
+		_spotifyAuth = _spotifyAuth || $http.get("/api/auth/spotify.php").then(function(res) {
+			return res.data;
+		});
 
-		return authPromise.then(function(auth) {
+		return _spotifyAuth.then(function(auth) {
 			var promises = items.map(function(item) {
 				if ( item.lb_album === "" ) {
 					return $q.resolve(item);
@@ -61,25 +50,26 @@ databaseModule.service("db", ["$http", "$q", "$resource", "spotifyClient", funct
 
 				return $http
 					.get("https://api.spotify.com/v1/search", {
+						cache: true,
+						headers: {
+							Authorization: "Bearer " + auth.access_token
+						},
 						params: {
 							type: "album",
 							limit: 1,
 							q: "artist:" + item.lb_artist + " " + "album:" + item.lb_album
 						}
-					}, {
-						cache: true,
-						headers: {
-							Authorization: "Bearer " + auth.access_token
-						}
 					})
-					.then(function(data) {
-						var album = data.albums.items[0];
+					.then(function(res) {
+						var album = res.data.albums.items[0];
 
 						if ( album ) {
 							var image = _.find(album.images, { height: size }) || {};
 							item.imageUrl = image.url;
 						}
 
+						return item;
+					}, function() {
 						return item;
 					});
 			});

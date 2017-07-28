@@ -32,18 +32,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		fill: { method: "POST" }
 	});
 
-	api.Spotify = {};
-
-	api.Spotify.SearchArtist = $resource("https://api.spotify.com/v1/search", {
-		type: "artist",
-		limit: 1
-	}, {
-		get: { method: "GET", cache: true }
-	});
-
-	api.Spotify.RelatedArtists = $resource("https://api.spotify.com/v1/artists/:id/related-artists", {}, {
-		get: { method: "GET", cache: true }
-	});
+	var _spotifyAuth = null;
 
 	/**
 	 * Get a definitions table.
@@ -360,20 +349,43 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @return Promise of related artists array
 	 */
 	this.Library.getRelatedArtists = function(artist_name) {
-		return api.Spotify.SearchArtist
-			.get({ q: artist_name }).$promise
-			.then(function(data) {
-				var artist = data.artists.items[0];
+		_spotifyAuth = _spotifyAuth || $http.get("/api/auth/spotify.php").then(function(res) {
+			return res.data;
+		});
 
-				return artist
-					? api.Spotify.RelatedArtists.get({ id: artist.id }).$promise
-					: $q.resolve({ artists: [] });
-			})
-			.then(function(data) {
-				return data.artists.map(function(a) {
-					return a.name;
+		return _spotifyAuth.then(function(auth) {
+			return $http
+				.get("https://api.spotify.com/v1/search", {
+					cache: true,
+					headers: {
+						Authorization: "Bearer " + auth.access_token
+					},
+					params: {
+						type: "artist",
+						limit: 1,
+						q: artist_name
+					}
+				})
+				.then(function(res) {
+					var artist = res.data.artists.items[0];
+
+					if ( !artist ) {
+						return $q.resolve({ artists: [] });
+					}
+
+					return $http.get("https://api.spotify.com/v1/artists/" + artist.id + "/related-artists", {
+						cache: true,
+						headers: {
+							Authorization: "Bearer " + auth.access_token
+						}
+					});
+				})
+				.then(function(res) {
+					return res.data.artists.map(function(a) {
+						return a.name;
+					});
 				});
-			});
+		});
 	};
 
 	/**
