@@ -384,6 +384,8 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 					return res.data.artists.map(function(a) {
 						return a.name;
 					});
+				}, function() {
+					return [];
 				});
 		});
 	};
