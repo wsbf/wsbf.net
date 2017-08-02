@@ -1,343 +1,343 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="app" ng-strict-di>
-	<head>
-		<!--[if lt IE 9]>
-		<script src="/bower_components/html5shiv/dist/html5shiv.js"></script>
-		<![endif]-->
+<head>
+	<!--[if lt IE 9]>
+	<script src="/bower_components/html5shiv/dist/html5shiv.js"></script>
+	<![endif]-->
 
-		<title>WSBF-FM Clemson | The Upstate's Only True Alternative Radio</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>WSBF-FM Clemson | The Upstate's Only True Alternative Radio</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fjalla+One">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Patua+One">
-		<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
-		<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fjalla+One">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Patua+One">
+	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/main.css">
 
-		<!--
-			Angular uses a minimal version of jQuery called jqLite, but jQuery
-			is needed currently to load the chat in the media center.
-			If jQuery is loaded before Angular, then Angular will use that
-			version of jQuery instead of jqLite.
-		-->
-		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="/bower_components/angular/angular.min.js"></script>
-		<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
-		<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
-		<script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-		<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-		<script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-		<script src="/bower_components/lodash/dist/lodash.min.js"></script>
-		<script src="/bower_components/videogular/videogular.js"></script>
-		<script src="/bower_components/videogular-controls/vg-controls.js"></script>
+	<!--
+		Angular uses a minimal version of jQuery called jqLite, but jQuery
+		is needed currently to load the chat in the media center.
+		If jQuery is loaded before Angular, then Angular will use that
+		version of jQuery instead of jqLite.
+	-->
+	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="/bower_components/angular/angular.min.js"></script>
+	<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+	<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+	<script src="/bower_components/videogular/videogular.js"></script>
+	<script src="/bower_components/videogular-controls/vg-controls.js"></script>
 
-		<script src="js/services/database.js"></script>
-		<script src="js/controllers/carousel.js"></script>
-		<script src="js/controllers/chart.js"></script>
-		<script src="js/controllers/main.js"></script>
-		<script src="js/controllers/now-playing.js"></script>
-		<script src="js/controllers/playlist.js"></script>
-		<script src="js/controllers/schedule.js"></script>
-		<script src="js/controllers/show.js"></script>
-		<script src="js/controllers/staff.js"></script>
-		<script src="js/controllers/webcam.js"></script>
-		<script src="js/app.js"></script>
-	</head>
-	<body ng-controller="MainCtrl">
-		<nav class="navbar navbar-default navbar-static-top">
-			<div class="container">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="/" title="wsbf.net">
-						<img class="img-responsive" src="images/logo.png" alt="WSBF logo"/>
-					</a>
+	<script src="js/services/database.js"></script>
+	<script src="js/controllers/carousel.js"></script>
+	<script src="js/controllers/chart.js"></script>
+	<script src="js/controllers/main.js"></script>
+	<script src="js/controllers/now-playing.js"></script>
+	<script src="js/controllers/playlist.js"></script>
+	<script src="js/controllers/schedule.js"></script>
+	<script src="js/controllers/show.js"></script>
+	<script src="js/controllers/staff.js"></script>
+	<script src="js/controllers/webcam.js"></script>
+	<script src="js/app.js"></script>
+</head>
+<body ng-controller="MainCtrl">
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/" title="wsbf.net">
+					<img class="img-responsive" src="images/logo.png" alt="WSBF logo"/>
+				</a>
 
-					<a class="navbar-toggle collapsed" href="" ng-click="navCollapsed = !navCollapsed">
-						<span class="fa-stack">
-							<i class="fa fa-circle-thin fa-stack-2x"></i>
-							<i class="fa fa-bars fa-stack-1x"></i>
-						</span>
-					</a>
-				</div>
-
-				<div class="navbar-collapse" uib-collapse="!navCollapsed">
-					<ul class="list-inline text-right social">
-						<li><a href="https://youtube.com/channel/UCG3Blh_SMHacTo_aq3Ikvqw" target="_blank"><i class="fa fa-youtube"></i></a></li>
-						<li><a href="https://facebook.com/wsbf881?ref=br_tf" target="_blank"><i class="fa fa-facebook"></i></a></li>
-						<li><a href="https://twitter.com/WSBF_FM" target="_blank"><i class="fa fa-twitter"></i></a></li>
-						<li><a href="https://instagram.com/wsbf_fm" target="_blank"><i class="fa fa-instagram"></i></a></li>
-					</ul>
-
-					<ul class="nav navbar-nav navbar-right">
-						<li uib-dropdown>
-							<a class="dropdown-toggle" href="" uib-dropdown-toggle>About</a>
-							<ul class="uib-dropdown-menu">
-								<li>
-									<a ui-sref="philosophy">Philosophy</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a ui-sref="history">History</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a ui-sref="staff">Staff</a>
-								</li>
-							</ul>
-						</li>
-						<li uib-dropdown>
-							<a class="dropdown-toggle" href="" uib-dropdown-toggle>Music</a>
-							<ul class="uib-dropdown-menu">
-								<li>
-									<a ui-sref="schedule">Schedule</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a ui-sref="playlists">Playlists</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a ui-sref="charts-albums">Charting</a>
-								</li>
-							</ul>
-						</li>
-						<li uib-dropdown>
-							<a class="dropdown-toggle" href="" uib-dropdown-toggle>Services</a>
-							<ul class="uib-dropdown-menu">
-								<li>
-									<a ui-sref="booking">Booking</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a ui-sref="promotion">Promotion</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a ui-sref="recording">Recording</a>
-								</li>
-							</ul>
-						</li>
-						<li uib-dropdown>
-							<a href="" class="dropdown-toggle" uib-dropdown-toggle>Contact</a>
-							<ul class="uib-dropdown-menu">
-								<li>
-									<a ui-sref="contact">Contact</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a ui-sref="join">Join</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a href="login/">Login</a>
-								</li>
-							</ul>
-						</li>
-						<li>
-							<a href="blog/" target="_blank">Blog</a>
-						</li>
-						<li>
-							<a href="https://cualumni.clemson.edu/give/wsbf" target="_blank">Donate</a>
-						</li>
-						<li class="sharkweek hidden">
-							<a href="https://wsbf.net/sharkweek/" target="_blank">
-								<span>Sharkweek</span>
-							</a>
-						</li>
-						<li class="buy">
-							<a href="https://secure.touchnet.net/C20569_ustores/web/store_cat.jsp?STOREID=59&CATID=96" target="_blank">
-								<i class="fa fa-shopping-cart hidden-xs"></i>
-								<span class="hidden-sm">Buy</span>
-							</a>
-						</li>
-						<li class="listen">
-							<a href="" ng-click="openMediaCenter()">
-								<i class="fa fa-headphones hidden-xs"></i>
-								<span class="hidden-sm">Listen Live</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-
-		<section class="container">
-			<div class="row">
-				<div class="col-md-8">
-					<div class="grid1">
-						<ui-view></ui-view>
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="grid2" ng-controller="PlaylistCtrl">
-						<!-- Begin playlist.home -->
-						<h1>Playlist <small><a class="btn btn-default pull-right" ui-sref="playlists">View Show Playlists</a></small></h1>
-						<hr>
-						<div class="scrollable">
-							<div class="media" ng-repeat="p in playlist">
-								<div class="media-left">
-									<img class="img-circle" ng-src="{{p.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
-								</div>
-
-								<div class="media-body">
-									<div>{{p.time_played | date:'shortTime'}}</div>
-									<div><strong>{{p.lb_track_name}}</strong></div>
-									<div>{{p.lb_artist}}</div>
-								</div>
-							</div>
-						</div>
-						<!-- End playlist.home -->
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="grid1" ng-controller="ScheduleCtrl">
-						<!-- Begin schedule.home -->
-						<h1>Schedule <small class="pull-right">{{today | date:'EEE MM/dd'}}</small></h1>
-						<hr>
-						<div class="scrollable">
-							<div class="media" ng-repeat="s in schedule">
-								<div class="media-left">
-									<img class="img-circle" src="images/schedule.png" alt="profile pic" width="64" height="64"/>
-								</div>
-
-								<div class="media-body">
-									<div>{{show_times[s.show_timeID].show_time}}</div>
-									<div><strong>{{s.show_name}}</strong></div>
-									<div ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
-								</div>
-							</div>
-						</div>
-						<!-- End schedule.home -->
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="grid2" ng-controller="ChartWidgetCtrl">
-						<!-- Begin chart.home -->
-						<h1>Charting <small><a class="btn btn-default pull-right" ui-sref="charts-albums">View More</a></small></h1>
-						<hr>
-						<div class="scrollable">
-							<div class="media" ng-repeat="a in albums">
-								<div class="media-left">
-									<img class="img-rounded" ng-src="{{a.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
-								</div>
-
-								<div class="media-body">
-									<h4 class="media-heading">{{a.lb_album}}</h4>
-									<p class="text-muted">{{a.lb_artist}}</p>
-								</div>
-							</div>
-						</div>
-						<!-- End chart.home -->
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="grid3">
-						<!-- Begin socialstream.home -->
-						<h1>Social Stream</h1>
-						<hr>
-						<div class="scrollable text-center">
-							<a class="twitter-timeline"
-							   href="https://twitter.com/WSBF_FM"
-							   data-widget-id="494896788252282880"
-							   height="295"
-							   data-chrome="noheader noborders noscrollbar">
-								Tweets by @WSBF_FM
-							</a>
-							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-						</div>
-						<!-- End socialstream.home -->
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<footer>
-			<div class="overlay">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-4 col-sm-2">
-							<h4>About Us</h4>
-							<ul class="list-unstyled h4">
-								<li><a ui-sref="philosophy">Philosophy</a></li>
-								<li><a ui-sref="history">History</a></li>
-								<li><a ui-sref="staff">Staff</a></li>
-								<li><a href="https://cualumni.clemson.edu/give/wsbf" target="_blank">Donate</a></li>
-							</ul>
-						</div>
-
-						<div class="col-xs-4 col-sm-2">
-							<h4>Music</h4>
-							<ul class="list-unstyled h4">
-								<li><a ui-sref="schedule">Schedule</a></li>
-								<li><a ui-sref="playlists">Playlists</a></li>
-								<li><a ui-sref="charts-albums">Charting</a></li>
-							</ul>
-						</div>
-
-						<div class="col-xs-4 col-sm-2">
-							<h4>Services</h4>
-							<ul class="list-unstyled h4">
-								<li><a ui-sref="booking">Booking</a></li>
-								<li><a ui-sref="promotion">Promotion</a></li>
-								<li><a ui-sref="recording">Recording</a></li>
-							</ul>
-						</div>
-
-						<div class="col-xs-4 col-sm-2">
-							<h4>Get In Touch</h4>
-							<ul class="list-unstyled h4">
-								<li><a ui-sref="contact">Contact</a></li>
-								<li><a ui-sref="join">Join</a></li>
-								<li><a href="login/">Login</a></li>
-							</ul>
-						</div>
-
-						<div class="col-xs-4 col-sm-2">
-							<h4>Social Media</h4>
-							<ul class="list-inline social">
-								<li><a href="https://youtube.com/channel/UCG3Blh_SMHacTo_aq3Ikvqw" target="_blank"><i class="fa fa-youtube"></i></a></li>
-								<li><a href="https://facebook.com/wsbf881?ref=br_tf" target="_blank"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="https://twitter.com/WSBF_FM" target="_blank"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="https://instagram.com/wsbf_fm" target="_blank"><i class="fa fa-instagram"></i></a></li>
-							</ul>
-						</div>
-					</div>
-
-					<div class="pull-right copyright">&COPY; 2015 WSBF-FM Clemson All rights reserved</div>
-				</div>
-			</div>
-		</footer>
-
-		<!-- Begin mediawidget -->
-		<div class="row" id="media-widget" ng-controller="NowPlayingCtrl">
-			<div class="col-xs-3 col-nopadding-left">
-				<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
+				<a class="navbar-toggle collapsed" href="" ng-click="navCollapsed = !navCollapsed">
+					<span class="fa-stack">
+						<i class="fa fa-circle-thin fa-stack-2x"></i>
+						<i class="fa fa-bars fa-stack-1x"></i>
+					</span>
+				</a>
 			</div>
 
-			<div class="col-xs-3 col-nopadding">
-				<videogular class="videogular-container" vg-theme="config.theme">
-					<vg-media vg-src="config.sources" vg-type="audio" vg-preload="config.preload"></vg-media>
+			<div class="navbar-collapse" uib-collapse="!navCollapsed">
+				<ul class="list-inline text-right social">
+					<li><a href="https://youtube.com/channel/UCG3Blh_SMHacTo_aq3Ikvqw" target="_blank"><i class="fa fa-youtube"></i></a></li>
+					<li><a href="https://facebook.com/wsbf881?ref=br_tf" target="_blank"><i class="fa fa-facebook"></i></a></li>
+					<li><a href="https://twitter.com/WSBF_FM" target="_blank"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="https://instagram.com/wsbf_fm" target="_blank"><i class="fa fa-instagram"></i></a></li>
+				</ul>
 
-					<vg-controls>
-						<vg-play-pause-button></vg-play-pause-button>
-
-						<vg-volume>
-							<vg-mute-button></vg-mute-button>
-							<vg-volume-bar></vg-volume-bar>
-						</vg-volume>
-					</vg-controls>
-				</videogular>
-			</div>
-
-			<div class="col-xs-6 col-nopadding-right">
-				<div class="text-right"><strong>{{track.lb_track_name || '--'}}</strong></div>
-				<div class="text-right">{{track.lb_artist || '--'}}</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li uib-dropdown>
+						<a class="dropdown-toggle" href="" uib-dropdown-toggle>About</a>
+						<ul class="uib-dropdown-menu">
+							<li>
+								<a ui-sref="philosophy">Philosophy</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a ui-sref="history">History</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a ui-sref="staff">Staff</a>
+							</li>
+						</ul>
+					</li>
+					<li uib-dropdown>
+						<a class="dropdown-toggle" href="" uib-dropdown-toggle>Music</a>
+						<ul class="uib-dropdown-menu">
+							<li>
+								<a ui-sref="schedule">Schedule</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a ui-sref="playlists">Playlists</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a ui-sref="charts-albums">Charting</a>
+							</li>
+						</ul>
+					</li>
+					<li uib-dropdown>
+						<a class="dropdown-toggle" href="" uib-dropdown-toggle>Services</a>
+						<ul class="uib-dropdown-menu">
+							<li>
+								<a ui-sref="booking">Booking</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a ui-sref="promotion">Promotion</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a ui-sref="recording">Recording</a>
+							</li>
+						</ul>
+					</li>
+					<li uib-dropdown>
+						<a href="" class="dropdown-toggle" uib-dropdown-toggle>Contact</a>
+						<ul class="uib-dropdown-menu">
+							<li>
+								<a ui-sref="contact">Contact</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a ui-sref="join">Join</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="login/">Login</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="blog/" target="_blank">Blog</a>
+					</li>
+					<li>
+						<a href="https://cualumni.clemson.edu/give/wsbf" target="_blank">Donate</a>
+					</li>
+					<li class="sharkweek hidden">
+						<a href="https://wsbf.net/sharkweek/" target="_blank">
+							<span>Sharkweek</span>
+						</a>
+					</li>
+					<li class="buy">
+						<a href="https://secure.touchnet.net/C20569_ustores/web/store_cat.jsp?STOREID=59&CATID=96" target="_blank">
+							<i class="fa fa-shopping-cart hidden-xs"></i>
+							<span class="hidden-sm">Buy</span>
+						</a>
+					</li>
+					<li class="listen">
+						<a href="" ng-click="openMediaCenter()">
+							<i class="fa fa-headphones hidden-xs"></i>
+							<span class="hidden-sm">Listen Live</span>
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
-		<!-- End mediawidget -->
-	</body>
+	</nav>
+
+	<section class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="grid1">
+					<ui-view></ui-view>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="grid2" ng-controller="PlaylistCtrl">
+					<!-- Begin playlist.home -->
+					<h1>Playlist <small><a class="btn btn-default pull-right" ui-sref="playlists">View Show Playlists</a></small></h1>
+					<hr>
+					<div class="scrollable">
+						<div class="media" ng-repeat="p in playlist">
+							<div class="media-left">
+								<img class="img-circle" ng-src="{{p.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
+							</div>
+
+							<div class="media-body">
+								<div>{{p.time_played | date:'shortTime'}}</div>
+								<div><strong>{{p.lb_track_name}}</strong></div>
+								<div>{{p.lb_artist}}</div>
+							</div>
+						</div>
+					</div>
+					<!-- End playlist.home -->
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="grid1" ng-controller="ScheduleCtrl">
+					<!-- Begin schedule.home -->
+					<h1>Schedule <small class="pull-right">{{today | date:'EEE MM/dd'}}</small></h1>
+					<hr>
+					<div class="scrollable">
+						<div class="media" ng-repeat="s in schedule">
+							<div class="media-left">
+								<img class="img-circle" src="images/schedule.png" alt="profile pic" width="64" height="64"/>
+							</div>
+
+							<div class="media-body">
+								<div>{{show_times[s.show_timeID].show_time}}</div>
+								<div><strong>{{s.show_name}}</strong></div>
+								<div ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
+							</div>
+						</div>
+					</div>
+					<!-- End schedule.home -->
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="grid2" ng-controller="ChartWidgetCtrl">
+					<!-- Begin chart.home -->
+					<h1>Charting <small><a class="btn btn-default pull-right" ui-sref="charts-albums">View More</a></small></h1>
+					<hr>
+					<div class="scrollable">
+						<div class="media" ng-repeat="a in albums">
+							<div class="media-left">
+								<img class="img-rounded" ng-src="{{a.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
+							</div>
+
+							<div class="media-body">
+								<h4 class="media-heading">{{a.lb_album}}</h4>
+								<p class="text-muted">{{a.lb_artist}}</p>
+							</div>
+						</div>
+					</div>
+					<!-- End chart.home -->
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="grid3">
+					<!-- Begin socialstream.home -->
+					<h1>Social Stream</h1>
+					<hr>
+					<div class="scrollable text-center">
+						<a class="twitter-timeline"
+						   href="https://twitter.com/WSBF_FM"
+						   data-widget-id="494896788252282880"
+						   height="295"
+						   data-chrome="noheader noborders noscrollbar">
+							Tweets by @WSBF_FM
+						</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+					</div>
+					<!-- End socialstream.home -->
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer>
+		<div class="overlay">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-4 col-sm-2">
+						<h4>About Us</h4>
+						<ul class="list-unstyled h4">
+							<li><a ui-sref="philosophy">Philosophy</a></li>
+							<li><a ui-sref="history">History</a></li>
+							<li><a ui-sref="staff">Staff</a></li>
+							<li><a href="https://cualumni.clemson.edu/give/wsbf" target="_blank">Donate</a></li>
+						</ul>
+					</div>
+
+					<div class="col-xs-4 col-sm-2">
+						<h4>Music</h4>
+						<ul class="list-unstyled h4">
+							<li><a ui-sref="schedule">Schedule</a></li>
+							<li><a ui-sref="playlists">Playlists</a></li>
+							<li><a ui-sref="charts-albums">Charting</a></li>
+						</ul>
+					</div>
+
+					<div class="col-xs-4 col-sm-2">
+						<h4>Services</h4>
+						<ul class="list-unstyled h4">
+							<li><a ui-sref="booking">Booking</a></li>
+							<li><a ui-sref="promotion">Promotion</a></li>
+							<li><a ui-sref="recording">Recording</a></li>
+						</ul>
+					</div>
+
+					<div class="col-xs-4 col-sm-2">
+						<h4>Get In Touch</h4>
+						<ul class="list-unstyled h4">
+							<li><a ui-sref="contact">Contact</a></li>
+							<li><a ui-sref="join">Join</a></li>
+							<li><a href="login/">Login</a></li>
+						</ul>
+					</div>
+
+					<div class="col-xs-4 col-sm-2">
+						<h4>Social Media</h4>
+						<ul class="list-inline social">
+							<li><a href="https://youtube.com/channel/UCG3Blh_SMHacTo_aq3Ikvqw" target="_blank"><i class="fa fa-youtube"></i></a></li>
+							<li><a href="https://facebook.com/wsbf881?ref=br_tf" target="_blank"><i class="fa fa-facebook"></i></a></li>
+							<li><a href="https://twitter.com/WSBF_FM" target="_blank"><i class="fa fa-twitter"></i></a></li>
+							<li><a href="https://instagram.com/wsbf_fm" target="_blank"><i class="fa fa-instagram"></i></a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="pull-right copyright">&COPY; 2015 WSBF-FM Clemson All rights reserved</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- Begin mediawidget -->
+	<div class="row" id="media-widget" ng-controller="NowPlayingCtrl">
+		<div class="col-xs-3 col-nopadding-left">
+			<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
+		</div>
+
+		<div class="col-xs-3 col-nopadding">
+			<videogular class="videogular-container" vg-theme="config.theme">
+				<vg-media vg-src="config.sources" vg-type="audio" vg-preload="config.preload"></vg-media>
+
+				<vg-controls>
+					<vg-play-pause-button></vg-play-pause-button>
+
+					<vg-volume>
+						<vg-mute-button></vg-mute-button>
+						<vg-volume-bar></vg-volume-bar>
+					</vg-volume>
+				</vg-controls>
+			</videogular>
+		</div>
+
+		<div class="col-xs-6 col-nopadding-right">
+			<div class="text-right"><strong>{{track.lb_track_name || '--'}}</strong></div>
+			<div class="text-right">{{track.lb_artist || '--'}}</div>
+		</div>
+	</div>
+	<!-- End mediawidget -->
+</body>
 </html>
