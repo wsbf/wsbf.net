@@ -23,7 +23,7 @@ define('FALL', 1);
  * At the beginning of each application cycle, this
  * constant should be switched.
  */
-define('SEMESTER', SPRING);
+define('SEMESTER', FALL);
 
 /**
  * At the beginning of each application cycle, the
@@ -34,7 +34,7 @@ define('SEMESTER', SPRING);
  */
 $SEMESTER_BEGIN = array(
 	SPRING => strtotime("5:00 pm January 11, 2017"),
-	FALL => strtotime("5:00 pm August 17, 2016")
+	FALL => strtotime("5:00 pm August 23, 2017")
 );
 
 define('REVIEW_BEGIN', $SEMESTER_BEGIN[!SEMESTER]);
