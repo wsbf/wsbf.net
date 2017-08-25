@@ -63,7 +63,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$success = send_mail(
 		$user["email_addr"],
 		"Password Reset Request",
-		"Go to this link to reset your password: https://wsbf.net/login/#/reset-password/$transaction_id"
+		"Go to this link to reset your password: https://wsbf.net/login/#!/reset-password/$transaction_id"
 	);
 
 	$mysqli->close();
