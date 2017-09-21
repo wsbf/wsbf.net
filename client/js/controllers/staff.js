@@ -6,7 +6,7 @@ staffModule.constant("staff", [
 	{
 		position: "Chief Announcer",
 		email: "announcer@wsbf.net",
-		name: "Billy Moir",
+		name: "Sean Brewer",
 		imageUrl: "images/wsbflady_100.png"
 	},
 	{
@@ -15,28 +15,30 @@ staffModule.constant("staff", [
 		name: "Christian Steinmetz",
 		imageUrl: "images/wsbflady_100.png"
 	},
+/*
 	{
 		position: "Computer Engineer",
 		email: "computer@wsbf.net",
 		name: "Ben Shealy",
 		imageUrl: "images/wsbflady_100.png"
 	},
+*/
 	{
 		position: "Events Coordinator",
 		email: "events@wsbf.net",
-		name: "Wesley Heaton",
+		name: "Jacob Lairson",
 		imageUrl: "images/wsbflady_100.png"
 	},
 	{
 		position: "General Manager",
 		email: "gm@wsbf.net",
-		name: "Morgan Kern",
+		name: "Michael Murad",
 		imageUrl: "images/wsbflady_100.png"
 	},
 	{
 		position: "Member At Large",
 		email: "member@wsbf.net",
-		name: "Ellie Lane",
+		name: "Luke Waldrop",
 		imageUrl: "images/wsbflady_100.png"
 	},
 	{
