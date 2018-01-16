@@ -162,14 +162,15 @@
 	</nav>
 
 	<section class="container">
-		<div class="row">
-			<div class="col-md-8">
+	  <div class="row">
+	    <!-- to convert back change ui-view to 8 and the rest to 4 -->
+			<div class="col-md-12">
 				<div class="grid1">
 					<ui-view></ui-view>
 				</div>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="grid2" ng-controller="PlaylistCtrl">
 					<!-- Begin playlist.home -->
 					<h1>Playlist <small><a class="btn btn-default pull-right" ui-sref="playlists">View Show Playlists</a></small></h1>
@@ -191,7 +192,7 @@
 				</div>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="grid1" ng-controller="ScheduleCtrl">
 					<!-- Begin schedule.home -->
 					<h1>Schedule <small class="pull-right">{{today | date:'EEE MM/dd'}}</small></h1>
@@ -213,7 +214,7 @@
 				</div>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="grid2" ng-controller="ChartWidgetCtrl">
 					<!-- Begin chart.home -->
 					<h1>Charting <small><a class="btn btn-default pull-right" ui-sref="charts-albums">View More</a></small></h1>
@@ -234,7 +235,7 @@
 				</div>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="grid3">
 					<!-- Begin socialstream.home -->
 					<h1>Social Stream</h1>
