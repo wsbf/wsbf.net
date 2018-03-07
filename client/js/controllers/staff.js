@@ -38,13 +38,13 @@ staffModule.constant("staff", [
 	email: "member@wsbf.net",
 	name: "Luke Waldrop",
 	imageUrl: "images/staff/Luke_Waldrop.jpg"
-    },
+    },/*
     {
 	position: "Music Director",
 	email: "music@wsbf.net",
 	name: "",
 	imageUrl: "images/staff/chair.jpg"
-    },
+    },*/
     {
 	position: "Production Director",
 	email: "production@wsbf.net",
