@@ -6,7 +6,6 @@ h1, h2, h3 {
 /* Navbar */
 .navbar {
 	height: 100px;
-	padding-top: 25px;
 	background-color: #FFFFFF;
 }
 .navbar > .container {
@@ -27,6 +26,9 @@ h1, h2, h3 {
 	font-size: 2em;
 	color: #000000;
 	cursor: pointer;
+}
+.navbar-right{
+	padding-top: 25px;
 }
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
