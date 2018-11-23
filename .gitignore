@@ -17,6 +17,4 @@ dev/api
 client/bower_components
 node_modules
 
-
-client/files/*
 test
