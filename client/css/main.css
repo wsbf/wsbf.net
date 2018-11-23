@@ -6,6 +6,7 @@ h1, h2, h3 {
 /* Navbar */
 .navbar {
 	height: 100px;
+	padding-top: 25px;
 	background-color: #FFFFFF;
 }
 .navbar > .container {
@@ -152,10 +153,13 @@ h1, h2, h3 {
 
 /* Footer rules */
 footer {
-	background: url("../images/footer/dsfgds.jpg") center right no-repeat;
+	background-color: #000000;
 	background-size: cover;
 	width: 100%;
-	height: 650px;
+	height: 150%;
+	padding-left: 50px;
+	padding-top: 25px;
+	padding-bottom: 50px;
 	color: #E7E7E7;
 }
 footer .overlay {
@@ -181,7 +185,8 @@ footer ul > li > a:focus {
 	color: #E80200;
 }
 footer .copyright {
-	margin-top: 150px;
+	padding-left: 25px;
+	line-height:28px;
 	color: #868484;
 }
 
