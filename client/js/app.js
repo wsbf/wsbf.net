@@ -44,17 +44,13 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 			url: "/contact",
 			templateUrl: "views/contact.html"
 		})
-		.state("history", {
-			url: "/history",
-			templateUrl: "views/history.html"
+		.state("about", {
+			url: "/about",
+			templateUrl: "views/philosophyhistory.html"
 		})
 		.state("join", {
 			url: "/join",
 			templateUrl: "views/join.html"
-		})
-		.state("philosophy", {
-			url: "/philosophy",
-			templateUrl: "views/philosophy.html"
 		})
 		.state("playlists", {
 			url: "/playlists/page/:page",

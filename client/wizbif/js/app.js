@@ -16,7 +16,8 @@ var app = angular.module("wizbif", [
 	"wizbif.showsub",
 	"wizbif.staff",
 	"wizbif.user",
-	"wizbif.users"
+	"wizbif.users",
+	"wizbif.faq"
 ]);
 
 app.config(["$compileProvider", function($compileProvider) {
@@ -33,6 +34,10 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 			url: "/alumni",
 			templateUrl: "views/alumni.html",
 			controller: "AlumniCtrl"
+		})
+		.state("faq", {
+			url: "/faq",
+			templateUrl: "views/faq.html",
 		})
 		.state("archives", {
 			url: "/archives",

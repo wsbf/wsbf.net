@@ -1,0 +1,224 @@
+* {
+	background-color: #000000 !important;
+}
+
+h1, h2, h3 {
+	font-family: 'Fjalla One', sans-serif;
+	text-transform: uppercase;
+}
+
+/* Navbar */
+.navbar {
+	height: 100px;
+	background-color: #FFFFFF;
+}
+.navbar > .container {
+	background-color: #FFFFFF;
+}
+.navbar-brand img {
+	height: 70px;
+}
+.navbar .navbar-nav > li > a {
+	color: #000000;
+	text-transform: uppercase;
+	font-family: 'Fjalla One', sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+}
+.navbar-default .navbar-toggle {
+    border-color: #FFFFFF;
+	font-size: 2em;
+	color: #000000;
+	cursor: pointer;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+	background-color: inherit;
+}
+
+/* Social icons (Facebook, Twitter, Instagram, etc.) */
+.social {
+	-webkit-transition: all 0.3s ease 0s;
+	-moz-transition: all 0.3s ease 0s;
+	transition: all 0.3s ease 0s;
+	font-size: 1.2em;
+}
+.navbar-default .social a {
+	color: #A0BD2B;
+}
+.navbar-default .social a:hover,
+.navbar-default .social a:focus {
+	color: #E80200;
+}
+
+/* Special button links */
+/* custom rules should only apply when navbar is not collapsed */
+@media (min-width: 768px) {
+	.navbar-nav > li.sharkweek {
+		margin-right: 10px;
+	}
+	.navbar-nav > li.sharkweek > a {
+		margin-top: 5px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		background-color: #458294;
+		color: #FFFFFF;
+	}
+	.navbar-nav > li.sharkweek > a:hover,
+	.navbar-nav > li.sharkweek > a:focus {
+		background-color: #347183;
+		color: #FFFFFF;
+	}
+
+	.navbar-nav > li.buy {
+		margin-right: 10px;
+	}
+	.navbar-nav > li.buy > a {
+		margin-top: 5px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		background-color: #468D1D;
+		color: #FFFFFF;
+	}
+	.navbar-nav > li.buy > a:hover,
+	.navbar-nav > li.buy > a:focus {
+		background-color: #357C0C;
+		color: #FFFFFF;
+	}
+
+	.navbar-nav > li.listen {
+		margin-right: 15px;
+	}
+	.navbar-nav > li.listen > a {
+		margin-top: 5px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		background-color: #E81200;
+		color: #FFFFFF;
+	}
+	.navbar-nav > li.listen > a:hover,
+	.navbar-nav > li.listen > a:focus {
+		background-color: #D70100;
+		color: #FFFFFF;
+	}
+}
+
+/* Top borders for media blocks */
+.grid1 {
+	border-top: 3px solid #5f9a18;
+}
+.grid2 {
+	border-top: 3px solid #5542B9;
+}
+.grid3 {
+	border-top: 3px solid #973232;
+}
+
+/* Scrollbar, other rules for media blocks */
+.scrollable {
+	overflow-y: auto;
+	height: 300px;
+	margin-bottom: 30px;
+}
+
+/* Schedule rules */
+#schedule > ul > li {
+	margin-left: 5px;
+	padding-top: 20px;
+	height: 60px;
+	width: 60px;
+	border: 1px solid #333;
+	border-radius: 100%;
+	font-family: 'Fjalla One', sans-serif;
+}
+#schedule > ul > li.active {
+	background-color: #E80200;
+	color: #FFFFFF;
+}
+#schedule > ul > li > a {
+	color: inherit;
+}
+
+/* Carousel rules */
+#carousel img {
+	width: 100%;
+	height: 415px;
+}
+
+#carousel .carousel-caption {
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+#carousel .carousel-caption a {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+/* Footer rules */
+footer {
+	background: url("../images/footer/dsfgds.jpg") center right no-repeat;
+	background-size: cover;
+	width: 100%;
+	height: 650px;
+	color: #E7E7E7;
+}
+footer .overlay {
+	padding-top: 200px;
+	height: 100%;
+	background-color: rgba(0,0,0,0.85);
+}
+footer .row {
+	font-family: 'Fjalla One', sans-serif;
+}
+footer h4 {
+	color: #72861F;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+footer ul > li > a {
+	line-height: 30px;
+	color: #AAAAAA;
+}
+footer ul > li > a:hover,
+footer ul > li > a:focus {
+	text-decoration: none;
+	color: #E80200;
+}
+footer .copyright {
+	margin-top: 150px;
+	color: #868484;
+}
+
+/* Media widget rules */
+#media-widget {
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	width: 100%;
+	height: 94px;
+	padding: 15px 15px;
+	background-color: #111111;
+	color: #FFFFFF;
+}
+
+@media (min-width: 768px) {
+	#media-widget {
+		width: 450px;
+	}
+}
+
+.col-nopadding {
+	padding-left: 1px;
+	padding-right: 1px;
+}
+.col-nopadding-left {
+	padding-right: 1px;
+}
+.col-nopadding-right {
+	padding-left: 1px;
+}
+
+.videogular-container {
+	max-width: 150px;
+	height: 50px;
+}
