@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="wizbif" ng-strict-di>
 <head>
-	<title>WSBF-FM Clemson | The Upstate's Only True Alternative Radio</title>
+	<title>WSBF-FM Clemson | DJ</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -63,45 +63,48 @@
 
 		<div class="row" ng-show="user">
 			<div class="col-xs-3 col-md-2">
+				<div class="panel panel-default" ng-show="auth.member">
+					<div class="panel-heading" style="background-color: #ff0000; color: #ffffff;"><strong>Live</strong></div>
+					<div class="list-group">
+						<a class="list-group-item" ui-sref="logbook">Logbook</a>
+					</div>
+				</div>
+
 				<div class="panel panel-default">
 					<div class="panel-heading">Users</div>
 
 					<div class="list-group">
 						<a class="list-group-item" ui-sref="home">Home</a>
-						<a class="list-group-item" ui-sref="alumni">Alumni Directory</a>
+						<a class="list-group-item" ui-sref="faq">FAQ & Help</a>
 						<a class="list-group-item" ui-sref="schedule">Show Schedule</a>
 						<a class="list-group-item" href="/api/auth/logout.php">Log out</a>
 					</div>
 				</div>
 
 				<div class="panel panel-default" ng-show="auth.reviewer">
-					<div class="panel-heading">Reviewers</div>
-
-					<div class="list-group">
-						<a class="list-group-item" ui-sref="library">Music Library</a>
-						<a class="list-group-item" ui-sref="user({ username: user.username })">User Profile</a>
-					</div>
-				</div>
-
-				<div class="panel panel-default" ng-show="auth.member">
 					<div class="panel-heading">Members</div>
-
 					<div class="list-group">
-						<a class="list-group-item" ui-sref="faq">FAQ</a>
-						<a class="list-group-item" ui-sref="archives">Show Archives</a>
-						<a class="list-group-item" ui-sref="fishbowl-app">Fishbowl App</a>
-						<a class="list-group-item" ui-sref="fishbowl-log">Fishbowl Log</a>
-						<a class="list-group-item" ui-sref="logbook">Logbook</a>
-						<a class="list-group-item" ui-sref="playlists">Playlists</a>
-						<a class="list-group-item" ui-sref="showsub">Show Sub Requests</a>
-						<a class="list-group-item" ui-sref="users">User Directory</a>
+						<a class="list-group-item" ui-sref="user({ username: user.username })">User Profile</a>
+						<a class="list-group-item" ui-sref="library">Music Library</a>
 						<a class="list-group-item" ui-sref="users-reviews">Album Reviews</a>
 					</div>
 				</div>
 
-				<div class="panel panel-default" ng-show="auth.seniorStaff">
-					<div class="panel-heading">Senior Staff</div>
+				<div class="panel panel-default" ng-show="auth.member">
+					<div class="panel-heading">Shows</div>
+					<div class="list-group">
+						<a class="list-group-item" ui-sref="showsub">Show Sub Requests</a>
+						<a class="list-group-item" ui-sref="playlists">Playlists</a>
+						<a class="list-group-item" ui-sref="archives">Show Archives</a>
+						<a class="list-group-item" ui-sref="users">User Directory</a>
+						<a class="list-group-item" ui-sref="alumni">Alumni Directory</a>
+						<a class="list-group-item" ui-sref="fishbowl-app">Fishbowl App</a>
+						<a class="list-group-item" ui-sref="fishbowl-log">Fishbowl Log</a>
+					</div>
+				</div>
 
+				<div class="panel panel-default" ng-show="auth.seniorStaff">
+					<div class="panel-heading" style="background-color: #000000; color: #ffffff;"><strong>Senior Staff</strong></div>
 					<div class="list-group">
 						<a class="list-group-item" ui-sref="carts-admin">Carts Control Panel</a>
 						<a class="list-group-item" ui-sref="fishbowl-admin">Fishbowl Control Panel</a>

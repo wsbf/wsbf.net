@@ -1,15 +1,22 @@
 client/blog
-client/bower_components
 client/camera
 client/wizbif/Archibald
 client/wizbif/images/users
 client/wizbif/ZAutoLib
 client_build
 dev/api
-node_modules
+
 
 *.log
 *.txt
 
 
 **/.DS_Store
+
+
+client/bower_components
+node_modules
+
+
+client/files/*
+test

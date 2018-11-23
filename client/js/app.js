@@ -46,7 +46,7 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 		})
 		.state("about", {
 			url: "/about",
-			templateUrl: "views/philosophyhistory.html"
+			templateUrl: "views/about.html"
 		})
 		.state("join", {
 			url: "/join",

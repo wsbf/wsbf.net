@@ -1,4 +1,5 @@
 <h1>Weekly Charts</h1>
+<p><em>Charting includes albums in rotation that are played by DJs (not Automation).</em></p>
 
 <hr>
 
@@ -14,7 +15,6 @@
 
 	<h3 class="text-center">{{date1 | date:'EEE MM/dd'}} - {{date2 | date:'EEE MM/dd'}}</h3>
 
-	<p><em>Charting includes albums in rotation that are played by DJs (not Automation).</em></p>
 
 	<div class="row">
 		<div class="col-md-5">
@@ -29,17 +29,16 @@
 
 		<div class="col-md-5">
 			<div class="pull-right">
-				<button class="btn btn-sm" ng-click="getPrevWeek()">prev week</button>
-				<button class="btn btn-sm" ng-click="getNextWeek()" ng-disabled="!hasNextWeek()">next week</button>
-				<button class="btn btn-sm" ng-click="getCurrWeek()">current</button>
+				<button class="btn btn-sm" ng-click="getPrevWeek()">Prev Week</button>
+				<button class="btn btn-sm" ng-click="getNextWeek()" ng-disabled="!hasNextWeek()">Next Week</button>
+				<button class="btn btn-sm" ng-click="getCurrWeek()">Current</button>
 			</div>
 		</div>
 	</div>
 
 	<table class="table">
 		<thead>
-			<th></th>
-			<th>Code</th>
+			<th>Rank</th>
 			<th>Plays</th>
 			<th>Artist</th>
 			<th>Album</th>
@@ -49,7 +48,6 @@
 		<tbody>
 			<tr ng-repeat="a in albums | limitTo:count">
 				<td class="text-right">{{$index + 1}}</td>
-				<td class="text-right">{{a.lb_album_code}}</td>
 				<td class="text-right">{{a.count}}</td>
 				<td>{{a.lb_artist}}</td>
 				<td>{{a.lb_album}}</td>
