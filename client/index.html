@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--Good Afternoon, this is the high fidelity voice of Clemson College-->
 <html lang="en" ng-app="app" ng-strict-di>
 <head>
 	<!--[if lt IE 9]>
@@ -9,11 +10,14 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<!-- Page Inclusions -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css"><!--Social Icons-->
 	<link rel="stylesheet" href="css/main.css">
+
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112858062-1"></script>
 	<script>
@@ -24,7 +28,7 @@
 	  gtag('config', 'UA-112858062-1');
 	</script>
 
-
+	<!-- Project Dependencies -->
 	<!--
 		Angular uses a minimal version of jQuery called jqLite, but jQuery
 		is needed currently to load the chat in the media center.
@@ -42,6 +46,7 @@
 	<script src="/bower_components/videogular/videogular.js"></script>
 	<script src="/bower_components/videogular-controls/vg-controls.js"></script>
 
+	<!-- WSBF Services -->
 	<script src="js/services/database.js"></script>
 	<script src="js/controllers/carousel.js"></script>
 	<script src="js/controllers/chart.js"></script>
@@ -56,13 +61,17 @@
 </head>
 
 <body ng-controller="MainCtrl">
+	<!-- Begin Navbar -->
 	<nav class="navbar navbar-default navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="/" title="wsbf.net">
-					<img class="img-responsive" src="images/logo.png" alt="WSBF logo"/>
+				<!-- Logo -->
+					<a class="navbar-brand" href="/" title="wsbf.net">
+					<img id="station_logo" class="img-responsive" src="images/wsbflady_250.png" alt="WSBF logo"/>
+					<span id="station_id">WSBF FM<br>Clemson</span>
 				</a>
 
+				<!-- Mobile Collapse -->
 				<a class="navbar-toggle collapsed" href="" ng-click="navCollapsed = !navCollapsed">
 					<i class="material-icons" style="font-size: 30px; line-height: 70px;">menu</i>
 				</a>
@@ -144,14 +153,17 @@
 							<span class="hidden-sm">Listen Live</span>
 						</a>
 					</li>
+					<li class="divider"></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
+	<!-- End Navbar -->
 
+	<!-- Begin Body -->
 	<section class="container">
 		<div class="row">
-	    <!-- to convert back change ui-view to 8 and the rest to 4 -->
+	    <!-- Specific Page Content -->
 			<div class="col-md-12">
 				<div class="grid0">
 					<ui-view></ui-view>
@@ -159,79 +171,76 @@
 			</div>
 			<div class="row">
 
+			<!-- Playlist -->
 			<div class="col-sm-4">
 				<div class="grid2" ng-controller="PlaylistCtrl">
-					<!-- Begin playlist.home -->
-					<h2>Playlist <small><a class="btn btn-default pull-right" ui-sref="playlists">View Show Playlists</a></small></h2>
+					<h2>Playing <small><a class="btn btn-default pull-right" ui-sref="playlists">More</a></small></h2>
 					<hr>
 					<div class="scrollable">
+						<!-- Track -->
 						<div class="media" ng-repeat="p in playlist">
 							<div class="media-left">
-								<img class="img-circle" ng-src="{{p.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
+								<img class="img-rounded" ng-src="{{p.imageUrl || 'images/media_psa.png'}}" alt="album art" width="60" height="60"/>
 							</div>
-
 							<div class="media-body">
-								<div>{{p.time_played | date:'shortTime'}}</div>
+								<div>{{p.time_played | date:'h:mm a ET'}}</div>
 								<div><strong>{{p.lb_track_name}}</strong></div>
 								<div>{{p.lb_artist}}</div>
 							</div>
 						</div>
 					</div>
-					<!-- End playlist.home -->
 				</div>
 			</div>
 
+			<!-- Schedule -->
 			<div class="col-sm-4">
 				<div class="grid1" ng-controller="ScheduleCtrl">
-					<!-- Begin schedule.home -->
-					<h2>Show Schedule <small class="pull-right" style="line-height: 33px">{{today | date:'EEE MM/dd'}}</small></h2>
+					<h2>Schedule <small class="btn btn-default pull-right" ui-sref="schedule">{{today | date:'EEEE'}}</small></h2>
 					<hr>
 					<div class="scrollable">
+						<!-- Show -->
 						<div class="media" ng-repeat="s in schedule">
 							<!-- Temporarily removed profile pictures until they are properly implemented in the DJ portal -->
 							<!--
 							<div class="media-left">
-								<img class="img-circle" src="images/schedule_dj.png" alt="profile pic" width="64" height="64"/>
+								<img class="img-circle" src="images/schedule_dj.png" alt="profile pic" width="60" height="60"/>
 							</div>
 							-->
-
 							<div class="media-body">
-								<div>{{show_times[s.show_timeID].show_time}}</div>
+								<div>{{show_times[s.show_timeID].show_time | date:'h:mm a ET'}}</div>
 								<div><strong>{{s.show_name}}</strong></div>
 								<div ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
 							</div>
 						</div>
 					</div>
-					<!-- End schedule.home -->
 				</div>
 			</div>
 
+			<!-- Charting -->
 			<div class="col-sm-4">
 				<div class="grid2" ng-controller="ChartWidgetCtrl">
-					<!-- Begin chart.home -->
-					<h2>Charting <small><a class="btn btn-default pull-right" ui-sref="charts-albums">View Full List</a></small></h2>
+					<h2>Charting <small><a class="btn btn-default pull-right" ui-sref="charts-albums">Full</a></small></h2>
 					<hr>
 					<div class="scrollable">
+						<!-- Album -->
 						<div class="media" ng-repeat="a in albums">
 							<div class="media-left">
-								<img class="img-rounded" ng-src="{{a.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
+								<img class="img-rounded" ng-src="{{a.imageUrl || 'images/media_song.png'}}" alt="album art" width="60" height="60"/>
 							</div>
-
 							<div class="media-body">
-								<h4 class="media-heading">{{a.lb_album}}</h4>
-								<p class="text-muted">{{a.lb_artist}}</p>
+								<div><strong>{{a.lb_album}}</strong></div>
+								<div>{{a.lb_artist}}</div>
 							</div>
 						</div>
 					</div>
-					<!-- End chart.home -->
 				</div>
 			</div>
 
+			<!-- Social -->
 			<div class="col-md-6">
 				<div class="grid3">
-					<!-- Begin socialstream.home -->
-
 					<h2>Social Stream
+						<!-- Social Icons -->
 						<span class="list-inline text-right social" style="float:right; font-size: 30px;">
 							<a href="https://youtube.com/channel/UCG3Blh_SMHacTo_aq3Ikvqw" target="_blank"><i class="fa fa-youtube"></i></a>
 							<a href="https://facebook.com/wsbf881?ref=br_tf" target="_blank"><i class="fa fa-facebook"></i></a>
@@ -240,6 +249,7 @@
 						</span>
 					</h2>
 					<hr>
+					<!-- Twitter Content -->
 					<div class="scrollable text-center">
 						<a class="twitter-timeline"
 						   href="https://twitter.com/WSBF_FM"
@@ -250,54 +260,74 @@
 						</a>
 						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 					</div>
-					<!-- End socialstream.home -->
 				</div>
 			</div>
 
+			<!-- Calendar -->
 			<div class="col-md-6">
 				<div class="grid1">
-					<!-- Begin calendar.home -->
 					<h2>Calendar</h2>
 					<hr>
 					<div class="scrollable text-center">
-						<!-- TODO Calendar -->
+						<!-- TODO Add Calendar -->
 					</div>
-					<!-- End calendar.home -->
 				</div>
 			</div>
 		</div>
+
 	</section>
+	<!-- End Body -->
 
 	<footer>
 		<div class="pull-left copyright">© 2015 WSBF-FM Clemson, All rights reserved.</div>
 	</footer>
 
 	<!-- Begin mediawidget -->
-	<div class="row" id="media-widget" ng-controller="NowPlayingCtrl">
-		<div class="col-xs-3 col-nopadding-left">
-			<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_small.png'}}" alt="album art" width="64" height="64"/>
-		</div>
+	<div id="media-widget" ng-controller="NowPlayingCtrl">
+		<div class="media-widget">
+			<div id="media-widget-controls">
+				<div class="col-xs-3 col">
+					<img class="img-rounded" ng-src="{{track.imageUrl || 'images/media_song.png'}}" alt="album art" width="60" height="60" style="background-color: #ffffff"/>
+				</div>
 
-		<div class="col-xs-3 col-nopadding">
-			<videogular class="videogular-container" vg-theme="config.theme">
-				<vg-media vg-src="config.sources" vg-type="audio" vg-preload="config.preload"></vg-media>
+				<div class="col-xs-3 col">
+					<videogular class="videogular-container" vg-theme="config.theme">
+						<vg-media vg-src="config.sources" vg-type="audio" vg-preload="config.preload"></vg-media>
 
-				<vg-controls>
-					<vg-play-pause-button></vg-play-pause-button>
+						<vg-controls>
+							<vg-play-pause-button height="60px" width="60px"></vg-play-pause-button>
+							<!--
+							<vg-volume>
+								<vg-mute-button></vg-mute-button>
+								<vg-volume-bar></vg-volume-bar>
+							</vg-volume>
+							-->
+						</vg-controls>
+					</videogular>
+				</div>
 
-					<vg-volume>
-						<vg-mute-button></vg-mute-button>
-						<vg-volume-bar></vg-volume-bar>
-					</vg-volume>
-				</vg-controls>
-			</videogular>
-		</div>
-
-		<div class="col-xs-6 col-nopadding-right">
-			<div class="text-right"><strong>{{track.lb_track_name || '--'}}</strong></div>
-			<div class="text-right">{{track.lb_artist || '--'}}</div>
+				<div class="col-xs-6 col-right">
+					<div class="text-right"><strong>{{track.lb_track_name || '--'}}</strong></div>
+					<div class="text-right">{{track.lb_artist || '--'}}</div>
+				</div>
+			</div>
+			<div id="media-widget-link" style="margin: 0px 10px 5px 10px; padding: 0px 10px 5px 10px;">
+				<h2 style="diplay: block; margin-top: 0px; margin-bottom: 15px;">
+					<a style="color: #ffffff; font-family: 'Comfortaa', serif;" href="/mobile/index.html">
+						<!--
+						<span class="pull-left" style="line-height: 40px;">Listen Live!</span>
+						<span class="pull-right" style="font-family: 'Comfortaa', serif;">
+						</span>
+						<i class="material-icons" style="float: right; color: #ff0000">play_circle_outline</i>
+						-->
+						<span style="text-align: center">Listen Live!</span>
+						<i class="material-icons" style="float: right; font-size: inherit; line-height: inherit;">play_circle_outline</i>
+					</a>
+				</h2>
+			</div>
 		</div>
 	</div>
 	<!-- End mediawidget -->
+
 </body>
 </html>

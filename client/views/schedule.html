@@ -3,9 +3,9 @@
 <hr>
 
 <div id="schedule" ng-controller="ScheduleCtrl">
-	<ul class="list-inline text-center h4 text-uppercase">
+	<ul class="nav nav-pills nav-justified">
 		<li ng-repeat="d in days" ng-class="{ active: dayID == d.dayID }">
-			<a ui-sref="schedule({ dayID: d.dayID })">{{d.day}}</a>
+			<a ui-sref="schedule({ dayID: d.dayID })">{{d.day | date:'EEEE'}}</a>
 		</li>
 	</ul>
 
@@ -14,12 +14,12 @@
 			<div class="panel-body media">
 				<div class="media-left">
 					<!--
-						<img class="img-circle" src="images/schedule_dj.png" alt="profile pic" width="80" height="80"/>
+						<img class="img-circle" src="images/schedule_dj.png" alt="profile pic" width="60" height="60"/>
 					-->
 				</div>
 
 				<div class="media-body">
-					<p>{{show_times[s.show_timeID].show_time}}</p>
+					<p>{{show_times[s.show_timeID].show_time | date:'h:mm a ET'}}</p>
 					<p><strong>{{s.show_name}}</strong></p>
 					<div ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
 				</div>

@@ -1,5 +1,5 @@
 <h1>Weekly Charts</h1>
-<p><em>Charting includes albums in rotation that are played by DJs (not Automation).</em></p>
+<p><em>Charting lists albums in rotation that are played by DJs (not Automation).</em></p>
 
 <hr>
 
@@ -13,7 +13,7 @@
 		</li>
 	</ul>
 
-	<h3 class="text-center">{{date1 | date:'EEE MM/dd'}} - {{date2 | date:'EEE MM/dd'}}</h3>
+	<h3 class="text-center">{{date1 | date:'EEEE MM/dd'}} - {{date2 | date:'EEE MM/dd'}}</h3>
 
 
 	<div class="row">
@@ -47,8 +47,8 @@
 
 		<tbody>
 			<tr ng-repeat="a in albums | limitTo:count">
-				<td class="text-right">{{$index + 1}}</td>
-				<td class="text-right">{{a.count}}</td>
+				<td>{{$index + 1}}</td>
+				<td>{{a.count}}</td>
 				<td>{{a.lb_artist}}</td>
 				<td>{{a.lb_album}}</td>
 				<td>{{a.lb_label}}</td>

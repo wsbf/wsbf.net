@@ -6,7 +6,8 @@
 			</a>
 		</div>
 
-		<div class="panel panel-default">
+		<div class="panel panel-default" style="text-align: center;">
+			<h2>Login</h2>
 			<form class="panel-body" name="form" novalidate>
 				<div class="form-group" ng-class="{'has-error': form.username.$touched && form.username.$invalid}">
 					<input class="form-control" type="text" name="username" ng-model="user.username" required maxlength="50" placeholder="Username" autofocus/>
@@ -29,6 +30,8 @@
 				<div class="text-left">
 					<a href="#!/register">Register</a>
 				</div>
+
+				<hr>
 
 				<div class="text-right">
 					<a href="#!/request-password">Forgot your password?</a>

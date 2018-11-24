@@ -1,24 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app" ng-strict-di>
 <head>
-	<title>WSBF-FM Clemson | The Upstate's Only True Alternative Radio</title>
+	<title>WSBF-FM Clemson | Live</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="/bower_components/angular/angular.min.js"></script>
+	<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+	<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+	<script src="/bower_components/videogular/videogular.js"></script>
+	<script src="/bower_components/videogular-controls/vg-controls.js"></script>
+
+	<script src="js/services/database.js"></script>
+	<script src="js/controllers/now-playing.js"></script>
+	<script src="js/app.js"></script>
 </head>
-<body style="font-family: sans-serif; text-align: center;">
-	<a href="/">
-		<img src="/images/logo.png" alt="wsbf logo"></img>
-	</a>
+<style>
+/*
+@media (min-width: 768) {
+	div.caption {
+		style="padding-bottom: 85px;"
+	}
+}
+*/
+/*
+div {
+	font-size: 15px;
+	line-height: 1;
+}
+dt {
+	float: left;
+	width: 45%;
+	clear: left;
+	text-align: right;
+	.text-overflow();
+	padding-right: 0px;
+}
+dd {
+	float: right;
+	width: 45%;
+	text-align: left;
+	padding-left: 0px;
+}
+*/
+/*
+@media (min-width: 768) {
+	.dl-horizontal dt {
+		float: left;
+		clear: left;
+		width: 45%;
+		padding-right: 0px;
+		text-align: right;
+	}
+	.dl-horizontal dd {
+		float: right;
+		width: 45%;
+		clear: right;
+		padding-left: 0px;
+		text-align: left !important;
+	}
+}*/
+/*
+dd {
+	margin-inline-start: 0px !important;
+	margin-left: 0px !important;
+}*/
+@media (min-width: 768px) {
+	dt {
+		width: 35%;
+		text-align: right !important;
+	}
+	dd{
+		text-align: left !important;
+	}
+}
+</style>
+<body class="container" style="text-align: center;">
+	<div class="row">
+		<div class="col-md-offset-4 col-md-4">
+			<div class="page-header text-center">
+				<a href="/">
+					<img src="/images/logo.png"></img>
+				</a>
+			</div>
 
-	<p>
-		<span>Listen: </span>
-		<a href="/stream/low">low (128)</a>
-		<a href="/stream/high">high (192)</a>
-		<a href="/stream/320.mp3">really high (320)</a>
-	</p>
-
-	<p><a href="/#!/schedule">Schedule</a></p>
-
-	<p>Call WSBF at <a href="tel:18646569723">(864) 656-WSBF</a></p>
+			<div class="panel panel-default">
+				<h2>Listen Live</h2>
+				<hr>
+				<h4>Simple Stream</h4>
+				<p>
+					<a href="/stream/low">low quality (128)</a> | <a href="/stream/high">medium quality (192)</a> | <a href="/stream/320.mp3">high quality (320)</a>
+				</p>
+				<hr>
+				<ui-view></ui-view>
+				<hr>
+				<p><a href="/#!/schedule/">Show Schedule</a></p>
+				<hr>
+				<p>Call WSBF at <a href="tel:18646569723">(864) 656-WSBF</a></p>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
