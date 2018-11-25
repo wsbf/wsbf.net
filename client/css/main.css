@@ -23,6 +23,32 @@ a {
 	line-height: 30px
 }
 
+.banner {
+	width: 100%;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	color: #ffffff;
+	background-color: #E81200;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.banner * {
+	line-height: 1.2;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.banner a {
+	text-decoration: underline;
+	color: #ffffff;
+}
+
 /* Navbar */
 .navbar {
 	height: 100px;
@@ -102,7 +128,7 @@ a {
 		margin-top: 5px;
 		padding-top: 10px;
 		padding-bottom: 10px;
-		background-color: #ff0000;
+		background-color: #E81200;
 		color: #FFFFFF;
 	}
 
@@ -136,7 +162,7 @@ section.container .row {
 }
 
 .grid2 {
-	border-top: 5px solid #ff0000;
+	border-top: 5px solid #E81200;
 }
 
 .grid3 {
