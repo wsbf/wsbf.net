@@ -1,4 +1,5 @@
 "use strict";
+
 var app = angular.module("wizbif", [
 	"ui.bootstrap",
 	"ui.router",
@@ -16,8 +17,7 @@ var app = angular.module("wizbif", [
 	"wizbif.showsub",
 	"wizbif.staff",
 	"wizbif.user",
-	"wizbif.users",
-	"wizbif.faq"
+	"wizbif.users"
 ]);
 
 app.config(["$compileProvider", function($compileProvider) {
@@ -37,7 +37,7 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 		})
 		.state("faq", {
 			url: "/faq",
-			templateUrl: "views/faq.html",
+			templateUrl: "views/faq.html"
 		})
 		.state("archives", {
 			url: "/archives",

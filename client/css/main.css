@@ -17,7 +17,7 @@ a {
 #station_id {
 	font-family: 'Comfortaa', serif;
 	padding-top: 8px;
-	float: right;
+	float: ;
 	color: #000000;
 	font-size: 30px;
 	line-height: 30px
@@ -33,7 +33,7 @@ a {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	padding-left: 0px;
-	padding-right: 0px;
+	padding-: 0px;
 }
 
 .banner * {
@@ -98,7 +98,7 @@ a {
 /* Special button links */
 /* custom rules should only apply when navbar is not collapsed */
 @media (min-width: 768px) {
-	.navbar-right{
+	.navbar-{
 		padding-top: 25px;
 	}
 
@@ -277,6 +277,9 @@ vg-controls {
 @media (max-width: 768px) {
 	nav ul.nav {
 		padding-right: 25px !important;
+		text-align: right;
+	}
+	nav ul.nav * {
 		text-align: right;
 	}
 }

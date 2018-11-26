@@ -17,7 +17,19 @@ require_once("connect.php");
  */
 function get_def_table($mysqli, $suffix)
 {
-	$q = "SELECT * FROM `def_$suffix` ORDER BY 1;";
+	if($suffix != "show_times") {
+		$q = "SELECT * FROM `def_$suffix` ORDER BY 1;";
+	} else {
+		$keys = array(
+			"show_timeID",
+			//"UNIX_TIMESTAMP(l.time_played) * 1000 AS time_played"
+			"UNIX_TIMESTAMP(show_time) * 1000 AS show_time",
+		);
+
+		//$q = "SELECT * FROM `def_$suffix` ORDER BY 1;";
+		$q = "SELECT " . implode(",", $keys) . " FROM `def_$suffix` ORDER BY 1;";
+	}
+
 	$result = exec_query($mysqli, $q);
 
 	$table = array();
