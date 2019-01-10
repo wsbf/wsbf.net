@@ -13,19 +13,19 @@ staffModule.constant("staff", [
 			position: "Chief Announcer",
 			email: "announcer@wsbf.net",
 			name: "Jake Fladd",
-			imageUrl: "images/staff/chair.jpg"
+			imageUrl: "images/staff/1819/Jake.jpg"
     },
     {
 			position: "Chief Engineer",
 			email: "chief@wsbf.net",
 			name: "Christian Steinmetz",
-			imageUrl: "images/staff/1718/Christian_Steinmetz.jpg"
+			imageUrl: "images/staff/1819/Christian.jpg"
     },
     {
 			position: "Computer Engineer",
 			email: "computer@wsbf.net",
 			name: "Harold Hyte",
-			imageUrl: "images/staff/1819/Harold_Hyte.jpg"
+			imageUrl: "images/staff/1819/Harold.jpg"
     },
     {
 			position: "Events Coordinator",
@@ -37,13 +37,13 @@ staffModule.constant("staff", [
 			position: "Music Director",
 			email: "music@wsbf.net",
 			name: "Lizzy Parnell",
-			imageUrl: "images/staff/1819/Lizzy_Parnell.jpg"
+			imageUrl: "images/staff/1819/Lizzy.jpg"
     },
     {
 			position: "Production Director",
 			email: "production@wsbf.net",
 			name: "Preston Dunnavant",
-			imageUrl: "images/staff/chair.jpg"
+			imageUrl: "images/staff/1819/Preston.jpg"
     },
     {
 			position: "Promotion Director",

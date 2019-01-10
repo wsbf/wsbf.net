@@ -6,16 +6,14 @@ client/wizbif/ZAutoLib
 client_build
 dev/api
 
-
 *.log
 *.txt
 
-
 **/.DS_Store
-
 
 client/bower_components
 node_modules
 
 test
 upload
+*Full_Res*
