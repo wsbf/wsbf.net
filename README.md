@@ -18,6 +18,11 @@ The development setup requires `node` and `npm`.
 	npm install
 	npm run build
 
+	Ensure that the following links are created to ensure full website functionality:
+	- client_build/camera -> /var/www/camera
+	- client_build/wizbif/Archibald -> /var/www/Archibald
+	- client_build/wizbif/ZAutoLib -> /var/www/ZAutoLib
+
 ## Contributing
 
 - Fork this repository
