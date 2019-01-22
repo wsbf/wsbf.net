@@ -11,7 +11,7 @@ scheduleModule.controller("ScheduleCtrl", ["$scope", "$stateParams", "db", funct
 
 	$scope.show_times.$promise.then(function(result) {
 			result.forEach(function(element) {
-					let converted = new Date("1 JAN 1970 " + element.show_time + " EST");
+					var converted = new Date("1 JAN 1970 " + element.show_time + " EST");
 					element.show_time = converted.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " ET";
 			});
 	});
