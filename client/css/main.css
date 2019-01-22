@@ -1,28 +1,39 @@
 * {
-  font-family: 'Open Sans', sans-serif
+  font-family: 'Open Sans', sans-serif;
 }
 
 h1, h2, h3 {
-  text-transform: uppercase
+  text-transform: uppercase;
+}
+
+h2 {
+	font-size: 25px;
 }
 
 a {
-  color: #00f
+  color: #00f;
+}
+
+btn {
+	padding-left: 6px;
+	padding-right: 6px;
 }
 
 #station_logo {
-  float: left
+	height: 70px;
+  float: left;
 }
 
 #station_id {
   font-family: 'Comfortaa', serif;
-  padding-top: 8px;
-  color: #000;
+  padding-top: 10px !important;
+	float: right;
+	color: #000;
   font-size: 30px;
-  line-height: 30px
+  line-height: 30px;
 }
 
-.banner {
+#announcement_banner {
   width: 100%;
   font-size: 15px;
   font-weight: 700;
@@ -31,239 +42,211 @@ a {
   background-color: #e81200;
   padding-top: 5px;
   padding-bottom: 5px;
-  padding-left: 0;
-  padding-: 0
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
-.banner * {
+#announcement_banner * {
   line-height: 1.2;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-top: 0;
-  margin-bottom: 0
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .banner a {
   text-decoration: underline;
-  color: #fff
+  color: #fff;
 }
 
-.navbar {
-  height: 100px
+nav {
+	border-bottom-color: #e7e7e7;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+  height: 100px;
+  background-color: #f5f5f5;
 }
 
-.navbar, .navbar>.container {
-  background-color: #f5f5f5
-}
-
-.navbar-brand img {
-  height: 70px
-}
-
-.navbar .navbar-nav>li>a {
+nav a {
   color: #000;
   text-transform: uppercase;
-  font-size: 16px
+  font-size: 16px;
 }
 
-.navbar-default .navbar-toggle {
+nav .navbar-default .navbar-toggle {
   font-size: 2em;
   color: #000;
   border: none;
-  cursor: pointer
+  cursor: pointer;
 }
 
-.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
-  background-color: inherit
+nav * {
+  background-color: inherit;
 }
 
-@media (max-width:768px) {
-  .navbar-header {
-    border-top-width: 0
-  }
+@media (max-width:991px) {
+	.navbar-nav {
+		padding-top: 25px !important;
+	}
 
-  .navbar-collapse, .navbar-header {
-    border-bottom-color: #e7e7e7;
-    border-bottom-style: solid;
-    border-bottom-width: 1px
-  }
+	.navbar-nav li:not(.listen) a {
+		padding-left: 5px !important;
+		padding-right: 5px !important;
+		padding-bottom: 5px !important;
+		padding-top: 15px !important;
+	}
+
 }
 
 @media (min-width:768px) {
-  .navbar- {
-    padding-top: 25px
+  .navbar-nav {
+    padding-top: 25px;
   }
 
-  .navbar-nav>li.sharkweek {
-    margin-right: 10px
-  }
+	nav .dropdown-menu {
+		width: auto;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
 
-  .navbar-nav>li.sharkweek>a {
+  /*.navbar-nav li.listen {
+    margin-right: 15px;
+  }*/
+
+  .navbar-nav li.listen a {
     margin-top: 5px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: #458294;
-    color: #fff
-  }
-
-  .navbar-nav>li.sharkweek>a:focus, .navbar-nav>li.sharkweek>a:hover {
-    background-color: #347183;
-    color: #fff
-  }
-
-  .navbar-nav>li.listen {
-    margin-right: 15px
-  }
-
-  .navbar-nav>li.listen>a {
-    margin-top: 5px;
+		font-size: 15px;
+		line-height: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: #e81200;
-    color: #fff
+    color: #fff;
   }
 
-  .navbar-nav>li.listen>a:focus, .navbar-nav>li.listen>a:hover {
+  .navbar-nav li.listen a:focus, .navbar-nav li.listen a:hover {
     background-color: #d70100;
-    color: #fff
+    color: #fff;
+  }
+
+}
+
+@media (min-width:768px) {
+	nav li.listen {
+		visibility: visible;
+	}
+}
+
+@media (max-width:767px) {
+	a.navbar-toggle {
+		color: #000000;
+	}
+
+	nav li.listen {
+		visibility: hidden;
+	}
+
+  nav ul.nav {
+    padding-right: 25px !important;
+  }
+
+  nav ul.nav, nav ul.nav * {
+    text-align: right;
   }
 }
 
 .modal-header {
-  background-color: #f5f5f5
+  background-color: #f5f5f5;
 }
 
 section.container .row {
   margin-left: 2px;
-  margin-right: 2px
+  margin-right: 2px;
 }
 
 .scrollable {
   overflow-y: auto;
   height: 300px;
-  margin-bottom: 30px
-}
-
-#carousel img {
-  width: 100%;
-  height: 415px
-}
-
-#carousel .carousel-caption {
-  background-color: rgba(0, 0, 0, .6)
-}
-
-#carousel .carousel-caption a {
-  color: #fff;
-  text-decoration: none
+  margin-bottom: 30px;
 }
 
 li.active a {
   background-color: #00f !important;
-  color: #fff
-}
-
-#media-widget, footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%
-}
-
-footer {
-  background-color: #000;
-  background-size: cover;
-  padding-left: 50px;
-  padding-top: 25px;
-  padding-bottom: 50px;
-  color: #e7e7e7;
-  height: 50px
-}
-
-footer .copyright {
-  padding-left: 25px;
-  line-height: 28px;
-  color: #868484
+  color: #fff;
 }
 
 #media-widget {
-  right: 0;
-  height: 100px
+	position: fixed;
+  bottom: 0;
+  width: 100%;
+	right: 0;
+  height: 100px;
 }
 
 .media-widget {
-  padding-top: 20px
+  padding-top: 20px;
 }
 
 #media-widget, vg-controls {
   background-color: #000;
-  color: #fff
-}
-
-@media (max-width:1000px) {
-  nav li a {
-    padding: 5px !important
-  }
-}
-
-@media (max-width:768px) {
-  nav ul.nav {
-    padding-right: 25px !important
-  }
-
-  nav ul.nav, nav ul.nav * {
-    text-align: right
-  }
+  color: #fff;
 }
 
 @media (min-width:768px) {
   #media-widget {
     width: 500px;
-    float: right
+    float: right;
   }
 
   #media-widget-link * {
     visibility: hidden;
-    display: none
+    display: none;
   }
 
-  #media-widget-controls *, li.listen {
-    visibility: visible
+  #media-widget-controls * {
+    visibility: visible;
   }
 }
 
 @media (max-width:767px) {
   #media-widget {
     left: 0;
-    height: 75px
+    height: 75px;
   }
 
   #media-widget-link * {
-    visibility: visible
+    visibility: visible;
   }
 
   #media-widget-controls * {
     visibility: hidden;
-    display: none
+    display: none;
   }
 }
 
 .media-container {
-  margin: 20px
-}
-
-.col-nopadding {
-  padding-left: 1px
-}
-
-.col-nopadding, .col-nopadding-left {
-  padding-right: 1px
-}
-
-.col-nopadding-right {
-  padding-left: 1px
+  margin: 10px;
 }
 
 .videogular-container {
   max-width: 150px;
-  height: 50px
+  height: 50px;
+}
+
+footer {
+  background-color: #000;
+  background-size: cover;
+  padding-left: 50px;
+  padding-top: 16px;
+  padding-bottom: 50px;
+  color: #e7e7e7;
+  height: 50px;
+	position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+footer .copyright {
+  padding-left: 25px;
+  line-height: 18px;
+  color: #868484;
 }
