@@ -6,7 +6,7 @@ This repository contains the code for all of WSBF's web presence, which includes
 - https://wsbf.net
 - https://wsbf.net/mobile/ (also http://m.wsbf.net)
 - https://wsbf.net/stream/ (formerly http://stream.wsbf.net:8000)
-- https://wsbf.net/wizbif/ (formerly http://new.wsbf.net)
+- https://wsbf.net/dj/     (formerly http://new.wsbf.net)
 - https://dev.wsbf.net
 
 ## Installation
@@ -20,8 +20,8 @@ The development setup requires `node` and `npm`.
 
 	Ensure that the following links are created to ensure full website functionality:
 	- client_build/camera -> /var/www/camera
-	- client_build/wizbif/Archibald -> /var/www/Archibald
-	- client_build/wizbif/ZAutoLib -> /var/www/ZAutoLib
+	- client_build/dj/storage/music -> /var/www/Jemaine
+	- client_build/dj/storage/shows -> /var/www/Bret
 
 ## Contributing
 

@@ -128,8 +128,8 @@ gulp.task("private-html", function() {
 	return gulp.src([
 		path.join(SRC, "*.html"),
 		"!" + path.join(SRC, "index.html"),
-		path.join(SRC, "wizbif/index.html"),
-		path.join(SRC, "wizbif/views/*.html")
+		path.join(SRC, "dj/index.html"),
+		path.join(SRC, "dj/views/*.html")
 	], { base: SRC })
 		.pipe(newer(DST))
 		.pipe(htmlmin({
@@ -141,7 +141,7 @@ gulp.task("private-html", function() {
 
 gulp.task("private-css", function() {
 	return gulp.src([
-		path.join(SRC, "wizbif/css/*.css")
+		path.join(SRC, "dj/css/*.css")
 	], { base: SRC })
 		.pipe(newer(DST))
 		.pipe(csso())
@@ -150,7 +150,7 @@ gulp.task("private-css", function() {
 
 gulp.task("private-js", function() {
 	return gulp.src([
-		path.join(SRC, "wizbif/js/**/*.js")
+		path.join(SRC, "dj/js/**/*.js")
 	], { base: SRC })
 		.pipe(newer(DST))
 		.pipe(uglify())

@@ -38,5 +38,5 @@ $_SESSION["username"] = $data["username"];
 $mysqli->close();
 
 header("Content-Type: application/json");
-exit(json_encode("/wizbif/"));
+exit(json_encode("/dj/"));
 ?>

@@ -66,7 +66,7 @@ function get_album($mysqli, $albumID)
 
 		// temporary hack to transform file_name to path
 		$f = urldecode($t["file_name"]);
-		$t["file_name"] = "/wizbif/ZAutoLib/$f[0]/$f[1]/" . substr($f, 2);
+		$t["file_name"] = "/dj/storage/music/$f[0]/$f[1]/" . substr($f, 2);
 
 		$album["tracks"][] = $t;
 	}

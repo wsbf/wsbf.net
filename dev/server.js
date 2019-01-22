@@ -48,7 +48,7 @@ app.get("/api/defs.php", function(req, res, next) {
 app.post("/api/auth/login.php", function(req, res, next) {
 	if ( req.body.username && req.body.password ) {
 		authenticated = true;
-		res.send("/wizbif/");
+		res.send("/dj/");
 	}
 	else {
 		next();

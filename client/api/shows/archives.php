@@ -8,7 +8,7 @@ require_once("../auth/auth.php");
 require_once("../connect.php");
 require_once("functions.php");
 
-define('BASE_PATH', "/wizbif/Archibald/archives/");
+define('BASE_PATH', "/dj/storage/shows/archives/");
 
 /**
  * Get the archive filenames for a show. The array
