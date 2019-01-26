@@ -47,6 +47,8 @@
 	<script src="/bower_components/videogular-controls/vg-controls.js"></script>
 
 	<!-- WSBF Services -->
+	<script src="js/libraries/format-google-calendar.min.js"></script>
+	<script src="js/services/community_calendar.js"></script>
 	<script src="js/services/database.js"></script>
 	<script src="js/controllers/carousel.js"></script>
 	<script src="js/controllers/chart.js"></script>
@@ -271,13 +273,11 @@
 			<!-- Calendar -->
 			<div class="col-md-6">
 				<div class="grid1">
-					<h2>Calendar</h2>
+					<h2>WSBF & Community Calendar</h2>
 					<hr>
 					<div class="scrollable text-center">
-						WSBF & Community Calendar Coming Soon! :-)
-						<br>
-						If you have an event or organization you think would be a good fit for this space, email gm@wsbf.net and cc computer@wsbf.net.
-						<!-- TODO Add Calendar -->
+						<p>If you have an event or organization you think would be a good fit for this space, email gm@wsbf.net and cc computer@wsbf.net.</p>
+						<ul id="events-upcoming"></ul>
 					</div>
 				</div>
 			</div>
