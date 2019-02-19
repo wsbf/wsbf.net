@@ -11,14 +11,15 @@ module.exports = function(config) {
 			"client/bower_components/angular-mocks/angular-mocks.js",
 			"client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
 			"client/bower_components/angular-ui-router/release/angular-ui-router.js",
+			"client/bower_components/jquery/dist/jquery.js",
 			"client/bower_components/videogular/videogular.js",
 			"client/bower_components/videogular-controls/vg-controls.js",
 			"client/js/**/*.js",
-			"client/wizbif/js/**/*.js",
+			"client/dj/js/**/*.js",
 			"test/public/**/*.js",
-			"test/wizbif/**/*.js"
+			"test/dj/**/*.js"
 		],
 		frameworks: ["jasmine"],
-		browsers: ["Chrome"]
+		browsers: ["ChromeHeadless"]
 	});
 };

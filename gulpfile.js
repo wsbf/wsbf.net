@@ -1,17 +1,15 @@
 "use strict";
-var path = require("path");
-var gulp = require("gulp");
-var csso = require("gulp-csso");
-var eslint = require("gulp-eslint");
-var htmlmin = require("gulp-htmlmin");
-var newer = require("gulp-newer");
-var symlink = require("gulp-symlink");
-var uglify = require("gulp-uglify");
+const path = require("path");
+const gulp = require("gulp");
+const csso = require("gulp-csso");
+const eslint = require("gulp-eslint");
+const htmlmin = require("gulp-htmlmin");
+const newer = require("gulp-newer");
+const symlink = require("gulp-symlink");
+const uglify = require("gulp-uglify");
 
-var SRC = "./client";
-var DST = "./client_build";
-
-gulp.task("default", ["api", "public", "private"]);
+const SRC = "./client";
+const DST = "./client_build";
 
 gulp.task("lint", function() {
 	return gulp
@@ -49,15 +47,6 @@ gulp.task("api", function() {
 		.pipe(newer(DST))
 		.pipe(gulp.dest(DST));
 });
-
-gulp.task("public", [
-	"bower-components",
-	"public-html",
-	"public-css",
-	"public-js",
-	"public-images",
-	"public-files"
-]);
 
 // could also just copy bower_components/
 gulp.task("bower-components", function() {
@@ -118,12 +107,6 @@ gulp.task("public-files", function() {
 		.pipe(gulp.dest(DST));
 });
 
-gulp.task("private", [
-	"private-html",
-	"private-css",
-	"private-js"
-]);
-
 gulp.task("private-html", function() {
 	return gulp.src([
 		path.join(SRC, "*.html"),
@@ -156,3 +139,20 @@ gulp.task("private-js", function() {
 		.pipe(uglify())
 		.pipe(gulp.dest(DST));
 });
+
+const build = gulp.series([
+	"api",
+	"bower-components",
+	"public-html",
+	"public-css",
+	"public-js",
+	"public-images",
+	"public-files",
+	"private-html",
+	"private-css",
+	"private-js"
+]);
+
+gulp.task("build", build);
+
+gulp.task("default", build);
