@@ -83,8 +83,8 @@ function authenticate_logbook($mysqli)
 {
 	session_start();
 
-	// computer engineer always has access
-	if ( get_position($mysqli) == "8" ) {
+	// computer engineer and chief engineer always have access
+	if ( get_position($mysqli) == "8" || get_position($mysqli) == "1" ) {
 		return;
 	}
 
