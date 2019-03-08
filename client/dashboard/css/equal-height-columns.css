@@ -1,0 +1,36 @@
+/*
+ * Row with equal height columns
+ * --------------------------------------------------
+ */
+ .row-eq-height {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display:         flex;
+  }
+  
+  /*
+   * Styles copied from the Grid example to make grid rows & columns visible.
+   */
+  .container {
+	padding-right: 15px;
+	padding-left: 15px;
+  }
+  
+  h4 {
+	margin-top: 25px;
+  }
+  .row {
+	margin-bottom: 0px;
+	margin-right: 0px;
+	margin-left: 0px;
+  }
+  .row .row {
+	margin-top: 10px;
+	margin-bottom: 0;
+  }
+  [class*="col-"] {
+	padding-top: 15px;
+	padding-bottom: 5px;
+  }
+  

@@ -1,0 +1,32 @@
+body {
+	color: #fff;
+}
+
+.container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: auto;
+  margin-left: auto;
+}
+.fill {
+    min-height: 100vh;
+    height: 100%;
+}
+
+.grey-light {
+	background: #232323;
+}
+
+.grey {
+	background: #171717;
+}
+
+.grey-dark {
+	background: #131313;
+}
+
+.bottom-row {
+	position:fixed;
+	bottom:0;
+	width:100%;
+}

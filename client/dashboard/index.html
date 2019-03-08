@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app" ng-strict-di>
+<head>
+	<title>WSBF-FM Clemson | Live</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/dashboard/css/styles.css">
+	<link rel="stylesheet" href="/dashboard/css/equal-height-columns.css">
+
+	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="/bower_components/angular/angular.min.js"></script>
+	<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+	<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="/bower_components/lodash/dist/lodash.min.js"></script>
+	<script src="/bower_components/videogular/videogular.js"></script>
+	<script src="/bower_components/videogular-controls/vg-controls.js"></script>
+
+	<script src="js/services/database.js"></script>
+	<script src="js/controllers/now-playing.js"></script>
+	<script src="js/app.js"></script>
+</head>
+<style>
+@media (min-width: 768px) {
+	dt {
+		width: 35%;
+		text-align: right !important;
+	}
+	dd{
+		text-align: left !important;
+	}
+}
+</style>
+<body class="container-fluid" style="text-align: center;">
+		<ui-view></ui-view>
+
+</body>
+</html>
