@@ -11,7 +11,7 @@ h2 {
 }
 
 a {
-  color: #00f;
+  color: #e81200;
 }
 
 btn {
@@ -28,7 +28,7 @@ btn {
   font-family: 'Comfortaa', serif;
   padding-top: 10px !important;
 	float: right;
-	color: #000;
+	color: #fff;
   font-size: 30px;
   line-height: 30px;
 }
@@ -60,22 +60,21 @@ btn {
 }
 
 nav {
-	border-bottom-color: #e7e7e7;
+	border-bottom-color: #060606;
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
   height: 100px;
-  background-color: #f5f5f5;
+  background-color: #000;
 }
 
 nav a {
-  color: #000;
+  color: #fff;
   text-transform: uppercase;
   font-size: 16px;
 }
 
-nav .navbar-default .navbar-toggle {
+nav .navbar-toggle {
   font-size: 2em;
-  color: #000;
   border: none;
   cursor: pointer;
 }
@@ -138,7 +137,7 @@ nav * {
 
 @media (max-width:767px) {
 	a.navbar-toggle {
-		color: #000000;
+		color: #fff;
 	}
 
 	nav li.listen {
@@ -170,7 +169,7 @@ section.container .row {
 }
 
 li.active a {
-  background-color: #00f !important;
+  background-color: #e81200 !important;
   color: #fff;
 }
 
