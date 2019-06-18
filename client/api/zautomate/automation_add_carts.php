@@ -29,6 +29,18 @@ function get_random_cart($mysqli, $cart_typeID)
 		. "WHERE c.cart_typeID = '$cart_typeID' "
 		. "AND c.start_date < NOW() "
 		. "AND (NOW() < c.end_date OR c.end_date IS NULL);";
+
+		//IF YOU NEED TO PLAY 1 SPECIFIC NOTICE, GAURANTEED, UNCOMMENT
+		//EDIT CART TYPE AND CART ID TO CORRESPOND TO WHAT IS LISTED
+		//IN THE WEBSITE CARTS CONTROL PANEL
+		/*
+    if( $cart_typeID == 2)
+    {
+            $q = "SELECT c.cartID, c.issuer, c.title, c.filename, t.type FROM `libcart` AS c INNER JOIN `def_cart_type`
+AS t ON t.cart_typeID = c.cart_typeID WHERE c.cart_typeID = 2 AND c.cartID = 108";
+            $result = exec_query($mysqli, $q);
+    }*/
+
 	$result = exec_query($mysqli, $q);
 
 	$carts = fetch_array($result);
