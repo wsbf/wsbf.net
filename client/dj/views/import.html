@@ -1,0 +1,35 @@
+<div class="text-center" ng-show="!auth.seniorStaff">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you don't have music director privileges, so you can't import files.</p>
+</div>
+
+<div class="panel panel-default" ng-show="auth.seniorStaff">
+	<div class="panel-heading">
+		<h3 class="panel-title">Import Control Panel</h3>
+	</div>
+
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-6 text-center">
+				<h4>Carts</h4>
+
+				<ul class="list-unstyled">
+					<li ng-repeat="c in carts">
+						<a href="" ng-click="openCart(c)">{{c}}</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="col-sm-6 text-center">
+				<h4>Albums</h4>
+
+				<ul class="list-unstyled">
+					<li ng-repeat="a in albums">
+						<a href="" ng-click="openAlbum(a)">{{a.artist_name}} - {{a.album_name}}</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

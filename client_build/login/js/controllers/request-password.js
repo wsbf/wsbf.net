@@ -1,0 +1,1 @@
+"use strict";var requestPasswordModule=angular.module("app.request-password",[]);requestPasswordModule.controller("RequestPasswordCtrl",["$scope","$http",function(s,t){s.submitted=!1,s.submit=function(e){t.post("/api/auth/password_request.php",null,{params:{username:e}}).then(function(){s.submitted=!0},function(t){s.error=t.data})}}]);

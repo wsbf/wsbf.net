@@ -1,0 +1,1 @@
+"use strict";var resetPasswordModule=angular.module("app.reset-password",["ui.router"]);resetPasswordModule.controller("ResetPasswordCtrl",["$scope","$stateParams","$http",function(t,s,r){t.submitted=!1,t.submit=function(e){r.post("/api/auth/password_reset.php",{transactionID:s.transactionID,password:e}).then(function(){t.submitted=!0},function(s){t.error=s.data})}}]);

@@ -1,0 +1,1 @@
+"use strict";var app=angular.module("app",["ui.router","app.now-playing"]);app.config(["$compileProvider",function(e){e.debugInfoEnabled(!0)}]),app.config(["$stateProvider","$urlRouterProvider",function(e,r){e.state("listen",{url:"/",templateUrl:"views/play.html"}),r.otherwise("/")}]);

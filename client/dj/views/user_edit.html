@@ -1,0 +1,148 @@
+<div class="text-center" ng-show="!auth.reviewer">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't allowed to edit your profile.</p>
+</div>
+
+<div class="panel panel-default" ng-show="auth.reviewer">
+	<div class="panel-heading">
+		<h3 class="panel-title">User Profile</h3>
+	</div>
+
+	<form class="panel-body form-horizontal" name="form">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Username</label>
+			<div class="col-sm-6">
+				<p class="form-control-static">{{user.username}}</p>
+			</div>
+		</div>
+
+		<div class="form-group" ng-class="{'has-error': form.first_name.$touched && form.first_name.$invalid}">
+			<label class="col-sm-3 control-label">First Name</label>
+			<div class="col-sm-6">
+				<input class="form-control" name="first_name" ng-model="user.first_name" required/>
+			</div>
+		</div>
+
+		<div class="form-group" ng-class="{'has-error': form.last_name.$touched && form.last_name.$invalid}">
+			<label class="col-sm-3 control-label">Last Name</label>
+			<div class="col-sm-6">
+				<input class="form-control" name="last_name" ng-model="user.last_name" required/>
+			</div>
+		</div>
+
+		<div class="form-group" ng-class="{'has-error': form.preferred_name.$touched && form.preferred_name.$invalid}">
+			<label class="col-sm-3 control-label">Preferred Name</label>
+			<div class="col-sm-6">
+				<input class="form-control" name="preferred_name" ng-model="user.preferred_name" required/>
+			</div>
+		</div>
+
+		<div class="form-group" ng-class="{'has-error': form.email_addr.$touched && form.email_addr.$invalid}">
+			<label class="col-sm-3 control-label">Email Address</label>
+			<div class="col-sm-6">
+				<input class="form-control" type="email" name="email_addr" ng-model="user.email_addr" required/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Status</label>
+			<div class="col-sm-6">
+				<p class="form-control-static">{{statuses[user.statusID].status}}</p>
+			</div>
+		</div>
+
+		<div class="form-group" ng-class="{'has-error': form.profile_paragraph.$invalid}">
+			<label class="col-sm-3 control-label">About You</label>
+			<div class="col-sm-6">
+				<textarea class="form-control" name="profile_paragraph" ng-model="user.profile_paragraph" rows="8" maxlength="2500"></textarea>
+				<samp class="help-block">{{2500 - user.profile_paragraph.length}} characters remaining.</samp>
+			</div>
+		</div>
+
+		<div class="form-group hidden">
+			<label class="col-sm-3 control-label">Profile Picture</label>
+			<div class="col-sm-6">
+				<p class="form-control-static" ng-show="!user.has_picture">No current profile picture</p>
+				<p class="form-control-static" ng-show="user.has_picture && !profile_picture">
+					<img class="img-responsive" ng-src="images/users/{{user.username}}"/>
+				</p>
+				<p class="form-control-static" ng-show="profile_picture && form.profile_picture.$valid">
+					<img class="img-responsive" ngf-thumbnail="profile_picture"/>
+				</p>
+				<input type="file" name="profile_picture" accept="image/*" ngf-select ng-model="profile_picture" ngf-max-size="1MB"/>
+				<p class="form-control-static text-danger" ng-show="form.profile_picture.$error.maxSize">Max size: 1 MB</p>
+			</div>
+		</div>
+
+		<div class="form-group hidden" ng-show="user.has_picture">
+			<div class="col-sm-offset-3 col-sm-6 checkbox">
+				<label>
+					<input type="checkbox" ng-model="user.delete_picture"/>
+					<span>Delete current profile picture</span>
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-6">
+				<h3>Active Shows</h3>
+				<p ng-show="user.shows.length == 0">You have no currently active shows.</p>
+			</div>
+		</div>
+
+		<div ng-repeat="s in user.shows">
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-6">
+					<pre>Show {{$index + 1}}: {{days[s.dayID].day}} @ {{show_times[s.show_timeID].show_time}}</pre>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Show Name</label>
+				<div class="col-sm-6">
+					<input class="form-control" ng-model="s.show_name" required maxlength="255"/>
+					<samp class="help-block">{{255 - s.show_name.length}} characters remaining.</samp>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Show Type</label>
+				<div class="col-sm-6">
+					<p class="form-control-static">{{s.show_type}}</p>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">DJ Alias</label>
+				<div class="col-sm-6">
+					<input class="form-control" ng-model="s.schedule_alias" maxlength="45"/>
+					<samp class="help-block">{{45 - s.schedule_alias.length}} characters remaining.</samp>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Description</label>
+				<div class="col-sm-6">
+					<textarea class="form-control" ng-model="s.description" rows="8" maxlength="2500"></textarea>
+					<samp class="help-block">{{2500 - s.description.length}} characters remaining.</samp>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Show Genre</label>
+				<div class="col-sm-6">
+					<select class="form-control" name="general_genreID" ng-model="s.general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres">
+						<option></option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group text-center">
+			<div class="btn-group">
+				<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="save()">Save</button>
+			</div>
+		</div>
+	</form>
+</div>

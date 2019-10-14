@@ -1,0 +1,33 @@
+<div class="modal-header">
+	<span class="close" ng-click="$dismiss()">&times;</span>
+	<h3 class="text-center">Log Item</h3>
+</div>
+
+<form class="modal-body form-horizontal" name="form">
+	<div class="form-group" ng-class="{'has-error': form.date.$touched && form.date.$invalid}">
+		<label class="col-sm-3 control-label">Date</label>
+		<div class="col-sm-6">
+			<input class="form-control" type="date" name="date" ng-model="item.date" required placeholder="yyyy-mm-dd"/>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': form.log_type.$touched && form.log_type.$invalid}">
+		<label class="col-sm-3 control-label">Type</label>
+		<div class="col-sm-6">
+			<select class="form-control" name="log_type" ng-model="item.log_type" required>
+				<option ng-repeat="t in fishbowl_log_types" value="{{t.typeID}}">{{t.type}}</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Description</label>
+		<div class="col-sm-6">
+			<textarea class="form-control" name="description" ng-model="item.description" rows="3"></textarea>
+		</div>
+	</div>
+
+	<div class="form-group text-center">
+		<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="submit(item)">Submit</button>
+	</div>
+</form>

@@ -1,0 +1,66 @@
+<div class="text-center" ng-show="!auth.member">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't allowed to submit fishbowl apps.</p>
+</div>
+
+<div class="panel panel-default" ng-show="auth.member">
+	<div class="panel-heading">
+		<h3 class="panel-title">Fishbowl Application</h3>
+	</div>
+
+	<div class="panel-body text-center" ng-show="info.missed">
+		<h3><strong>Sorry, maybe next semester.</strong></h3>
+
+		<p>The deadline to submit fishbowl applications was <strong>{{info.deadline | date}}</strong>. You missed it.</p>
+	</div>
+
+	<form class="panel-body form-horizontal" name="form" ng-show="!info.missed">
+		<div class="form-group" ng-class="{'has-error': form.semesters.$touched && form.semesters.$invalid}">
+			<label class="col-sm-3 control-label">Semesters at WSBF</label>
+			<div class="col-sm-6">
+				<input class="form-control" type="number" name="semesters" ng-model="app.semesters" required/>
+				<span class="help-block">How many semesters have you worked at WSBF, counting the one during which you passed your on-air test? If you DJ'd over a summer, count it as 1.</span>
+			</div>
+		</div>
+
+		<div class="form-group" ng-class="{'has-error': form.missed_shows.$touched && form.missed_shows.$invalid}">
+			<label class="col-sm-3 control-label">Missed Shows</label>
+			<div class="col-sm-6">
+				<input class="form-control" type="number" name="missed_shows" ng-model="app.missed_shows" required/>
+				<span class="help-block">How many times did you miss your show last semester? Don't lie; the records will be checked.</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-6 checkbox">
+				<label>
+					<input type="checkbox" ng-model="app.dead_hours"/>
+					<span>Previous show was 3-5 AM or 5-7 AM</span>
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-6 checkbox">
+				<label>
+					<input type="checkbox" ng-model="app.specialty"/>
+					<span>Applying for a specialty show this semester</span>
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-6">
+				<p class="form-control-static"><em>Use the <a href="#!/fishbowl/log">fishbowl log</a> to document what you did for WSBF this semester (promo table, events, etc.).</em></p>
+			</div>
+		</div>
+
+		<div class="form-group text-center">
+			<div class="btn-group">
+				<button type="button" class="btn btn-default" ng-disabled="form.$invalid" ng-click="submit(app)">Submit</button>
+				<a class="btn btn-default" href="#!/">Cancel</a>
+			</div>
+		</div>
+	</form>
+</div>

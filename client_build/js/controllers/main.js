@@ -1,0 +1,1 @@
+"use strict";var mainModule=angular.module("app.main",["ui.bootstrap","app.database"]);mainModule.controller("MainCtrl",["$scope","$uibModal","db",function(e,a,n){e.show_times=n.getDefs("show_times"),e.$on("$routeChangeSuccess",function(){e.navCollapsed=!1}),e.openMediaCenter=function(){a.open({templateUrl:"views/mediacenter.html",size:"lg"})}}]);

@@ -1,0 +1,1 @@
+"use strict";var loginModule=angular.module("app.login",[]);loginModule.controller("LoginCtrl",["$scope","$http","$window",function(o,n,t){o.user={},o.login=function(i){n.post("/api/auth/login.php",i).then(function(o){t.location.href=o.data},function(n){o.error=n.data})}}]);

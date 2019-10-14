@@ -1,0 +1,62 @@
+/* rules for various show types */
+/* rotation */
+.show-type-0 {
+	color: #78797F;
+}
+/* specialty */
+.show-type-1, .show-type-4, .show-type-6 {
+	color: #49537D;
+}
+/* jazz */
+.show-type-2 {
+	color: #A64B00;
+}
+/* sports/talk */
+.show-type-3 {
+	color: #1B5E3F;
+}
+
+/* rules for team colors */
+/* blue */
+.bg-team-1 {
+	background-color: #b9cdf7;
+}
+/* red */
+.bg-team-2 {
+	background-color: #f28e8e;
+}
+/* green */
+.bg-team-3 {
+	background-color: #8ff088;
+}
+/* purple */
+.bg-team-4 {
+	background-color: #dfbbed;
+}
+
+/* rules for button icons */
+.button-icon {
+	color: #808080;
+}
+
+.button-icon:hover,
+.button-icon:focus {
+	text-decoration: none;
+	cursor: pointer;
+	color: #303030;
+}
+
+/* rules for <pre> elements in fishbowl app */
+pre {
+	white-space: pre-line;
+	word-break: normal;
+}
+
+/* rules for alerts */
+#alerts {
+	z-index: 2000;
+	position: fixed;
+	bottom: 0px;
+	left: 20px;
+	width: 300px;
+}

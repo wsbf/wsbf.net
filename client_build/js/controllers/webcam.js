@@ -1,0 +1,1 @@
+"use strict";var webcamModule=angular.module("app.webcam",[]);webcamModule.controller("WebcamCtrl",["$scope","$interval",function(e,n){e.now=0;var o=n(function(){e.now=Date.now()},5e3);e.$on("$destroy",function(){n.cancel(o)})}]);

@@ -1,0 +1,1 @@
+"use strict";var carouselModule=angular.module("app.carousel",["app.database"]);carouselModule.controller("CarouselCtrl",["$scope","db",function(e,o){e.posts=[],o.Blog.getPreview().then(function(o){e.posts=o})}]);

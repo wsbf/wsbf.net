@@ -1,0 +1,61 @@
+<div class="text-center" ng-show="!auth.seniorStaff">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't on senior staff, so you can't manage the fishbowl.</p>
+</div>
+
+<div class="panel panel-default" ng-show="auth.seniorStaff">
+	<div class="panel-heading">
+		<h3 class="panel-title">Fishbowl Control Panel</h3>
+	</div>
+
+	<div class="panel-body">
+		<button class="btn btn-default" ng-click="archiveFishbowl()" ng-disabled="apps.length == 0">Archive</button>
+		<button class="btn btn-default" ng-click="rateFishbowlApps(apps)" ng-disabled="apps.length == 0">Submit Ratings</button>
+		<button class="btn btn-default" ng-click="getFishbowlResults(apps)" ng-disabled="apps.length == 0">Print Results</button>
+	</div>
+
+	<div class="panel-body" ng-show="bowls.length > 0">
+		<div class="row">
+			<div class="col-sm-2" ng-repeat="b in bowls">
+				<table class="table table-condensed">
+					<thead>
+						<th>Bowl {{$index + 1}}</th>
+					</thead>
+
+					<tr ng-repeat="e in b">
+						<td>{{e.preferred_name}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<table class="table">
+		<thead>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Weight</th>
+			<th>Average</th>
+			<th>Your Rating</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="a in apps">
+				<td>
+					<a href="" ng-click="review(apps, a.fishbowlID)">{{a.fishbowlID}}</a>
+				</td>
+				<td>{{a.preferred_name}}</td>
+				<td>{{a.weight}}</td>
+				<td>{{a.average}}</td>
+				<td>
+					<span ng-show="a.rating == 1">&#9733;</span>
+					<span ng-show="a.rating == 2">&#9733;&#9733;</span>
+					<span ng-show="a.rating == 3">&#9733;&#9733;&#9733;</span>
+					<span ng-show="a.rating == 4">&#9733;&#9733;&#9733;&#9733;</span>
+					<span ng-show="a.rating == 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

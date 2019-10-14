@@ -1,0 +1,51 @@
+<div class="text-center" ng-show="!auth.seniorStaff">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't on senior staff, so you can't manage the schedule.</p>
+</div>
+
+<div class="panel panel-default" ng-show="auth.seniorStaff">
+	<div class="panel-heading">
+		<h3 class="panel-title">Schedule Control Panel</h3>
+	</div>
+
+	<div class="panel-body">
+		<button class="btn btn-default" ng-click="removeSchedule()">Clear Schedule</button>
+
+		<ul class="list-inline text-center">
+			<li><strong class="show-type-0">Rotation</strong></li>
+			<li><strong class="show-type-1">Specialty</strong></li>
+			<li><strong class="show-type-2">Jazz</strong></li>
+			<li><strong class="show-type-3">Sports/Talk</strong></li>
+		</ul>
+	</div>
+
+	<table class="table">
+		<tr>
+			<th></th>
+			<th class="text-center" ng-repeat="d in days">{{d.day}}</th>
+		</tr>
+
+		<tr ng-repeat="t in show_times">
+			<td>{{t.show_time}}</td>
+
+			<td ng-repeat="s in schedule[t.show_timeID] track by $index" ng-init="d = days[$index]">
+				<div class="text-center h4" ng-show="!s">
+					<a class="button-icon" ng-href="" ng-click="editShow(null, d.dayID, t.show_timeID)">&plus;</a>
+				</div>
+
+				<div class="text-right" ng-show="s">
+					<span class="button-icon" ng-click="s && editShow(s.scheduleID)">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</span>
+					<span class="button-icon" ng-click="s && removeShow(s.scheduleID)">&times;</span>
+				</div>
+
+				<div class="text-center small show-type-{{s.show_typeID}}" ng-show="s" ng-click="s && getShow(s.scheduleID)">
+					<strong>{{s.show_name}}</strong>
+					<div ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>

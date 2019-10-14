@@ -1,0 +1,38 @@
+<div ng-controller="NowPlayingCtrl">
+	<h3 class="text-center">Now Playing</h3>
+	<div>
+		<img class="img-rounded" ng-src="{{track.imageUrl || '/images/media_song.png'}}" alt="album art" width="60" height="60"/>
+		<div>
+			<dl class="dl-horizontal">
+				<dt>Track</dt>
+				<dd>{{track.lb_track_name || '--'}}</dd>
+				<dt>Album</dt>
+				<dd>{{track.lb_album || '--'}}</dd>
+				<dt>Artist</dt>
+				<dd>{{track.lb_artist || '--'}}</dd>
+				<dt>Show</dt>
+				<dd>{{track.show_name || '--'}}</dd>
+				<dt>Hosts</dt>
+				<dd>
+					<div ng-repeat="h in track.show_hosts">{{h.preferred_name}}</div>
+				</dd>
+			</dl>
+			<br></br>
+		</div>
+	</div>
+	<div>
+		<videogular class="videogular-container center-block" vg-theme="config.theme">
+			<vg-media vg-src="config.sources" vg-type="audio" vg-preload="config.preload"></vg-media>
+
+			<vg-controls>
+				<vg-play-pause-button></vg-play-pause-button>
+				<!--
+				<vg-volume>
+					<vg-mute-button></vg-mute-button>
+					<vg-volume-bar></vg-volume-bar>
+				</vg-volume>
+				-->
+			</vg-controls>
+		</videogular>
+	</div>
+</div>

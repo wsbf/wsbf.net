@@ -1,0 +1,1 @@
+"use strict";var alumniModule=angular.module("wizbif.alumni",["ui.bootstrap","wizbif.database"]);alumniModule.controller("AlumniCtrl",["$scope","$rootScope","$uibModal","db",function(n,l,i,u){n.alumni=[],n.openAlumni=function(n){i.open({templateUrl:"views/alumni_modal.html",scope:angular.extend(l.$new(),{alumni:n})})},u.Alumni.getAlumni().then(function(l){n.alumni=l})}]);

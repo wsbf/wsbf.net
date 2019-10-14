@@ -1,0 +1,1 @@
+"use strict";var registerModule=angular.module("app.register",[]);registerModule.controller("RegisterCtrl",["$scope","$http",function(e,r){e.user={},e.registered=!1,e.register=function(t){r.post("/api/auth/register.php",t).then(function(){e.registered=!0},function(r){e.error=r.data})}}]);

@@ -1,0 +1,45 @@
+<div class="text-center" ng-show="!auth.seniorStaff">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you aren't on senior staff, so you can't manage the schedule.</p>
+</div>
+
+<div class="panel panel-default" ng-show="auth.seniorStaff">
+	<div class="panel-heading">
+		<h3 class="panel-title">Intern Scheduler</h3>
+	</div>
+
+	<div class="panel-body">
+		<div class="btn btn-default" ngf-select="loadInternsCSV($file)" ngf-accept="'text/csv'">Select Intern Availability</div>
+		<div class="btn btn-default" ngf-select="loadPrevInternTimesCSV($file)" ngf-accept="'text/csv'">Select Previous Intern Times</div>
+	</div>
+
+	<div class="panel-body">
+		<button class="btn btn-default" ng-click="scheduleInterns(schedule, interns, prevInternTimes)">Schedule Interns</button>
+	</div>
+
+	<div class="panel-body" ng-show="stats.total">
+		<p><a ng-href="{{scheduleUrl}}" download="InternSchedule.csv">Download Schedule</a></p>
+		<p><a ng-href="{{prevInternTimesUrl}}" download="PrevInternTimes.csv">Download Prev. Intern Times</a></p>
+		<p>Empty slots: {{stats.empty}} / {{stats.total}}</p>
+		<p>Single slots: {{stats.single}} / {{stats.total}}</p>
+		<p>Double slots: {{stats.double}} / {{stats.total}}</p>
+	</div>
+
+	<table class="table">
+		<tr>
+			<th></th>
+			<th class="text-center" ng-repeat="d in days">{{d.day}}</th>
+		</tr>
+
+		<tr ng-repeat="time in schedule" ng-init="timeIndex = $index">
+			<td>{{show_times[$index].show_time}}</td>
+
+			<td ng-repeat="s in time track by $index">
+				<div class="text-center small show-type-{{s.show_typeID}}" ng-show="s">
+					<div ng-repeat="i in s.interns">{{i}}</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>

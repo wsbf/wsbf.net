@@ -1,0 +1,41 @@
+<div class="modal-header">
+	<span class="close" ng-click="$dismiss()">&times;</span>
+	<h3 class="text-center">Show Sub Request</h3>
+</div>
+
+<form class="modal-body form-horizontal" name="form">
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Requested By</label>
+		<div class="col-sm-6">
+			<p class="form-control-static">{{user.preferred_name}}</p>
+		</div>
+	</div>
+
+	<!-- TODO: use directive to validate day of week -->
+	<div class="form-group" ng-class="{'has-error': form.date.$touched && form.date.$invalid}">
+		<label class="col-sm-3 control-label">Date</label>
+		<div class="col-sm-6">
+			<input class="form-control" type="date" name="date" ng-model="request.date" required min="{{today | date:'yyyy-MM-dd'}}" placeholder="yyyy-mm-dd"/>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Show</label>
+		<div class="col-sm-6">
+			<select class="form-control" name="scheduleID" ng-model="request.scheduleID">
+				<option ng-repeat="s in user.shows" value="{{s.scheduleID}}">{{days[s.dayID].day}} {{show_times[s.show_timeID].show_time}}</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Reason</label>
+		<div class="col-sm-6">
+			<textarea class="form-control" name="reason" ng-model="request.reason" rows="3"></textarea>
+		</div>
+	</div>
+
+	<div class="form-group text-center">
+		<button type="button" class="btn btn-default" ng-disabled="form.$invalid || !isValidDay(request)" ng-click="submit(request)">Submit</button>
+	</div>
+</form>

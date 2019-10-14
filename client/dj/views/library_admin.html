@@ -1,0 +1,72 @@
+<div class="text-center" ng-show="!auth.musicDirector">
+	<h3><strong>Nah.</strong></h3>
+
+	<p>It would seem that you don't have music director privileges, so you can't use the library control panel.</p>
+</div>
+
+<div class="panel panel-default" ng-show="auth.musicDirector">
+	<div class="panel-heading">
+		<h3 class="panel-title">Library Control Panel</h3>
+	</div>
+
+	<div class="panel-body">
+		<ul class="nav nav-pills nav-justified">
+			<li ng-repeat="r in rotations" ng-class="{ 'active': rotationID === r.rotationID }">
+				<a ui-sref="library-admin({ rotationID: r.rotationID, page: '0' })">{{r.rotation_bin}}</a>
+			</li>
+		</ul>
+
+		<hr>
+
+		<div class="row">
+			<div class="col-sm-4">
+				<select class="form-control" ng-model="general_genreID" ng-options="g.general_genreID as g.genre for g in general_genres" ng-change="go(rotationID, general_genreID, null, 0, true)">
+					<option value="">All Genres</option>
+				</select>
+			</div>
+
+			<div class="col-sm-4">
+				<button class="btn btn-sm" ng-click="page > 0 && go(rotationID, general_genreID, query, page - 1, true)" ng-disabled="page == 0">newer</button>
+				<button class="btn btn-sm" ng-click="go(rotationID, general_genreID, query, page + 1, true)">older</button>
+			</div>
+
+			<div class="col-sm-4 text-right">
+				<button class="btn btn-sm" ng-click="moveRotation(albums)">Move Rotation</button>
+				<button class="btn btn-sm" ng-show="rotationID >= 2" ng-click="printLabels(albums)">Print Labels</button>
+				<button class="btn btn-sm" ng-show="rotationID == 0 || rotationID == 2" ng-click="deleteAlbums(albums)">Delete</button>
+			</div>
+		</div>
+	</div>
+
+	<table class="table">
+		<thead>
+			<th>Album Code</th>
+			<th>Album</th>
+			<th>Artist</th>
+			<th ng-show="rotationID == 0">Genre</th>
+			<th ng-show="rotationID == 1">Return Date</th>
+			<th ng-show="rotationID >= 2">Date Reviewed</th>
+			<th ng-show="rotationID >= 2">Date Moved</th>
+			<th class="text-center">
+				<input type="checkbox" ng-model="selectedAll" ng-click="setSelectedAll(selectedAll)"/>
+			</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="a in albums">
+				<td>
+					<a ui-sref="library-album-edit({ albumID: a.albumID })">{{a.album_code}}</a>
+				</td>
+				<td>{{a.album_name}}</td>
+				<td>{{a.artist_name}}</td>
+				<td ng-show="rotationID == 0">{{general_genres[a.general_genreID].genre}}</td>
+				<td ng-show="rotationID == 1">{{a.expiration_date}}</td>
+				<td ng-show="rotationID >= 2">{{a.review_date}}</td>
+				<td ng-show="rotationID >= 2">{{a.date_moved}}</td>
+				<td class="text-center">
+					<input type="checkbox" ng-model="a.selected"/>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

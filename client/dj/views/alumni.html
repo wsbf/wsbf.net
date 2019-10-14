@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Alumni Directory</h3>
+	</div>
+
+	<table class="table">
+		<thead>
+			<th>Name</th>
+			<th>Current Location</th>
+			<th>Positions Held</th>
+			<th>Years Active</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="a in alumni | orderBy:'name'">
+				<td>
+					<a href="" ng-click="openAlumni(a)">{{a.name}}</a>
+				</td>
+				<td>{{a.current_location}}</td>
+				<td>{{a.positions_held}}</td>
+				<td>{{a.years_active}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
