@@ -33,7 +33,7 @@
 			<div class="col-sm-4 text-right">
 				<button class="btn btn-sm" ng-click="moveRotation(albums)">Move Rotation</button>
 				<button class="btn btn-sm" ng-show="rotationID >= 2" ng-click="printLabels(albums)">Print Labels</button>
-				<button class="btn btn-sm" ng-show="rotationID == 0" ng-click="deleteAlbums(albums)">Delete</button>
+				<button class="btn btn-sm" ng-show="rotationID == 0 || rotationID == 2" ng-click="deleteAlbums(albums)">Delete</button>
 			</div>
 		</div>
 	</div>
