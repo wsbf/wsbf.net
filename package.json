@@ -4,7 +4,7 @@
   "description": "The WSBF website, written in Angular.",
   "repository": "wsbf/wsbf.net",
   "dependencies": {
-    "bower": "^1.7.9",
+    "bower": "^1.8.8",
     "gulp": "^3.9.1",
     "gulp-csso": "^2.0.0",
     "gulp-eslint": "^3.0.1",
