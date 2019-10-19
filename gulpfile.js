@@ -16,7 +16,6 @@ gulp.task("lint", function() {
 		.src([
 			"**/*.js",
 			"!client_build/**",
-			"!client/bower_components/**",
 			"!node_modules/**"
 		])
 		.pipe(eslint())
@@ -46,13 +45,6 @@ gulp.task("api", function() {
 	], { base: SRC })
 		.pipe(newer(DST))
 		.pipe(gulp.dest(DST));
-});
-
-// could also just copy bower_components/
-gulp.task("bower-components", function() {
-	return gulp
-		.src(path.join(SRC, "bower_components"), { base: SRC })
-		.pipe(symlink(path.join(DST, "bower_components"), { force: true }));
 });
 
 gulp.task("public-html", function() {
@@ -142,7 +134,6 @@ gulp.task("private-js", function() {
 
 const build = gulp.series([
 	"api",
-	"bower-components",
 	"public-html",
 	"public-css",
 	"public-js",
