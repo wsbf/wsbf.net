@@ -37,6 +37,7 @@
     "jquery": "^1.9.1"
   },
   "scripts": {
+    "postinstall": "cd client; ln -s ../node_modules node_modules; cd ..; rm -rf client_build",
     "start": "node dev/server.js",
     "lint": "gulp lint",
     "test": "karma start test/karma.conf.js --single-run",
