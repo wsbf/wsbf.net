@@ -6,7 +6,7 @@
 **/.DS_Store
 
 client_build
-client/bower_components
+client/node_modules
 node_modules
 client/blog
 

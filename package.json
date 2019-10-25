@@ -33,13 +33,15 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^2.0.1",
     "morgan": "^1.9.1",
-    "angular-mocks": "^1.5.7"
+    "angular-mocks": "^1.5.7",
+    "jquery": "^1.9.1"
   },
   "scripts": {
+    "postinstall": "cd client; ln -s ../node_modules node_modules; cd ..",
     "start": "node dev/server.js",
     "lint": "gulp lint",
     "test": "karma start test/karma.conf.js --single-run",
-    "build": "gulp"
+    "build": "gulp; rm -rf client_build"
   },
   "author": "Benjamin Shealy",
   "license": "ISC"

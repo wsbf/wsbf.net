@@ -14,7 +14,7 @@ nowPlayingModule.controller("NowPlayingCtrl", ["$scope", "$interval", "db", func
 			{ src: "/stream/high", type: "audio/mpeg" },
 			{ src: "/stream/8.ogg", type: "audio/ogg" }
 		],
-		theme: "/bower_components/videogular-themes-default/videogular.css"
+		theme: "/node_modules/videogular-themes-default/videogular.css"
 	};
 	$scope.track = {};
 
