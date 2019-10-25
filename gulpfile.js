@@ -16,6 +16,7 @@ gulp.task("lint", function() {
 		.src([
 			"**/*.js",
 			"!client_build/**",
+			"!client_build/node_modules/**",
 			"!node_modules/**"
 		])
 		.pipe(eslint())
@@ -45,6 +46,13 @@ gulp.task("api", function() {
 	], { base: SRC })
 		.pipe(newer(DST))
 		.pipe(gulp.dest(DST));
+});
+
+// could also just copy node_modules/
+gulp.task("node_modules", function() {
+	return gulp
+		.src(path.join(SRC, "node_modules"), { base: SRC })
+		.pipe(symlink(path.join(DST, "node_modules"), { force: true }));
 });
 
 gulp.task("public-html", function() {
@@ -134,6 +142,7 @@ gulp.task("private-js", function() {
 
 const build = gulp.series([
 	"api",
+	"node_modules",
 	"public-html",
 	"public-css",
 	"public-js",

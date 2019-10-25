@@ -41,7 +41,7 @@
     "start": "node dev/server.js",
     "lint": "gulp lint",
     "test": "karma start test/karma.conf.js --single-run",
-    "build": "gulp; rm -rf client_build"
+    "build": "gulp"
   },
   "author": "Benjamin Shealy",
   "license": "ISC"
