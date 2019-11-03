@@ -73,8 +73,9 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 	};
 
 	$scope.importSpotifyPlaylist = function(showPlaylist, url) {
-		db.Playlist.importSpotifyPlaylist(url)
+		db.Logbook.importSpotifyPlaylist(url)
 			.then(function(playlist) {
+				playlist.tracks = playlist.tracks.reverse();
 				playlist.tracks.forEach(function(track) {
 					track.rotation = track.rotation || "O";
 					showPlaylist.unshift(track);
