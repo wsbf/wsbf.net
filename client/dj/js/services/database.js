@@ -537,6 +537,9 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @return
 	 */
 	this.Logbook.importSpotifyPlaylist = function (url) {
+		// Trim the URL to get only the playlist ID
+		var id = url.substring(url.lastIndexOf("/") + 1, url.length);
+
 		_spotifyAuth = _spotifyAuth || $http.get("/api/auth/spotify.php").then(function(res) {
 			return res.data;
 		});
@@ -547,7 +550,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 
 		return _spotifyAuth.then(function(auth) {
 			return $http
-				.get("https://api.spotify.com/v1/playlists/" + url, {
+				.get("https://api.spotify.com/v1/playlists/" + id, {
 					cache: true,
 					headers: {
 						Authorization: "Bearer " + auth.access_token

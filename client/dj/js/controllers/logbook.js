@@ -80,9 +80,12 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 					track.rotation = track.rotation || "O";
 					showPlaylist.unshift(track);
 				});
-
-				$scope.playlistID = null;
+				alert.success("Successfully imported Spotify playlist.");
+			}, function() {
+				alert.error("Failed to import Spotify playlist.");
 			});
+
+		$scope.playlistID = null;
 	};
 
 	$scope.getAlbum = function(album_code) {
