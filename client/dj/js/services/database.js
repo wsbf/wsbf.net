@@ -536,7 +536,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * 
 	 * @return
 	 */
-	this.Playlist.importSpotifyPlaylist = function(url) {
+	this.Logbook.importSpotifyPlaylist = function (url) {
 		_spotifyAuth = _spotifyAuth || $http.get("/api/auth/spotify.php").then(function(res) {
 			return res.data;
 		});
@@ -557,7 +557,18 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 					}
 				})
 				.then(function(res) {
-					return res.data;
+					res.data.tracks.items.forEach(function(item) {
+						var track = {};
+
+						track.rotation = "O";
+						track.track_name = item.track.name;
+						track.artist_name = item.track.artists[0].name;
+						track.album_name = item.track.album.name;
+
+						playlist.tracks.unshift(track);
+					});
+
+					return playlist;
 				});
 			});
 	};
