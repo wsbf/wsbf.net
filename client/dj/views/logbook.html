@@ -10,7 +10,7 @@
 	<p>It would seem that you aren't in Studio A, so you can't use the logbook.</p>
 </div>
 
-<div class="panel panel-default" ng-show="auth.member && show">
+<div class="panel panel-default" ng-show="showID">
 	<div class="panel-heading">
 		<h3 class="panel-title">Logbook</h3>
 	</div>
@@ -68,7 +68,20 @@
 		</div>
 	</div>
 
-	<table class="table table-condensed" ng-show="showID">
+
+	<div class="panel-body" ng-show="auth.seniorStaff">
+		<div class="row">
+			<div class="col-sm-offset-2 col-sm-5" ng-show="true">
+				<input class="form-control" name="url" ng-model="url" placeholder="Import a Spotify playlist from URL"/>
+			</div>
+
+			<div class="col-sm-3">
+				<button class="btn btn-default" ng-click="importSpotifyPlaylist(show.playlist, url)">Import</button>
+			</div>
+		</div>
+	</div>
+
+	<table class="table table-condensed" ng-show="true">
 		<thead>
 			<th style="width: 3em"></th>
 			<th style="width: 8em">Album Code</th>

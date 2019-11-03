@@ -72,6 +72,18 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 			});
 	};
 
+	$scope.importSpotifyPlaylist = function(showPlaylist, url) {
+		db.Playlist.importSpotifyPlaylist(url)
+			.then(function(playlist) {
+				playlist.tracks.forEach(function(track) {
+					track.rotation = track.rotation || "O";
+					showPlaylist.unshift(track);
+				});
+
+				$scope.playlistID = null;
+			});
+	};
+
 	$scope.getAlbum = function(album_code) {
 		db.Logbook.getAlbum(album_code).then(function(album) {
 			$scope.newTrack.albumID = album.albumID;
