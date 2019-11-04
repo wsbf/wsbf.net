@@ -74,7 +74,7 @@
 			<div class="col-sm-offset-2 col-sm-5">
 				<select class="form-control" ng-model="playlistID">
     				<option value="" selected>Add playlist from Spotify</option>
-					<option ng-repeat="p in playlists" value="{{p.playlistID}}">{{p.name}}</option>
+					<option ng-repeat="p in spotifyPlaylists" value="{{p.id}}">{{p.name}}</option>
 				</select>
 			</div>
 
