@@ -73,8 +73,8 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 			});
 	};
 
-	$scope.getSpotifyPlaylists = function(spotifyUserID) {
-		db.Logbook.getSpotifyPlaylists(spotifyUserID)
+	$scope.getSpotifyPlaylists = function() {
+		db.Logbook.getSpotifyPlaylists($scope.user.spotify_user_id)
 			.then(function(spotifyPlaylists) {
 				$scope.spotifyPlaylists = spotifyPlaylists;
 			});
@@ -133,6 +133,7 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 	getCurrentShow();
 	getListenerCount();
 	getPlaylists();
+	getSpotifyPlaylists();
 
 	var listenerCount = $interval(getListenerCount, 5000);
 

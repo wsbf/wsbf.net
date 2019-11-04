@@ -541,7 +541,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 
 		return _spotifyAuth.then(function(auth) {
 			return $http
-				.get("https://api.spotify.com/v1/users/" + spotifyuserID + "/playlists", {
+				.get("https://api.spotify.com/v1/users/" + spotifyUserID + "/playlists", {
 					cache: true,
 					headers: {
 						Authorization: "Bearer " + auth.access_token
