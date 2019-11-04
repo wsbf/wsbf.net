@@ -534,7 +534,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Gets a list of a user's Spotify playlists.
 	 */
-	this.Logbook.getSpotifyPlaylists = function (spotifyUserID) {
+	this.Logbook.getSpotifyPlaylists = function(spotifyUserID) {
 		_spotifyAuth = _spotifyAuth || $http.get("/api/auth/spotify.php").then(function(res) {
 			return res.data;
 		});

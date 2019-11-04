@@ -42,6 +42,14 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 			});
 	};
 
+	var getSpotifyPlaylists = function() {
+		db.Logbook.getSpotifyPlaylists($scope.user.spotify_user_id)
+			.then(function(spotifyPlaylists) {
+				$scope.spotifyPlaylists = spotifyPlaylists.items;
+			});
+	};
+
+
 	$scope.signOn = function(scheduleID) {
 		db.Logbook.signOn(scheduleID).then(function() {
 			getCurrentShow();
@@ -70,13 +78,6 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 				});
 
 				$scope.playlistID = null;
-			});
-	};
-
-	$scope.getSpotifyPlaylists = function() {
-		db.Logbook.getSpotifyPlaylists($scope.user.spotify_user_id)
-			.then(function(spotifyPlaylists) {
-				$scope.spotifyPlaylists = spotifyPlaylists;
 			});
 	};
 
