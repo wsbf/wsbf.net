@@ -38,8 +38,15 @@
 			</div>
 		</div>
 
-		<div class="form-group" ng-class="{'has-error': form.email_addr.$touched && form.email_addr.$invalid}">
-			<label class="col-sm-3 control-label">Email Address</label>
+		<div class="form-group" ng-show="auth.seniorStaff">
+			<label class="col-sm-3 control-label">Spotify User ID</label>
+			<div class="col-sm-6">
+				<input class="form-control" type="spotify_user_id" name="spotify_user_id" ng-model="user.spotify_user_id" required/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Spotify User ID</label>
 			<div class="col-sm-6">
 				<input class="form-control" type="email" name="email_addr" ng-model="user.email_addr" required/>
 			</div>
@@ -58,7 +65,7 @@
 				<textarea class="form-control" name="profile_paragraph" ng-model="user.profile_paragraph" rows="8" maxlength="2500"></textarea>
 				<samp class="help-block">{{2500 - user.profile_paragraph.length}} characters remaining.</samp>
 			</div>
-		</div>
+		</div>	
 
 		<div class="form-group hidden">
 			<label class="col-sm-3 control-label">Profile Picture</label>
