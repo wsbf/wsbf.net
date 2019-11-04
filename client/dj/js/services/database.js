@@ -532,6 +532,28 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	this.Playlist = {};
 
 	/**
+	 * Gets a list of a user's Spotify playlists.
+	 */
+	this.Logbook.getSpotifyPlaylists = function (spotifyUserID) {
+		_spotifyAuth = _spotifyAuth || $http.get("/api/auth/spotify.php").then(function(res) {
+			return res.data;
+		});
+
+		return _spotifyAuth.then(function(auth) {
+			return $http
+				.get("https://api.spotify.com/v1/users/" + spotifyuserID + "/playlists", {
+					cache: true,
+					headers: {
+						Authorization: "Bearer " + auth.access_token
+					}
+				})
+				.then(function(res) {
+					return res.data;
+				});
+		});
+	};
+
+	/**
 	 * Import the title, artist, and album of each track in a Spotify playlist.
 	 * 
 	 * @return

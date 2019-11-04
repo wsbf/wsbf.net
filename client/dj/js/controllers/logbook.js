@@ -12,6 +12,7 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 	$scope.show = {};
 	$scope.listenerCount = 0;
 	$scope.playlists = [];
+	$scope.spotifyPlaylists = [];
 	$scope.newTrack = { disc_num: 1 };
 
 	var getCurrentShow = function() {
@@ -69,6 +70,13 @@ logbookModule.controller("LogbookCtrl", ["$scope", "$interval", "alert", "db", f
 				});
 
 				$scope.playlistID = null;
+			});
+	};
+
+	$scope.getSpotifyPlaylists = function(spotifyUserID) {
+		db.Logbook.getSpotifyPlaylists(spotifyUserID)
+			.then(function(spotifyPlaylists) {
+				$scope.spotifyPlaylists = spotifyPlaylists;
 			});
 	};
 
