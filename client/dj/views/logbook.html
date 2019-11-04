@@ -58,6 +58,22 @@
 		<div class="row">
 			<div class="col-sm-offset-2 col-sm-5">
 				<select class="form-control" ng-model="playlistID">
+    				<option value="" selected>Add playlist from WSBF library</option>
+					<option ng-repeat="p in playlists" value="{{p.playlistID}}">{{p.name}}</option>
+				</select>
+			</div>
+
+			<div class="col-sm-3">
+				<button class="btn btn-default" ng-click="addPlaylist(show.playlist, playlistID)" ng-disabled="!playlistID">Add Playlist</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-body" ng-show="auth.seniorStaff && showID">
+		<div class="row">
+			<div class="col-sm-offset-2 col-sm-5">
+				<select class="form-control" ng-model="playlistID">
+    				<option value="" selected>Add playlist from Spotify</option>
 					<option ng-repeat="p in playlists" value="{{p.playlistID}}">{{p.name}}</option>
 				</select>
 			</div>
