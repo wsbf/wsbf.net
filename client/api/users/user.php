@@ -29,6 +29,7 @@ function get_user($mysqli, $username)
 		"u.statusID",
 		"u.profile_paragraph",
 		"u.has_picture",
+		"u.spotify_user_id"
 		"s.positionID"
 	);
 
@@ -107,7 +108,8 @@ function update_user($mysqli, $user)
 		. "preferred_name = '$user[preferred_name]', "
 		. "email_addr = '$user[email_addr]', "
 		. "profile_paragraph = '$user[profile_paragraph]', "
-		. "has_picture = '$user[has_picture]' "
+		. "has_picture = '$user[has_picture]', "
+		. "spotify_user_id = '$user[spotify_user_id' "
 		. "WHERE username = '$user[username]';";
 	exec_query($mysqli, $q);
 
