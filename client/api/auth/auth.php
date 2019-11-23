@@ -84,7 +84,7 @@ function authenticate_logbook($mysqli)
 	session_start();
 
 	// computer engineer always has access
-	if ( get_position($mysqli) == "8" ) {
+	if ( get_position($mysqli) == "8" || get_position($mysqli) == "13" ) {
 		return;
 	}
 
@@ -157,7 +157,7 @@ function auth_member($mysqli)
  */
 function auth_senior_staff($mysqli)
 {
-	return in_array(get_position($mysqli), array(0, 1, 2, 3, 4, 5, 6, 7, 8));
+	return in_array(get_position($mysqli), array(0, 1, 2, 3, 4, 5, 6, 7, 8, 13));
 }
 
 /**
