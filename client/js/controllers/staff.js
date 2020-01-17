@@ -22,6 +22,12 @@ staffModule.constant("staff", [
 			imageUrl: "images/staff/chair.jpg"
     },
     {
+			position: "Equipment Engineer",
+			email: "equipment@wsbf.net",
+			name: "Cruz Delgado",
+			imageUrl: "images/staff/chair.jpg"
+    },
+    {
 			position: "Computer Engineer",
 			email: "computer@wsbf.net",
 			name: "Garrett Duncan",
@@ -54,13 +60,7 @@ staffModule.constant("staff", [
     {
 			position: "Promotion Director",
 			email: "promo@wsbf.net",
-			name: "Sam Taylor",
-			imageUrl: "images/staff/chair.jpg"
-	},
-	{
-			position: "Member At Large",
-			email: "member@wsbf.net",
-			name: "Tim Endredi",
+			name: "Amanda Younglund",
 			imageUrl: "images/staff/chair.jpg"
 	},
 	{

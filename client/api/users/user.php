@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 
 /**
  * @file user.php
@@ -134,6 +135,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$user = get_user($mysqli, $_SESSION["username"]);
 	$mysqli->close();
 
+	header("Access-Control-Allow-Origin: *");
 	header("Content-Type: application/json");
 	exit(json_encode($user));
 }
