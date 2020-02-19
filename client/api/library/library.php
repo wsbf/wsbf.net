@@ -51,7 +51,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 		. "AND ('$rotationID' != 0 OR CURDATE() >= c.expiration_date OR c.expiration_date IS NULL) "
 		. "AND ('$rotationID' != 1 OR CURDATE() < c.expiration_date) "
 		. "AND ('$general_genreID' = '' OR al.general_genreID = '$general_genreID') "
-		. "ORDER BY al.albumID DESC "
+		. "ORDER BY al.album_code DESC "
 		. "LIMIT " . ($page * $page_size) . ", $page_size;";
 	$result = exec_query($mysqli, $q);
 
