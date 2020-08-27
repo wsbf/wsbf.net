@@ -6,7 +6,7 @@ staffModule.constant("staff", [
 		{
 			position: "General Manager",
 			email: "gm@wsbf.net",
-			name: "Roo Walker",
+			name: "Lindsay Ackerman",
 			imageUrl: "images/staff/chair.jpg"
 		},
     {
@@ -34,27 +34,21 @@ staffModule.constant("staff", [
 			imageUrl: "images/staff/chair.jpg"
     },
     {
-			position: "Computer Engineer",
-			email: "computer@wsbf.net",
-			name: "Joe Dunn",
-			imageUrl: "images/staff/chair.jpg"
-    },
-    {
 			position: "Events Coordinator",
 			email: "events@wsbf.net",
-			name: "Walker McDonald",
+			name: "Chris Rathke",
 			imageUrl: "images/staff/chair.jpg"
     },
-    {
+    /*{
 			position: "Music Director",
 			email: "music@wsbf.net",
 			name: "Kylie Miller",
 			imageUrl: "images/staff/chair.jpg"
-    },
+    },*/
     {
 			position: "Production Director",
 			email: "production@wsbf.net",
-			name: "Lizzy Parnell",
+			name: "Isaac Rios",
 			imageUrl: "images/staff/1819/Lizzy.jpg"
     },
     {
@@ -66,13 +60,13 @@ staffModule.constant("staff", [
 	{
 			position: "Member At Large",
 			email: "member@wsbf.net",
-			name: "Kaitlyn Root",
+			name: "Mick Thompson",
 			imageUrl: "images/staff/chair.jpg"
 	},
 	{
 			position: "Member At Large",
 			email: "member@wsbf.net",
-			name: "Dan Watson",
+			name: "Lizzy Parnell",
 			imageUrl: "images/staff/chair.jpg"
 	}/*,
     {
