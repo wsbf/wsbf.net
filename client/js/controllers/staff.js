@@ -49,7 +49,7 @@ staffModule.constant("staff", [
 			position: "Production Director",
 			email: "production@wsbf.net",
 			name: "Isaac Rios",
-			imageUrl: "images/staff/1819/Lizzy.jpg"
+			imageUrl: "images/staff/chair.jpg"
     },
     {
 			position: "Promotion Director",
@@ -67,7 +67,7 @@ staffModule.constant("staff", [
 			position: "Member At Large",
 			email: "member@wsbf.net",
 			name: "Lizzy Parnell",
-			imageUrl: "images/staff/chair.jpg"
+			imageUrl: "images/staff/1819/Lizzy.jpg"
 	}/*,
     {
 			position: "Student Media Advisor",
