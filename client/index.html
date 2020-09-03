@@ -164,16 +164,15 @@
 	<!-- Begin Body -->
 	<section class="container" style="padding: 0px 0px 75px 0px">
 		<!-- Announcement Banner -->
-		<!--<div id="announcement_banner" class="banner" style="display: none;">
+		<div id="announcement_banner" class="banner" style="padding-top: 30px; padding-bottom: 30px; background-color: #4b185a">
 			<p id="line_1">
-
+				Join WSBF's online Tiger Prowl event! <a id="banner_link" target="_blank" href="https://clemson.campuslabs.com/engage/organization/wsbf">Click here to visit our TigerQuest page.</a>
 			</p>
-			<p id="line_2">
-
-				<a id="banner_link" href=""></a>
+			<!--p id="line_2">
+				<a id="banner_link" target="_blank" href="https://clemson.campuslabs.com/engage/organization/wsbf">Click here to visit our TigerQuest page.</a>
 				<br>
-			</p>
-		</div>-->
+			</p-->
+		</div>
 
 		<!-- Page Content -->
 		<div class="row">
@@ -186,7 +185,7 @@
 			<div class="row">
 
 			<!-- Playlist -->
-			<div class="col-sm-4">
+			<div class="col-sm-6">
 				<div class="grid2" ng-controller="PlaylistCtrl">
 					<h2>Playing <small><a class="btn btn-default pull-right" ui-sref="playlists">More</a></small></h2>
 					<hr>
@@ -207,7 +206,7 @@
 			</div>
 
 			<!-- Schedule -->
-			<div class="col-sm-4">
+			<div class="col-sm-6">
 				<div class="grid1" ng-controller="ScheduleCtrl">
 					<h2>Schedule <small class="btn btn-default pull-right" ui-sref="schedule">{{today | date:'EEE'}}</small></h2>
 					<hr>
@@ -228,47 +227,47 @@
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<!-- Charting -->
-			<div class="col-sm-4">
-				<div class="grid2" ng-controller="ChartWidgetCtrl">
-					<h2>Charts	 <small><a class="btn btn-default pull-right" ui-sref="charts-albums">Full</a></small></h2>
-					<hr>
-					<div class="scrollable">
-						<!-- Album -->
-						<div class="media" ng-repeat="a in albums">
-							<div class="media-left">
-								<img class="img-rounded" ng-src="{{a.imageUrl || 'images/media_song.png'}}" alt="album art" width="60" height="60"/>
+					<!-- Charting -->
+					<!--div class="col-sm-4">
+						<div class="grid2" ng-controller="ChartWidgetCtrl">
+							<h2>Charts	 <small><a class="btn btn-default pull-right" ui-sref="charts-albums">Full</a></small></h2>
+							<hr>
+							<div class="scrollable">
+								<!-- Album -->
+								<div class="media" ng-repeat="a in albums">
+									<div class="media-left">
+										<img class="img-rounded" ng-src="{{a.imageUrl || 'images/media_song.png'}}" alt="album art" width="60" height="60"/>
+									</div>
+									<div class="media-body">
+										<div><strong>{{a.lb_album}}</strong></div>
+										<div>{{a.lb_artist}}</div>
+									</div>
+								</div>
 							</div>
-							<div class="media-body">
-								<div><strong>{{a.lb_album}}</strong></div>
-								<div>{{a.lb_artist}}</div>
+						</div>
+					</div>
+
+					<!-- Social -->
+					<div class="col-md-6">
+						<div class="grid3">
+							<h2>Social Media
+								<!-- Social Icons -->
+								<span class="list-inline text-right social" style="float:right; font-size: 20px;">
+									<a href="https://youtube.com/channel/UCG3Blh_SMHacTo_aq3Ikvqw" target="_blank"><i class="fa fa-youtube"></i></a>
+									<a href="https://facebook.com/wsbf881?ref=br_tf" target="_blank"><i class="fa fa-facebook"></i></a>
+									<a href="https://twitter.com/WSBF_FM" target="_blank"><i class="fa fa-twitter"></i></a>
+									<a href="https://instagram.com/wsbf_fm" target="_blank"><i class="fa fa-instagram"></i></a>
+								</span>
+							</h2>
+							<hr>
+							<!-- Twitter Content -->
+							<div class="scrollable text-center">
+								<a class="twitter-timeline" data-lang="en" data-height="350" data-dnt="true" data-theme="light" data-tweet-limit="5" data-link-color="#E81200" data-chrome="nofooter noheader noborders noscrollbar transparent" href="https://twitter.com/WSBF_FM?ref_src=twsrc%5Etfw">@WSBF_FM</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-
-			<!-- Social -->
-			<div class="col-md-6">
-				<div class="grid3">
-					<h2>Social Media
-						<!-- Social Icons -->
-						<span class="list-inline text-right social" style="float:right; font-size: 20px;">
-							<a href="https://youtube.com/channel/UCG3Blh_SMHacTo_aq3Ikvqw" target="_blank"><i class="fa fa-youtube"></i></a>
-							<a href="https://facebook.com/wsbf881?ref=br_tf" target="_blank"><i class="fa fa-facebook"></i></a>
-							<a href="https://twitter.com/WSBF_FM" target="_blank"><i class="fa fa-twitter"></i></a>
-							<a href="https://instagram.com/wsbf_fm" target="_blank"><i class="fa fa-instagram"></i></a>
-						</span>
-					</h2>
-					<hr>
-					<!-- Twitter Content -->
-					<div class="scrollable text-center">
-						<a class="twitter-timeline" data-lang="en" data-height="350" data-dnt="true" data-theme="light" data-tweet-limit="5" data-link-color="#E81200" data-chrome="nofooter noheader noborders noscrollbar transparent" href="https://twitter.com/WSBF_FM?ref_src=twsrc%5Etfw">@WSBF_FM</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-					</div>
-				</div>
-			</div>
 
 			<!-- Calendar -->
 			<div class="col-md-6">
