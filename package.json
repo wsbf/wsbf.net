@@ -34,7 +34,7 @@
     "karma-jasmine": "^2.0.1",
     "morgan": "^1.9.1",
     "angular-mocks": "^1.5.7",
-    "jquery": "^1.9.1"
+    "jquery": "^3.5.0"
   },
   "scripts": {
     "postinstall": "cd client; ln -s ../node_modules node_modules; cd ..",
