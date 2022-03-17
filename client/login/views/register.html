@@ -29,6 +29,10 @@
 					<input class="form-control" type="email" name="email_addr" ng-model="user.email_addr" required placeholder="Email Address"/>
 				</div>
 
+				<div class="form-group" ng-class="{'has-error': form.phone_num.$touched && form.phone_num.$invalid}">
+					<input class="form-control" type="phone" name="phone_num" ng-model="user.phone" placeholder="Phone Number (Optional)"/>
+				</div>
+
 				<div class="form-group" ng-class="{'has-error': form.password1.$touched && form.password1.$invalid}">
 					<input class="form-control" type="password" name="password1" ng-model="user.password" required placeholder="Password"/>
 				</div>
