@@ -21,12 +21,12 @@ staffModule.constant("staff", [
 			name: "Timothy Ross",
 			imageUrl: "images/staff/chair.jpg"
     },
-    {
+    /*{
 			position: "Equipment Engineer",
 			email: "equipment@wsbf.net",
 			name: "McCormick Emge",
 			imageUrl: "images/staff/chair.jpg"
-    },
+    },*/
     {
 			position: "Computer Engineer",
 			email: "computer@wsbf.net",
