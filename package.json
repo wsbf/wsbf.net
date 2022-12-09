@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "jasmine-core": "^2.4.1",
     "karma": "^4.0.0",
     "karma-chrome-launcher": "^2.2.0",
