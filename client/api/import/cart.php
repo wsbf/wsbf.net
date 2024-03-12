@@ -62,7 +62,7 @@ function import_cart($mysqli, $cart)
 
 	if ( !copy($src, $dst) ) {
 		header("HTTP/1.1 500 Internal Server Error");
-		exit("Could not copy files.");
+		exit("Could not copy files. Error: " . $error['message']);
 	}
 
 	unlink($src);
