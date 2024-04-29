@@ -67,11 +67,9 @@ function import_cart($mysqli, $cart)
 
 	unlink($src);
 
-	$end_date = isset($cart['end_date']) && !empty($cart['end_date']) ? $cart['end_date'] : 'NULL';
-
 	$q = "INSERT INTO `libcart` SET "
 		. "start_date = '$cart[start_date]', "
-		. "end_date = '$cart[end_date]', "
+		. "end_date = " . (isset($cart['end_date']) && !empty($cart['end_date']) ? "'$cart[end_date]'" : "NULL") . ", "
 		. "issuer = '$cart[issuer]', "
 		. "title = '$cart[title]', "
 		. "cart_typeID = '$cart[cart_typeID]', "
