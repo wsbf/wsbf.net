@@ -14,6 +14,8 @@
  * and then renames it as specified by the argument once the track is changed (i.e. new show).
  * 
  * [dcohen @ 2015-02-05] 
+ * 
+ * jagarwa @ 2024-04-30 added show_name functionality
  */    
 require_once("../connect.php");
 require_once("functions.php");
@@ -22,9 +24,10 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$mysqli = construct_connection();
 
 	$showID = get_current_show_id($mysqli);
+	$show_name = get_current_show_name($mysqli);
 
 	exit("TITLE=$showID\n"
-		. "ARTIST=WSBF\n"
+		. "ARTIST=$show_name\n"
 		. ".\n");
 }
 ?>

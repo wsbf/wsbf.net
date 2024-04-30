@@ -3,6 +3,7 @@
 /**
  * @file shows/functions.php
  * @author Ben Shealy
+ * edits by Jai Agarwal
  */
 
 /**
@@ -19,6 +20,23 @@ function get_current_show_id($mysqli)
 	$show = exec_query($mysqli, $q)->fetch_assoc();
 
 	return $show["showID"];
+}
+
+/**
+ * Get the current show ID.
+ *
+ * @param mysqli
+ * @return current show ID
+ * Jai Agarwal
+ */
+function get_current_show_name($mysqli)
+{
+	$q = "SELECT show_name FROM `show` AS s "
+		. "ORDER BY s.showID DESC "
+		. "LIMIT 1;";
+	$show = exec_query($mysqli, $q)->fetch_assoc();
+
+	return $show["show_name"];
 }
 
 /**
