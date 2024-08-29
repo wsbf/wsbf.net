@@ -23,7 +23,7 @@ define('FALL', 1);
  * At the beginning of each application cycle, this
  * constant should be switched.
  */
-define('SEMESTER', SPRING);
+define('SEMESTER', FALL);
 
 /**
  * At the beginning of each application cycle, the
@@ -33,8 +33,8 @@ define('SEMESTER', SPRING);
  * TODO: automate these dates somehow?
  */
 $SEMESTER_BEGIN = array(
-	SPRING => strtotime("5:00 pm January 12, 2018"),
-	FALL => strtotime("5:00 pm August 23, 2018")
+	SPRING => strtotime("5:00 pm January 8, 2025"),
+	FALL => strtotime("5:00 pm August 27, 2024")
 );
 
 define('REVIEW_BEGIN', $SEMESTER_BEGIN[!SEMESTER]);
