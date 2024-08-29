@@ -9,8 +9,10 @@ requestPasswordModule.controller("RequestPasswordCtrl", ["$scope", "$http", func
 		$http.post("/api/auth/password_request.php", null, { params: { username: username } })
 			.then(function() {
 				$scope.submitted = true;
+				console.log('Form submitted:', $scope.submitted);
 			}, function(res) {
 				$scope.error = res.data;
+				console.log('Submission error:', $scope.error);
 			});
 	};
 }]);
