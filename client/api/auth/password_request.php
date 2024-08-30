@@ -17,10 +17,11 @@ require '/usr/share/php/PHPMailer/src/SMTP.php';
 
 /**
  * Send an email.
- *	
+ *
  * Using PHPMailer to send an email with SMTP
- * through our new mail hosting service (Private Email)
- * 
+ * through our new mail hosting service (Private Email).
+ * SMTP credentials are set as environment variables.
+ *
  * @param to       recipient email address
  * @param subject  subject
  * @param message  message
@@ -47,26 +48,23 @@ function send_mail($to, $subject, $message)
 		$mail->Username   = getenv('SMTP_EMAIL');                 //SMTP username
 		$mail->Password   = getenv('SMTP_PASS');                  //SMTP password
 		$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;          //Enable implicit TLS encryption
-		$mail->Port       = getenv('SMTP_PORT');                  // 465 is TCP port to connect to; use 587 if using `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+		$mail->Port       = getenv('SMTP_PORT');                  
 
 		//Recipients
-		$mail->setFrom('computer@wsbf.net', 'Mailer');
+		$mail->setFrom(getenv('SMTP_EMAIL'));
 		$mail->addAddress($to);     //Add a recipient
-		
-		
+
+
 		//Content
-		$mail->isHTML(true);                                  //Set email format to HTML
+		$mail->isHTML(true);
 		$mail->Subject = $subject;
 		$mail->Body    = $message;
 		$mail->AltBody = $message;
 
 		$mail->send();
-		
-		return true;
-		
+
     } catch (Exception $e) {
-	    //file_put_contents('php://stderr', print_r("Message could not be sent. Mailer Error: {$mail->ErrorInfo}", TRUE));
-	    return false;
+	    file_put_contents('php://stderr', print_r("Message could not be sent. Mailer Error: {$mail->ErrorInfo}", TRUE));
 	}
 }
 
