@@ -42,12 +42,12 @@ function send_mail($to, $subject, $message)
 		//Server settings
 		$mail->SMTPDebug  = SMTP::DEBUG_SERVER;                   //Enable verbose debug output
 		$mail->isSMTP();                                          //Send using SMTP
-		$mail->Host       = 'mail.privateemail.com';              //Set the SMTP server to send through
+		$mail->Host       = getenv('SMTP_SERVER');                //Set the SMTP server to send through
 		$mail->SMTPAuth   = true;                                 //Enable SMTP authentication
-		$mail->Username   = 'computer@wsbf.net';                  //SMTP username
-		$mail->Password   = 'longsufferingcompe';                 //SMTP password
+		$mail->Username   = getenv('SMTP_EMAIL');                 //SMTP username
+		$mail->Password   = getenv('SMTP_PASS');                  //SMTP password
 		$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;          //Enable implicit TLS encryption
-		$mail->Port       = 465;                                  // 465 is TCP port to connect to; use 587 if using `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+		$mail->Port       = getenv('SMTP_PORT');                  // 465 is TCP port to connect to; use 587 if using `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
 		//Recipients
 		$mail->setFrom('computer@wsbf.net', 'Mailer');
