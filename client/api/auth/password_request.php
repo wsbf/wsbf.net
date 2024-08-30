@@ -15,6 +15,12 @@ require '/usr/share/php/PHPMailer/src/Exception.php';
 require '/usr/share/php/PHPMailer/src/PHPMailer.php';
 require '/usr/share/php/PHPMailer/src/SMTP.php';
 
+// Fetching environment variables
+$smtp_server = getenv("SMTP_SERVER");
+$smtp_user   = getenv("SMTP_EMAIL");
+$smtp_pass   = getenv("SMTP_PASS");
+$smtp_port   = getenv("SMTP_PORT");
+
 /**
  * Send an email.
  *
@@ -27,48 +33,43 @@ require '/usr/share/php/PHPMailer/src/SMTP.php';
  * @param message  message
  * @return true if mail was sent, false otherwise
  */
-function send_mail($to, $subject, $message)
+function send_mail($to, $subject, $message, $smtp_server, $smtp_port, $smtp_user, $smtp_pass)
 {
-//    $headers = "From: WSBF Computer Engineer <computer@wsbf.net>\r\n"
-//            . "Content-Type: text/plain; charset=utf-8\r\n";
+    // Create an instance; passing `true` enables exceptions
+    $mail = new PHPMailer(true);
 
-//    $headers = "MIME-Version: 1.0\r\n"
-//            . "Subject: $subject\r\n"
-//            . "X-Mailer: PHP/" . phpversion() . "\r\n";
+    try {
+        // Server settings
+        $mail->SMTPDebug  = SMTP::DEBUG_SERVER;          // Enable verbose debug output
+        $mail->isSMTP();                                 // Send using SMTP
+        $mail->Host       = $smtp_server;                // Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                        // Enable SMTP authentication
+        $mail->Username   = $smtp_user;                  // SMTP username
+        $mail->Password   = $smtp_pass;                  // SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Enable implicit TLS encryption
+        $mail->Port       = $smtp_port;                  // TCP port to connect to
 
-	//Create an instance; passing `true` enables exceptions
-	$mail = new PHPMailer(true);
+        // Recipients
+        $mail->setFrom('computer@wsbf.net', 'Otto Mation');
+        $mail->addAddress($to); // Add a recipient
 
-	try {
-		//Server settings
-		$mail->SMTPDebug  = SMTP::DEBUG_SERVER;                   //Enable verbose debug output
-		$mail->isSMTP();                                          //Send using SMTP
-		$mail->Host       = getenv('SMTP_SERVER');                //Set the SMTP server to send through
-		$mail->SMTPAuth   = true;                                 //Enable SMTP authentication
-		$mail->Username   = getenv('SMTP_EMAIL');                 //SMTP username
-		$mail->Password   = getenv('SMTP_PASS');                  //SMTP password
-		$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;          //Enable implicit TLS encryption
-		$mail->Port       = getenv('SMTP_PORT');                  
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $message;
+        $mail->AltBody = $message;
 
-		//Recipients
-		$mail->setFrom(getenv('SMTP_EMAIL'));
-		$mail->addAddress($to);     //Add a recipient
-
-
-		//Content
-		$mail->isHTML(true);
-		$mail->Subject = $subject;
-		$mail->Body    = $message;
-		$mail->AltBody = $message;
-
-		$mail->send();
-
+        // Return the result of the send() method
+        return $mail->send();
     } catch (Exception $e) {
-	    file_put_contents('php://stderr', print_r("Message could not be sent. Mailer Error: {$mail->ErrorInfo}", TRUE));
-	}
+        // Log the error message for debugging purposes
+        file_put_contents('php://stderr', print_r("Message could not be sent. Mailer Error: {$mail->ErrorInfo}", TRUE));
+        return false;
+    }
 }
 
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+
         $mysqli = construct_connection();
 
         // validate username
@@ -97,13 +98,18 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
         // send email to user
         $user = $result->fetch_assoc();
 
-        $success = send_mail(
-                $user["email_addr"],
+        $success = send_mail( $user["email_addr"],
                 "Password Reset Request",
-                "Go to this link to reset your password: https://wsbf.net/login/#!/reset-password/$transaction_id"
-        );
+                "Go to this link to reset your password: https://wsbf.net/login/#!/reset-password/$transaction_id",
+                 $smtp_server, $smtp_port, $smtp_user, $smtp_pass);
 
         $mysqli->close();
+
+       // chatgpt says this will clear the output buffer
+       // and cause the page to redirect properly
+       if (ob_get_length()) {
+           ob_end_clean();
+       }
 
         header("Content-Type: application/json");
         exit(json_encode($success));
