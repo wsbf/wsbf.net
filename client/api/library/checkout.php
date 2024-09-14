@@ -3,7 +3,7 @@
 /**
  * @file library/checkout.php
  * @author Ben Shealy
- *
+ * edits by jai agarwal
  * Check out an album.
  */
 require_once("../auth/auth.php");
@@ -26,7 +26,7 @@ function validate_checkout($mysqli, $albumID)
 		. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = a.albumID "
 		. "WHERE a.albumID = '$albumID' "
 		. "AND a.rotationID = 0 "
-		. "AND c.expiration_date IS NULL OR c.expiration_date <= CURDATE();";
+		. "AND (c.expiration_date IS NULL OR c.expiration_date <= CURDATE());";
 	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows == 0 ) {
