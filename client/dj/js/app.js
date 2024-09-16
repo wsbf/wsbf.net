@@ -6,6 +6,7 @@ var app = angular.module("wizbif", [
 	"wizbif.main",
 	"wizbif.alumni",
 	"wizbif.archives",
+	"wizbif.documents",
 	"wizbif.carts",
 	"wizbif.fishbowl-admin",
 	"wizbif.fishbowl",
@@ -51,6 +52,10 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 			},
 			templateUrl: "views/carts_admin.html",
 			controller: "CartsCtrl"
+		})
+		.state("documents", {
+			url: "/documents",
+			templateUrl: "views/documents.html"
 		})
 		.state("fishbowl-admin", {
 			url: "/fishbowl/admin",
