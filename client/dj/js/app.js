@@ -6,7 +6,6 @@ var app = angular.module("wizbif", [
 	"wizbif.main",
 	"wizbif.alumni",
 	"wizbif.archives",
-	"wizbif.documents",
 	"wizbif.carts",
 	"wizbif.fishbowl-admin",
 	"wizbif.fishbowl",
