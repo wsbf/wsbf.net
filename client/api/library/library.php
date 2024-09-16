@@ -36,23 +36,52 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 		"u.preferred_name AS reviewer"
 	);
 
-	// Checked-out albums are albums in TBR that have
-	// a non-expired record in `checkout`
-	$rotID_temp = ($rotationID == "1")
-		? "0"
-		: $rotationID;
+	// Checked-out albums are albums with rotationID 1 that have
+	// a non-expired record in `checkout`.
 
-	$q = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
-		. "LEFT OUTER JOIN `checkout` AS c ON c.albumID=al.albumID AND c.username='$_SESSION[username]' "
-		. "INNER JOIN `libartist` AS ar ON al.artistID=ar.artistID "
-		. "LEFT OUTER JOIN `libreview` AS r ON r.albumID=al.albumID "
-		. "LEFT OUTER JOIN `users` AS u ON r.username=u.username "
-		. "WHERE al.rotationID = '$rotID_temp' "
-		. "AND ('$rotationID' != 0 OR CURDATE() >= c.expiration_date OR c.expiration_date IS NULL) "
-		. "AND ('$rotationID' != 1 OR CURDATE() < c.expiration_date) "
-		. "AND ('$general_genreID' = '' OR al.general_genreID = '$general_genreID') "
-		. "ORDER BY al.album_code DESC "
-		. "LIMIT " . ($page * $page_size) . ", $page_size;";
+	$baseQuery = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
+				. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID AND c.username = '$_SESSION[username]' "
+				. "INNER JOIN `libartist` AS ar ON al.artistID = ar.artistID "
+				. "LEFT OUTER JOIN `libreview` AS r ON r.albumID = al.albumID "
+				. "LEFT OUTER JOIN `users` AS u ON r.username = u.username ";
+
+	$finalQuery = "AND ('$general_genreID' = '' OR al.general_genreID = '$general_genreID') "
+				. "ORDER BY al.album_code DESC "
+				. "LIMIT " . ($page * $page_size) . ", $page_size;";
+
+	if ($rotationID == "1") {
+		$q = $baseQuery . " "
+			. "WHERE al.rotationID = 1 "
+			. "AND (CURDATE() < c.expiration_date) "
+			. $finalQuery;
+	}
+	else if ($rotationID == "0") {
+		$subQuery = "SELECT c.albumID, c.username, c.expiration_date "
+			. "FROM `checkout` AS c "
+			. "INNER JOIN ( "
+			. "SELECT albumID, MAX(expiration_date) AS max_expiration_date "
+			. "FROM `checkout` "
+			. "GROUP BY albumID "
+			. ") AS latest_c "
+			. "ON c.albumID = latest_c.albumID "
+			. "AND c.expiration_date = latest_c.max_expiration_date";
+
+		$q = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al " 
+			. "LEFT OUTER JOIN ($subQuery) AS c ON c.albumID = al.albumID "
+			. "INNER JOIN `libartist` AS ar ON al.artistID = ar.artistID "
+			. "LEFT OUTER JOIN `libreview` AS r ON r.albumID = al.albumID "
+			. "LEFT OUTER JOIN `users` AS u ON r.username = u.username "
+			. "WHERE al.rotationID = 0 "
+   			. "OR (al.rotationID = 1 AND (c.expiration_date IS NULL OR c.expiration_date < CURDATE())) "
+			. $finalQuery;
+	}
+	else {
+		$q = $baseQuery
+			. "WHERE al.rotationID = '$rotationID' "
+			. "AND ('$rotationID' != 0 OR CURDATE() >= c.expiration_date OR c.expiration_date IS NULL) "
+			. "AND ('$rotationID' != 1 OR CURDATE() < c.expiration_date) "
+			. $finalQuery;
+	}
 	$result = exec_query($mysqli, $q);
 
 	return fetch_array($result);

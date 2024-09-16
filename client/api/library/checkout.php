@@ -3,7 +3,7 @@
 /**
  * @file library/checkout.php
  * @author Ben Shealy
- *
+ * edits by jai agarwal
  * Check out an album.
  */
 require_once("../auth/auth.php");
@@ -26,7 +26,8 @@ function validate_checkout($mysqli, $albumID)
 		. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = a.albumID "
 		. "WHERE a.albumID = '$albumID' "
 		. "AND a.rotationID = 0 "
-		. "AND c.expiration_date IS NULL OR c.expiration_date <= CURDATE();";
+		. "AND (c.expiration_date IS NULL OR c.expiration_date <= CURDATE());";
+
 	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows == 0 ) {
@@ -70,13 +71,23 @@ function validate_return($mysqli, $albumID)
  */
 function checkout_album($mysqli, $albumID)
 {
-	// album rotation remains equal to 0
+	// album rotation remains equal to 0   (why? - jai 2024)
+
+	// set rotationID to 1
+	$q = "UPDATE `libalbum` SET "
+		. "rotationID = 1 "
+		. "WHERE albumID = '$albumID';";
+	if (!$mysqli->query($q)) {
+		error_log("Insert Error: " . $mysqli->error);
+	}
 
 	$q = "INSERT INTO `checkout` SET "
 		. "username = '$_SESSION[username]', "
 		. "albumID = '$albumID', "
 		. "expiration_date = ADDDATE(CURDATE(), 7);";
-	exec_query($mysqli, $q);
+	if (!$mysqli->query($q)) {
+		error_log("Insert Error: " . $mysqli->error);
+	}
 }
 
 /**
@@ -87,6 +98,11 @@ function checkout_album($mysqli, $albumID)
  */
 function return_album($mysqli, $albumID)
 {
+	$q = "UPDATE `libalbum` SET "
+		. "rotationID = 0 "
+		. "WHERE albumID = '$albumID';";
+	exec_query($mysqli, $q);
+
 	$q = "DELETE FROM `checkout` "
 		. "WHERE username = '$_SESSION[username]' "
 		. "AND albumID = '$albumID' "
