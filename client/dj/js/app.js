@@ -53,9 +53,9 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 			controller: "CartsCtrl"
 		})
 		.state("documents", {
-			url: "/documents",
-			templateUrl: "views/documents.html"
-		})
+            url: "/documents",
+            templateUrl: "views/documents.html"
+        })
 		.state("fishbowl-admin", {
 			url: "/fishbowl/admin",
 			templateUrl: "views/fishbowl_admin.html",
