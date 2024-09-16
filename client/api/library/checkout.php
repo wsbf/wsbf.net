@@ -25,7 +25,8 @@ function validate_checkout($mysqli, $albumID)
 	$q = "SELECT rotationID FROM `libalbum` AS a "
     . "LEFT OUTER JOIN `checkout` AS c ON c.albumID = a.albumID "
     . "WHERE a.albumID = '$albumID' "
-    . "AND (a.rotationID = 0 OR (a.rotationID = 1 AND (c.expiration_date IS NULL OR c.expiration_date <= CURDATE())))";
+	. "AND (c.expiration_date IS NULL OR c.expiration_date <= CURDATE());";
+
 	$result = exec_query($mysqli, $q);
 
 	if ( $result->num_rows == 0 ) {
