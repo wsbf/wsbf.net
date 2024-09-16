@@ -23,9 +23,10 @@ function validate_checkout($mysqli, $albumID)
 
 	// album should be in TBR and not checked out
 	$q = "SELECT rotationID FROM `libalbum` AS a "
-    . "LEFT OUTER JOIN `checkout` AS c ON c.albumID = a.albumID "
-    . "WHERE a.albumID = '$albumID' "
-	. "AND (c.expiration_date IS NULL OR c.expiration_date <= CURDATE());";
+		. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = a.albumID "
+		. "WHERE a.albumID = '$albumID' "
+		. "AND a.rotationID = 0 "
+		. "AND (c.expiration_date IS NULL OR c.expiration_date <= CURDATE());";
 
 	$result = exec_query($mysqli, $q);
 
