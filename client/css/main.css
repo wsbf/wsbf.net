@@ -141,6 +141,10 @@ nav * {
 		color: #fff;
 	}
 
+  nav .dropdown-menu a {
+    color: #fff;
+  }
+  
 	nav li.listen {
 		visibility: hidden;
 	}
