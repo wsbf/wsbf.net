@@ -81,7 +81,7 @@ function validate_review($mysqli, $album)
 	$q = "SELECT a.rotationID FROM `libalbum` AS a "
 		. "INNER JOIN `checkout` as c ON c.albumID = a.albumID "
 		. "WHERE a.albumID = '$album[albumID]' "
-		. "AND a.rotationID = 0 "
+		. "AND a.rotationID = 1 "
 		. "AND c.username = '$_SESSION[username]' "
 		. "AND CURDATE() < c.expiration_date;";
 	$result = exec_query($mysqli, $q);
