@@ -84,10 +84,10 @@
 						<a class="dropdown-toggle" href="" uib-dropdown-toggle>About</a>
 						<ul class="uib-dropdown-menu">
 							<li>
-								<a ui-sref="about">About</a>
+								<a ui-sref="about" ng-click="navCollapsed = !navCollapsed">About</a>
 							</li>
 							<li>
-								<a ui-sref="staff">Staff</a>
+								<a ui-sref="staff" ng-click="navCollapsed = !navCollapsed">Staff</a>
 							</li>
 							<li class="divider"></li>
 						</ul>
@@ -96,13 +96,13 @@
 						<a class="dropdown-toggle" href="" uib-dropdown-toggle>Music</a>
 						<ul class="uib-dropdown-menu">
 							<li>
-								<a ui-sref="schedule">Schedule</a>
+								<a ui-sref="schedule" ng-click="navCollapsed = !navCollapsed">Schedule</a>
 							</li>
 							<li>
-								<a ui-sref="playlists">Playlists</a>
+								<a ui-sref="playlists" ng-click="navCollapsed = !navCollapsed">Playlists</a>
 							</li>
 							<li>
-								<a ui-sref="charts-albums">Charting</a>
+								<a ui-sref="charts-albums" ng-click="navCollapsed = !navCollapsed">Charting</a>
 							</li>
 							<li class="divider"></li>
 						</ul>
@@ -111,13 +111,13 @@
 						<a class="dropdown-toggle" href="" uib-dropdown-toggle>Services</a>
 						<ul class="uib-dropdown-menu">
 							<li>
-								<a ui-sref="booking">Booking</a>
+								<a ui-sref="booking" ng-click="navCollapsed = !navCollapsed">Booking</a>
 							</li>
 							<li>
-								<a ui-sref="promotion">Promotion</a>
+								<a ui-sref="promotion" ng-click="navCollapsed = !navCollapsed">Promotion</a>
 							</li>
 							<li>
-								<a ui-sref="recording">Recording</a>
+								<a ui-sref="recording" ng-click="navCollapsed = !navCollapsed">Recording</a>
 							</li>
 							<li class="divider"></li>
 						</ul>
@@ -126,10 +126,10 @@
 						<a href="" class="dropdown-toggle" uib-dropdown-toggle>Contact</a>
 						<ul class="uib-dropdown-menu">
 							<li>
-								<a ui-sref="contact">Contact</a>
+								<a ui-sref="contact" ng-click="navCollapsed = !navCollapsed">Contact</a>
 							</li>
 							<li>
-								<a ui-sref="join">Join</a>
+								<a ui-sref="join" ng-click="navCollapsed = !navCollapsed">Join</a>
 							</li>
 							<li class="divider"></li>
 						</ul>
@@ -138,7 +138,7 @@
 						<a href="https://bbis79525p.sky.blackbaud.com/giving/giving-to-clemson?id=c92908ab-bcd0-4966-a4a8-9ab4a15c4ba6" target="_blank">Donate</a>
 					</li>
 					<li>
-						<a href="login/">DJs</a>
+						<a href="login/">Log In</a>
 					</li>
 					<li class="sharkweek hidden">
 						<a href="https://wsbf.net/sharkweek/" target="_blank">
@@ -151,7 +151,7 @@
 							<a href="https://wsbf.net/mobile/#!/">
 								<i class="material-icons" style="font-size: inherit; text-rendering: auto; display: inline-block; line-height: inherit;">headset</i>
 							-->
-							Live
+							<strong>Listen Live!</strong>
 						</a>
 					</li>
 					<li class="divider"></li>
@@ -276,10 +276,12 @@
 					<h2>WSBF & Community Calendar</h2>
 					<hr>
 					<div class="scrollable text-center">
-						<p><b style="font-size:17px;">Live Show</b> September 14, 2024 (7pm @ Jaycee Park)
+						<p style="font-size:17px;"> <s><b>Live Show</b> September 14, 2024 (7pm @ Jaycee Park)</s></p>
+						<p style="font-size:17px;"> Keep an eye on out for more events soon!</p>						
 						<br>
-						<br>
-															
+						<br>							
+						<br>							
+						<br>							
 						<small>If you have an event or organization you think would be a good fit for this space, email gm@wsbf.net and cc computer@wsbf.net.</small></p>
 					</div>
 				</div>
@@ -290,7 +292,7 @@
 	<!-- End Body -->
 
 	<footer>
-		<div class="pull-left copyright">© 2015 WSBF-FM Clemson,
+		<div class="pull-left copyright">© 2024 WSBF-FM Clemson,
 			<br>All rights reserved.
 		</div>
 	</footer>
