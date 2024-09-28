@@ -46,7 +46,6 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 				. "LEFT OUTER JOIN `users` AS u ON r.username = u.username ";
 
 	$finalQuery = "AND ('$general_genreID' = '' OR al.general_genreID = '$general_genreID') "
-				. "AND al.date_moved >= DATE_SUB(CURDATE(), INTERVAL 3 YEAR) "
 				. "ORDER BY al.album_code DESC "
 				. "LIMIT " . ($page * $page_size) . ", $page_size;";
 
@@ -74,6 +73,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 			. "LEFT OUTER JOIN `users` AS u ON r.username = u.username "
 			. "WHERE al.rotationID = 0 "
    			. "OR (al.rotationID = 1 AND (c.expiration_date IS NULL OR c.expiration_date < CURDATE())) "
+			. "al.date_moved >= DATE_SUB(CURDATE(), INTERVAL 3 YEAR) "
 			. $finalQuery;
 	}
 	else {
