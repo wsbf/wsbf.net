@@ -73,7 +73,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 			. "LEFT OUTER JOIN `users` AS u ON r.username = u.username "
 			. "WHERE al.rotationID = 0 "
    			. "OR (al.rotationID = 1 AND (c.expiration_date IS NULL OR c.expiration_date < CURDATE())) "
-			. "al.date_moved >= DATE_SUB(CURDATE(), INTERVAL 3 YEAR) "
+			. "AND al.date_moved >= DATE_SUB(CURDATE(), INTERVAL 3 YEAR) "
 			. $finalQuery;
 	}
 	else {
