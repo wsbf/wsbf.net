@@ -35,11 +35,11 @@ btn {
 
 #announcement_banner {
   width: 100%;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   text-align: center;
   color: #fff;
-  /*background-color: #e81200;*/
+  /* background-color: #e81200; */
   background-color: #4b185a;
   padding-top: 5px;
   padding-bottom: 5px;
