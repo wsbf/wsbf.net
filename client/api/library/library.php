@@ -46,6 +46,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 				. "LEFT OUTER JOIN `users` AS u ON r.username = u.username ";
 
 	$finalQuery = "AND ('$general_genreID' = '' OR al.general_genreID = '$general_genreID') "
+				. "AND al.date_moved >= DATE_SUB(CURDATE(), INTERVAL 3 YEAR) "
 				. "ORDER BY al.album_code DESC "
 				. "LIMIT " . ($page * $page_size) . ", $page_size;";
 
