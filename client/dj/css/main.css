@@ -46,3 +46,69 @@ nav {
 .navbar-text {
 	margin: 0px;
 }
+
+
+@media (min-width:768px) {
+#media-widget {
+	width: 500px;
+	float: right;
+}
+
+#media-widget-link * {
+	visibility: hidden;
+	display: none;
+}
+
+#media-widget-controls * {
+	visibility: visible;
+}
+}
+
+@media (max-width:767px) {
+	#media-widget {
+		left: 0;
+		height: 75px;
+	}
+
+	#media-widget-link * {
+		visibility: visible;
+	}
+
+	#media-widget-controls * {
+		visibility: hidden;
+		display: none;
+	}
+}
+
+.media-container {
+	margin: 10px;
+}
+
+.videogular-container {
+	max-width: 150px;
+	height: 50px;
+}
+
+footer {
+	background-color: #000;
+	background-size: cover;
+	padding-left: 50px;
+	padding-top: 16px;
+	padding-bottom: 50px;
+	color: #e7e7e7;
+	height: 50px;
+		position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+footer .copyright {
+	padding-left: 25px;
+	line-height: 18px;
+	color: #868484;
+}
+
+ul {
+	list-style: none;
+	padding-left: 0px;
+}
