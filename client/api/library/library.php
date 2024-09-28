@@ -71,8 +71,8 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 			. "INNER JOIN `libartist` AS ar ON al.artistID = ar.artistID "
 			. "LEFT OUTER JOIN `libreview` AS r ON r.albumID = al.albumID "
 			. "LEFT OUTER JOIN `users` AS u ON r.username = u.username "
-			. "WHERE al.rotationID = 0 "
-   			. "OR (al.rotationID = 1 AND (c.expiration_date IS NULL OR c.expiration_date < CURDATE())) "
+			. "WHERE (al.rotationID = 0 "
+   			. "OR (al.rotationID = 1 AND (c.expiration_date IS NULL OR c.expiration_date < CURDATE()))) "
 			. "AND al.date_moved >= DATE_SUB(CURDATE(), INTERVAL 3 YEAR) "
 			. $finalQuery;
 	}
