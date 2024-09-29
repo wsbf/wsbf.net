@@ -225,6 +225,11 @@ li.active a {
     visibility: hidden;
     display: none;
   }
+
+  .on-now-text {
+    font-size: 12px; /* Adjust to a smaller size for mobile */
+  }
+  
 }
 
 .media-container {
