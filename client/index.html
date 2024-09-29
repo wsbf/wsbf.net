@@ -208,7 +208,7 @@
 			<!-- Schedule -->
 			<div class="col-sm-6">
 				<div class="grid1" ng-controller="ScheduleCtrl">
-					<h2>Schedule <small>On Now: {{track.show_name || '--'}}</small> <small class="btn btn-default pull-right" ui-sref="schedule">{{today | date:'EEE'}}</small></h2>
+					<h2>Schedule <small ng-controller="NowPlayingCtrl">On Now: {{track.show_name || '--'}}</small> <small class="btn btn-default pull-right" ui-sref="schedule">{{today | date:'EEE'}}</small></h2>
 					<hr>
 					<div class="scrollable">
 						<!-- Show -->
