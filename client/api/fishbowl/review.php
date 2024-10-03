@@ -97,6 +97,15 @@ function rate_fishbowl_apps($mysqli, $apps)
 			. "WHERE fishbowlID='$a[fishbowlID]';";
 		$app = exec_query($mysqli, $q)->fetch_assoc();
 
+		// get points
+		$q = "SELECT username, COUNT(*) AS entries " 
+			. "FROM fishbowl_log "
+			. "WHERE date BETWEEN ($REVIEW_BEGIN) AND ($DEADLINE)"
+			. "GROUP BY username "
+			. "ORDER BY `entries` DESC;";
+
+		$rank = exec_query($mysqli, $q)->fetch_assoc();
+
 		$average = $app["average"];
 		$weight = $app["weight"];
 
