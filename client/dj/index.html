@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/style.css">
@@ -37,107 +38,109 @@
 	<script src="js/app.js"></script>
 </head>
 <body ng-controller="MainCtrl">
-	<nav class="navbar navbar-default navbar-static-top">
-		<div class="container-fluid">
+	<!-- Begin navbar -->
+	<nav class="navbar navbar-dark bg-dark navbar-static-top">
+		<div class="container">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="/" title="wsbf.net">
-					<img src="/images/wsbflady_100.png" alt="WSBF logo"/>
-					<p id="station_id">WSBF FM Clemson</p>
+				<!-- Logo -->
+					<a class="navbar-brand" ui-sref="home" title="wsbf.net">
+					<img id="station_logo" class="img-responsive" src="/images/wsbflady_250.png" alt="WSBF logo"/>
+					<p id="station_id">WSBF FM<br>Clemson</p>
+				</a>
+				<!-- Mobile Collapse -->
+				<a class="navbar-toggle collapsed" href="" ng-click="navCollapsed = !navCollapsed">
+					<i class="material-icons" style="font-size: 30px; line-height: 70px;">menu</i>
 				</a>
 			</div>
 
-			<ul class="nav navbar-nav navbar-right">
-				<li ng-show="user">
-					<p class="navbar-text">
-						<span>Signed in as {{user.preferred_name}}</span>
-						<span ng-show="user.positionID">({{positions[user.positionID].position}})</span></p>
-					</p>
-				</li>
-			</ul>
+			<!-- Signed in as -->
+			<div ng-show="user">
+				<p class="navbar-text" style= "padding-top: 30px;">
+					<span>Signed in as {{user.preferred_name}}</span>
+					<span ng-show="user.positionID">({{positions[user.positionID].position}})</span></p>
+				</p>
+			</div>
+
+			<!-- Sidebar -->
+			<div class="navbar-collapse sidebar" uib-collapse="!navCollapsed">
+				<ul class="nav navbar-nav navbar-right">
+					<li uib-dropbown>
+						<a class="dropdown-toggle" ui-sref="logbook"><strong>LOGBOOK</strong></a>
+					</li>
+					<li uib-dropdown>
+						<a class="dropdown-toggle" href="" uib-dropdown-toggle>Users</a>
+						<ul class="uib-dropdown-menu">
+							<li>
+								<a class="list-group-item" ui-sref="faq" ng-click="navCollapsed = !navCollapsed">FAQ & Help</a>
+								<a class="list-group-item" ui-sref="schedule" ng-click="navCollapsed = !navCollapsed">Show Schedule</a>
+								<a class="list-group-item" href="/api/auth/logout.php" ng-click="navCollapsed = !navCollapsed">Log out</a>
+							</li>
+						</ul>
+					</li>
+					<li uib-dropdown>
+						<a class="dropdown-toggle" href="" uib-dropdown-toggle>Members</a>
+						<ul class="uib-dropdown-menu">
+							<li>
+								<a class="list-group-item" ui-sref="user({ username: user.username })" ng-click="navCollapsed = !navCollapsed">User Profile</a>
+								<a class="list-group-item" ui-sref="documents" ng-click="navCollapsed = !navCollapsed">Documents</a>
+								<a class="list-group-item" ui-sref="library" ng-click="navCollapsed = !navCollapsed">Music Library</a>
+								<a class="list-group-item" ui-sref="users-reviews" ng-click="navCollapsed = !navCollapsed">Album Reviews</a>
+							</li>
+						</ul>
+					</li>
+					<li uib-dropdown>
+						<a class="dropdown-toggle" href="" uib-dropdown-toggle>Shows</a>
+						<ul class="uib-dropdown-menu">
+							<li>
+								<a class="list-group-item" ui-sref="showsub" ng-click="navCollapsed = !navCollapsed">Show Sub Requests</a>
+								<a class="list-group-item" ui-sref="playlists" ng-click="navCollapsed = !navCollapsed">Playlists</a>
+								<a class="list-group-item" ui-sref="archives" ng-click="navCollapsed = !navCollapsed">Show Archives</a>
+							</li>
+						</ul>
+					</li>
+					<li uib-dropdown>
+						<a class="dropdown-toggle" href="" uib-dropdown-toggle>Fishbowl</a>
+						<ul class="uib-dropdown-menu">
+							<li>
+								<a class="list-group-item" ui-sref="fishbowl-app" ng-click="navCollapsed = !navCollapsed">Fishbowl Submission</a>
+								<a class="list-group-item" ui-sref="fishbowl-log" ng-click="navCollapsed = !navCollapsed">Fishbowl Log</a>
+							</li>
+						</ul>
+					</li>	
+					<li uib-dropdown>
+						<a class="dropdown-toggle" href="" uib-dropdown-toggle>Directory</a>
+						<ul class="uib-dropdown-menu">
+							<li>
+								<a class="list-group-item" ui-sref="users" ng-click="navCollapsed = !navCollapsed">User Directory</a>
+								<a class="list-group-item" ui-sref="alumni" ng-click="navCollapsed = !navCollapsed">Alumni Directory</a>
+							</li>
+						</ul>
+					</li>
+					<li uib-dropdown>
+						<a class="dropdown-toggle" href="" uib-dropdown-toggle>Senior Staff</a>
+						<ul class="uib-dropdown-menu">
+							<li>
+								<a class="list-group-item" ui-sref="carts-admin" ng-click="navCollapsed = !navCollapsed">Carts Control Panel</a>
+								<a class="list-group-item" ui-sref="fishbowl-admin" ng-click="navCollapsed = !navCollapsed">Fishbowl Control Panel</a>
+								<a class="list-group-item" ui-sref="import" ng-click="navCollapsed = !navCollapsed">Import Control Panel</a>
+								<a class="list-group-item" ui-sref="library-admin" ng-click="navCollapsed = !navCollapsed">Library Control Panel</a>
+								<a class="list-group-item" ui-sref="schedule-interns" ng-click="navCollapsed = !navCollapsed">Intern Scheduler</a>
+								<a class="list-group-item" ui-sref="schedule-admin" ng-click="navCollapsed = !navCollapsed">Schedule Control Panel</a>
+								<a class="list-group-item" ui-sref="staff-admin" ng-click="navCollapsed = !navCollapsed">Staff Control Panel</a>
+								<a class="list-group-item" ui-sref="users-admin" ng-click="navCollapsed = !navCollapsed">User Control Panel</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</nav>
-
-	<div class="container-fluid">
-		<div class="text-center" ng-show="!user">
-			<h3><strong>Nah.</strong></h3>
-			<p>It would seem that you aren't logged in, so go <a href="/login/">log in</a>!</p>
-		</div>
-
-		<div class="row" ng-show="user">
-			<div class="col-xs-3 col-md-2">
-				<div class="panel panel-default" ng-show="auth.member">
-					<div class="panel-heading" style="background-color: #ff0000; color: #ffffff;"><strong>Live</strong></div>
-					<div class="list-group">
-						<a class="list-group-item" ui-sref="logbook">Logbook</a>
-					</div>
-				</div>
-
-				<div class="panel panel-default">
-					<div class="panel-heading">Users</div>
-
-					<div class="list-group">
-						<a class="list-group-item" ui-sref="home">Home</a>
-						<a class="list-group-item" ui-sref="faq">FAQ & Help</a>
-						<a class="list-group-item" ui-sref="schedule">Show Schedule</a>
-						<a class="list-group-item" href="/api/auth/logout.php">Log out</a>
-					</div>
-				</div>
-
-				<div class="panel panel-default" ng-show="auth.reviewer">
-					<div class="panel-heading">Members</div>
-					<div class="list-group">
-						<a class="list-group-item" ui-sref="user({ username: user.username })">User Profile</a>
-						<a class="list-group-item" ui-sref="documents">Documents</a>
-						<a class="list-group-item" ui-sref="library">Music Library</a>
-						<a class="list-group-item" ui-sref="users-reviews">Album Reviews</a>
-					</div>
-				</div>
-
-				<div class="panel panel-default" ng-show="auth.member">
-					<div class="panel-heading">Shows</div>
-					<div class="list-group">
-						<a class="list-group-item" ui-sref="showsub">Show Sub Requests</a>
-						<a class="list-group-item" ui-sref="playlists">Playlists</a>
-						<a class="list-group-item" ui-sref="archives">Show Archives</a>
-					</div>
-				</div>
-
-				<div class="panel panel-default" ng-show="auth.reviewer">
-					<div class="panel-heading">Fishbowl</div>
-					<div class="list-group">
-						<a class="list-group-item" ui-sref="fishbowl-app">Fishbowl Submission</a>
-						<a class="list-group-item" ui-sref="fishbowl-log">Fishbowl Log</a>
-					</div>
-				</div>
-
-				<div class="panel panel-default" ng-show="auth.reviewer">
-					<div class="panel-heading">Directory</div>
-					<div class="list-group">
-						<a class="list-group-item" ui-sref="users">User Directory</a>
-						<a class="list-group-item" ui-sref="alumni">Alumni Directory</a>
-					</div>
-				</div>
-
-				<div class="panel panel-default" ng-show="auth.seniorStaff">
-					<div class="panel-heading" style="background-color: #000000; color: #ffffff;"><strong>Senior Staff</strong></div>
-					<div class="list-group">
-						<a class="list-group-item" ui-sref="carts-admin">Carts Control Panel</a>
-						<a class="list-group-item" ui-sref="fishbowl-admin">Fishbowl Control Panel</a>
-						<a class="list-group-item" ui-sref="import">Import Control Panel</a>
-						<a class="list-group-item" ui-sref="library-admin">Library Control Panel</a>
-						<a class="list-group-item" ui-sref="schedule-interns">Intern Scheduler</a>
-						<a class="list-group-item" ui-sref="schedule-admin">Schedule Control Panel</a>
-						<a class="list-group-item" ui-sref="staff-admin">Staff Control Panel</a>
-						<a class="list-group-item" ui-sref="users-admin">User Control Panel</a>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-xs-9 col-md-10">
-				<ui-view></ui-view>
-			</div>
-		</div>
+	<!-- End Navbar -->
+<div class="content" ng-show="user">
+	<div class="col-xs-9 col-md-10">
+		<ui-view></ui-view>
 	</div>
+</div>
 
 	<div id="alerts">
 		<uib-alert ng-repeat="a in alert.alerts" type="{{a.type}}" close="alert.remove($index)">
@@ -147,3 +150,49 @@
 	</div>
 </body>
 </html>
+
+<style>
+	/* Sidebar styling */
+	.sidebar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100px;
+		padding-top: 50px;
+	}
+
+	.sidebar .navbar-nav {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.sidebar .navbar-nav .nav-link {
+		color: white;
+		padding: 10px 20px;
+	}
+
+	/* Push main content to the right */
+	.content {
+		margin-left: 250px;
+		padding: 20px;
+	}
+
+	/* Mobile collapse functionality */
+	@media (max-width: 768px) {
+		.sidebar {
+			width: 100%;
+			height: auto;
+			position: relative;
+		}
+		.content {
+			margin-left: 250px; /* Space for sidebar */
+			display: flex;
+			justify-content: center; /* Horizontal centering */
+			align-items: center; /* Vertical centering */
+			height: 100vh; /* Make sure content takes up full viewport height */
+			padding: 20px;
+			flex-direction: column; /* Ensures the elements stack vertically */
+		}
+	}
+</style>

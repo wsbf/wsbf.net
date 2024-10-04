@@ -1,70 +1,99 @@
+* {
+	font-family: 'Open Sans', sans-serif;
+}
+
+#station_logo {
+	height: 70px;
+  	float: left;
+}
+
 #station_id {
-  font-family: 'Comfortaa', serif;
-  padding-top: 5px !important;
+	font-family: 'Comfortaa', serif;
+	padding-top: 10px !important;
 	float: right;
 	color: #000;
-  font-size: 20px;
-  line-height: 40px;
-	text-transform: uppercase;
+	font-size: 30px;
+	line-height: 30px;
 }
 
 nav {
-	padding-top: 5px;
-	height: 60px;
-	padding-bottom: 5px !important;
-	margin-bottom: 10px !important;
-	padding-left: 15px;
-	padding-right: 15px;
+	border-bottom-color: #f8f8f8;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	height: 40px;
+	background-color: #f8f8f8;
 }
 
-.navbar-brand {
-	padding-left: 0px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	padding-right: 5px;
+nav a {
+  color: #000;
+  text-transform: uppercase;
+  font-size: 16px;
 }
 
-.navbar-brand img {
-	float: left;
-	padding-top: 5px;
-	padding-right: 5px;
-	height: 50px;
-	width: 40px;
-	padding-bottom: 5px;
+nav .navbar-toggle {
+  font-size: 2em;
+  border: none;
+  cursor: pointer;
 }
 
-.navbar-nav {
-	padding-right: 0px;
-	padding-left: 5px;
+nav * {
+  background-color: inherit;
 }
 
-.navbar-nav .navbar-text {
-	padding-top: 15px;
-	line-height: 20px;
+@media (max-width:991px) {
+	.navbar-nav {
+		padding-top: 25px !important;
+	}
 }
-
-.navbar-text {
-	margin: 0px;
-}
-
 
 @media (min-width:768px) {
-#media-widget {
-	width: 500px;
-	float: right;
+	.navbar-nav {
+		padding-top: 25px;
+	}
+
+	nav .dropdown-menu {
+		width: auto;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	
+	  /*.navbar-nav li.listen {
+		margin-right: 15px;
+	  }*/
+
+
+	#media-widget {
+		width: 500px;
+		float: right;
+	}
+
+	#media-widget-link * {
+		visibility: hidden;
+		display: none;
+	}
+
+	#media-widget-controls * {
+		visibility: visible;
+	}
 }
 
-#media-widget-link * {
-	visibility: hidden;
-	display: none;
-}
+@media (max-width:767px) {	
+	a.navbar-toggle {
+		color: #000;
+	}
 
-#media-widget-controls * {
-	visibility: visible;
-}
-}
+	nav .dropdown-menu a {
+    	color: #000;
+  	}
+  
+	nav ul.nav {
+		padding-right: 25px !important;
+	}
 
-@media (max-width:767px) {
+	nav ul.nav, nav ul.nav * {
+		text-align: right;
+	}
+
 	#media-widget {
 		left: 0;
 		height: 75px;
@@ -111,4 +140,114 @@ footer .copyright {
 ul {
 	list-style: none;
 	padding-left: 0px;
+}
+
+  
+/* hamburger menu settings */
+.hamburger-menu-toggle {
+	display: block;
+	position: relative;
+	top: 15px;
+	left: 0px;
+	z-index: 3;
+	user-select: none;
+}
+  
+.hamburger-menu-toggle a {
+	text-decoration: none;
+	color: #232323;
+	transition: color 0.3s ease;
+}
+  
+.hamburger-menu-toggle a:hover {
+	color: tomato;
+}
+  
+.hamburger-menu-toggle input {
+	display: block;
+	width: 40px;
+	height: 32px;
+	position: absolute;
+	top: -7px;
+	left: -5px;
+	cursor: pointer;
+	opacity: 0;
+	z-index: 4;
+	-webkit-touch-callout: none;
+}
+  
+.hamburger-menu {
+	position: absolute;
+	width: 300px;
+	margin: -100px 0 0 -50px;
+	padding: 50px;
+	padding-top: 125px;
+	background: #ffffff;
+	list-style-type: none;
+	transform-origin: 0% 0%;
+	transform: translate(-150%, 0);
+	transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+	z-index: 2;
+}
+
+.hamburger-menu li {
+	padding: 10px 0;
+	font-size: 22px;
+}
+
+.hamburger-menu-toggle input:checked~.hamburger-menu {
+	transform: none;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(8px);
+	z-index: 1;
+	transition: opacity 0.5s;
+	opacity: 0;
+}
+
+.hamburger-menu-toggle input:checked~.overlay {
+	opacity: 1;
+}
+
+.hamburger-menu-toggle span {
+	display: block;
+	width: 33px;
+	height: 4px;
+	margin-bottom: 5px;
+	position: relative;
+	background: #333333;
+	border-radius: 3px;
+	z-index: 3;
+	transform-origin: 4px 0px;
+	transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0), opacity 0.33s ease;
+}
+
+.hamburger-menu-toggle span:first-child {
+	transform-origin: 0% 0%;
+}
+
+.hamburger-menu-toggle span:nth-last-child(2) {
+	transform-origin: 0% 100%;
+}
+
+.hamburger-menu-toggle input:checked~span {
+	opacity: 1;
+	transform: rotate(45deg) translate(-2px, -1px);
+	background: #232323;
+}
+
+.hamburger-menu-toggle input:checked~span:nth-last-child(3) {
+	opacity: 0;
+	transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+.hamburger-menu-toggle input:checked~span:nth-last-child(4) {
+	transform: rotate(-45deg) translate(-6px, 2px);
 }

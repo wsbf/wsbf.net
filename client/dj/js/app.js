@@ -179,6 +179,8 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 
 // Ensure the page scrolls to the top after state change
 app.run(['$rootScope', '$window', function($rootScope, $window) {
+	$rootScope.sidebarOpened = false; // Initialize the sidebarOpened variable
+
     $rootScope.$on('$stateChangeSuccess', function() {
         $window.scrollTo(0, 0); // Scroll to the top of the page
     });
