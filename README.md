@@ -18,6 +18,8 @@ The development setup requires `node` and `npm`.
 	npm install
 	npm run build
 
+ 	npm run start will start the website locally
+
 	Ensure that the following links are created to ensure full website functionality:
 	- client_build/camera -> /var/www/camera
 	- client_build/dj/storage/music -> /var/www/Jemaine
