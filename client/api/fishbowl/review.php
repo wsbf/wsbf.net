@@ -28,10 +28,21 @@ function get_fishbowl_app($mysqli, $fishbowlID)
 		"f.dead_hours"
 	);
 
-	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl` AS f "
-		. "INNER JOIN `users` AS u ON u.username=f.username "
-		. "WHERE f.fishbowlID='$fishbowlID';";
-	$app = exec_query($mysqli, $q)->fetch_assoc();
+	// $q = "SELECT " . implode(",", $keys) . " FROM `fishbowl` AS f "
+	// 	. "INNER JOIN `users` AS u ON u.username=f.username "
+	// 	. "WHERE f.fishbowlID='$fishbowlID';";
+	// $app = exec_query($mysqli, $q)->fetch_assoc();
+	
+	// get leaderboard
+	$q = "SELECT username, COUNT(*) AS entries " 
+	. "FROM fishbowl_log "
+	. "WHERE date BETWEEN ($REVIEW_BEGIN) AND ($DEADLINE)"
+	. "GROUP BY username "
+	. "ORDER BY `entries` DESC;";
+
+	$leaderboard = exec_query($mysqli, $q)->fetch_assoc();
+	$points = $leaderboard["entries"];
+
 
 	// get fishbowl log
 	$log_keys = array(
@@ -91,16 +102,6 @@ function validate_fishbowl_ratings($apps)
  */
 function rate_fishbowl_apps($mysqli, $apps)
 {
-		// get points
-		$q = "SELECT username, COUNT(*) AS entries " 
-			. "FROM fishbowl_log "
-			. "WHERE date BETWEEN ($REVIEW_BEGIN) AND ($DEADLINE)"
-			. "GROUP BY username "
-			. "ORDER BY `entries` DESC;";
-
-		$leaderboard = exec_query($mysqli, $q)->fetch_assoc();
-		$points = $leaderboard["entries"];
-
 	foreach ( $apps as $a ) {
 		// get fishbowl app
 		$q = "SELECT average, weight FROM `fishbowl` "
