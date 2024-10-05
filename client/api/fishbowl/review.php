@@ -19,31 +19,16 @@ function get_fishbowl_app($mysqli, $fishbowlID)
 {
 	// get fishbowl app
 	$keys = array(
-		"f.fishbowlID",
+		"f.points",
 		"u.username",
 		"u.preferred_name",
-		"f.semesters",
-		"f.missed_shows",
-		"f.specialty",
-		"f.dead_hours"
 	);
 
-	// $q = "SELECT " . implode(",", $keys) . " FROM `fishbowl` AS f "
-	// 	. "INNER JOIN `users` AS u ON u.username=f.username "
-	// 	. "WHERE f.fishbowlID='$fishbowlID';";
-	// $app = exec_query($mysqli, $q)->fetch_assoc();
+	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_leaderboard` AS f "
+		. "INNER JOIN `users` AS u ON u.username=f.username; ";
+		// . "WHERE f.fishbowlID='$fishbowlID';";
+	$app = exec_query($mysqli, $q)->fetch_assoc();
 	
-	// get leaderboard
-	$q = "SELECT username, COUNT(*) AS entries " 
-	. "FROM fishbowl_log "
-	. "WHERE date BETWEEN ($REVIEW_BEGIN) AND ($DEADLINE)"
-	. "GROUP BY username "
-	. "ORDER BY `entries` DESC;";
-
-	$leaderboard = exec_query($mysqli, $q)->fetch_assoc();
-	$points = $leaderboard["entries"];
-
-
 	// get fishbowl log
 	$log_keys = array(
 		"fishbowl_logID",
