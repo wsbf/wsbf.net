@@ -91,12 +91,6 @@ function validate_fishbowl_ratings($apps)
  */
 function rate_fishbowl_apps($mysqli, $apps)
 {
-	foreach ( $apps as $a ) {
-		// get fishbowl app
-		$q = "SELECT average, weight FROM `fishbowl` "
-			. "WHERE fishbowlID='$a[fishbowlID]';";
-		$app = exec_query($mysqli, $q)->fetch_assoc();
-
 		// get points
 		$q = "SELECT username, COUNT(*) AS entries " 
 			. "FROM fishbowl_log "
@@ -104,7 +98,14 @@ function rate_fishbowl_apps($mysqli, $apps)
 			. "GROUP BY username "
 			. "ORDER BY `entries` DESC;";
 
-		$rank = exec_query($mysqli, $q)->fetch_assoc();
+		$leaderboard = exec_query($mysqli, $q)->fetch_assoc();
+		$points = $leaderboard["entries"];
+
+	foreach ( $apps as $a ) {
+		// get fishbowl app
+		$q = "SELECT average, weight FROM `fishbowl` "
+			. "WHERE fishbowlID='$a[fishbowlID]';";
+		$app = exec_query($mysqli, $q)->fetch_assoc();
 
 		$average = $app["average"];
 		$weight = $app["weight"];
