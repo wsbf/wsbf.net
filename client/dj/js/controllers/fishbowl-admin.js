@@ -26,7 +26,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		}
 	};
 
-	$scope.review = function(apps, fishbowlID) {
+	$scope.review = function(apps, username) {
 		$uibModal.open({
 			templateUrl: "views/fishbowl_review.html",
 			controller: "FishbowlReviewCtrl",
