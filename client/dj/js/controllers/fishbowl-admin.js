@@ -66,8 +66,9 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 			return b.points - a.points; // Sort in descending order based on points
 		});
 
-		var currentRank = 1; // Start ranking from 1
-		var previousPoints = null; // Keep track of previous points to handle ties
+		var currentRank = 0;
+		var previousPoints = null;
+		
 		for ( var i = 0; i < $scope.apps.length; i++ ) {
 			if (previousPoints !== $scope.apps[i].points) {
 				// Assign new rank if the points are different
