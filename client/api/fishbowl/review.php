@@ -11,52 +11,6 @@ require_once("../connect.php");
 require_once("config.php");
 
 /**
- * Get a fishbowl app.
- *
- * @param mysqli
- * @param fishbowlID
- * @return associative array of fishbowl app
- */
-function get_fishbowl_app($mysqli, $fishbowlID)
-{
-	// get fishbowl app
-	$keys = array(
-		"f.points",
-		"u.username",
-		"u.preferred_name",
-	);
-
-	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_leaderboard` AS f "
-		. "INNER JOIN `users` AS u ON u.username=f.username; ";
-		// . "WHERE f.fishbowlID='$fishbowlID';";
-	$app = exec_query($mysqli, $q)->fetch_assoc();
-	
-	// get fishbowl log
-	$log_keys = array(
-		"date",
-		"log_type",
-		"description"
-	);
-
-	$q = "SELECT " . implode(",", $log_keys) . " FROM `fishbowl_log` "
-		. "WHERE username='$app[username]';";
-	$app["log"] = fetch_array(exec_query($mysqli, $q));
-
-	// compute the number of album reviews
-	$q = "SELECT COUNT(*) FROM `libreview` AS r "
-		. "WHERE r.username = '$app[username]' "
-		. "AND " . REVIEW_BEGIN . " <= UNIX_TIMESTAMP(r.review_date) "
-		. "AND UNIX_TIMESTAMP(r.review_date) <= " . DEADLINE . ";";
-	$result = exec_query($mysqli, $q);
-	$row = $result->fetch_row();
-
-	$app["num_reviews"] = $row[0];
-	$app["fall"] = SEMESTER;
-
-	return $app;
-}
-
-/**
  * Get fishbowl user summary information.
  *
  * @param mysqli
@@ -132,28 +86,14 @@ function validate_fishbowl_ratings($apps)
  */
 function rate_fishbowl_apps($mysqli, $apps)
 {
-	foreach ( $apps as $a ) {
-		// get fishbowl app
-		$q = "SELECT average, weight FROM `fishbowl` "
-			. "WHERE fishbowlID='$a[fishbowlID]';";
-		$app = exec_query($mysqli, $q)->fetch_assoc();
-
-		$average = $app["average"];
-		$weight = $app["weight"];
-
-		// apply rating to average and weight
-		// - average is the average of all ratings
-		// - weight is the number of ratings
-		$average = ($average * $weight + $a["rating"]) / ($weight + 1);
-		$weight++;
-
-		// update fishbowl app
-		$q = "UPDATE `fishbowl` SET "
-			. "average = '$average', "
-			. "weight = '$weight' "
-			. "WHERE fishbowlID='$a[fishbowlID]';";
-		exec_query($mysqli, $q);
-	}
+	// recalculate ranks for all users
+	$q = "UPDATE fishbowl_leaderboard AS f "
+		. "SET f.rank = ( "
+		. "SELECT COUNT(*) + 1 "
+		. "FROM fishbowl_leaderboard AS sub "
+		. "WHERE sub.points > f.points "
+		. ");";
+	$result = exec_query($mysqli, $q);
 }
 
 authenticate();
