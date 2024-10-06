@@ -27,14 +27,14 @@ function get_fishbowl($mysqli)
 	);
 
 
-	// recalculate ranks for all users
-	$q = "UPDATE fishbowl_leaderboard AS f "
-		. "SET f.rank = ( "
-		. "SELECT COUNT(*) + 1 "
-		. "FROM fishbowl_leaderboard AS sub "
-		. "WHERE sub.points > f.points "
-		. ");";
-	$result = exec_query($mysqli, $q);
+	// // recalculate ranks for all users
+	// $q = "UPDATE fishbowl_leaderboard AS f "
+	// 	. "SET f.rank = ( "
+	// 	. "SELECT COUNT(*) + 1 "
+	// 	. "FROM fishbowl_leaderboard AS sub "
+	// 	. "WHERE sub.points > f.points "
+	// 	. ");";
+	// $result = exec_query($mysqli, $q);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_leaderboard` AS f "
 		. "INNER JOIN `users` AS u ON u.username=f.username "
