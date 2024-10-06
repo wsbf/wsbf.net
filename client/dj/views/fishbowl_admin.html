@@ -10,8 +10,8 @@
 	</div>
 
 	<div class="panel-body">
-		<button class="btn btn-default" ng-click="archiveFishbowl()" ng-disabled="apps.length == 0">Archive</button>
-		<button class="btn btn-default" ng-click="rateFishbowlApps(apps)" ng-disabled="apps.length == 0">Submit Ratings</button>
+		<button class="btn btn-default" ng-click="archiveFishbowl()" ng-disabled="apps.length == 0">Reset</button>
+		<button class="btn btn-default" ng-click="rateFishbowlApps(apps)" ng-disabled="apps.length == 0">Calculate Rank</button>
 		<button class="btn btn-default" ng-click="getFishbowlResults(apps)" ng-disabled="apps.length == 0">Print Results</button>
 	</div>
 
@@ -39,12 +39,14 @@
 		</thead>
 
 		<tbody>
-			<tr ng-repeat="a in apps">
+			<!-- inline calculation of rank -->
+			<tr ng-repeat="a in apps | orderBy:'-points'" ng-init="previousPoints = (previousPoints || -1); rank = ($index === 0 || a.points !== previousPoints) ? $index + 1 : rank; previousPoints = a.points">
 				<td>
 					<a href="" ng-click="review(apps, a.username); $event.preventDefault();">{{a.preferred_name}}</a>
 				</td>
 				<td>{{a.points}}</td>
-				<td>{{a.rank}}</td>
+				<td>{{rank}}</td>
+			</tr>			
 			</tr>
 		</tbody>
 	</table>
