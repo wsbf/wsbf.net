@@ -25,7 +25,7 @@ function get_fishbowl($mysqli)
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_leaderboard` AS f "
 		. "INNER JOIN `users` AS u ON u.username=f.username "
-		. "ORDER BY rank DESC;";
+		. "ORDER BY `f`.`rank` ASC;";
 	$result = exec_query($mysqli, $q);
 
 	$q = "SELECT " . implode(",", $log_keys) . " FROM `fishbowl_log` "
