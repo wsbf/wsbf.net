@@ -26,20 +26,20 @@ function get_fishbowl($mysqli)
 		"u.preferred_name",
 	);
 
+
+	// recalculate ranks for all users
+	$q = "UPDATE fishbowl_leaderboard AS f "
+		. "SET f.rank = ( "
+		. "SELECT COUNT(*) + 1 "
+		. "FROM fishbowl_leaderboard AS sub "
+		. "WHERE sub.points > f.points "
+		. ");";
+	$result = exec_query($mysqli, $q);
+
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_leaderboard` AS f "
 		. "INNER JOIN `users` AS u ON u.username=f.username "
 		. "ORDER BY f.rank ASC;";
 	$result = exec_query($mysqli, $q);
-
-
-	// recalculate ranks for all users
-	$q = "UPDATE fishbowl_leaderboard AS lb "
-		. "SET lb.rank = ( "
-		. "SELECT COUNT(*) + 1 "
-		. "FROM fishbowl_leaderboard AS sub "
-		. "WHERE sub.points > lb.points "
-		. ");";
-	$exec = exec_query($mysqli, $q);
 
 	// compute the number of album reviews
 	$q = "SELECT COUNT(*) FROM `libreview` AS r "
