@@ -40,7 +40,7 @@
 
 		<tbody>
 			<!-- inline calculation of rank -->
-			<tr ng-repeat="a in apps | orderBy:'-points'" ng-init="previousPoints = (previousPoints || -1); rank = ($index === 0 || a.points !== previousPoints) ? $index + 1 : rank; previousPoints = a.points">
+			<tr ng-repeat="a in apps" ng-init="previousPoints = (previousPoints || -1); rank = ($index === 0 || a.points !== previousPoints) ? $index + 1 : rank; previousPoints = a.points">
 				<td>
 					<a href="" ng-click="review(apps, a.username); $event.preventDefault();">{{a.preferred_name}}</a>
 				</td>
