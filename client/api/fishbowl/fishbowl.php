@@ -27,7 +27,7 @@ function get_fishbowl($mysqli)
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_leaderboard` AS f "
 		. "INNER JOIN `users` AS u ON u.username=f.username "
-		. "ORDER BY f.points DSC;";
+		. "ORDER BY f.points DESC;";
 	$result = exec_query($mysqli, $q);
 
 	// compute the number of album reviews
