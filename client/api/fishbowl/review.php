@@ -115,14 +115,14 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 		exit;
 	}
 
-	$fishbowlID = $_GET["fishbowlID"];
+	$USERNAME = $_GET["username"];
 
 	if ( !is_numeric($fishbowlID) ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
 
-	$app = get_fishbowl_app($mysqli, $fishbowlID);
+	$app = get_fishbowl_app($mysqli, $USERNAME);
 	$mysqli->close();
 
 	header("Content-Type: application/json");
