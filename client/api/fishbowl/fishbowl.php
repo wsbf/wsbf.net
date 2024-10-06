@@ -29,10 +29,6 @@ function get_fishbowl($mysqli)
 		. "ORDER BY f.rank ASC;";
 	$result = exec_query($mysqli, $q);
 
-	$q = "SELECT " . implode(",", $log_keys) . " FROM `fishbowl_log` "
-		. "WHERE username='$app[username]';";
-	$result["log"] = fetch_array(exec_query($mysqli, $q));
-
 	return fetch_array($result);
 }
 
