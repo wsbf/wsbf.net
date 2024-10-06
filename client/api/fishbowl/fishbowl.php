@@ -10,7 +10,7 @@ require_once("../auth/auth.php");
 require_once("../connect.php");
 
 /**
- * Get the current fishbowl.
+ * Get the current fishbowl leaderboard.
  *
  * @param mysqli
  * @return array of fishbowl applications
@@ -24,20 +24,25 @@ function get_fishbowl($mysqli)
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_leaderboard` AS f "
-		. "INNER JOIN `users` AS u ON u.username=f.username; ";
+		. "INNER JOIN `users` AS u ON u.username=f.username "
+		. "ORDER BY rank DESC;";
 	$result = exec_query($mysqli, $q);
+
+	$q = "SELECT " . implode(",", $log_keys) . " FROM `fishbowl_log` "
+		. "WHERE username='$app[username]';";
+	$result["log"] = fetch_array(exec_query($mysqli, $q));
 
 	return fetch_array($result);
 }
 
 /**
- * Archive the current fishbowl.
+ * Reset the current fishbowl leaderboard
  *
  * @param mysqli
  */
 function archive_fishbowl($mysqli)
 {
-	$q = "UPDATE `fishbowl` SET active=0 WHERE active=1;";
+	$q = "UPDATE `fishbowl_leaderboard` SET points=0;";
 	exec_query($mysqli, $q);
 }
 
