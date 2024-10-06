@@ -171,7 +171,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
     	exit("Invalid username provided.");
 	}
 
-	$app = get_fishbowl_app($mysqli, $username);
+	$app = get_user_summary($mysqli, $username);
 	$mysqli->close();
 
 	header("Content-Type: application/json");
