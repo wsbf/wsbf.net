@@ -185,13 +185,13 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
-	 * Get a fishbowl app.
+	 * Get a fishbowl summary.
 	 *
-	 * @param fishbowlID
+	 * @param USERNAME
 	 * @return Promise of fishbowl app object
 	 */
-	this.Fishbowl.getApp = function(fishbowlID) {
-		return $http.get("/api/fishbowl/review.php", { params: { fishbowlID: fishbowlID } })
+	this.Fishbowl.getApp = function(USERNAME) {
+		return $http.get("/api/fishbowl/review.php", { params: { USERNAME: USERNAME } } )
 			.then(function(res) {
 				return res.data;
 			});

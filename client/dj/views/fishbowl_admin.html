@@ -33,17 +33,15 @@
 
 	<table class="table">
 		<thead>
-			<th>ID</th>
 			<th>Name</th>
 			<th>Points</th>
 			<th>Rank</th>
-			<th>Your Rating</th>
 		</thead>
 
 		<tbody>
 			<tr ng-repeat="a in apps">
 				<td>
-					<a href="" ng-click="review(apps, a.fishbowlID)">{{a.fishbowlID}}</a>
+					<a href="" ng-click="review(apps, a.username)">{{a.preferred_name}}</a>
 				</td>
 				<td>{{a.preferred_name}}</td>
 				<td>{{a.points}}</td>

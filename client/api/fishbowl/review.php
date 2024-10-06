@@ -9,13 +9,13 @@ require_once("../connect.php");
 require_once("config.php");
 
 /**
- * Get a fishbowl app.
+ * Get a fishbowl summary.
  *
  * @param mysqli
- * @param fishbowlID
+ * @param USERNAME
  * @return associative array of fishbowl app
  */
-function get_fishbowl_app($mysqli, $fishbowlID)
+function get_fishbowl_app($mysqli, $USERNAME)
 {
 	// get fishbowl app
 	$keys = array(
@@ -25,8 +25,7 @@ function get_fishbowl_app($mysqli, $fishbowlID)
 	);
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_leaderboard` AS f "
-		. "INNER JOIN `users` AS u ON u.username=f.username; ";
-		// . "WHERE f.fishbowlID='$fishbowlID';";
+		. "INNER JOIN `users` AS u ON u.username=($USERNAME); ";
 	$app = exec_query($mysqli, $q)->fetch_assoc();
 	
 	// get fishbowl log
