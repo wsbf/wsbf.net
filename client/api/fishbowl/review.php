@@ -82,11 +82,11 @@ function get_user_summary($mysqli, $username)
         "description"
     );
 
-    $q = "SELECT " . implode(",", $log_keys) . " FROM `fishbowl_log` "
-        . "WHERE username = '$username' "
-		. "AND date BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " "
-		. "ORDER BY date DESC;";
-    $user["log"] = fetch_array(exec_query($mysqli, $q));
+	$q = "SELECT " . implode(",", $log_keys) . " FROM `fishbowl_log` "
+    . "WHERE username = '$username' "
+    . "AND date BETWEEN FROM_UNIXTIME(" . REVIEW_BEGIN . ") AND FROM_UNIXTIME(" . DEADLINE . ") "
+    . "ORDER BY date DESC;";
+	$user["log"] = fetch_array(exec_query($mysqli, $q));
 
     // Compute the number of album reviews
     $q = "SELECT COUNT(*) FROM `libreview` AS r "
