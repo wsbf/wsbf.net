@@ -84,7 +84,8 @@ function get_user_summary($mysqli, $username)
 
     $q = "SELECT " . implode(",", $log_keys) . " FROM `fishbowl_log` "
         . "WHERE username = '$username' "
-        . "ORDER BY date DESC;";
+		. "AND date BETWEEN ($REVIEW_BEGIN) AND ($DEADLINE)"
+		. "ORDER BY date DESC;";
     $user["log"] = fetch_array(exec_query($mysqli, $q));
 
     // Compute the number of album reviews
