@@ -31,7 +31,6 @@ function get_fishbowl_app($mysqli, $fishbowlID)
 	
 	// get fishbowl log
 	$log_keys = array(
-		"fishbowl_logID",
 		"date",
 		"log_type",
 		"description"
@@ -40,10 +39,6 @@ function get_fishbowl_app($mysqli, $fishbowlID)
 	$q = "SELECT " . implode(",", $log_keys) . " FROM `fishbowl_log` "
 		. "WHERE username='$app[username]';";
 	$app["log"] = fetch_array(exec_query($mysqli, $q));
-
-	// cast boolean fields
-	$app["specialty"] = (bool) $app["specialty"];
-	$app["dead_hours"] = (bool) $app["dead_hours"];
 
 	// compute the number of album reviews
 	$q = "SELECT COUNT(*) FROM `libreview` AS r "

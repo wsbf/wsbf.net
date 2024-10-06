@@ -18,15 +18,13 @@ require_once("../connect.php");
 function get_fishbowl($mysqli)
 {
 	$keys = array(
-		"f.fishbowlID",
-		"f.average",
-		"f.weight",
-		"u.preferred_name"
+		"f.points",
+		"u.username",
+		"u.preferred_name",
 	);
 
-	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl` AS f "
-		. "INNER JOIN `users` AS u ON u.username=f.username "
-		. "WHERE active=1;";
+	$q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_log` AS f "
+		. "INNER JOIN `users` AS u ON u.username=f.username; ";
 	$result = exec_query($mysqli, $q);
 
 	return fetch_array($result);
