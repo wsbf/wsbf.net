@@ -55,7 +55,7 @@ function get_fishbowl_app($mysqli, $fishbowlID)
 }
 
 /**
- * Get user summary information.
+ * Get fishbowl user summary information.
  *
  * @param mysqli
  * @param username
@@ -63,8 +63,8 @@ function get_fishbowl_app($mysqli, $fishbowlID)
  */
 function get_user_summary($mysqli, $username)
 {
-    // Get basic user info (points, username, preferred name) from fishbowl_leaderboard
-    $keys = array(
+
+	$keys = array(
         "f.points",
         "u.username",
         "u.preferred_name",
@@ -164,10 +164,10 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	}
 
 	$username = $_GET["username"];
-
-	if ( !is_numeric($fishbowlID) ) {
-		header("HTTP/1.1 404 Not Found");
-		exit;
+	
+	if (empty($username)) {
+    	header("HTTP/1.1 400 Bad Request");
+    	exit("Invalid username provided.");
 	}
 
 	$app = get_fishbowl_app($mysqli, $username);
