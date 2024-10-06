@@ -12,6 +12,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	var getFishbowlApps = function() {
 		return db.Fishbowl.get().then(function(apps) {
 			$scope.apps = apps;
+			$scope.calculateRanks();
 		});
 	};
 
@@ -59,24 +60,22 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	};
 
 	// Function to calculate ranks
-    $scope.calculateRanks = function(apps) {
-        // Sort users by points in descending order
-        
-        let currentRank = 1; // Start ranking from 1
-        let previousPoints = null; // Keep track of previous points to handle ties
-        for (let i = 0; i < $scope.apps.length; i++) {
-            if (previousPoints !== $scope.apps[i].points) {
-                // Assign new rank if the points are different
-                currentRank = i + 1; // Rank is index + 1
-                previousPoints = $scope.apps[i].points;
-            }
-            // Store the rank in each user object
-            $scope.apps[i].rank = currentRank;
-        }
-    };
+	$scope.calculateRanks = function() {
+		// Sort users by points in descending order
+		$scope.apps.sort((a, b) => b.points - a.points);
 
-    // initialize
-    calculateRanks();
+		let currentRank = 1; // Start ranking from 1
+		let previousPoints = null; // Keep track of previous points to handle ties
+		for (let i = 0; i < $scope.apps.length; i++) {
+			if (previousPoints !== $scope.apps[i].points) {
+				// Assign new rank if the points are different
+				currentRank = i + 1; // Rank is index + 1
+				previousPoints = $scope.apps[i].points;
+			}
+			// Store the rank in each user object
+			$scope.apps[i].rank = currentRank;
+		}
+	};
 
 	/**
 	 * Group the current list of fishbowl apps into bowls.
