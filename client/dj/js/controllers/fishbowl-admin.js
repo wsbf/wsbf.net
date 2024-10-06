@@ -62,7 +62,9 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	// Function to calculate ranks
 	$scope.calculateRanks = function() {
 		// Sort users by points in descending order
-		$scope.apps.sort((a, b) => b.points - a.points);
+		$scope.apps.sort(function(a, b) {
+			return b.points - a.points; // Sort in descending order based on points
+		});
 
 		let currentRank = 1; // Start ranking from 1
 		let previousPoints = null; // Keep track of previous points to handle ties
