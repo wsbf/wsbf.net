@@ -32,7 +32,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 			controller: "FishbowlReviewCtrl",
 			scope: angular.extend($rootScope.$new(), {
 				apps: apps,
-				USERNAME: USERNAME
+				username: username
 			})
 		});
 	};

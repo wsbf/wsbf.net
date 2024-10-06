@@ -190,8 +190,8 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param USERNAME
 	 * @return Promise of fishbowl app object
 	 */
-	this.Fishbowl.getApp = function(USERNAME) {
-		return $http.get("/api/fishbowl/review.php", { params: { USERNAME: USERNAME } } )
+	this.Fishbowl.getApp = function(username) {
+		return $http.get("/api/fishbowl/review.php", { params: { username: username } } )
 			.then(function(res) {
 				return res.data;
 			});
