@@ -164,7 +164,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	}
 
 	$username = $_GET["username"];
-	
+	error_log("Received username: " . $username);
+
 	if (empty($username)) {
     	header("HTTP/1.1 400 Bad Request");
     	exit("Invalid username provided.");

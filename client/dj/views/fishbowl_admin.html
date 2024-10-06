@@ -41,7 +41,7 @@
 		<tbody>
 			<tr ng-repeat="a in apps">
 				<td>
-					<a href="" ng-click="review(apps, a.username)">{{a.preferred_name}}</a>
+					<a href="" ng-click="review(apps, a.username); $event.preventDefault();">{{a.preferred_name}}</a>
 				</td>
 				<td>{{a.points}}</td>
 				<td>{{a.rank}}</td>
