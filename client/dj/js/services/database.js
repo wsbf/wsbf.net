@@ -187,7 +187,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	/**
 	 * Get a fishbowl summary.
 	 *
-	 * @param USERNAME
+	 * @param username
 	 * @return Promise of fishbowl app object
 	 */
 	this.Fishbowl.getApp = function(username) {
