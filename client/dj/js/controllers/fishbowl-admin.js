@@ -71,7 +71,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		for ( var i = 0; i < $scope.apps.length; i++ ) {
 			if (previousPoints !== $scope.apps[i].points) {
 				// Assign new rank if the points are different
-				currentRank = i + 1; // Rank is index + 1
+				currentRank++; // Rank is index + 1
 				previousPoints = $scope.apps[i].points;
 			}
 			// Store the rank in each user object
