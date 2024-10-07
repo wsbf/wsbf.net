@@ -32,7 +32,7 @@ function get_fishbowl($mysqli)
 	// $result = exec_query($mysqli, $q);
 
 	// get leaderboard with points, username, cd reviews
-	$q = "SELECT " . implode(",", $keys) . " COUNT(r.reviewer) AS review_count "
+	$q = "SELECT " . implode(",", $keys) . ", COUNT(r.reviewer) AS review_count "
 		. "FROM `fishbowl_leaderboard` AS f "
 		. "INNER JOIN `users` AS u "
 		. "ON u.username = f.username "
