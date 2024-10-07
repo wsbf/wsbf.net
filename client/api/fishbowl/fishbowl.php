@@ -39,7 +39,7 @@ function get_fishbowl($mysqli)
 		. "LEFT JOIN `libreview` AS r "
 		. "ON r.username = f.username "
 		. "AND " . REVIEW_BEGIN . " <= UNIX_TIMESTAMP(r.review_date) "
-		. "AND UNIX_TIMESTAMP(r.review_date) <= " . DEADLINE .  " GROUP BY f.username;";
+		. "AND UNIX_TIMESTAMP(r.review_date) <= " . DEADLINE .  ";";
 	$result = exec_query($mysqli, $q);
 
 	return fetch_array($result);
