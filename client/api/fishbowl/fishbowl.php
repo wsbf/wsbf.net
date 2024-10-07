@@ -32,14 +32,14 @@ function get_fishbowl($mysqli)
 	// $result = exec_query($mysqli, $q);
 
 	// get leaderboard with points, username, cd reviews
-	$q = "SELECT f.points,u.preferred_name, COUNT(r.reviewer) AS review_count "
+	$q = "SELECT " . implode(",", $log_keys) . " COUNT(r.reviewer) AS review_count "
 		. "FROM `fishbowl_leaderboard` AS f "
 		. "INNER JOIN `users` AS u "
 		. "ON u.username=f.username "
 		. "LEFT JOIN `libreview` AS r "
 		. "ON r.username = f.username "
 		. "AND " . REVIEW_BEGIN . " <= UNIX_TIMESTAMP(r.review_date) "
-		. "AND UNIX_TIMESTAMP(r.review_date) <= " . DEADLINE .  ";";
+		. "AND UNIX_TIMESTAMP(r.review_date) <= " . DEADLINE .  " GROUP BY f.username;";
 	$result = exec_query($mysqli, $q);
 
 	return fetch_array($result);
