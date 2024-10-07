@@ -21,7 +21,7 @@ function get_fishbowl($mysqli)
 {
 	$keys = array(
 		"f.points",
-		"u.username",
+		"f.username",
 		"u.preferred_name",
 	);
 
