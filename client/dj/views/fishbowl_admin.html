@@ -35,6 +35,7 @@
 		<thead>
 			<th>Name</th>
 			<th>Points</th>
+			<th>Reviews</th>
 			<th>Rank</th>
 		</thead>
 
@@ -45,6 +46,7 @@
 					<a href="" ng-click="review(apps, a.username); $event.preventDefault();">{{a.preferred_name}}</a>
 				</td>
 				<td>{{a.points}}</td>
+				<td>{{a.review_count}}</td>
 				<td>{{a.rank}}</td>
 			</tr>			
 		</tbody>
