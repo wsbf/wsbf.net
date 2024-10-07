@@ -183,8 +183,9 @@
 			<!-- Playlist -->
 			<div class="col-sm-6">
 				<div class="grid2" ng-controller="PlaylistCtrl">
-								<h2 ng-controller="NowPlayingCtrl">On Now: <strong class="on-now-text">{{track.show_name || 'Audiodrome'}}</strong>
-									<small style="text-transform: lowercase; font-size: 21px;">with</small><small ng-repeat="h in track.show_hosts">{{h.preferred_name}}</small>
+								<h2 ng-controller="NowPlayingCtrl">On Now: <strong class="on-now-text">{{track.show_name || '--'}}</strong>
+									<small style="text-transform: lowercase; font-style: italic; font-size: 21px;">with</small>
+									<small style="text-transform: capitalize; font-style: italic; font-size: 21px;" ng-repeat="h in track.show_hosts">{{h.preferred_name}}</small>
 									<small><a class="btn btn-default pull-right" ui-sref="playlists">More</a></small>
 								</h2>
 					<hr>

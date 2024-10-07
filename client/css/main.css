@@ -56,6 +56,8 @@ btn {
 }
 
 .on-now-text {
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: italic;
   color: grey;
   font-size: 25px;
   text-transform: capitalize;
