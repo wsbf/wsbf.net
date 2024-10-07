@@ -20,10 +20,9 @@ require_once("config.php");
 function get_fishbowl($mysqli)
 {
 	$keys = array(
-		"f.points",
-		"f.username",
 		"u.username",
 		"u.preferred_name",
+		"f.points"
 	);
 
 	// get leaderboard of points and users
