@@ -29,7 +29,7 @@ function get_user_summary($mysqli, $username)
     $q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_leaderboard` AS f "
         . "INNER JOIN `users` AS u ON u.username = f.username "
         . "WHERE u.username = '$username';";
-    $user = exec_query($mysqli, $q)->fetch_assoc();
+    $summary = exec_query($mysqli, $q)->fetch_assoc();
 
     // Get fishbowl log for the user
     $log_keys = array(
@@ -42,7 +42,7 @@ function get_user_summary($mysqli, $username)
     . "WHERE username = '$username' "
     . "AND date BETWEEN FROM_UNIXTIME(" . REVIEW_BEGIN . ") AND FROM_UNIXTIME(" . DEADLINE . ") "
     . "ORDER BY date DESC;";
-	$user["log"] = fetch_array(exec_query($mysqli, $q));
+	$summary["log"] = fetch_array(exec_query($mysqli, $q));
 
     // Compute the number of album reviews
     $q = "SELECT COUNT(*) FROM `libreview` AS r "
@@ -52,10 +52,10 @@ function get_user_summary($mysqli, $username)
     $result = exec_query($mysqli, $q);
     $row = $result->fetch_row();
 
-    $user["num_reviews"] = $row[0];
-    $user["fall"] = SEMESTER;
+    $summary["num_reviews"] = $row[0];
+    $summary["fall"] = SEMESTER;
 
-    return $user;
+    return $summary;
 }
 
 // TODO: maybe move to POST fishbowl.php
