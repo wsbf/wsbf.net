@@ -166,7 +166,7 @@
 		<!-- Announcement Banner -->
 		<div id="announcement_banner" class="banner" style="padding-top: 25px; padding-bottom: 25px;">
 			<p id="line_1">
-				<strong>Video killed the Radio star.</strong> Our FM Broadcast is currently down, but our web-stream is operational. We'll be back soon.
+				<strong>Video killed the Radio star.</strong> Our FM Broadcast is currently on a backup system. We'll be back soon.
 			</p>
 		</div>
 		
@@ -183,7 +183,10 @@
 			<!-- Playlist -->
 			<div class="col-sm-6">
 				<div class="grid2" ng-controller="PlaylistCtrl">
-					<h2>Playing <small ng-controller="NowPlayingCtrl" class="on-now-text">On Now: {{track.show_name || '--'}}</small> <small><a class="btn btn-default pull-right" ui-sref="playlists">More</a></small></h2>
+								<h2 ng-controller="NowPlayingCtrl">On Now: <strong class="on-now-text">{{track.show_name || 'Audiodrome'}}</strong>
+									<small style="text-transform: lowercase; font-size: 21px;">with</small><small ng-repeat="h in track.show_hosts">{{h.preferred_name}}</small>
+									<small><a class="btn btn-default pull-right" ui-sref="playlists">More</a></small>
+								</h2>
 					<hr>
 					<div class="scrollable">
 						<!-- Track -->

@@ -55,6 +55,12 @@ btn {
   margin-bottom: 0px;
 }
 
+.on-now-text {
+  color: grey;
+  font-size: 25px;
+  text-transform: capitalize;
+}
+
 .banner a {
   text-decoration: underline;
   color: #fff;
