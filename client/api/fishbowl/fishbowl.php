@@ -22,6 +22,7 @@ function get_fishbowl($mysqli)
 	$keys = array(
 		"f.points",
 		"f.username",
+		"u.username",
 		"u.preferred_name",
 	);
 
@@ -35,11 +36,12 @@ function get_fishbowl($mysqli)
 	$q = "SELECT " . implode(",", $log_keys) . " COUNT(r.reviewer) AS review_count "
 		. "FROM `fishbowl_leaderboard` AS f "
 		. "INNER JOIN `users` AS u "
-		. "ON u.username=f.username "
+		. "ON u.username = f.username "
 		. "LEFT JOIN `libreview` AS r "
 		. "ON r.username = f.username "
 		. "AND " . REVIEW_BEGIN . " <= UNIX_TIMESTAMP(r.review_date) "
-		. "AND UNIX_TIMESTAMP(r.review_date) <= " . DEADLINE .  " GROUP BY f.username;";
+		. "AND UNIX_TIMESTAMP(r.review_date) <= " . DEADLINE .  " GROUP BY f.username "
+		. "ORDER BY f.points DESC";
 	$result = exec_query($mysqli, $q);
 
 	return fetch_array($result);
