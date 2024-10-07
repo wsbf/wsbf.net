@@ -33,6 +33,9 @@
 					<td>{{f.date}}</td>
 					<td>{{fishbowl_log_types[f.log_type].type}}</td>
 					<td>{{f.description}}</td>
+					<td class="text-center">
+						<span class="button-icon" ng-click="deleteItem(f.fishbowl_logID)">CAP</span>
+					</td>
 				</tr>
 			</tbody>
 		</table>
