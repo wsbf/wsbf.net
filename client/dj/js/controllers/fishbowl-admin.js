@@ -28,6 +28,13 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	};
 
 	$scope.review = function(apps, username) {
+		console.log("apps: ", apps);  // Log the entire apps object
+		console.log("username: ", username);  // Log the passed username
+	
+		if (!username) {
+			alert.error("Username is missing or invalid.");
+			return;
+		}
 		$uibModal.open({
 			templateUrl: "views/fishbowl_review.html",
 			controller: "FishbowlReviewCtrl",
@@ -68,7 +75,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 
 		var currentRank = 0;
 		var previousPoints = null;
-		
+
 		for ( var i = 0; i < $scope.apps.length; i++ ) {
 			if (previousPoints !== $scope.apps[i].points) {
 				// Assign new rank if the points are different
