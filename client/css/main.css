@@ -55,12 +55,19 @@ btn {
   margin-bottom: 0px;
 }
 
-.on-now-text {
+.on-now-show {
   font-family: Arial, Helvetica, sans-serif;
   font-style: italic;
   color: grey;
   font-size: 25px;
   text-transform: capitalize;
+}
+
+.on-now-host {
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: italic;
+  color: grey;
+  font-size: 18px;
 }
 
 .banner a {
@@ -234,10 +241,14 @@ li.active a {
     display: none;
   }
 
-  .on-now-text {
-    font-size: 12px; /* Adjust to a smaller size for mobile */
+  .on-now-show {
+    font-size: 18px; /* Adjust to a smaller size for mobile */
   }
   
+  .on-now-host {
+    font-size: 12px;;
+  }
+
 }
 
 .media-container {

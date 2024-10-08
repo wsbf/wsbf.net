@@ -183,10 +183,21 @@
 			<!-- Playlist -->
 			<div class="col-sm-6">
 				<div class="grid2" ng-controller="PlaylistCtrl">
-								<h2 ng-controller="NowPlayingCtrl">On Now: <strong class="on-now-text">{{track.show_name || '--'}}</strong>
-									<small style="text-transform: lowercase; font-style: italic; font-size: 21px;">with</small>
-									<small style="text-transform: capitalize; font-style: italic; font-size: 21px;" ng-repeat="h in track.show_hosts">{{h.preferred_name}}</small>
+								<h2 ng-controller="NowPlayingCtrl">
+									On Now:
 									<small><a class="btn btn-default pull-right" ui-sref="playlists">More</a></small>
+									<strong class="on-now-show">{{track.show_name || '--'}}</strong>
+									<small class="on-now-host" style="text-transform: lowercase;">with</small>
+									<!-- <small class="on-now-host" style="text-transform: capitalize; display: block;"  ng-repeat="h in track.show_hosts">{{h.preferred_name}}></small> -->
+									<span ng-repeat="h in track.show_hosts">
+										<small class="on-now-host" style="text-transform: capitalize;">
+											{{h.preferred_name}}
+										</small>
+										<!-- insert '&' between 2 hosts -->
+										<span class="on-now-host" ng-if="$index === track.show_hosts.length - 2"> & </span>
+										<!-- insert ',' between >2 hosts -->
+										<span class="on-now-host" ng-if="$index < track.show_hosts.length - 2">, </span>
+									</span>								
 								</h2>
 					<hr>
 					<div class="scrollable">
