@@ -60,7 +60,7 @@ btn {
   font-style: italic;
   color: grey;
   font-size: 25px;
-  text-transform: capitalize;
+  text-transform: none;
 }
 
 .on-now-host {
@@ -68,6 +68,7 @@ btn {
   font-style: italic;
   color: grey;
   font-size: 18px;
+  text-transform: none;
 }
 
 .banner a {
