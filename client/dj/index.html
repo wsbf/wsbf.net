@@ -63,9 +63,9 @@
 			<p>It would seem that you aren't logged in, so go <a href="/login/">log in</a>!</p>
 		</div>
 
-		<div class="row" ng-show="user">
+		<div class="row">
 			<div class="col-xs-3 col-md-2">
-				<div class="panel panel-default" ng-show="auth.member">
+				<div class="panel panel-default">
 					<div class="panel-heading" style="background-color: #ff0000; color: #ffffff;"><strong>Live</strong></div>
 					<div class="list-group">
 						<a class="list-group-item" ui-sref="logbook">Logbook</a>
@@ -83,7 +83,7 @@
 					</div>
 				</div>
 
-				<div class="panel panel-default" ng-show="auth.reviewer">
+				<div class="panel panel-default">
 					<div class="panel-heading">Members</div>
 					<div class="list-group">
 						<a class="list-group-item" ui-sref="user({ username: user.username })">User Profile</a>
@@ -93,7 +93,7 @@
 					</div>
 				</div>
 
-				<div class="panel panel-default" ng-show="auth.member">
+				<div class="panel panel-default" >
 					<div class="panel-heading">Shows</div>
 					<div class="list-group">
 						<a class="list-group-item" ui-sref="showsub">Show Sub Requests</a>
@@ -102,7 +102,7 @@
 					</div>
 				</div>
 
-				<div class="panel panel-default" ng-show="auth.reviewer">
+				<div class="panel panel-default">
 					<div class="panel-heading">Fishbowl</div>
 					<div class="list-group">
 						<a class="list-group-item" ui-sref="fishbowl-app">Fishbowl Submission</a>
@@ -110,7 +110,7 @@
 					</div>
 				</div>
 
-				<div class="panel panel-default" ng-show="auth.reviewer">
+				<div class="panel panel-default">
 					<div class="panel-heading">Directory</div>
 					<div class="list-group">
 						<a class="list-group-item" ui-sref="users">User Directory</a>
@@ -118,7 +118,7 @@
 					</div>
 				</div>
 
-				<div class="panel panel-default" ng-show="auth.seniorStaff">
+				<div class="panel panel-default">
 					<div class="panel-heading" style="background-color: #000000; color: #ffffff;"><strong>Senior Staff</strong></div>
 					<div class="list-group">
 						<a class="list-group-item" ui-sref="carts-admin">Carts Control Panel</a>
