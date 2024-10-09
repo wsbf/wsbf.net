@@ -53,14 +53,17 @@
 		</thead>
 
 		<tbody>
-
+			<script>
+				var sessionUsername="<?php echo $_SESSION['username']; ?>";
+				console.log(sessionUsername);
+			</script>
 			
 			<tr ng-repeat="a in albums">
 				<td>
 					<a ng-show="rotationID == 0" href="" ng-click="checkoutAlbum(a.albumID)">Check out</a>
 
 					<!-- Show Review and Return buttons if rotationID is 1 and current user has checked out the album -->
-					<span ng-show="rotationID == 1 && a.username == currentUsername">
+					<span ng-show="rotationID == 1 && a.username == sessionUsername">
 						<a ui-sref="library-album-review({ albumID: a.albumID })">Review</a>
 						<span>/</span>
 						<a href="" ng-click="returnAlbum(a.albumID)">Return</a>
