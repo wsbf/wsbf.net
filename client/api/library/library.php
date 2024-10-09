@@ -41,7 +41,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 
 	$baseQuery = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
 				. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID "
-				// . " AND c.username = '$_SESSION[username]' " 				Commenting this out so we others can see what is checked out
+				. " AND c.username = '$_SESSION[username]' "
 				. "INNER JOIN `libartist` AS ar ON al.artistID = ar.artistID "
 				. "LEFT OUTER JOIN `libreview` AS r ON r.albumID = al.albumID "
 				. "LEFT OUTER JOIN `users` AS u ON r.username = u.username ";
@@ -51,7 +51,11 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 				. "LIMIT " . ($page * $page_size) . ", $page_size;";
 
 	if ($rotationID == "1") {
-		$q = $baseQuery . " "
+		$q = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
+			. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID "
+			. "INNER JOIN `libartist` AS ar ON al.artistID = ar.artistID "
+			. "LEFT OUTER JOIN `libreview` AS r ON r.albumID = al.albumID "
+			. "LEFT OUTER JOIN `users` AS u ON r.username = u.username "
 			. "WHERE al.rotationID = 1 "
 			. "AND (CURDATE() < c.expiration_date) "
 			. $finalQuery;
