@@ -236,7 +236,7 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$state", "db", "alert",
     // Watch the review field and save it to local storage
     $scope.$watch('album.review', function(newValue) {
         if (newValue) {
-            saveToLocalStorage(`albumReview_${$scope.album.albumID}`, newValue, expirationTimeInMinutes);
+            saveToLocalStorage('albumReview_' + $scope.album.albumID, newValue, expirationTimeInMinutes);
         }
     });
 
