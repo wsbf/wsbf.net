@@ -17,7 +17,6 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 
 	// to see who checkout out an album
 	$scope.currentUsername = '<?php echo $_SESSION["username"]; ?>';
-	;
 
 	$scope.albums = [];
 	$scope.selectedAll = false;
@@ -158,6 +157,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 		});
 }]);
 
+// this controller handles album reviews
 libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$state", "db", "alert", function($scope, $state, db, alert) {
 	$scope.rotations = db.getDefs("rotations");
 	$scope.general_genres = db.getDefs("general_genres");
@@ -165,6 +165,38 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$state", "db", "alert",
 	$scope.album = {};
 	$scope.related_artists = [];
 
+    // Expiration time for local storage (in minutes)
+    const expirationTimeInMinutes = 30;
+
+    // Function to get current timestamp
+    function getCurrentTimestamp() {
+        return new Date().getTime();
+    }
+
+    // Function to save to local storage with expiration
+    function saveToLocalStorage(key, value, expirationMinutes) {
+        const expirationTimestamp = getCurrentTimestamp() + expirationMinutes * 60 * 1000;
+        const data = {
+            value: value,
+            expiration: expirationTimestamp
+        };
+        localStorage.setItem(key, JSON.stringify(data));
+    }
+
+    // Function to retrieve and check expiration from local storage
+    function getFromLocalStorage(key) {
+        const storedData = JSON.parse(localStorage.getItem(key));
+        if (storedData) {
+            if (getCurrentTimestamp() > storedData.expiration) {
+                localStorage.removeItem(key); // Remove expired data
+                return null;
+            }
+            return storedData.value;
+        }
+        return null;
+    }
+
+    // Function to get album details
 	var getAlbum = function(albumID) {
 		db.Library.getAlbum(albumID)
 			.then(function(album) {
@@ -174,6 +206,12 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$state", "db", "alert",
 			})
 			.then(function(related_artists) {
 				$scope.related_artists = related_artists;
+
+                // Retrieve review from local storage if available
+                const savedReview = getFromLocalStorage(`albumReview_${album.albumID}`);
+                if (savedReview) {
+                    $scope.album.review = savedReview;
+                }
 			});
 	};
 
@@ -195,6 +233,13 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$state", "db", "alert",
 		});
 	};
 
-	// initialize
+    // Watch the review field and save it to local storage
+    $scope.$watch('album.review', function(newValue) {
+        if (newValue) {
+            saveToLocalStorage(`albumReview_${$scope.album.albumID}`, newValue, expirationTimeInMinutes);
+        }
+    });
+
+	// Initialize
 	getAlbum($state.params.albumID);
 }]);
