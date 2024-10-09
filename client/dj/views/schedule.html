@@ -5,6 +5,7 @@
 	<li><strong class="show-type-1">Specialty</strong></li>
 	<li><strong class="show-type-2">Jazz</strong></li>
 	<li><strong class="show-type-3">Sports/Talk</strong></li>
+	<li><strong class="show-type-4">Rotating Specialty</strong></li>
 </ul>
 
 <table class="table">
@@ -16,9 +17,17 @@
 	<tr ng-repeat="t in show_times">
 		<td>{{t.show_time}}</td>
 
-		<td ng-repeat="s in schedule[t.show_timeID] track by $index" class="text-center small show-type-{{s.show_typeID}}" ng-click="s && getShow(s.scheduleID)">
-			<strong>{{s.show_name}}</strong>
-			<div ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
-		</td>
+		<td ng-repeat="s in schedule[t.show_timeID] track by $index" 
+    class="text-center small show-type-{{s.show_typeID}}" 
+    ng-click="s && getShow(s.scheduleID)">
+    
+    <strong>{{s.show_name}}</strong>
+    
+    <!-- Check if there are more than 2 hosts -->
+    <div ng-if="s.hosts.length > 2">Click to see all hosts</div>
+    
+    <!-- Show hosts if 2 or fewer -->
+    <div ng-if="s.hosts.length <= 2" ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
+</td>
 	</tr>
 </table>
