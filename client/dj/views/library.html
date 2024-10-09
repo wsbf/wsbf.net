@@ -58,7 +58,7 @@
 					<a ng-show="rotationID == 0" href="" ng-click="checkoutAlbum(a.albumID)">Check out</a>
 
 					<!-- Show Review and Return buttons if rotationID is 1 and current user has checked out the album -->
-					<span ng-show="rotationID == 1 && a.username == sessionUsername">
+					<span ng-show="rotationID == 1 && a.username == user.username">
 						<a ui-sref="library-album-review({ albumID: a.albumID })">Review</a>
 						<span>/</span>
 						<a href="" ng-click="returnAlbum(a.albumID)">Return</a>
