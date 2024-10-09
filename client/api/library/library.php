@@ -40,7 +40,8 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 	// a non-expired record in `checkout`.
 
 	$baseQuery = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
-				. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID AND c.username = '$_SESSION[username]' "
+				. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID "
+				// . " AND c.username = '$_SESSION[username]' " 				Commenting this out so we others can see what is checked out
 				. "INNER JOIN `libartist` AS ar ON al.artistID = ar.artistID "
 				. "LEFT OUTER JOIN `libreview` AS r ON r.albumID = al.albumID "
 				. "LEFT OUTER JOIN `users` AS u ON r.username = u.username ";
