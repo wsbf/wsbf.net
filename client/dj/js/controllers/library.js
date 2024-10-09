@@ -208,7 +208,7 @@ libraryModule.controller("LibraryAlbumCtrl", ["$scope", "$state", "db", "alert",
 				$scope.related_artists = related_artists;
 
                 // Retrieve review from local storage if available
-                const savedReview = getFromLocalStorage(`albumReview_${album.albumID}`);
+                const savedReview = getFromLocalStorage('albumReview_' + album.albumID);
                 if (savedReview) {
                     $scope.album.review = savedReview;
                 }
