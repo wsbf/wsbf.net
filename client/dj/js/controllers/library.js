@@ -16,7 +16,8 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	$scope.page = Number.parseInt($state.params.page);
 
 	// to see who checkout out an album
-	$scope.currentUsername = currentUsername;
+	$scope.currentUsername = '<?php echo $_SESSION["username"]; ?>';
+	;
 
 	$scope.albums = [];
 	$scope.selectedAll = false;
