@@ -12,7 +12,7 @@ nowPlayingModule.controller("NowPlayingCtrl", ["$scope", "$interval", "db", func
 		preload: "none",
 		sources: [
 			{ src: "/stream/high", type: "audio/mpeg" },
-			{ src: "/stream/8.ogg", type: "audio/ogg" }
+			{ src: "/stream/medium", type: "audio/mpeg" }
 		],
 		theme: "/node_modules/videogular-themes-default/videogular.css"
 	};

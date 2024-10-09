@@ -1,21 +1,24 @@
 /* rules for various show types */
 /* rotation */
 .show-type-0 {
-	color: #78797F;
+	color: #d41c0b;
 }
 /* specialty */
-.show-type-1, .show-type-4, .show-type-6 {
-	color: #49537D;
+.show-type-1, .show-type-6 {
+	color: #2648ce;
 }
 /* jazz */
 .show-type-2 {
-	color: #A64B00;
+	color: #117a49;
 }
 /* sports/talk */
 .show-type-3 {
-	color: #1B5E3F;
+	color: #8acd00;
 }
-
+/* rotating specialty */
+.show-type-4 {
+	color: #f77c08;
+}
 /* rules for team colors */
 /* blue */
 .bg-team-1 {
