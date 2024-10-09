@@ -18,6 +18,8 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	$scope.albums = [];
 	$scope.selectedAll = false;
 
+	$scope.sessionUsername = null;
+
 	$scope.go = function(rotationID, general_genreID, query, page, admin) {
 		var state = admin
 			? "library-admin"
@@ -28,6 +30,13 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 			general_genreID: general_genreID,
 			query: query,
 			page: page
+		});
+	};
+
+    // Fetch the username from the PHP session
+	$scope.getSessionUser = function() {
+		db.getUsername().then(function(username) {
+			$scope.sessionUsername = username;
 		});
 	};
 

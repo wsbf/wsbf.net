@@ -52,12 +52,7 @@
 			<th ng-show="rotationID >= 2">Review Date</th>
 		</thead>
 
-		<tbody>
-			<script>
-				var sessionUsername="<?php echo $_SESSION['username']; ?>";
-				console.log(sessionUsername);
-			</script>
-			
+		<tbody>	
 			<tr ng-repeat="a in albums">
 				<td>
 					<a ng-show="rotationID == 0" href="" ng-click="checkoutAlbum(a.albumID)">Check out</a>
