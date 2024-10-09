@@ -18,7 +18,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	$scope.albums = [];
 	$scope.selectedAll = false;
 
-	$scope.checkedOutUser = null;
+	$scope.checkedOutUser = "";
 
 	$scope.go = function(rotationID, general_genreID, query, page, admin) {
 		var state = admin
