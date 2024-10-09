@@ -16,7 +16,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	$scope.page = Number.parseInt($state.params.page);
 
 	// to see who checked out an album fetch the session data using an HTTP GET request
-    $http.get('/path/to/login.php').then(function(response) {
+    $http.get('/api/auth/auth.php').then(function(response) {
         $scope.currentUsername = response.data.username;
         console.log($scope.currentUsername);
     }).catch(function(error) {
