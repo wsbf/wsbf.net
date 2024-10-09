@@ -37,6 +37,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	$scope.getSessionUser = function() {
 		db.getUsername().then(function(username) {
 			$scope.sessionUsername = username;
+			console.log(sessionUsername);
 		});
 	};
 
