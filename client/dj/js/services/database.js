@@ -428,6 +428,20 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
+	 * Get username of who checked out an album.
+	 *
+	 * @param albumID
+	 * @return Promise of http response
+	 */
+		this.Library.whoCheckedOut = function(albumID) {
+			return $http.get("/api/library/checkout.php", null, {
+				params: {
+					albumID: albumID
+				}
+			});
+		};
+
+	/**
 	 * Return a checked out album.
 	 *
 	 * @param albumID

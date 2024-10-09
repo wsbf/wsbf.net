@@ -18,7 +18,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	$scope.albums = [];
 	$scope.selectedAll = false;
 
-	$scope.sessionUsername = null;
+	$scope.checkedOutUser = null;
 
 	$scope.go = function(rotationID, general_genreID, query, page, admin) {
 		var state = admin
@@ -54,6 +54,20 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 			alert.error(res.data || res.statusText);
 		});
 	};
+	
+	/**
+	 * See who has an album checked out.
+	 *
+	 * @param albumID
+	 */
+	this.Library.whoCheckedOut(albumID)
+    .then(function(resp) {
+		$scope.checkedOutUser = resp.data;
+		console.log("User(s) who checked out the album:", resp.data);
+    })
+    .catch(function(error) {
+        console.error("Error retrieving checkout information:", error);
+    });
 
 	/**
 	 * Return a checked-out album.

@@ -111,23 +111,16 @@ function return_album($mysqli, $albumID)
 }
 
 /**
- * Return a checked-out album.
+ * See who has an album checkedout.
  *
  * @param mysqli
  * @param albumID
  */
-function is_checkedout($mysqli, $albumID, $username)
+function is_checkedout($mysqli, $albumID)
 {
-	$q = "UPDATE `libalbum` SET "
-		. "rotationID = 0 "
-		. "WHERE albumID = '$albumID';";
-	exec_query($mysqli, $q);
-
-	$q = "DELETE FROM `checkout` "
-		. "WHERE username = '$_SESSION[username]' "
-		. "AND albumID = '$albumID' "
-		. "AND CURDATE() < expiration_date;";
-	exec_query($mysqli, $q);
+	$q = "SELECT * FROM `checkout` WHERE albumID = '$albumID'";
+	$result = exec_query($mysqli, $q);
+	return $result;
 }
 
 authenticate();
@@ -169,6 +162,22 @@ else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
 	}
 
 	return_album($mysqli, $albumID);
+	$mysqli->close();
+
+	header("Content-Type: application/json");
+	exit;
+}
+else if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
+	$mysqli = construct_connection();
+
+	if ( !auth_reviewer($mysqli) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+
+	$albumID = $_GET["albumID"];
+
+	is_checkedout($mysqli, $albumID);
 	$mysqli->close();
 
 	header("Content-Type: application/json");
