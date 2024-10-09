@@ -110,6 +110,26 @@ function return_album($mysqli, $albumID)
 	exec_query($mysqli, $q);
 }
 
+/**
+ * Return a checked-out album.
+ *
+ * @param mysqli
+ * @param albumID
+ */
+function is_checkedout($mysqli, $albumID, $username)
+{
+	$q = "UPDATE `libalbum` SET "
+		. "rotationID = 0 "
+		. "WHERE albumID = '$albumID';";
+	exec_query($mysqli, $q);
+
+	$q = "DELETE FROM `checkout` "
+		. "WHERE username = '$_SESSION[username]' "
+		. "AND albumID = '$albumID' "
+		. "AND CURDATE() < expiration_date;";
+	exec_query($mysqli, $q);
+}
+
 authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
