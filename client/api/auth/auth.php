@@ -185,4 +185,19 @@ function auth_music_director($mysqli)
 	return in_array(get_position($mysqli),
 			array(0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20));
 }
+authenticate();
+
+// Handle GET request to retrieve session data
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (isset($_SESSION["username"])) {
+        echo json_encode(["username" => $_SESSION["username"]]);
+    } else {
+        echo json_encode(["username" => null]);
+    }
+
+    $mysqli->close();  // Close connection
+
+    header("Content-Type: application/json");  // Set the content type
+    exit;
+}
 ?>
