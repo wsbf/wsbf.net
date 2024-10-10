@@ -180,6 +180,12 @@ else if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 		header("HTTP/1.1 404 Not Found");
 		exit;
 	}
+	
+	if (!isset($_GET['albumID'])) {
+		header("HTTP/1.1 400 Bad Request");
+		echo json_encode(['error' => 'Missing albumID parameter']);
+		exit;
+	}
 
 	$albumID = $_GET["albumID"];
 

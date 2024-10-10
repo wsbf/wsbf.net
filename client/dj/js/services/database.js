@@ -420,13 +420,13 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @param albumID
 	 * @return Promise of http response
 	 */
-		this.Library.whoCheckedOut = function(albumID) {
-			return $http.get("/api/library/checkout.php", null, {
-				params: {
-					albumID: albumID
-				}
-			});
-		};
+	this.Library.whoCheckedOut = function(albumID) {
+		return $http.get("/api/library/checkout.php", {
+			params: {
+				albumID: albumID
+			}
+		});
+	};
 
 	/**
 	 * Return a checked out album.
