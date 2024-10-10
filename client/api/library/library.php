@@ -59,7 +59,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 			. "LEFT OUTER JOIN `libreview` AS r ON r.albumID = al.albumID "
 			. "LEFT OUTER JOIN `users` AS u ON r.username = u.username "
 			. "WHERE al.rotationID = 1 "
-			. "AND (CURDATE() < c.expiration_date) ORDER BY `c`.`expiration_date`  ASC"
+			. "AND (CURDATE() < c.expiration_date)"
 			. "AND ('$general_genreID' = '' OR al.general_genreID = '$general_genreID') "
 			. "ORDER BY `c`.`expiration_date` ASC "
 			. "LIMIT " . ($page * $page_size) . ", $page_size;";	}
