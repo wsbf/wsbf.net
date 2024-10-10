@@ -60,15 +60,16 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	 *
 	 * @param albumID
 	 */
-	this.Library.whoCheckedOut(albumID)
-    .then(function(resp) {
-		$scope.checkedOutUser = resp.data;
-		console.log("User(s) who checked out the album:", resp.data);
-    })
-    .catch(function(error) {
-        console.error("Error retrieving checkout information:", error);
-    });
-
+	$scope.whoCheckedOut = function(albumID) {
+		db.Library.whoCheckedOut(albumID)
+		.then(function(resp) {
+			$scope.checkedOutUser = resp.data;
+			console.log("User(s) who checked out the album:", resp.data);
+		})
+		.catch(function(error) {
+			console.error("Error retrieving checkout information:", error);
+		});
+	}
 	/**
 	 * Return a checked-out album.
 	 *
