@@ -12,6 +12,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	var getFishbowlApps = function() {
 		return db.Fishbowl.get().then(function(apps) {
 			$scope.apps = apps;
+			console.log(apps)
 			$scope.calculateRanks();
 		});
 	};
@@ -98,9 +99,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		}
 	};
 
-	/**
-	 * Group the current list of fishbowl apps into bowls.
-	 */
+	// not in use right now, might rework it soon
 	$scope.getFishbowlResults = function(apps) {
 		apps = apps.slice()
 			.sort(function(app1, app2) {
