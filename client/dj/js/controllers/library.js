@@ -23,8 +23,8 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	$scope.loadWhoCheckedOut = function(albumID) {
 		db.Library.whoCheckedOut(albumID)
 		.then(function(resp) {
-			// Store the username in the checkedOutUsers object, keyed by albumID
-			$scope.checkedOutUsers[albumID] = resp.data.username;
+			// Store the username and preferred_name in the checkedOutUsers object, keyed by albumID
+			$scope.checkedOutUsers[albumID] = resp.data;
 		})
 		.catch(function(error) {
 			$scope.checkedOutUsers[albumID] = null;

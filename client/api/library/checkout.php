@@ -118,15 +118,13 @@ function return_album($mysqli, $albumID)
  */
 function who_checkedout($mysqli, $albumID)
 {
-	$q = "SELECT `username` FROM `checkout` WHERE albumID = '$albumID'";
+	$q = "SELECT u.preferred_name, c.username "
+		. "FROM `checkout` AS c "
+		. "JOIN `users` AS u ON c.username = u.username "
+		. "WHERE c.albumID = '$albumID' "
+		. "ORDER BY c.expiration_date DESC LIMIT 1;";
+
 	$result = exec_query($mysqli, $q);
-	
-	// Fetch the username if it exists
-	if ($row = $result->fetch_assoc()) {
-		return $row['username'];
-	} else {
-		return null;
-	}
 }
 
 authenticate();
@@ -189,17 +187,24 @@ else if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	$albumID = $_GET["albumID"];
 
-	$username = who_checkedout($mysqli, $albumID);
-	$mysqli->close();
+	$result = who_checkedout($mysqli, $albumID);
 
 	header("Content-Type: application/json");
 
-	if ($username) {
-		echo json_encode(['username' => $username]); // Return the username as a JSON object
-	} else {
-		http_response_code(404);
-		echo json_encode(['error' => 'Album not checked out']);
-	}
+	// return username and preferred name as json
+	if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $response = [
+            'username' => $row['username'],
+            'preferred_name' => $row['preferred_name']
+        ];
+        echo json_encode($response);
+    } else {
+        // No records found
+        echo json_encode(['username' => null, 'preferred_name' => null]);
+    }
+
+	$mysqli->close();
 	exit;
 }
 ?>
