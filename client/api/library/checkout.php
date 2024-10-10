@@ -110,9 +110,42 @@ function return_album($mysqli, $albumID)
 	exec_query($mysqli, $q);
 }
 
+/**
+ * See who has an album checkedout.
+ *
+ * @param mysqli
+ * @param albumID
+ */
+function who_checkedout($mysqli, $albumID)
+{
+	$q = "SELECT u.preferred_name, c.username "
+		. "FROM `checkout` AS c "
+		. "JOIN `users` AS u ON c.username = u.username "
+		. "WHERE c.albumID = '$albumID' "
+		. "ORDER BY c.expiration_date DESC LIMIT 1;";
+
+	$result = exec_query($mysqli, $q);
+
+	if ($result && $result->num_rows > 0) {
+		$row = $result->fetch_assoc();
+		return [
+			'username' => $row['username'],
+			'preferred_name' => $row['preferred_name']
+		];
+	}
+
+	// return nulls if no records found
+	return [
+		'username' => null,
+		'preferred_name' => null
+	];
+}
+
 authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+	// checkout an album, set its rotationID to 1
+	// and insert new entry into the checkout table
 	$mysqli = construct_connection();
 
 	if ( !auth_reviewer($mysqli) ) {
@@ -134,6 +167,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	exit;
 }
 else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
+	// return the album, put it back into TBR 
+	// by deleting its checkout table entry.
 	$mysqli = construct_connection();
 
 	if ( !auth_reviewer($mysqli) ) {
@@ -152,6 +187,32 @@ else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
 	$mysqli->close();
 
 	header("Content-Type: application/json");
+	exit;
+}
+else if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
+	// respond to GET request with the username and preferred name of
+	// who has checked out an album
+	$mysqli = construct_connection();
+
+	if ( !auth_reviewer($mysqli) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+	
+	if (!isset($_GET['albumID'])) {
+		header("HTTP/1.1 400 Bad Request");
+		echo json_encode(['error' => 'Missing albumID parameter']);
+		exit;
+	}
+
+	$albumID = $_GET["albumID"];
+
+	$response = who_checkedout($mysqli, $albumID);
+
+	header("Content-Type: application/json");
+    echo json_encode($response);
+
+	$mysqli->close();
 	exit;
 }
 ?>

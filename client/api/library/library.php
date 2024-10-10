@@ -39,8 +39,11 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 	// Checked-out albums are albums with rotationID 1 that have
 	// a non-expired record in `checkout`.
 
+	// these arent used in the checked out filtering because i had to slightly change the 
+	// conditions and the ordering and stuff so people can see who has what checked out  
 	$baseQuery = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
-				. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID AND c.username = '$_SESSION[username]' "
+				. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID "
+				. " AND c.username = '$_SESSION[username]' "
 				. "INNER JOIN `libartist` AS ar ON al.artistID = ar.artistID "
 				. "LEFT OUTER JOIN `libreview` AS r ON r.albumID = al.albumID "
 				. "LEFT OUTER JOIN `users` AS u ON r.username = u.username ";
@@ -50,11 +53,16 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 				. "LIMIT " . ($page * $page_size) . ", $page_size;";
 
 	if ($rotationID == "1") {
-		$q = $baseQuery . " "
+		$q = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
+			. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID "
+			. "INNER JOIN `libartist` AS ar ON al.artistID = ar.artistID "
+			. "LEFT OUTER JOIN `libreview` AS r ON r.albumID = al.albumID "
+			. "LEFT OUTER JOIN `users` AS u ON r.username = u.username "
 			. "WHERE al.rotationID = 1 "
-			. "AND (CURDATE() < c.expiration_date) "
-			. $finalQuery;
-	}
+			. "AND (CURDATE() < c.expiration_date)"
+			. "AND ('$general_genreID' = '' OR al.general_genreID = '$general_genreID') "
+			. "ORDER BY `c`.`expiration_date` ASC "
+			. "LIMIT " . ($page * $page_size) . ", $page_size;";	}
 	else if ($rotationID == "0") {
 		$subQuery = "SELECT c.albumID, c.username, c.expiration_date "
 			. "FROM `checkout` AS c "
