@@ -45,6 +45,17 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		});
 	};
 
+	// as an admin, override a user's fishbowl log and delete an item 
+	$scope.adminDeleteItem = function(fishbowl_logID) {
+		db.Fishbowl.deleteLogItem(fishbowl_logID)
+			.then(function() {
+				alert.success("Fishbowl item deleted.");
+				getFishbowlLog();
+			}, function(res) {
+				alert.error(res.data || res.statusText);
+			});
+	};
+
 	// no longer using this
 	$scope.rateFishbowlApps = function(apps) {
 		if ( apps.some(function(a) { return !a.rating; }) ) {
@@ -70,7 +81,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	$scope.calculateRanks = function() {
 		// Sort users by points in descending order
 		$scope.apps.sort(function(a, b) {
-			return b.points - a.points; // Sort in descending order based on points
+			return b.points - a.points;
 		});
 
 		var currentRank = 0;
