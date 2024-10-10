@@ -116,11 +116,17 @@ function return_album($mysqli, $albumID)
  * @param mysqli
  * @param albumID
  */
-function is_checkedout($mysqli, $albumID)
+function who_checkedout($mysqli, $albumID)
 {
-	$q = "SELECT * FROM `checkout` WHERE albumID = '$albumID'";
+	$q = "SELECT `username` FROM `checkout` WHERE albumID = '$albumID'";
 	$result = exec_query($mysqli, $q);
-	return $result;
+	
+	// Fetch the username if it exists
+	if ($row = $result->fetch_assoc()) {
+		return $row['username'];
+	} else {
+		return null;
+	}
 }
 
 authenticate();
@@ -177,10 +183,17 @@ else if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	$albumID = $_GET["albumID"];
 
-	is_checkedout($mysqli, $albumID);
+	$username = is_checkedout($mysqli, $albumID);
 	$mysqli->close();
 
 	header("Content-Type: application/json");
+
+	if ($username) {
+		echo json_encode(['username' => $username]); // Return the username as a JSON object
+	} else {
+		http_response_code(404);
+		echo json_encode(['error' => 'Album not checked out']);
+	}
 	exit;
 }
 ?>

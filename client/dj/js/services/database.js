@@ -44,19 +44,6 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		return api.Defs.get({ table: tableName });
 	};
 
-	/**
-	 * Get the session username.
-	 *
-	 * @param 
-	 * @return username string
-	 */
-	this.getUsername = function() {
-		return $http.get("/api/auth/session.php")
-			.then(function(res) {
-				return res.data.username; // Return the username from the response
-			});
-	};
-
 	this.Alumni = {};
 
 	/**
