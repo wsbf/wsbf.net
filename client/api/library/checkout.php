@@ -125,11 +125,27 @@ function who_checkedout($mysqli, $albumID)
 		. "ORDER BY c.expiration_date DESC LIMIT 1;";
 
 	$result = exec_query($mysqli, $q);
+
+	if ($result && $result->num_rows > 0) {
+		$row = $result->fetch_assoc();
+		return [
+			'username' => $row['username'],
+			'preferred_name' => $row['preferred_name']
+		];
+	}
+
+	// return nulls if no records found
+	return [
+		'username' => null,
+		'preferred_name' => null
+	];
 }
 
 authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+	// checkout an album, set its rotationID to 1
+	// and insert new entry into the checkout table
 	$mysqli = construct_connection();
 
 	if ( !auth_reviewer($mysqli) ) {
@@ -151,6 +167,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	exit;
 }
 else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
+	// return the album, put it back into TBR 
+	// by deleting its checkout table entry.
 	$mysqli = construct_connection();
 
 	if ( !auth_reviewer($mysqli) ) {
@@ -172,6 +190,8 @@ else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
 	exit;
 }
 else if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
+	// respond to GET request with the username and preferred name of
+	// who has checked out an album
 	$mysqli = construct_connection();
 
 	if ( !auth_reviewer($mysqli) ) {
@@ -187,22 +207,10 @@ else if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	$albumID = $_GET["albumID"];
 
-	$result = who_checkedout($mysqli, $albumID);
+	$response = who_checkedout($mysqli, $albumID);
 
 	header("Content-Type: application/json");
-
-	// return username and preferred name as json
-	if ($result && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $response = [
-            'username' => $row['username'],
-            'preferred_name' => $row['preferred_name']
-        ];
-        echo json_encode($response);
-    } else {
-        // No records found
-        echo json_encode(['username' => null, 'preferred_name' => null]);
-    }
+    echo json_encode($response);
 
 	$mysqli->close();
 	exit;
