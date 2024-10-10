@@ -183,7 +183,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	$albumID = $_GET["albumID"];
 
-	$username = is_checkedout($mysqli, $albumID);
+	$username = who_checkedout($mysqli, $albumID);
 	$mysqli->close();
 
 	header("Content-Type: application/json");
