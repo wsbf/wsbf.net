@@ -35,7 +35,9 @@ function get_user_summary($mysqli, $username)
     $log_keys = array(
         "date",
         "log_type",
-        "description"
+        "description",
+		"disputed",
+		"dispute_description"
     );
 
 	$q = "SELECT " . implode(",", $log_keys) . " FROM `fishbowl_log` "
@@ -58,43 +60,60 @@ function get_user_summary($mysqli, $username)
     return $summary;
 }
 
-// TODO: maybe move to POST fishbowl.php
-/**
- * Validate fishbowl ratings.
- *
- * @param apps
- * @return true if app ratings are valid, false otherwise
- */
-function validate_fishbowl_ratings($apps)
-{
-	foreach ( $apps as $a ) {
-		if ( !is_numeric($a["fishbowlID"])
-		  || !is_numeric($a["rating"])
-		  || $a["rating"] < 1 || 5 < $a["rating"] ) {
-			return false;
-		}
-	}
-
-	return true;
-}
 
 /**
- * Rate all fishbowl apps.
+ * Dispute a fishbowl item.
  *
  * @param mysqli
- * @param apps
+ * @param fishbowl_logID
+ * @return
  */
-function rate_fishbowl_apps($mysqli, $apps)
+function dispute_fishbowl($mysqli, $fishbowl_logID, $dispute_description)
 {
-	// recalculate ranks for all users
-	$q = "UPDATE fishbowl_leaderboard AS f "
-		. "SET f.rank = ( "
-		. "SELECT COUNT(*) + 1 "
-		. "FROM fishbowl_leaderboard AS sub "
-		. "WHERE sub.points > f.points "
-		. ");";
-	$result = exec_query($mysqli, $q);
+    $q = "UPDATE fishbowl_log "
+		. "SET disputed = 1, dispute_description = '$dispute_description' "
+		. "WHERE fishbowl_logID = '$fishbowl_logID'";
+    exec_query($mysqli, $q);
+
 }
+
+// // TODO: maybe move to POST fishbowl.php
+// /**
+//  * Validate fishbowl ratings.
+//  *
+//  * @param apps
+//  * @return true if app ratings are valid, false otherwise
+//  */
+// function validate_fishbowl_ratings($apps)
+// {
+// 	foreach ( $apps as $a ) {
+// 		if ( !is_numeric($a["fishbowlID"])
+// 		  || !is_numeric($a["rating"])
+// 		  || $a["rating"] < 1 || 5 < $a["rating"] ) {
+// 			return false;
+// 		}
+// 	}
+
+// 	return true;
+// }
+
+// /**
+//  * Rate all fishbowl apps.
+//  *
+//  * @param mysqli
+//  * @param apps
+//  */
+// function rate_fishbowl_apps($mysqli, $apps)
+// {
+// 	// recalculate ranks for all users
+// 	$q = "UPDATE fishbowl_leaderboard AS f "
+// 		. "SET f.rank = ( "
+// 		. "SELECT COUNT(*) + 1 "
+// 		. "FROM fishbowl_leaderboard AS sub "
+// 		. "WHERE sub.points > f.points "
+// 		. ");";
+// 	$result = exec_query($mysqli, $q);
+// }
 
 authenticate();
 
@@ -123,20 +142,15 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
-	if ( !auth_senior_staff($mysqli) ) {
-		header("HTTP/1.1 401 Unauthorized");
-		exit;
-	}
+	$fishbowl_logID = $_POST['fishbowl_logID'];
+    $dispute_description = $_POST['dispute_description'];
 
-	$apps = json_decode(file_get_contents("php://input"), true);
-	$apps = escape_json($mysqli, $apps);
-
-	if ( !validate_fishbowl_ratings($apps) ) {
+	if ( !validate_fishbowl_item($mysqli, $item) ) {
 		header("HTTP/1.1 404 Not Found");
-		exit;
+		exit("Invalid input");
 	}
 
-	rate_fishbowl_apps($mysqli, $apps);
+	dispute_fishbowl($mysqli, $fishbowl_logID, $dispute_description);
 	$mysqli->close();
 
 	exit;

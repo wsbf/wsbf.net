@@ -46,15 +46,24 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		});
 	};
 
-	// as an admin, override a user's fishbowl log and delete an item 
-	$scope.adminDeleteItem = function(fishbowl_logID) {
-		db.Fishbowl.deleteLogItem(fishbowl_logID)
-			.then(function() {
-				alert.success("Fishbowl item deleted.");
-				getFishbowlLog();
-			}, function(res) {
-				alert.error(res.data || res.statusText);
-			});
+	// as an admin, override a user's fishbowl log and mark an item as dispute
+	$scope.disputeItem = function(fishbowl_logID) {
+		var disputeDescription = prompt("Please enter the dispute description:");
+
+		if (disputeDescription !== null) {
+			var disputeData = {
+				fishbowl_logID: fishbowl_logID,
+				dispute_description: disputeDescription
+			};
+	
+			db.Fishbowl.disputeLogItem(disputeData)
+				.then(function() {
+					alert.success("Fishbowl item marked as disputed.");
+					getFishbowlLog();
+				}, function(res) {
+					alert.error(res.data || res.statusText);
+				});
+		}
 	};
 
 	// no longer using this

@@ -127,6 +127,15 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
+	 * Submit a dispute of a fishbowl log item.
+	 *
+	 * @param item
+	 */
+		this.Fishbowl.disputeLogItem = function(item) {
+			return $http.post("/api/fishbowl/review.php", item);
+	};
+
+	/**
 	 * Delete a fishbowl log item.
 	 *
 	 * @param fishbowl_logID
