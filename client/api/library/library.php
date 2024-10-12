@@ -53,16 +53,11 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 				. "LIMIT " . ($page * $page_size) . ", $page_size;";
 
 	if ($rotationID == "1") {
-		$q = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
-			. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID "
-			. "INNER JOIN `libartist` AS ar ON al.artistID = ar.artistID "
-			. "LEFT OUTER JOIN `libreview` AS r ON r.albumID = al.albumID "
-			. "LEFT OUTER JOIN `users` AS u ON r.username = u.username "
+		$q = $baseQuery
 			. "WHERE al.rotationID = 1 "
-			. "AND (CURDATE() < c.expiration_date)"
-			. "AND ('$general_genreID' = '' OR al.general_genreID = '$general_genreID') "
-			. "ORDER BY `c`.`expiration_date` ASC "
-			. "LIMIT " . ($page * $page_size) . ", $page_size;";	}
+			. "AND (CURDATE() < c.expiration_date) "
+			. $finalQuery;
+	}
 	else if ($rotationID == "0") {
 		$subQuery = "SELECT c.albumID, c.username, c.expiration_date "
 			. "FROM `checkout` AS c "
