@@ -24,7 +24,7 @@ function construct_connection()
 		exit("Could not connect to database.");
 	}
 
-	$mysqli->select_db("wsbf");
+	$mysqli->select_db("wsbf_dev");
 	$mysqli->set_charset("utf8");
 
 	return $mysqli;
