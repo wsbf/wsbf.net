@@ -61,7 +61,7 @@
 				<td>{{a.album_name}}</td>
 				<td>{{a.artist_name}}</td>
 				<td ng-show="rotationID == 0">{{general_genres[a.general_genreID].genre}}</td>
-				<td ng-show="rotationID == 1">{{a.username}}</td>
+				<td ng-show="rotationID == 1">{{checkedOutUsers[a.albumID].preferred_name}}</td>
 				<td ng-show="rotationID == 1">{{a.expiration_date}}</td>
 				<td ng-show="rotationID >= 2">{{a.review_date}}</td>
 				<td ng-show="rotationID >= 2">{{a.date_moved}}</td>
