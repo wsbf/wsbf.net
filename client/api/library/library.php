@@ -22,7 +22,7 @@ require_once("functions.php");
  */
 function get_library($mysqli, $rotationID, $general_genreID, $page)
 {
-	$page_size = 200;
+	$page_size = 25;
 	$keys = array(
 		"al.albumID",
 		"al.album_code",

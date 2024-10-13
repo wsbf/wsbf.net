@@ -170,8 +170,8 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 		// admins can see all checked out albums
 		console.log("i am an admin");
 		db.Library.getCheckedOutLibrary($scope.general_genreID, $scope.page)
-		.then(function(checkedOutAlbums) {
-			$scope.checkedOutAlbums = checkedOutAlbums;
+		.then(function(albums) {
+			$scope.albums = albums;
 		});
 	} else {
 		// regular users or admins viewing other rotationIDs get the general library
