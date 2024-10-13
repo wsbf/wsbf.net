@@ -168,11 +168,11 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	// initialize
 	if ($scope.rotationID == 1 && $scope.auth.musicDirector) {
 		// admins can see all checked out albums
-		console.log("i am an admin");
 		db.Library.getCheckedOutLibrary($scope.general_genreID, $scope.page)
 		.then(function(albums) {
 			$scope.albums = albums;
 		});
+		console.log($scope.albums);
 	} else {
 		// regular users or admins viewing other rotationIDs get the general library
 		db.Library.getLibrary($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page)
