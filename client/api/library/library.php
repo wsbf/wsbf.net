@@ -39,8 +39,6 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 	// Checked-out albums are albums with rotationID 1 that have
 	// a non-expired record in `checkout`.
 
-	// these arent used in the checked out filtering because i had to slightly change the 
-	// conditions and the ordering and stuff so people can see who has what checked out  
 	$baseQuery = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
 				. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID "
 				. " AND c.username = '$_SESSION[username]' "
@@ -89,6 +87,45 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 	$result = exec_query($mysqli, $q);
 
 	return fetch_array($result);
+}
+
+/**
+ * Get a list of the checked out albums. Used for admin view
+ * to be able to see who has albums checked out 
+ *
+ * @param mysqli
+ * @param general_genreID
+ * @param page
+ * @return array of albums
+ */
+function get_checked_out($mysqli, $general_genreID, $page) {
+	$page_size = 50;
+	$keys = array(
+		"al.albumID",
+		"al.album_code",
+		"al.album_name",
+		"al.general_genreID",
+		"al.rotationID",
+		"al.date_moved",
+		"ar.artist_name",
+		"c.expiration_date",
+		"c.username",
+		'u.preferred_name'
+	);
+
+	$q = "SELECT " . implode(",", $keys) . " FROM libalbum AS al "
+		. "LEFT OUTER JOIN checkout AS c ON c.albumID = al.albumID "
+		. "INNER JOIN libartist AS ar ON al.artistID = ar.artistID "
+		. "LEFT OUTER JOIN users AS u ON c.username = u.username "
+		. "WHERE al.rotationID = 1 "
+		. "AND (CURDATE() < c.expiration_date) "
+		. "AND ('$general_genreID' = '' OR al.general_genreID = '$general_genreID') "
+		. "ORDER BY c.expiration_date ASC "
+		. "LIMIT " . ($page * $page_size) . ", $page_size;";
+
+	$result = exec_query($mysqli, $q);
+	return fetch_array($result);
+
 }
 
 /**
@@ -148,21 +185,39 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$term = array_access($_GET, "query");
 	$page = array_access($_GET, "page");
 
-	if ( is_numeric($rotationID)
-			&& strlen($term) >= 3
-			&& is_numeric($page) ) {
-		$albums = search_albums($mysqli, $rotationID, $term, $page);
-	}
-	else if ( is_numeric($rotationID)
-			&& (!isset($general_genreID) || is_numeric($general_genreID))
-			&& is_numeric($page) ) {
-		$albums = get_library($mysqli, $rotationID, $general_genreID, $page);
-	}
-	else {
-		header("HTTP/1.1 404 Not Found");
-		exit;
-	}
 
+	// if user is an admin, then they can see checkedout albums
+	if ( $rotationID == 1 && auth_music_director($mysqli) ) {
+		if ( strlen($term) >= 3
+			&& is_numeric($page)  ) {
+			$albums = search_albums($mysqli, $rotationID, $term, $page);
+		} 
+		else if ( (!isset($general_genreID) || is_numeric($general_genreID) )
+				&& is_numeric($page) ) {
+			$albums = get_checked_out($mysqli, $rotationID, $general_genreID, $page);
+		}
+		else {
+			header("HTTP/1.1 404 Not Found");
+			exit;
+		}
+	}
+	// normal user GET operation
+	else {
+		if ( is_numeric($rotationID)
+				&& strlen($term) >= 3
+				&& is_numeric($page) ) {
+			$albums = search_albums($mysqli, $rotationID, $term, $page);
+		}
+		else if ( is_numeric($rotationID)
+				&& (!isset($general_genreID) || is_numeric($general_genreID))
+				&& is_numeric($page) ) {
+			$albums = get_library($mysqli, $rotationID, $general_genreID, $page);
+		}
+		else {
+			header("HTTP/1.1 404 Not Found");
+			exit;
+		}
+	}
 	$mysqli->close();
 
 	header("Content-Type: application/json");
