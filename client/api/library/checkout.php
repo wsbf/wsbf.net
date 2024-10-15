@@ -220,7 +220,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	$albums = get_checked_out_library($mysqli, $general_genreID, $page);
 
 	header("Content-Type: application/json");
-    echo json_encode($response);
+    echo json_encode($albums);
 
 	$mysqli->close();
 	exit;
