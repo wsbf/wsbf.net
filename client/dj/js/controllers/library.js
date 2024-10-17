@@ -17,6 +17,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 
 	$scope.albums = [];
 	$scope.checkedOutAlbums = [];
+	
 	$scope.selectedAll = false;
 
 	$scope.go = function(rotationID, general_genreID, query, page, admin) {
@@ -46,22 +47,6 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 		});
 	};
 	
-	/**
-	 * See who has an album checked out.
-	 *
-	 * @param albumID
-	 */
-	$scope.whoCheckedOut = function(albumID) {
-		db.Library.whoCheckedOut(albumID)
-		.then(function(resp) {
-			$scope.checkedOutUser = resp.data.username;
-			console.log("User(s) who checked out the album:", resp.data.username);
-		})
-		.catch(function(error) {
-			console.error("Error retrieving checkout information:", error);
-		});
-	}
-
 	/**
 	 * Return a checked-out album.
 	 *
@@ -164,24 +149,13 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 		}
 	};
 
-
-	// initialize
-	if ($scope.rotationID == 1 && $scope.auth.musicDirector) {
-		// admins can see all checked out albums
-		db.Library.getCheckedOutLibrary($scope.general_genreID, $scope.page)
-		.then(function(albums) {
-			$scope.albums = albums;
+	// initialize array of checked out albums
+	db.Library.getCheckedOutLibrary($scope.general_genreID, $scope.page)
+		.then(function(checkedOutAlbums) {
+			$scope.checkedOutAlbums = checkedOutAlbums;
 		});
-		console.log($scope.albums);
-	} else {
-		// regular users or admins viewing other rotationIDs get the general library
-		db.Library.getLibrary($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page)
-			.then(function(albums) {
-				$scope.albums = albums;
-			});
-	}
 
-	// initialize
+	// initialize array of library albums
 	db.Library.getLibrary($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page)
 		.then(function(albums) {
 			$scope.albums = albums;

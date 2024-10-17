@@ -54,15 +54,28 @@
 		</thead>
 
 		<tbody>
-			<tr ng-repeat="a in albums">
+			<tr ng-show="rotationID == 1" ng-repeat="c in checkedOutAlbums">
+				<td>
+					<a ui-sref="library-album-edit({ albumID: c.albumID })">{{c.album_code}}</a>
+				</td>
+				<td>{{c.album_name}}</td>
+				<td>{{c.artist_name}}</td>
+				<td>{{c.preferred_name}}</td>
+				<td>{{c.expiration_date}}</td>
+				<td class="text-center">
+					<input type="checkbox" ng-model="c.selected"/>
+				</td>
+			</tr>
+			<td ng-show="rotationID == 1">{{c.preferred_name}}</td>
+			<td ng-show="rotationID == 1">{{c.expiration_date}}</td>
+
+			<tr ng-show="rotationID != 1" ng-repeat="a in albums">
 				<td>
 					<a ui-sref="library-album-edit({ albumID: a.albumID })">{{a.album_code}}</a>
 				</td>
 				<td>{{a.album_name}}</td>
 				<td>{{a.artist_name}}</td>
 				<td ng-show="rotationID == 0">{{general_genres[a.general_genreID].genre}}</td>
-				<td ng-show="rotationID == 1">{{a.preferred_name}}</td>
-				<td ng-show="rotationID == 1">{{a.expiration_date}}</td>
 				<td ng-show="rotationID >= 2">{{a.review_date}}</td>
 				<td ng-show="rotationID >= 2">{{a.date_moved}}</td>
 				<td class="text-center">
