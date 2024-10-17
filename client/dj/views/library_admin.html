@@ -62,12 +62,10 @@
 				<td>{{c.artist_name}}</td>
 				<td>{{c.preferred_name}}</td>
 				<td>{{c.expiration_date}}</td>
-				<td class="text-center">
+				<!-- <td class="text-center">
 					<input type="checkbox" ng-model="c.selected"/>
-				</td>
+				</td> -->
 			</tr>
-			<td ng-show="rotationID == 1">{{c.preferred_name}}</td>
-			<td ng-show="rotationID == 1">{{c.expiration_date}}</td>
 
 			<tr ng-show="rotationID != 1" ng-repeat="a in albums">
 				<td>
