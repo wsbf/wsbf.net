@@ -91,7 +91,7 @@ function authenticate_logbook($mysqli)
 	// otherwise, only Studio A machines have access
 	$valid_addr = array(
 		"130.127.17.5",
-		"130.127.17.40"
+		"130.127.17.230"
 	);
 
 	if ( !in_array($_SERVER["REMOTE_ADDR"], $valid_addr) ) {
