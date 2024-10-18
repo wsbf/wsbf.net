@@ -116,7 +116,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	getFishbowlApps();
 }]);
 
-fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", function($scope, db) {
+fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", function($scope, db, alert) {
 	$scope.fishbowl_log_types = db.getDefs("fishbowl_log_types");
 	$scope.index = -1;
 	$scope.app = {};

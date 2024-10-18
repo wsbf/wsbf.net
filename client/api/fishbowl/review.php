@@ -141,7 +141,6 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 	}
 
 	$username = $_GET["username"];
-	error_log("Received username: " . $username);
 
 	if (empty($username)) {
     	header("HTTP/1.1 400 Bad Request");
@@ -157,6 +156,11 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$mysqli = construct_connection();
 
+	if ( !auth_senior_staff($mysqli) ) {
+		header("HTTP/1.1 401 Unauthorized");
+		exit;
+	}
+	
 	$fishbowl_logID = $_POST['fishbowl_logID'];
     $dispute_description = $_POST['dispute_description'];
 
