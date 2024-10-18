@@ -170,7 +170,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$fishbowl_logID = $item['fishbowl_logID'];
 	echo "fishbowl_logID: " . $fishbowl_logID;  // Debug output
 
-	$dispute_description = isset($item['dispute_description']) ? $_POST['dispute_description'] : null;
+	$dispute_description = isset($item['dispute_description']) ? $item['dispute_description'] : null;
 
 	if (!is_numeric($fishbowl_logID)) {
 		header("HTTP/1.1 400 Bad Request");
