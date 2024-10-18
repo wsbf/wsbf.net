@@ -33,6 +33,7 @@ function get_user_summary($mysqli, $username)
 
     // Get fishbowl log for the user
     $log_keys = array(
+		"fishbowl_logID",
         "date",
         "log_type",
         "description",
@@ -160,13 +161,18 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit;
 	}
-	
+
 	$fishbowl_logID = $_POST['fishbowl_logID'];
-    $dispute_description = $_POST['dispute_description'];
+	$dispute_description = isset($_POST['dispute_description']) ? $_POST['dispute_description'] : null;
 
 	if (!is_numeric($fishbowl_logID)) {
-		header("HTTP/1.1 404 Not Found");
-		exit("Invalid input");
+		header("HTTP/1.1 400 Bad Request");
+		exit("Invalid fishbowl_logID input");
+	}
+
+	if ($dispute_description === null) {
+		header("HTTP/1.1 400 Bad Request");
+		exit("dispute_description is required");
 	}
 
 	dispute_fishbowl($mysqli, $fishbowl_logID, $dispute_description);

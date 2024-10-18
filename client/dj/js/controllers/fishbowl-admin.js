@@ -132,7 +132,7 @@ fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", function($
 
 	// as an admin, override a user's fishbowl log and mark an item as dispute
 	$scope.disputeItem = function(fishbowl_logID) {
-		var disputeDescription = prompt("Please enter the dispute description:");
+		var disputeDescription = prompt("Enter a description of the dispute:");
 
 		if (disputeDescription !== null) {
 			var disputeData = {
