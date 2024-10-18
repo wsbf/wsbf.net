@@ -33,16 +33,17 @@
 
 	<table class="table">
 		<thead>
-			<th>Name</th>
-			<th>Rank</th>
-			<th>Points</th>
-			<th>Reviews</th>
-			<th>Disputes</th>
+			<tr>
+				<th ng-click="sortBy('name')">Name</th>
+				<th ng-click="sortBy('rank')">Rank</th>
+				<th ng-click="sortBy('points')">Points</th>
+				<th ng-click="sortBy('reviews')">Reviews</th>
+				<th ng-click="sortBy('disputes')">Disputes</th>
+			</tr>
 		</thead>
 
 		<tbody>
-			<!-- inline calculation of rank -->
-			<tr ng-repeat="a in apps">
+			<tr ng-repeat="a in apps | orderBy:sortColumn:reverseSort">
 				<td>
 					<a href="" ng-click="review(apps, a.username)">{{a.preferred_name}}</a>
 				</td>

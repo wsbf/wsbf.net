@@ -17,6 +17,16 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		});
 	};
 
+	// Initialize sorting variables
+	$scope.sortColumn = 'rank';  // Default sort column
+	$scope.reverseSort = false;   // Default sort direction
+
+	// Function to sort by column
+	$scope.sortBy = function(column) {
+		$scope.reverseSort = ($scope.sortColumn === column) ? !$scope.reverseSort : false; // Toggle sort direction
+		$scope.sortColumn = column; // Set the new sort column
+	};
+
 	$scope.archiveFishbowl = function() {
 		if ( confirm("Are you sure you want to archive the fishbowl?") ) {
 			db.Fishbowl.archive().then(function() {
@@ -29,9 +39,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	};
 
 	$scope.review = function(apps, username) {
-		console.log("apps: ", apps);  // Log the entire apps object
-		console.log("username: ", username);  // Log the passed username
-	
+
 		if (!username) {
 			alert.error("Username is missing or invalid.");
 			return;
