@@ -16,21 +16,9 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	$scope.page = Number.parseInt($state.params.page);
 
 	$scope.albums = [];
+	$scope.checkedOutAlbums = [];
+	
 	$scope.selectedAll = false;
-
-	$scope.checkedOutUsers = {}; // Object to store checked out users by albumID
-
-	$scope.loadWhoCheckedOut = function(albumID) {
-		db.Library.whoCheckedOut(albumID)
-		.then(function(resp) {
-			// Store the username and preferred_name in the checkedOutUsers object, keyed by albumID
-			$scope.checkedOutUsers[albumID] = resp.data;
-		})
-		.catch(function(error) {
-			$scope.checkedOutUsers[albumID] = null;
-			console.error("Error retrieving checkout information:", error);
-		});
-	};
 
 	$scope.go = function(rotationID, general_genreID, query, page, admin) {
 		var state = admin
@@ -44,7 +32,6 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 			page: page
 		});
 	};
-
 
 	/**
 	 * Check out an album.
@@ -60,22 +47,6 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 		});
 	};
 	
-	/**
-	 * See who has an album checked out.
-	 *
-	 * @param albumID
-	 */
-	$scope.whoCheckedOut = function(albumID) {
-		db.Library.whoCheckedOut(albumID)
-		.then(function(resp) {
-			$scope.checkedOutUser = resp.data.username;
-			console.log("User(s) who checked out the album:", resp.data.username);
-		})
-		.catch(function(error) {
-			console.error("Error retrieving checkout information:", error);
-		});
-	}
-
 	/**
 	 * Return a checked-out album.
 	 *
@@ -178,18 +149,16 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 		}
 	};
 
-	// initialize
+	// initialize array of checked out albums
+	db.Library.getCheckedOutLibrary($scope.general_genreID, $scope.page)
+		.then(function(checkedOutAlbums) {
+			$scope.checkedOutAlbums = checkedOutAlbums;
+		});
+
+	// initialize array of library albums
 	db.Library.getLibrary($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page)
 		.then(function(albums) {
 			$scope.albums = albums;
-			
-			// Loop through each album
-			$scope.albums.forEach(function(album) {
-				if (album.rotationID == 1) {
-					// Load who checked out the album only if rotationID is 1
-					$scope.loadWhoCheckedOut(album.albumID);
-				}
-			});
 		});
 }]);
 
