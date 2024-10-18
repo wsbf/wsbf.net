@@ -162,12 +162,15 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		exit;
 	}
 
-	error_log(print_r($_POST, true));  // Log the entire POST array to the error log
+	$item = json_decode(file_get_contents("php://input"), true);
+	$item = escape_json($mysqli, $item);
+	
+	error_log(print_r($item, true));  // Log the entire POST array to the error log
 
-	$fishbowl_logID = $_POST['fishbowl_logID'];
+	$fishbowl_logID = $item['fishbowl_logID'];
 	echo "fishbowl_logID: " . $fishbowl_logID;  // Debug output
 
-	$dispute_description = isset($_POST['dispute_description']) ? $_POST['dispute_description'] : null;
+	$dispute_description = isset($item['dispute_description']) ? $_POST['dispute_description'] : null;
 
 	if (!is_numeric($fishbowl_logID)) {
 		header("HTTP/1.1 400 Bad Request");
