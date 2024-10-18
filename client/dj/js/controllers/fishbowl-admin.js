@@ -82,7 +82,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 
 		for (var i = 0; i < $scope.apps.length; i++) {
 			// Calculate the adjusted points
-			var adjustedPoints = $scope.apps[i].points - $scope.apps[i].disputed;
+			var adjustedPoints = $scope.apps[i].points - $scope.apps[i].disputes;
 			if (previousPoints !== adjustedPoints) {
 				currentRank++;
 				previousPoints = adjustedPoints;
@@ -90,7 +90,6 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 
 			$scope.apps[i].rank = currentRank;
 			$scope.apps[i].adjustedPoints = adjustedPoints;
-			console.log($scope.apps[i])
 		}
 	};
 
