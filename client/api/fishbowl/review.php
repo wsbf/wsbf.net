@@ -160,7 +160,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$fishbowl_logID = $_POST['fishbowl_logID'];
     $dispute_description = $_POST['dispute_description'];
 
-	if ( !validate_fishbowl_item($mysqli, $item) ) {
+	if (!is_numeric($fishbowl_logID)) {
 		header("HTTP/1.1 404 Not Found");
 		exit("Invalid input");
 	}
