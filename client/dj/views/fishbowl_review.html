@@ -15,6 +15,9 @@
 		<dt>CD Reviews</dt>
 		<dd>{{app.review_count}}</dd>
 
+		<dt>Disputed Log Items</dt>
+		<dd>{{app.disputes}}</dd>
+
 		<!-- <dt>Dead Hours?</dt>
 		<dd>{{app.dead_hours ? 'Yes' : 'No'}}</dd>
 
@@ -26,15 +29,26 @@
 				<th class="col-xs-2">Date</th>
 				<th class="col-xs-2">Type</th>
 				<th class="col-xs-8">Description</th>
+				<th class="col-xs-8">Disputed</th>
+				<!-- styling for disputed log items -->
+				<style>
+					.disputed-item {
+						color: red;
+						font-weight: bold;
+						background-color: #f8d7da;
+						border-left: 4px solid red;
+					}
+				</style>
 			</thead>
 
 			<tbody>
-				<tr ng-repeat="f in app.log | orderBy:'date'">
+				<tr ng-repeat="f in app.log | orderBy:'date'" ng-class="{'disputed-item': f.disputed == 1}">
 					<td>{{f.date}}</td>
 					<td>{{fishbowl_log_types[f.log_type].type}}</td>
 					<td>{{f.description}}</td>
+					<td ng-show="f.disputed == 1">{{f.dispute_description}}</td>
 					<td class="text-center">
-						<span class="button-icon" ng-click="disputeItem(f.fishbowl_logID)">CAP</span>
+						<span class="button-icon" ng-show="f.disputed != 1" ng-click="disputeItem(f.fishbowl_logID)">CAP</span>
 					</td>
 				</tr>
 			</tbody>

@@ -46,69 +46,55 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		});
 	};
 
-	// as an admin, override a user's fishbowl log and mark an item as dispute
-	$scope.disputeItem = function(fishbowl_logID) {
-		var disputeDescription = prompt("Please enter the dispute description:");
-
-		if (disputeDescription !== null) {
-			var disputeData = {
-				fishbowl_logID: fishbowl_logID,
-				dispute_description: disputeDescription
-			};
-	
-			db.Fishbowl.disputeLogItem(disputeData)
-				.then(function() {
-					alert.success("Fishbowl item marked as disputed.");
-					getFishbowlLog();
-				}, function(res) {
-					alert.error(res.data || res.statusText);
-				});
-		}
-	};
-
 	// no longer using this
-	$scope.rateFishbowlApps = function(apps) {
-		if ( apps.some(function(a) { return !a.rating; }) ) {
-			return;
-		}
+	// $scope.rateFishbowlApps = function(apps) {
+	// 	if ( apps.some(function(a) { return !a.rating; }) ) {
+	// 		return;
+	// 	}
 
-		apps = apps.map(function(app) {
-			return {
-				fishbowlID: app.fishbowlID,
-				rating: app.rating
-			};
-		});
+	// 	apps = apps.map(function(app) {
+	// 		return {
+	// 			fishbowlID: app.fishbowlID,
+	// 			rating: app.rating
+	// 		};
+	// 	});
 
-		db.Fishbowl.rateApps(apps).then(function() {
-			getFishbowlApps();
-			alert.success("Fishbowl ratings updated.");
-		}, function(res) {
-			alert.error(res.data || res.statusText);
-		});
-	};
+	// 	db.Fishbowl.rateApps(apps).then(function() {
+	// 		getFishbowlApps();
+	// 		alert.success("Fishbowl ratings updated.");
+	// 	}, function(res) {
+	// 		alert.error(res.data || res.statusText);
+	// 	});
+	// };
 
 	// Function to calculate ranks
 	$scope.calculateRanks = function() {
-		// Sort users by points in descending order
+		// Sort users by points in descending order, considering disputes
 		$scope.apps.sort(function(a, b) {
-			return b.points - a.points;
+			// Calculate points minus disputes
+			var aPoints = a.points - a.disputed;
+			var bPoints = b.points - b.disputed;
+			return bPoints - aPoints;
 		});
 
 		var currentRank = 0;
 		var previousPoints = null;
 
-		for ( var i = 0; i < $scope.apps.length; i++ ) {
-			if (previousPoints !== $scope.apps[i].points) {
-				// Assign new rank if the points are different
-				currentRank++; // Rank is index + 1
-				previousPoints = $scope.apps[i].points;
+		for (var i = 0; i < $scope.apps.length; i++) {
+			// Calculate the adjusted points
+			var adjustedPoints = $scope.apps[i].points - $scope.apps[i].disputed;
+
+			if (previousPoints !== adjustedPoints) {
+				currentRank++;
+				previousPoints = adjustedPoints;
 			}
-			// Store the rank in each user object
+
 			$scope.apps[i].rank = currentRank;
+			$scope.apps[i].adjustedPoints = adjustedPoints;
 		}
 	};
 
-	// not in use right now, might rework it soon
+	// not in use right now, might rework it soon (as of 10/17/2024)
 	$scope.getFishbowlResults = function(apps) {
 		apps = apps.slice()
 			.sort(function(app1, app2) {
@@ -142,6 +128,25 @@ fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", function($
 			$scope.index = index;
 			$scope.app = app;
 		});
+	};
+
+	// as an admin, override a user's fishbowl log and mark an item as dispute
+	$scope.disputeItem = function(fishbowl_logID) {
+		var disputeDescription = prompt("Please enter the dispute description:");
+
+		if (disputeDescription !== null) {
+			var disputeData = {
+				fishbowl_logID: fishbowl_logID,
+				dispute_description: disputeDescription
+			};
+			console.log(disputeData)
+			db.Fishbowl.disputeLogItem(disputeData)
+				.then(function() {
+					alert.success("Fishbowl item marked as disputed.");
+				}, function(res) {
+					alert.error(res.data || res.statusText);
+				});
+		}
 	};
 
 	// initialize

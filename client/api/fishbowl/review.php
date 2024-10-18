@@ -70,10 +70,25 @@ function get_user_summary($mysqli, $username)
  */
 function dispute_fishbowl($mysqli, $fishbowl_logID, $dispute_description)
 {
-    $q = "UPDATE fishbowl_log "
+    // update the dispute status in the fishbowl_log table
+	$q = "UPDATE fishbowl_log "
 		. "SET disputed = 1, dispute_description = '$dispute_description' "
 		. "WHERE fishbowl_logID = '$fishbowl_logID'";
     exec_query($mysqli, $q);
+
+
+    // retreive the username from the fishbowl_log table
+	$q = "SELECT username FROM fishbowl_log WHERE fishbowl_logID = '$fishbowl_logID'";
+	$result = exec_query($mysqli, $q);
+	$row = $result->fetch_assoc();
+	$username = $row['username'];
+
+	// update the disputes count in the fishbowl_leaderboard table so
+	// we have a separate record of disputes and know how to adjust points
+	$q = "UPDATE fishbowl_leaderboard "
+		. "SET disputes = disputes + 1 "
+		. "WHERE username = '$username'";
+	exec_query($mysqli, $q);
 
 }
 
