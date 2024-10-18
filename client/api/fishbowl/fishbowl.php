@@ -22,7 +22,8 @@ function get_fishbowl($mysqli)
 	$keys = array(
 		"u.username",
 		"u.preferred_name",
-		"f.points"
+		"f.points",
+		"f.disputes"
 	);
 
 	// get leaderboard of points and users
