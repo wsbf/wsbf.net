@@ -162,15 +162,11 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		exit;
 	}
 
+	error_log(print_r($_POST, true));  // Log the entire POST array to the error log
+
 	$fishbowl_logID = $_POST['fishbowl_logID'];
 	echo "fishbowl_logID: " . $fishbowl_logID;  // Debug output
-	
-	$fishbowl_logID = (int) $_POST['fishbowl_logID'];
-	echo "fishbowl_logID: " . $fishbowl_logID;  // Debug output
-	
-	$fishbowl_logID = trim($_POST['fishbowl_logID']);
-	echo "fishbowl_logID: " . $fishbowl_logID;  // Debug output
-	
+
 	$dispute_description = isset($_POST['dispute_description']) ? $_POST['dispute_description'] : null;
 
 	if (!is_numeric($fishbowl_logID)) {
