@@ -116,7 +116,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	getFishbowlApps();
 }]);
 
-fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", function($scope, db, alert) {
+fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", "alert", function($scope, db, alert) {
 	$scope.fishbowl_log_types = db.getDefs("fishbowl_log_types");
 	$scope.index = -1;
 	$scope.app = {};
@@ -143,6 +143,7 @@ fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", function($
 			db.Fishbowl.disputeLogItem(disputeData)
 				.then(function() {
 					alert.success("Fishbowl item marked as disputed.");
+					$scope.get($scope.apps, _.findIndex($scope.apps, { username: $scope.username }));
 				}, function(res) {
 					alert.error(res.data || res.statusText);
 				});
