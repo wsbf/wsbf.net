@@ -16,7 +16,7 @@
 		<dd>{{app.review_count}}</dd>
 
 		<dt>Disputed Log Items</dt>
-		<dd>{{app}}</dd>
+		<dd>{{app.disputes}}</dd>
 
 		<!-- <dt>Dead Hours?</dt>
 		<dd>{{app.dead_hours ? 'Yes' : 'No'}}</dd>
@@ -26,11 +26,13 @@
 
 		<table class="table">
 			<thead>
-				<th class="col-xs-2">Date</th>
-				<th class="col-xs-2">Type</th>
-				<th class="col-xs-8">Description</th>
-				<th class="col-xs-8">Disputed</th>
-				<!-- styling for disputed log items -->
+				<tr class="category-heading">
+					<th class="col-xs-2">Date</th>
+					<th class="col-xs-2">Type</th>
+					<th class="col-xs-8">Description</th>
+					<th class="col-xs-2">Disputed</th>
+				</tr>
+					<!-- styling for disputed log items -->
 				<style>
 					.disputed-item {
 						color: red;
@@ -38,6 +40,10 @@
 						background-color: #f8d7da;
 						border-left: 4px solid red;
 					}
+					.disputed-item:hover {
+					 background-color: #f8d7da;
+					}
+
 				</style>
 			</thead>
 
@@ -48,14 +54,14 @@
 					<td>{{f.description}}</td>
 					<td ng-show="f.disputed == 1">{{f.dispute_description}}</td>
 					<td class="text-center">
-						<span class="button-icon" ng-show="f.disputed != 1" ng-click="disputeItem(f.fishbowl_logID)">CAP</span>
+						<span class="button-icon" ng-show="f.disputed != 1" ng-click="disputeItem(f.fishbowl_logID)" style="font-weight: bold;">CAP</span>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</dl>
 
-	<!-- not using this start rating method anymore -->
+	<!-- not using this star rating method anymore -->
 	<!-- <div class="form-group">
 		<select class="form-control" ng-model="apps[index].rating">
 			<option value="">Select a rating...</option>

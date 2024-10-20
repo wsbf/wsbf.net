@@ -22,6 +22,7 @@ function get_user_summary($mysqli, $username)
 
 	$keys = array(
         "f.points",
+		"f.disputes",
         "u.username",
         "u.preferred_name",
     );

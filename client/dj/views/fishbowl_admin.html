@@ -1,3 +1,39 @@
+<head>
+	<style>
+		.table-container {
+			width: 100%;
+			max-width: 800px; /* Set a max width for the table */
+		}
+
+		/* Control the width of the table */
+		.leaderboard {
+			width: 100%; /* Make sure the table spans the width of the container */
+			border-collapse: collapse; /* Ensure no gaps between table cells */
+		}
+
+		.category-heading {
+			background-color: #f2f2f2;
+			border: 1px solid #ddd;
+			cursor: pointer;
+		}
+
+		.leaderboard-item {
+			padding: 10px;
+			border: 1px solid #ddd;
+			text-align: left;
+		}
+
+		tr:hover {
+			background-color: #f9f9f9;
+		}
+		
+		/* arrow to denote ascending or descending sort */
+		.arrow {
+            font-size: 12px;
+        }
+	</style>
+</head>
+
 <!-- <div class="text-center" ng-show="!auth.seniorStaff">
 	<h3><strong>Nah.</strong></h3>
 
@@ -30,27 +66,29 @@
 			</div>
 		</div>
 	</div>
+</div>
 
-	<table class="table">
+<div class="table-container">
+	<table class="leaderboard table">
 		<thead>
-			<tr>
-				<th ng-click="sortBy('name')">Name</th>
-				<th ng-click="sortBy('rank')">Rank</th>
-				<th ng-click="sortBy('points')">Points</th>
-				<th ng-click="sortBy('review_count')">Reviews</th>
-				<th ng-click="sortBy('disputes')">Disputes</th>
+			<tr class="category-heading">
+				<th class="leaderboard-item">Name</th>
+				<th class="leaderboard-item" ng-click="sortBy('rank')">Rank <span class="arrow" ng-if="sortColumn == 'rank'">{{ reverseSort ? '▼' : '▲' }}</span></th>
+				<th class="leaderboard-item" ng-click="sortBy('adjustedPoints')">Points <span class="arrow" ng-if="sortColumn == 'adjustedPoints'">{{ reverseSort ? '▼' : '▲'}}</span></th>
+				<th class="leaderboard-item" ng-click="sortBy('review_count')">Reviews <span class="arrow" ng-if="sortColumn == 'review_count'">{{ reverseSort ? '▼' : '▲' }}</span></th>
+				<th class="leaderboard-item" ng-click="sortBy('disputes')">Disputes <span class="arrow" ng-if="sortColumn == 'disputes'">{{ reverseSort ? '▼' : '▲' }}</span></th>
 			</tr>
 		</thead>
 
 		<tbody>
-			<tr ng-repeat="a in apps | orderBy:sortColumn:reverseSort">
-				<td>
+			<tr class="leaderboard-item" ng-repeat="a in apps | orderBy:sortColumn:reverseSort"  ng-click="review(apps, a.username)">
+				<td class="leaderboard-item" >
 					<a href="" ng-click="review(apps, a.username)">{{a.preferred_name}}</a>
 				</td>
-				<td>{{a.rank}}</td>
-				<td>{{a.adjustedPoints}}</td>
-				<td>{{a.review_count}}</td>
-				<td>{{a.disputes}}</td>
+				<td class="leaderboard-item" >{{a.rank}}</td>
+				<td class="leaderboard-item" >{{a.adjustedPoints}}</td>
+				<td class="leaderboard-item" >{{a.review_count}}</td>
+				<td class="leaderboard-item" >{{a.disputes}}</td>
 			</tr>			
 		</tbody>
 	</table>

@@ -11,20 +11,29 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 
 	var getFishbowlApps = function() {
 		return db.Fishbowl.get().then(function(apps) {
-			$scope.apps = apps;
+			$scope.apps = [
+				{username: 'tmerzla', preferred_name: 'Thomas 2', points: '22', disputes: '0', review_count: '1'},
+				{username: 'mgreenz@clemson.edu', preferred_name: 'Maxwell Greenzweig', points: '5', disputes: '0', review_count: '0'},
+				{username: 'bturne7', preferred_name: 'Brian Turner', points: '4', disputes: '0', review_count: '2'},
+				{username: 'mjlowe', preferred_name: 'Madeline Lowe', points: '4', disputes: '0', review_count: '1'},
+				{username: 'allierpb', preferred_name: 'Allie Burg', points: '4', disputes: '1', review_count: '4'},
+				{username: 'matiarco', preferred_name: 'Matthew Porzio', points: '4', disputes: '0', review_count: '2'},
+				{username: 'reedtanner03', preferred_name: 'Reed Tanner', points: '4', disputes: '0', review_count: '0'},
+				{username: 'juno', preferred_name: 'Juno Ham', points: '4', disputes: '1', review_count: '2'}
+			]
 			console.log(apps)
 			$scope.calculateRanks();
 		});
 	};
 
-	// Initialize sorting variables
-	$scope.sortColumn = 'rank';  // Default sort column
-	$scope.reverseSort = false;   // Default sort direction
+	// sorting variables
+	$scope.sortColumn = 'rank';  // default sort column
+	$scope.reverseSort = false;   // default sort direction
 
-	// Function to sort by column
+	// sort by a specfic column
 	$scope.sortBy = function(column) {
-		$scope.reverseSort = ($scope.sortColumn === column) ? !$scope.reverseSort : false; // Toggle sort direction
-		$scope.sortColumn = column; // Set the new sort column
+		$scope.reverseSort = ($scope.sortColumn === column) ? !$scope.reverseSort : false; // toggle sort direction
+		$scope.sortColumn = column; // new sort column
 	};
 
 	$scope.archiveFishbowl = function() {
@@ -39,7 +48,6 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	};
 
 	$scope.review = function(apps, username) {
-
 		if (!username) {
 			alert.error("Username is missing or invalid.");
 			return;
@@ -85,19 +93,26 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 			return bPoints - aPoints;
 		});
 
-		var currentRank = 0;
-		var previousPoints = null;
-
+		var currentRank = 1;
+		
 		for (var i = 0; i < $scope.apps.length; i++) {
-			// Calculate the adjusted points
+			// Calculate adjusted points
 			var adjustedPoints = $scope.apps[i].points - $scope.apps[i].disputes;
-			if (previousPoints !== adjustedPoints) {
-				currentRank++;
-				previousPoints = adjustedPoints;
+	
+			// Check if this user has the same points as the previous user
+			if (i > 0 && adjustedPoints === $scope.apps[i - 1].adjustedPoints) {
+				// If same points as previous user, assign the same rank
+				$scope.apps[i].rank = $scope.apps[i - 1].rank;
+			} else {
+				// Otherwise, assign the current rank
+				$scope.apps[i].rank = currentRank;
 			}
-
-			$scope.apps[i].rank = currentRank;
+	
+			// Store adjusted points
 			$scope.apps[i].adjustedPoints = adjustedPoints;
+	
+			// Increment rank for the next user
+			currentRank++;
 		}
 	};
 
