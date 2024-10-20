@@ -11,16 +11,17 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 
 	var getFishbowlApps = function() {
 		return db.Fishbowl.get().then(function(apps) {
-			$scope.apps = [
-				{username: 'tmerzla', preferred_name: 'Thomas 2', points: '22', disputes: '0', review_count: '1'},
-				{username: 'mgreenz@clemson.edu', preferred_name: 'Maxwell Greenzweig', points: '5', disputes: '0', review_count: '0'},
-				{username: 'bturne7', preferred_name: 'Brian Turner', points: '4', disputes: '0', review_count: '2'},
-				{username: 'mjlowe', preferred_name: 'Madeline Lowe', points: '4', disputes: '0', review_count: '1'},
-				{username: 'allierpb', preferred_name: 'Allie Burg', points: '4', disputes: '1', review_count: '4'},
-				{username: 'matiarco', preferred_name: 'Matthew Porzio', points: '4', disputes: '0', review_count: '2'},
-				{username: 'reedtanner03', preferred_name: 'Reed Tanner', points: '4', disputes: '0', review_count: '0'},
-				{username: 'juno', preferred_name: 'Juno Ham', points: '4', disputes: '1', review_count: '2'}
-			]
+			// $scope.apps = [
+			// 	{username: 'tmerzla', preferred_name: 'Thomas 2', points: '22', disputes: '0', review_count: '1'},
+			// 	{username: 'mgreenz@clemson.edu', preferred_name: 'Maxwell Greenzweig', points: '5', disputes: '0', review_count: '0'},
+			// 	{username: 'bturne7', preferred_name: 'Brian Turner', points: '4', disputes: '0', review_count: '2'},
+			// 	{username: 'mjlowe', preferred_name: 'Madeline Lowe', points: '4', disputes: '0', review_count: '1'},
+			// 	{username: 'allierpb', preferred_name: 'Allie Burg', points: '4', disputes: '1', review_count: '4'},
+			// 	{username: 'matiarco', preferred_name: 'Matthew Porzio', points: '4', disputes: '0', review_count: '2'},
+			// 	{username: 'reedtanner03', preferred_name: 'Reed Tanner', points: '4', disputes: '0', review_count: '0'},
+			// 	{username: 'juno', preferred_name: 'Juno Ham', points: '4', disputes: '1', review_count: '2'}
+			// ]
+			$scope.apps = apps;
 			console.log(apps)
 			$scope.calculateRanks();
 		});
