@@ -215,7 +215,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 
 		dispute_fishbowl($mysqli, $fishbowl_logID, $dispute_description);
 	} else if ($action === "undispute") {
-		undispute_fishbowl($mysqli, $fishbowl_logID);
+		undo_dispute_fishbowl($mysqli, $fishbowl_logID);
 	} else {
 		header("HTTP/1.1 400 Bad Request");
 		exit("Invalid action specified. Use 'dispute' or 'undispute'");
