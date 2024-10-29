@@ -31,6 +31,7 @@
 					<th class="col-xs-2">Type</th>
 					<th class="col-xs-8">Description</th>
 					<th class="col-xs-2">Disputed</th>
+					<th class="col-xs-2"> </th>
 				</tr>
 					<!-- styling for disputed log items -->
 				<style>
@@ -53,6 +54,9 @@
 					<td>{{fishbowl_log_types[f.log_type].type}}</td>
 					<td>{{f.description}}</td>
 					<td ng-show="f.disputed == 1">{{f.dispute_description}}</td>
+					<td class="text-center">
+						<span class="button-icon" ng-show="f.disputed == 1" ng-click="undisputeItem(f.fishbowl_logID)" style="font-weight: bold;">I'M TRIPPIN</span>
+					</td>
 					<td class="text-center">
 						<span class="button-icon" ng-show="f.disputed != 1" ng-click="disputeItem(f.fishbowl_logID)" style="font-weight: bold;">CAP</span>
 					</td>

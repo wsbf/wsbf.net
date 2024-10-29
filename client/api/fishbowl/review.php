@@ -56,7 +56,7 @@ function get_user_summary($mysqli, $username)
     $result = exec_query($mysqli, $q);
     $row = $result->fetch_row();
 
-    $summary["num_reviews"] = $row[0];
+    $summary["review_count"] = $row[0];
     $summary["fall"] = SEMESTER;
 
     return $summary;
@@ -89,6 +89,35 @@ function dispute_fishbowl($mysqli, $fishbowl_logID, $dispute_description)
 	// we have a separate record of disputes and know how to adjust points
 	$q = "UPDATE fishbowl_leaderboard "
 		. "SET disputes = disputes + 1 "
+		. "WHERE username = '$username'";
+	exec_query($mysqli, $q);
+
+}
+
+/**
+ * UNdispute a fishbowl item.
+ *
+ * @param mysqli
+ * @param fishbowl_logID
+ * @return
+ */
+function undo_dispute_fishbowl($mysqli, $fishbowl_logID)
+{
+    // update the dispute status in the fishbowl_log table
+	$q = "UPDATE fishbowl_log "
+		. "SET disputed = 0, dispute_description = '' "
+		. "WHERE fishbowl_logID = '$fishbowl_logID'";
+    exec_query($mysqli, $q);
+
+    // retreive the username from the fishbowl_log table
+	$q = "SELECT username FROM fishbowl_log WHERE fishbowl_logID = '$fishbowl_logID'";
+	$result = exec_query($mysqli, $q);
+	$row = $result->fetch_assoc();
+	$username = $row['username'];
+
+	// update the disputes count in the fishbowl_leaderboard table
+	$q = "UPDATE fishbowl_leaderboard "
+		. "SET disputes = disputes - 1 "
 		. "WHERE username = '$username'";
 	exec_query($mysqli, $q);
 
@@ -168,9 +197,8 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	
 	error_log(print_r($item, true));  // Log the entire POST array to the error log
 
+    $action = isset($item['action']) ? $item['action'] : null;
 	$fishbowl_logID = $item['fishbowl_logID'];
-	echo "fishbowl_logID: " . $fishbowl_logID;  // Debug output
-
 	$dispute_description = isset($item['dispute_description']) ? $item['dispute_description'] : null;
 
 	if (!is_numeric($fishbowl_logID)) {
@@ -178,12 +206,21 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 		exit("Invalid fishbowl_logID input");
 	}
 
-	if ($dispute_description === null) {
+	// Handle dispute action
+	if ($action === "dispute") {
+		if ($dispute_description === null) {
+			header("HTTP/1.1 400 Bad Request");
+			exit("dispute_description is required for dispute action");
+		}
+
+		dispute_fishbowl($mysqli, $fishbowl_logID, $dispute_description);
+	} else if ($action === "undispute") {
+		undispute_fishbowl($mysqli, $fishbowl_logID);
+	} else {
 		header("HTTP/1.1 400 Bad Request");
-		exit("dispute_description is required");
+		exit("Invalid action specified. Use 'dispute' or 'undispute'");
 	}
 
-	dispute_fishbowl($mysqli, $fishbowl_logID, $dispute_description);
 	$mysqli->close();
 
 	exit;

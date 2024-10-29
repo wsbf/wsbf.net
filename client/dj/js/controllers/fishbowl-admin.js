@@ -11,16 +11,6 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 
 	var getFishbowlApps = function() {
 		return db.Fishbowl.get().then(function(apps) {
-			// $scope.apps = [
-			// 	{username: 'tmerzla', preferred_name: 'Thomas 2', points: '22', disputes: '0', review_count: '1'},
-			// 	{username: 'mgreenz@clemson.edu', preferred_name: 'Maxwell Greenzweig', points: '5', disputes: '0', review_count: '0'},
-			// 	{username: 'bturne7', preferred_name: 'Brian Turner', points: '4', disputes: '0', review_count: '2'},
-			// 	{username: 'mjlowe', preferred_name: 'Madeline Lowe', points: '4', disputes: '0', review_count: '1'},
-			// 	{username: 'allierpb', preferred_name: 'Allie Burg', points: '4', disputes: '1', review_count: '4'},
-			// 	{username: 'matiarco', preferred_name: 'Matthew Porzio', points: '4', disputes: '0', review_count: '2'},
-			// 	{username: 'reedtanner03', preferred_name: 'Reed Tanner', points: '4', disputes: '0', review_count: '0'},
-			// 	{username: 'juno', preferred_name: 'Juno Ham', points: '4', disputes: '1', review_count: '2'}
-			// ]
 			$scope.apps = apps;
 			console.log(apps)
 			$scope.calculateRanks();
@@ -89,8 +79,8 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		// Sort users by points in descending order, considering disputes
 		$scope.apps.sort(function(a, b) {
 			// Calculate points minus disputes
-			var aPoints = a.points - a.disputed;
-			var bPoints = b.points - b.disputed;
+			var aPoints = a.points - a.disputes;
+			var bPoints = b.points - b.disputes;
 			return bPoints - aPoints;
 		});
 
@@ -159,13 +149,33 @@ fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", "alert", f
 
 		if (disputeDescription !== null) {
 			var disputeData = {
+				action: 'dispute',
 				fishbowl_logID: fishbowl_logID,
 				dispute_description: disputeDescription
 			};
 			console.log(disputeData)
 			db.Fishbowl.disputeLogItem(disputeData)
 				.then(function() {
-					alert.success("Fishbowl item marked as disputed.");
+					alert.success("Fishbowl item disputed.");
+					$scope.get($scope.apps, _.findIndex($scope.apps, { username: $scope.username }));
+				}, function(res) {
+					alert.error(res.data || res.statusText);
+				});
+		}
+	};
+
+	$scope.undisputeItem = function(fishbowl_logID) {
+		var confirmUndispute = confirm("Are you sure you want to remove this dispute?");
+	
+		if (confirmUndispute) {
+			var disputeData = {
+				action: 'undispute',  // This sets the action to undispute
+				fishbowl_logID: fishbowl_logID
+			};
+	
+			db.Fishbowl.disputeLogItem(disputeData)
+				.then(function() {
+					alert.success("Fishbowl item undisputed.");
 					$scope.get($scope.apps, _.findIndex($scope.apps, { username: $scope.username }));
 				}, function(res) {
 					alert.error(res.data || res.statusText);

@@ -127,12 +127,12 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
-	 * Submit a dispute of a fishbowl log item.
+	 * Submit a dispute or undispute of a fishbowl log item.
 	 *
 	 * @param item
 	 */
-		this.Fishbowl.disputeLogItem = function(item) {
-			return $http.post("/api/fishbowl/review.php", item);
+	this.Fishbowl.disputeLogItem = function(item) {
+		return $http.post("/api/fishbowl/review.php", item);
 	};
 
 	/**
@@ -162,15 +162,15 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 			});
 	};
 
-	/**
-	 * Submit a fishbowl application for the current user.
-	 *
-	 * @param app
-	 * @return Promise of http response
-	 */
-	this.Fishbowl.submitApp = function(app) {
-		return $http.post("/api/fishbowl/app.php", app);
-	};
+	// /**
+	//  * Submit a fishbowl application for the current user.
+	//  *
+	//  * @param app
+	//  * @return Promise of http response
+	//  */
+	// this.Fishbowl.submitApp = function(app) {
+	// 	return $http.post("/api/fishbowl/app.php", app);
+	// };
 
 	/**
 	 * Archive the previous fishbowl.
@@ -194,7 +194,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
-	 * Get a fishbowl summary.
+	 * Get a fishbowl user summary.
 	 *
 	 * @param username
 	 * @return Promise of fishbowl app object

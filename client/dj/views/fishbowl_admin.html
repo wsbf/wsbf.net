@@ -34,13 +34,13 @@
 	</style>
 </head>
 
-<!-- <div class="text-center" ng-show="!auth.seniorStaff">
+<div class="text-center" ng-show="!auth.seniorStaff">
 	<h3><strong>Nah.</strong></h3>
 
 	<p>It would seem that you aren't on senior staff, so you can't manage the fishbowl.</p>
-</div> -->
+</div>
 
-<div class="panel panel-default">
+<div class="panel panel-default" ng-show="auth.seniorStaff">
 	<div class="panel-heading">
 		<h3 class="panel-title">Fishbowl Control Panel</h3>
 	</div>
