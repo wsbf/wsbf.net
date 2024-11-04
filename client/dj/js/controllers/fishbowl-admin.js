@@ -38,6 +38,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		}
 	};
 
+	// show a user's fishbowl summary 
 	$scope.review = function(apps, username) {
 		if (!username) {
 			alert.error("Username is missing or invalid.");
@@ -108,22 +109,22 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	};
 
 	// not in use right now, might rework it soon (as of 10/17/2024)
-	$scope.getFishbowlResults = function(apps) {
-		apps = apps.slice()
-			.sort(function(app1, app2) {
-				return app2.average - app1.average;
-			});
+	// $scope.getFishbowlResults = function(apps) {
+	// 	apps = apps.slice()
+	// 		.sort(function(app1, app2) {
+	// 			return app2.average - app1.average;
+	// 		});
 
-		var NUM_BOWLS = 5;
-		var bowlSize = Math.ceil(apps.length / NUM_BOWLS);
-		var bowls = [];
+	// 	var NUM_BOWLS = 5;
+	// 	var bowlSize = Math.ceil(apps.length / NUM_BOWLS);
+	// 	var bowls = [];
 
-		for ( var i = 0; i < NUM_BOWLS; i++ ) {
-			bowls[i] = _.shuffle(apps.splice(0, bowlSize));
-		}
+	// 	for ( var i = 0; i < NUM_BOWLS; i++ ) {
+	// 		bowls[i] = _.shuffle(apps.splice(0, bowlSize));
+	// 	}
 
-		$scope.bowls = bowls;
-	};
+	// 	$scope.bowls = bowls;
+	// };
 
 	// initialize
 	getFishbowlApps();
@@ -149,11 +150,10 @@ fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", "alert", f
 
 		if (disputeDescription !== null) {
 			var disputeData = {
-				action: 'dispute',
+				action: 'dispute', // set mode to dispute
 				fishbowl_logID: fishbowl_logID,
 				dispute_description: disputeDescription
 			};
-			console.log(disputeData)
 			db.Fishbowl.disputeLogItem(disputeData)
 				.then(function() {
 					alert.success("Fishbowl item disputed.");
@@ -169,7 +169,7 @@ fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", "alert", f
 	
 		if (confirmUndispute) {
 			var disputeData = {
-				action: 'undispute',  // This sets the action to undispute
+				action: 'undispute',  // sets mode to undispute
 				fishbowl_logID: fishbowl_logID
 			};
 	
