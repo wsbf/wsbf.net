@@ -17,6 +17,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 
 	$scope.albums = [];
 	$scope.checkedOutAlbums = [];
+	$scope.albumsPerPage = 25;
 	
 	$scope.selectedAll = false;
 
@@ -147,6 +148,21 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 				alert.error(res.data || res.statusText);
 			});
 		}
+	};
+
+	// load total albums per rotation page and calculate # of pages
+	$scope.loadTotalPages = function() {
+		db.Library.getTotalAlbums($scope.rotationID, $scope.general_genreID, $scope.query)
+			.then(function(totalAlbums) {
+				$scope.totalAlbums = totalAlbums;
+				$scope.totalPages = Math.ceil(totalAlbums / $scope.albumsPerPage);
+
+				// Create an array of page numbers for the dropdown
+				$scope.pageNumbers = Array.from({ length: $scope.totalPages }, (_, i) => i);
+			})
+			.catch(function(error) {
+				alert.error("Failed to load total albums: " + (error.data || error.statusText));
+			});
 	};
 
 	// initialize array of checked out albums

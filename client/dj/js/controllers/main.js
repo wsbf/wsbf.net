@@ -30,12 +30,19 @@ mainModule.controller("MainCtrl", ["$scope", "alert", "db", "authSets", function
 	$scope.auth = {};
 	$scope.alert = alert;
 
+	// const mockuser = {
+	// 	positionID: "8",
+	// 	statusID: "0"
+	// }
+
 	var getUser = function() {
 		db.User.get().then(function(user) {
 			$scope.user = user;
+			// $scope.user = mockuser;
 
 			$scope.auth = _.mapValues(authSets, function(set) {
 				return set.values.indexOf(user[set.key]) !== -1;
+				// return set.values.indexOf(mockuser[set.key]) !== -1;
 			});
 		}, function() {
 			$scope.user = null;
