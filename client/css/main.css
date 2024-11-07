@@ -209,6 +209,10 @@ li .summary {
   nav li.listen {
 		visibility: visible;
 	}
+	
+  .navbar-nav {
+		padding-top: 25px !important;
+	}
 
   /*.navbar-nav li.listen {
     margin-right: 15px;
