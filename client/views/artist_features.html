@@ -1,0 +1,54 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Artist Feature Archives</h3>
+	</div>
+
+	<div class="panel-body">
+		<p><em>Note: when searching by name, enter the person's full name.</em></p>
+
+		<div class="row">
+			<div class="col-xs-6">
+				<button class="btn btn-sm" ng-click="page > 0 && getNewer()" ng-disabled="page == 0">prev</button>
+				<button class="btn btn-sm" ng-click="getOlder()">next</button>
+			</div>
+
+			<div class="col-xs-4">
+				<input class="form-control" ng-model="searchTerm" placeholder="DJ Name"/>
+			</div>
+
+			<div class="col-xs-2">
+				<button class="btn btn-sm btn-default" ng-click="search(searchTerm)" ng-disabled="!searchTerm || searchTerm.length < 3">search</button>
+			</div>
+		</div>
+	</div>
+
+	<table class="table">
+		<thead>
+			<th>Files</th>
+			<th>Playlist</th>
+			<th>Hosts</th>
+			<th>Show Theme</th>
+			<th>Start Time</th>
+			<th>End Time</th>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="a in archives" ng-show="{{show_types[a.show_typeID].type}} == 4">
+				<td>
+					<div ng-repeat="f in a.files">
+						<a ng-href="{{f}}" target="_blank">{{a.showID}}{{$index ? (' (' + $index + ')') : ''}}</a>
+					</div>
+				</td>
+				<td>
+					<a ng-href="/#!/playlists/show/{{a.showID}}" target="_blank">Playlist</a>
+				</td>
+				<!-- <td>
+					<div ng-repeat="h in a.show_hosts">{{h.preferred_name}}</div>
+				</td> -->
+				<td></td>
+				<td>{{a.start_time | date:'short'}}</td>
+				<td>{{a.end_time | date:'short'}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

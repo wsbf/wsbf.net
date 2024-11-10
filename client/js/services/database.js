@@ -201,4 +201,22 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 				return res.data;
 			});
 	};
+
+	/**
+	 * Get a list of show archives by page or DJ name.
+	 *
+	 * @param page
+	 * @param term
+	 * @return Promise of archives array
+	 */
+	this.Show.getArchives = function(page, term) {
+		return $http.get("/api/shows/archives.php", {
+			params: {
+				page: page,
+				term: term
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
 }]);

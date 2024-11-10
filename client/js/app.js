@@ -11,6 +11,7 @@ var app = angular.module("app", [
 	"app.playlist",
 	"app.schedule",
 	"app.show",
+	// "app.archives.js",
 	"app.staff",
 	"app.webcam"
 ]);
@@ -83,6 +84,10 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 			url: "/staff",
 			templateUrl: "views/staff.html",
 			controller: "StaffCtrl"
+		})
+		.state("artist-feature-archives", {
+			url: "/artist-features",
+			templateUrl: "views/artist_features.html"
 		});
 
 	$urlRouterProvider.otherwise("/");
