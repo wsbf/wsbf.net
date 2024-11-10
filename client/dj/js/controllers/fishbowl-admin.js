@@ -77,11 +77,12 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 
 	// Function to calculate ranks
 	$scope.calculateRanks = function() {
-		// Sort users by points in descending order, considering disputes
+		// initial sort function by points in descending order, considering disputes and reviews
 		$scope.apps.sort(function(a, b) {
-			// Calculate points minus disputes
-			var aPoints = Number(a.points) - Number(a.disputes) + Number(a.review_count);
-			var bPoints = Number(b.points) - Number(b.disputes) + Number(b.review_count);
+			var aReviewBonus = (Number(a.review_count) > 1 ? Number(a.review_count) : 0);
+			var bReviewBonus = (Number(b.review_count) > 1 ? Number(b.review_count) : 0);
+			var aPoints = Number(a.points) - Number(a.disputes) + Number(aReviewBonus);
+			var bPoints = Number(b.points) - Number(b.disputes) + Number(bReviewBonus);
 			return bPoints - aPoints;
 		});
 
@@ -89,7 +90,9 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		
 		// Calculate adjusted points
 		for (var i = 0; i < $scope.apps.length; i++) {
-			var adjustedPoints = Number($scope.apps[i].points) - Number($scope.apps[i].disputes) + Number($scope.apps[i].review_count);
+			// only count the reviews beyond the required 1
+			var reviewBonus = Number($scope.apps[i].review_count) > 1 ? Number($scope.apps[i].review_count) - 1 : 0;
+			var adjustedPoints = Number($scope.apps[i].points) - Number($scope.apps[i].disputes) + reviewBonus;
 	
 			// Check if this user has the same points as the previous user
 			if (i > 0 && adjustedPoints === $scope.apps[i - 1].adjustedPoints) {
