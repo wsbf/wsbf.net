@@ -80,8 +80,8 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		// Sort users by points in descending order, considering disputes
 		$scope.apps.sort(function(a, b) {
 			// Calculate points minus disputes
-			var aPoints = a.points - a.disputes + a.review_count;
-			var bPoints = b.points - b.disputes + b.review_count;
+			var aPoints = Number(a.points) - Number(a.disputes) + Number(a.review_count);
+			var bPoints = Number(b.points) - Number(b.disputes) + Number(b.review_count);
 			return bPoints - aPoints;
 		});
 
@@ -89,7 +89,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		
 		// Calculate adjusted points
 		for (var i = 0; i < $scope.apps.length; i++) {
-			var adjustedPoints = $scope.apps[i].points - $scope.apps[i].disputes + $scope.apps[i].review_count;
+			var adjustedPoints = Number($scope.apps[i].points) - Number($scope.apps[i].disputes) + Number($scope.apps[i].review_count);
 	
 			// Check if this user has the same points as the previous user
 			if (i > 0 && adjustedPoints === $scope.apps[i - 1].adjustedPoints) {
