@@ -29,13 +29,12 @@
 				<button class="btn btn-sm" ng-click="page > 0 && go(rotationID, general_genreID, query, page - 1)" ng-disabled="page == 0">&larr; Prev</button>
 				<button class="btn btn-sm" ng-click="go(rotationID, general_genreID, query, page + 1)">Next &rarr;</button>
 
-				<!-- how can i get the total number of pages? could be cool to implement but for now have a placeholder -->
-				<select class = ""
+				<!-- <select class = ""
 						ng-model="selected-page"
 						ng-options="n as ('Page ' + (n+1)) for n in pageNumbers"
 						ng-change="go(rotationID, general_genreID, query, selected-page)">
 					<option value="" disabled selected>Select a page</option>
-				</select>
+				</select> -->
 			</div>
 
 			<div class="col-sm-4">
