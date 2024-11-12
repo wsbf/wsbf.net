@@ -127,6 +127,15 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
+	 * Submit a dispute or undispute of a fishbowl log item.
+	 *
+	 * @param item
+	 */
+	this.Fishbowl.disputeLogItem = function(item) {
+		return $http.post("/api/fishbowl/review.php", item);
+	};
+
+	/**
 	 * Delete a fishbowl log item.
 	 *
 	 * @param fishbowl_logID
@@ -153,15 +162,15 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 			});
 	};
 
-	/**
-	 * Submit a fishbowl application for the current user.
-	 *
-	 * @param app
-	 * @return Promise of http response
-	 */
-	this.Fishbowl.submitApp = function(app) {
-		return $http.post("/api/fishbowl/app.php", app);
-	};
+	// /**
+	//  * Submit a fishbowl application for the current user.
+	//  *
+	//  * @param app
+	//  * @return Promise of http response
+	//  */
+	// this.Fishbowl.submitApp = function(app) {
+	// 	return $http.post("/api/fishbowl/app.php", app);
+	// };
 
 	/**
 	 * Archive the previous fishbowl.
@@ -185,13 +194,13 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
-	 * Get a fishbowl app.
+	 * Get a fishbowl user summary.
 	 *
-	 * @param fishbowlID
+	 * @param username
 	 * @return Promise of fishbowl app object
 	 */
-	this.Fishbowl.getApp = function(fishbowlID) {
-		return $http.get("/api/fishbowl/review.php", { params: { fishbowlID: fishbowlID } })
+	this.Fishbowl.getApp = function(username) {
+		return $http.get("/api/fishbowl/review.php", { params: { username: username } } )
 			.then(function(res) {
 				return res.data;
 			});
