@@ -158,7 +158,10 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 				$scope.totalPages = Math.ceil(totalAlbums / $scope.albumsPerPage);
 
 				// Create an array of page numbers for the dropdown
-				$scope.pageNumbers = Array.from({ length: $scope.totalPages }, (_, i) => i);
+				$scope.pageNumbers = [];
+				for (var i = 0; i < $scope.totalPages; i++) {
+					$scope.pageNumbers.push(i);
+				}			
 			})
 			.catch(function(error) {
 				alert.error("Failed to load total albums: " + (error.data || error.statusText));
