@@ -22,7 +22,7 @@ require_once("functions.php");
  */
 function get_library($mysqli, $rotationID, $general_genreID, $page)
 {
-	$page_size = 200;
+	$page_size = 25;
 	$keys = array(
 		"al.albumID",
 		"al.album_code",
@@ -40,7 +40,8 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 	// a non-expired record in `checkout`.
 
 	$baseQuery = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
-				. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID AND c.username = '$_SESSION[username]' "
+				. "LEFT OUTER JOIN `checkout` AS c ON c.albumID = al.albumID "
+				. " AND c.username = '$_SESSION[username]' "
 				. "INNER JOIN `libartist` AS ar ON al.artistID = ar.artistID "
 				. "LEFT OUTER JOIN `libreview` AS r ON r.albumID = al.albumID "
 				. "LEFT OUTER JOIN `users` AS u ON r.username = u.username ";
@@ -50,7 +51,7 @@ function get_library($mysqli, $rotationID, $general_genreID, $page)
 				. "LIMIT " . ($page * $page_size) . ", $page_size;";
 
 	if ($rotationID == "1") {
-		$q = $baseQuery . " "
+		$q = $baseQuery
 			. "WHERE al.rotationID = 1 "
 			. "AND (CURDATE() < c.expiration_date) "
 			. $finalQuery;

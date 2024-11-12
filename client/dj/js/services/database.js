@@ -415,6 +415,24 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	};
 
 	/**
+	 * Get albums and users in checkout out.
+	 *
+	 * @param general_genreID
+	 * @param page
+	 * @return Promise of albums array
+	 */
+	this.Library.getCheckedOutLibrary = function(general_genreID, page) {
+		return $http.get("/api/library/checkout.php", {
+			params: {
+				general_genreID: general_genreID,
+				page: page
+			}
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	/**
 	 * Return a checked out album.
 	 *
 	 * @param albumID

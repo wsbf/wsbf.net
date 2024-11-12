@@ -51,17 +51,15 @@
 			<th ng-show="rotationID >= 2">Review Date</th>
 		</thead>
 
-		<tbody>
+		<tbody>	
 			<tr ng-repeat="a in albums">
 				<td>
 					<a ng-show="rotationID == 0" href="" ng-click="checkoutAlbum(a.albumID)">Check out</a>
-
 					<span ng-show="rotationID == 1">
 						<a ui-sref="library-album-review({ albumID: a.albumID })">Review</a>
 						<span>/</span>
 						<a href="" ng-click="returnAlbum(a.albumID)">Return</a>
 					</span>
-
 					<a ng-show="rotationID >= 2" ui-sref="library-album({ albumID: a.albumID })">{{a.album_code}}</a>
 				</td>
 				<td>{{a.album_name}}</td>

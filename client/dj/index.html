@@ -35,6 +35,20 @@
 	<script src="js/controllers/user.js"></script>
 	<script src="js/controllers/users.js"></script>
 	<script src="js/app.js"></script>
+	<style>
+		.logbook-button {
+			background-color: #e91200;
+			border-color: #e81200;
+			font-family: 'Arial Black', sans-serif;
+			font-size: 19px;
+			padding: 10px;
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+			text-transform: uppercase;
+			letter-spacing: 3px;
+			cursor: pointer;
+			text-align: center;
+		}
+	</style>
 </head>
 <body ng-controller="MainCtrl">
 	<nav class="navbar navbar-default navbar-static-top">
@@ -65,10 +79,13 @@
 
 		<div class="row">
 			<div class="col-xs-3 col-md-2">
-				<div class="panel panel-default">
-					<div class="panel-heading" style="background-color: #ff0000; color: #ffffff;"><strong>Live</strong></div>
+				<div class="panel panel-default" ng-show="auth.member">
+					<!-- <div class="panel-heading" style="background-color: #e81200; color: #ffffff;"><strong>Logbook</strong></div> -->
 					<div class="list-group">
-						<a class="list-group-item" ui-sref="logbook">Logbook</a>
+						<a class="logbook-button list-group-item" ui-sref="logbook" style="color: #dfdfdf" 
+						onmouseover="this.style.backgroundColor='#e61200'; this.style.color='white'; this.style.textShadow='0 0 5px white', '0 0 10px white';" 
+						onmouseout="this.style.backgroundColor='#e61200'; this.style.color='#dfdfdf'; this.style.textShadow='none';">
+						<strong>Logbook</strong></a>
 					</div>
 				</div>
 
@@ -105,7 +122,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">Fishbowl</div>
 					<div class="list-group">
-						<a class="list-group-item" ui-sref="fishbowl-app">Fishbowl Submission</a>
+						<!-- <a class="list-group-item" ui-sref="fishbowl-app">Fishbowl Submission</a> -->
 						<a class="list-group-item" ui-sref="fishbowl-log">Fishbowl Log</a>
 					</div>
 				</div>

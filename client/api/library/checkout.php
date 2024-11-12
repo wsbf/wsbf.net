@@ -110,9 +110,50 @@ function return_album($mysqli, $albumID)
 	exec_query($mysqli, $q);
 }
 
+/**
+ * Get a list of the checked out albums. Used for admin view
+ * to be able to see who has albums checked out 
+ *
+ * @param mysqli
+ * @param general_genreID
+ * @param page
+ * @return array of albums
+ */
+function get_checked_out_library($mysqli, $general_genreID, $page) {
+	$page_size = 50;
+	$keys = array(
+		"al.albumID",
+		"al.album_code",
+		"al.album_name",
+		"al.general_genreID",
+		"al.rotationID",
+		"al.date_moved",
+		"ar.artist_name",
+		"c.expiration_date",
+		"c.username",
+		'u.preferred_name'
+	);
+
+	$q = "SELECT " . implode(",", $keys) . " FROM libalbum AS al "
+		. "LEFT OUTER JOIN checkout AS c ON c.albumID = al.albumID "
+		. "INNER JOIN libartist AS ar ON al.artistID = ar.artistID "
+		. "LEFT OUTER JOIN users AS u ON c.username = u.username "
+		. "WHERE al.rotationID = 1 "
+		. "AND (CURDATE() < c.expiration_date) "
+		. "AND ('$general_genreID' = '' OR al.general_genreID = '$general_genreID') "
+		. "ORDER BY c.expiration_date ASC "
+		. "LIMIT " . ($page * $page_size) . ", $page_size;";
+
+	$result = exec_query($mysqli, $q);
+	return fetch_array($result);
+
+}
+
 authenticate();
 
 if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+	// checkout an album, set its rotationID to 1
+	// and insert new entry into the checkout table
 	$mysqli = construct_connection();
 
 	if ( !auth_reviewer($mysqli) ) {
@@ -134,6 +175,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	exit;
 }
 else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
+	// return the album, put it back into TBR 
+	// by deleting its checkout table entry.
 	$mysqli = construct_connection();
 
 	if ( !auth_reviewer($mysqli) ) {
@@ -152,6 +195,34 @@ else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
 	$mysqli->close();
 
 	header("Content-Type: application/json");
+	exit;
+}
+else if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
+	// respond to GET request with the albums in 
+	// checked out and the users
+	// who have an album checked out
+	$mysqli = construct_connection();
+
+	if ( !auth_reviewer($mysqli) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+	
+	if ( !auth_music_director($mysqli) ) {
+		header("HTTP/1.1 404 Not Found");
+		exit;
+	}
+
+	$general_genreID = array_access($_GET, "general_genreID");
+	// $term = array_access($_GET, "query");
+	$page = array_access($_GET, "page");
+
+	$albums = get_checked_out_library($mysqli, $general_genreID, $page);
+
+	header("Content-Type: application/json");
+    echo json_encode($albums);
+
+	$mysqli->close();
 	exit;
 }
 ?>

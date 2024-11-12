@@ -16,6 +16,8 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 	$scope.page = Number.parseInt($state.params.page);
 
 	$scope.albums = [];
+	$scope.checkedOutAlbums = [];
+	
 	$scope.selectedAll = false;
 
 	$scope.go = function(rotationID, general_genreID, query, page, admin) {
@@ -44,7 +46,7 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 			alert.error(res.data || res.statusText);
 		});
 	};
-
+	
 	/**
 	 * Return a checked-out album.
 	 *
@@ -147,7 +149,13 @@ libraryModule.controller("LibraryCtrl", ["$scope", "$q", "$state", "$window", "a
 		}
 	};
 
-	// initialize
+	// initialize array of checked out albums
+	db.Library.getCheckedOutLibrary($scope.general_genreID, $scope.page)
+		.then(function(checkedOutAlbums) {
+			$scope.checkedOutAlbums = checkedOutAlbums;
+		});
+
+	// initialize array of library albums
 	db.Library.getLibrary($scope.rotationID, $scope.general_genreID, $scope.query, $scope.page)
 		.then(function(albums) {
 			$scope.albums = albums;
