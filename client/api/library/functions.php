@@ -110,8 +110,18 @@ function search_albums($mysqli, $rotationID, $term, $page)
 		"al.rotationID",
 		"ar.artist_name",
 		"r.review_date",
+		"r.review",
 		"u.preferred_name AS reviewer"
 	);
+
+	// SELECT * FROM 'libalbum' AS al INNER JOIN 'libartist' AS ar ON al.artistID=ar.artistID
+	// LEFT OUTER JOIN 'libreview' AS r on r.albumID=al.albumID
+	// LEFT OUTER JOIN 'users' AS u ON r.username=u.username
+	// WHERE al.rotationID = 3
+	// AND (
+	// 	r.review LIKE ''
+	// )
+	// ORDER BY al.albumID DESC
 
 	$q = "SELECT " . implode(",", $keys) . " FROM `libalbum` AS al "
 		. "INNER JOIN `libartist` AS ar ON al.artistID=ar.artistID "
