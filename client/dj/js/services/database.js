@@ -791,7 +791,7 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	 * @return Promise of requests array
 	 */
 	this.ShowSub.getSubRequestsAdmin = function(page) {
-		return $http.get("/api/showsub/request_list.php", {
+		return $http.get("/api/showsub/admin_request_list.php", {
 				params: {
 					page: page
 				}
