@@ -60,7 +60,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 		exit("Invalid input.");
 	}
 
-	$requests = get_all_sub_requests($mysqli, $page, $page_size);
+	$requests = get_all_sub_requests($mysqli, $page, 25);
 
 	$mysqli->close();
 

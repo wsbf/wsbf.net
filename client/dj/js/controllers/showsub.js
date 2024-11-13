@@ -89,6 +89,7 @@ showsubModule.controller("ShowSubRequestCtrl", ["$scope", "db", "alert", functio
 libraryModule.controller("ShowSubAdminCtrl", ["$scope", "db", function($scope, db) {
 	$scope.show_times = db.getDefs("show_times");
 	$scope.requests = [];
+	$scope.page = 0;
 
 	var getSubRequests = function(page) {
 		db.ShowSub.getSubRequestsAdmin(page).then(function(requests) {
