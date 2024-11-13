@@ -148,6 +148,11 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 			templateUrl: "views/showsub.html",
 			controller: "ShowSubCtrl"
 		})
+		.state("showsub-admin", {
+			url: "/showsub_admin",
+			templateUrl: "views/showsub_admin.html",
+			controller: "ShowSubAdminCtrl"
+		})
 		.state("staff-admin", {
 			url: "/staff/admin",
 			templateUrl: "views/staff.html",

@@ -785,6 +785,21 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 			});
 	};
 
+	/*
+	 * admin view, get the list of all show sub requests.
+	 *
+	 * @return Promise of requests array
+	 */
+	this.ShowSub.getSubRequestsAdmin = function(page) {
+		return $http.get("/api/showsub/request_list.php", {
+				params: {
+					page: page
+				}
+		}).then(function(res) {
+				return res.data;
+		});
+	};
+
 	/**
 	 * Submit a sub request.
 	 *
