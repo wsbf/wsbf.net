@@ -21,17 +21,29 @@
 .bg-team-1 {
 	background-color: #b9cdf7;
 }
+.team-1 {
+	color: #457cf3;
+}
 /* red */
 .bg-team-2 {
 	background-color: #f28e8e;
+}
+.team-2 {
+	color: #a70707;
 }
 /* green */
 .bg-team-3 {
 	background-color: #8ff088;
 }
+.team-3 {
+	color: #1b7914;
+}
 /* purple */
 .bg-team-4 {
 	background-color: #dfbbed;
+}
+.team-4 {
+	color: #9c2cc9;
 }
 
 /* rules for button icons */

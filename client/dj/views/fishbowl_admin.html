@@ -1,5 +1,9 @@
 <head>
+	<link rel="stylesheet" href="../../dj/css/style.css">
+	
 	<style>
+		p { display: inline-block; margin-right: 10px; }
+
 		.table-container {
 			width: 100%;
 			max-width: 800px; /* Set a max width for the table */
@@ -49,6 +53,12 @@
 		<button class="btn btn-default" ng-click="archiveFishbowl()" ng-disabled="apps.length == 0">Reset All Points</button>
 		<!-- <button class="btn btn-default" ng-click="rateFishbowlApps(apps)" ng-disabled="apps.length == 0">Submit Ratings</button> -->
 		<button class="btn btn-default" ng-click="getFishbowlResults(apps)" ng-disabled="apps.length == 0">Print Results</button>
+		<div>
+			<p class="team-1">Blue Barracudas: {{teams[1].points}}</p>
+			<p class="team-2">Red Jaguars: {{teams[2].points}}</p>
+			<p class="team-3">Green Monkeys: {{teams[3].points}}</p>
+			<p class="team-4">Purple Parrots: {{teams[4].points}}</p>
+		</div>
 	</div>
 
 	<div class="panel-body" ng-show="bowls.length > 0">
@@ -81,7 +91,7 @@
 		</thead>
 
 		<tbody>
-			<tr class="leaderboard-item" ng-repeat="a in apps | orderBy:sortColumn:reverseSort"  ng-click="review(apps, a.username)">
+			<tr class="leaderboard-item bg-team-{{a.teamID}}" ng-repeat="a in apps | orderBy:sortColumn:reverseSort"  ng-click="review(apps, a.username)">
 				<td class="leaderboard-item" >
 					<a href="" ng-click="review(apps, a.username)">{{a.preferred_name}}</a>
 				</td>

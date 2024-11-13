@@ -6,14 +6,23 @@ var fishbowlAdminModule = angular.module("wizbif.fishbowl-admin", [
 ]);
 
 fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$uibModal", "db", "alert", function($scope, $rootScope, $uibModal, db, alert) {
+	// $scope.teams = db.getDefs("teams");
+	$scope.teams = {
+		1: { team: "Blue Barracudas", points: 10 },
+		2: { team: "Red Jaguars", points: 15 },
+		3: { team: "Green Monkeys", points: 20 },
+		4: { team: "Purple Parrots", points: 25 }
+	};
 	$scope.apps = [];
 	$scope.bowls = [];
+	$scope.teamPoints = [];
 
 	var getFishbowlApps = function() {
 		return db.Fishbowl.get().then(function(apps) {
 			$scope.apps = apps;
 			// console.log(apps)
 			$scope.calculateRanks();
+			$scope.calculateHousetotals();
 		});
 	};
 
@@ -110,6 +119,13 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 			currentRank++;
 		}
 	};
+
+	// get a breakdown of points based on houses
+	$scope.calculateHousetotals = function() {
+		for (var i = 0; i < $scope.apps.length; i++) {
+			teams[$scope.apps[i].teamID].points += $scope.apps[i].adjustedPoints;
+		}
+	}
 
 	// not in use right now, might rework it soon (as of 10/17/2024)
 	// $scope.getFishbowlResults = function(apps) {
