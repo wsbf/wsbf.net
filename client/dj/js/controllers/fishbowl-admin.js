@@ -7,9 +7,15 @@ var fishbowlAdminModule = angular.module("wizbif.fishbowl-admin", [
 
 fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$uibModal", "db", "alert", function($scope, $rootScope, $uibModal, db, alert) {
 	$scope.teams = db.getDefs("teams");
-	for (var key in $scope.teams) {
-		$scope.teams[key].points = 0; // initialize points to 0
-	}
+
+	$scope.houseTotals = {
+		1: 0,
+		2: 0,
+		3: 0,
+		4: 0
+	};
+	
+
 	$scope.apps = [];
 	$scope.bowls = [];
 
@@ -119,7 +125,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 	// get a breakdown of points based on houses
 	$scope.calculateHousetotals = function() {
 		for (var i = 0; i < $scope.apps.length; i++) {
-			teams[$scope.apps[i].teamID].points += $scope.apps[i].adjustedPoints;
+			$scope.houseTotals[$scope.apps[i].teamID] += $scope.apps[i].adjustedPoints;
 		}
 	}
 

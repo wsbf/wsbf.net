@@ -54,10 +54,13 @@
 		<!-- <button class="btn btn-default" ng-click="rateFishbowlApps(apps)" ng-disabled="apps.length == 0">Submit Ratings</button> -->
 		<button class="btn btn-default" ng-click="getFishbowlResults(apps)" ng-disabled="apps.length == 0">Print Results</button>
 		<div>
-			<p class="team-1">Blue Barracudas: {{teams[1].points}}</p>
-			<p class="team-2">Red Jaguars: {{teams[2].points}}</p>
-			<p class="team-3">Green Monkeys: {{teams[3].points}}</p>
-			<p class="team-4">Purple Parrots: {{teams[4].points}}</p>
+			<p class="team-1">Blue Barracudas: {{houseTotals[1]}}</p>
+			<p class="team-2">Red Jaguars: {{houseTotals[2]}}</p>
+			<p class="team-3">Green Monkeys: {{houseTotals[3]}}</p>
+			<p class="team-4">Purple Parrots: {{houseTotals[4]}}</p>
+		</div>
+		<div>
+			<p><small>Note: Points = (logged items) - (disputes) + (reviews if reviews > 1)<small></p>
 		</div>
 	</div>
 
