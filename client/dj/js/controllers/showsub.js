@@ -86,7 +86,7 @@ showsubModule.controller("ShowSubRequestCtrl", ["$scope", "db", "alert", functio
 	});
 }]);
 
-libraryModule.controller("ShowSubAdminCtrl", ["$scope", "$state", "db", "alert", function($scope, db) {
+libraryModule.controller("ShowSubAdminCtrl", ["$scope", "db", function($scope, db) {
 	$scope.show_times = db.getDefs("show_times");
 	$scope.requests = [];
 
