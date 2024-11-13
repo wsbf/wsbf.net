@@ -43,6 +43,10 @@ function validate_fishbowl_item($mysqli, $item)
 	  || !is_numeric($item["log_type"]) ) {
 		return false;
 	}
+	// make sure the log item is in the current semester range
+	if ( $item_date["date"] < REVIEW_BEGIN || $item["date"] > DEADLINE ) {
+		return false;
+	}
 
 	return true;
 }
