@@ -36,7 +36,7 @@ function get_all_sub_requests($mysqli, $page, $page_size)
 		. "INNER JOIN `def_show_types` AS t ON t.show_typeID=sc.show_typeID "
 		. "LEFT OUTER JOIN `sub_fill` AS f ON f.sub_requestID=r.sub_requestID "
 		. "LEFT OUTER JOIN `users` AS uf ON uf.username=f.username "
-		. "ORDER BY r.date; DESC"		
+		. "ORDER BY r.date DESC "		
         . "LIMIT "  . ($page * $page_size) . ", $page_size;";
 	$result = exec_query($mysqli, $q);
 
