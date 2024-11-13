@@ -98,16 +98,16 @@ libraryModule.controller("ShowSubAdminCtrl", ["$scope", "db", function($scope, d
 
 	$scope.getNewer = function() {
 		$scope.page--;
-		getArchives($scope.page);
+		getSubRequests($scope.page);
 	};
 
 	$scope.getOlder = function() {
 		$scope.page++;
-		getArchives($scope.page);
+		getSubRequests($scope.page);
 	};
 
 	$scope.search = function(term) {
-		getArchives(null, term);
+		getSubRequests(null, term);
 	};
 
 	// initialize
