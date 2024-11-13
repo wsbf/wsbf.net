@@ -6,16 +6,12 @@ var fishbowlAdminModule = angular.module("wizbif.fishbowl-admin", [
 ]);
 
 fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$uibModal", "db", "alert", function($scope, $rootScope, $uibModal, db, alert) {
-	// $scope.teams = db.getDefs("teams");
-	$scope.teams = {
-		1: { team: "Blue Barracudas", points: 10 },
-		2: { team: "Red Jaguars", points: 15 },
-		3: { team: "Green Monkeys", points: 20 },
-		4: { team: "Purple Parrots", points: 25 }
-	};
+	$scope.teams = db.getDefs("teams");
+	for (var key in $scope.teams) {
+		$scope.teams[key].points = 0; // initialize points to 0
+	}
 	$scope.apps = [];
 	$scope.bowls = [];
-	$scope.teamPoints = [];
 
 	var getFishbowlApps = function() {
 		return db.Fishbowl.get().then(function(apps) {
