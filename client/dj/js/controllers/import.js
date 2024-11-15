@@ -1,15 +1,40 @@
 "use strict";
 
 var importModule = angular.module("wizbif.import", [
+	"ngFileUpload",
 	"ui.bootstrap",
 	"wizbif.alert",
 	"wizbif.database"
 ]);
 
-importModule.controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db", function($scope, $rootScope, $uibModal, db) {
+importModule.controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db", "Upload", function($scope, $rootScope, $uibModal, db, Upload) {
 	$scope.carts = [];
 	$scope.albums = [];
 
+	// upload later on form submit or something similar
+	$scope.submit = function() {
+		if ($scope.form.file.$valid && $scope.file) {
+		$scope.upload($scope.file);
+		}
+	};
+
+	// upload multiple files:
+	$scope.uploadFiles = function (files) {
+        if (files && files.length) {
+			for (var i = 0; i < files.length; i++) {
+                Upload.upload({
+					url: 'https://wsbf.net/api/import/upload.php',
+					data: { file: file[i] }
+                }).then(function (response) {
+                    console.log('Success: ' + response.config.data.file.name + ' uploaded');
+                }, function (error) {
+                    console.error('Error uploading file: ' + file.name, error);
+                });
+            }
+			getDirectory();
+        }
+    };
+	
 	var getDirectory = function() {
 		db.Import.getDirectory()
 			.then(function(info) {

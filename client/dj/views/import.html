@@ -1,3 +1,24 @@
+<head>
+	<script src="angular.min.js"></script>
+	<!-- shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
+	<script src="ng-file-upload-shim.min.js"></script>
+	<script src="ng-file-upload.min.js"></script>
+
+	<style>
+		.button {
+			background-color: #e91200;
+			border: none;
+			color: #fff;
+			padding: 10px 15px;
+			border-radius: 10px;
+			text-align: center;
+			text-decoration: none;
+			font-weight: bold;
+			display: inline-block;
+			font-size: 14px;
+		}
+	</style>
+</head>
 <div class="text-center" ng-show="!auth.seniorStaff">
 	<h3><strong>Nah.</strong></h3>
 
@@ -23,7 +44,7 @@
 
 			<div class="col-sm-6 text-center">
 				<h4>Albums</h4>
-
+				<div class="button" ngf-select ng-model="files" ngf-multiple="true">IMPORT</div>
 				<ul class="list-unstyled">
 					<li ng-repeat="a in albums">
 						<a href="" ng-click="openAlbum(a)">{{a.artist_name}} - {{a.album_name}}</a>
