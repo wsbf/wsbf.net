@@ -28,21 +28,23 @@ function get_fishbowl($mysqli)
 	// get leaderboard with points, username, cd reviews
 	$q = "SELECT " . implode(",", $keys) . ", "
 	. "(SELECT COUNT(*) "
-		. "FROM fishbowl_log AS f "
-		. "WHERE f.username = u.username "
-		. "AND UNIX_TIMESTAMP(f.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " ) AS points, "
+			. "FROM fishbowl_log AS f "
+			. "WHERE f.username = u.username "
+			. "AND UNIX_TIMESTAMP(f.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " ) AS points, "
 	. "(SELECT SUM(CASE WHEN f.disputed IS NOT NULL AND f.disputed != 0 THEN 1 ELSE 0 END) "
 	. "FROM fishbowl_log AS f "
 	. "WHERE f.username = u.username "
 	. "AND UNIX_TIMESTAMP(f.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . ") AS dispute_count, "
 	. "COALESCE((SELECT COUNT(*) "
-		. "FROM libreview AS r "
-		. "WHERE r.username = u.username "
-		. "AND UNIX_TIMESTAMP(r.review_date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE ."), 0) AS review_count "
+			. "FROM libreview AS r "
+			. "WHERE r.username = u.username "
+			. "AND UNIX_TIMESTAMP(r.review_date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE ."), 0) AS review_count "
 	. "FROM users AS u "
-	. "WHERE u.username IN (SELECT username FROM fishbowl_log WHERE UNIX_TIMESTAMP(date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . ") "
+	//. "WHERE u.username IN (SELECT username FROM fishbowl_log WHERE UNIX_TIMESTAMP(date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . ") "
+	. "WHERE u.username IN ( "
+		. "SELECT username FROM fishbowl_log as f WHERE UNIX_TIMESTAMP(f.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " UNION "
+    		. "SELECT username FROM libreview as r WHERE UNIX_TIMESTAMP(r.review_date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . ") "
 	. "ORDER BY points DESC;";
-
 	$result = exec_query($mysqli, $q);
 
 	return fetch_array($result);
