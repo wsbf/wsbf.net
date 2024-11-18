@@ -33,7 +33,7 @@ function get_user_summary($mysqli, $username)
     $summary = exec_query($mysqli, $q)->fetch_assoc();
 
     $q = "SELECT "
-			. "f.fishbowl_logID AS fishbowl_logID"
+			. "f.fishbowl_logID AS fishbowl_logID, "
 			. "f.username AS username, "
 			. "f.log_type AS log_type, "
 			. "f.date AS date, "
@@ -45,7 +45,7 @@ function get_user_summary($mysqli, $username)
          . "AND UNIX_TIMESTAMP(f.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " "
          . "UNION ALL "
          . "SELECT "
-				. "NULL AS fishbowl_logID"
+				. "NULL AS fishbowl_logID, "
 				. "r.username AS username, "
 				. "-1 AS log_type, "
 				. "r.review_date AS date, "
