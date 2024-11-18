@@ -32,34 +32,26 @@ function get_user_summary($mysqli, $username)
         . "WHERE u.username = '$username';";
     $summary = exec_query($mysqli, $q)->fetch_assoc();
 
-    // Get fishbowl log for the user
-    $log_keys = array(
-		"fishbowl_logID",
-        "date",
-        "log_type",
-        "description",
-		"disputed",
-		"dispute_description"
-    );
-
     $q = "SELECT "
-		. "f.username AS username, "
-                . "f.log_type AS log_type, "
-                . "f.date AS date, "
-                . "f.description AS description, "
-		. "f.disputed AS disputed, "
-		. "f.dispute_description AS dispute_description "
+			. "f.fishbowl_logID AS fishbowl_logID"
+			. "f.username AS username, "
+			. "f.log_type AS log_type, "
+			. "f.date AS date, "
+			. "f.description AS description, "
+			. "f.disputed AS disputed, "
+			. "f.dispute_description AS dispute_description "
          . "FROM fishbowl_log AS f "
          . "WHERE f.username = '$username' "
          . "AND UNIX_TIMESTAMP(f.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " "
          . "UNION ALL "
          . "SELECT "
-                 . "r.username AS username, "
-                 . "-1 AS log_type, "
-                 . "r.review_date AS date, "
-                 . "CONCAT(a.album_name, ' - ', ar.artist_name) AS description, "
-		 . "0 AS disputed, "
-		 . "'' AS dispute_description "
+				. "NULL AS fishbowl_logID"
+				. "r.username AS username, "
+				. "-1 AS log_type, "
+				. "r.review_date AS date, "
+				. "CONCAT(a.album_name, ' - ', ar.artist_name) AS description, "
+				. "0 AS disputed, "
+				. "'' AS dispute_description "
          . "FROM libreview AS r "
          . "LEFT JOIN libalbum AS a ON r.albumID = a.albumID "
          . "LEFT JOIN libartist AS ar ON ar.artistID = a.artistID "
