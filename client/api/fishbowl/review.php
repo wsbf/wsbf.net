@@ -42,11 +42,31 @@ function get_user_summary($mysqli, $username)
 		"dispute_description"
     );
 
-	$q = "SELECT " . implode(",", $log_keys) . " FROM `fishbowl_log` "
-    . "WHERE username = '$username' "
-    . "AND date BETWEEN FROM_UNIXTIME(" . REVIEW_BEGIN . ") AND FROM_UNIXTIME(" . DEADLINE . ") "
-    . "ORDER BY date DESC;";
-	$summary["log"] = fetch_array(exec_query($mysqli, $q));
+    $q = "SELECT "
+		. "f.username AS username, "
+                . "f.log_type AS log_type, "
+                . "f.date AS date, "
+                . "f.description AS description, "
+		. "f.disputed AS disputed, "
+		. "f.dispute_description AS dispute_description "
+         . "FROM fishbowl_log AS f "
+         . "WHERE f.username = '$username' "
+         . "AND UNIX_TIMESTAMP(f.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " "
+         . "UNION ALL "
+         . "SELECT "
+                 . "r.username AS username, "
+                 . "-1 AS log_type, "
+                 . "r.review_date AS date, "
+                 . "CONCAT(a.album_name, ' - ', ar.artist_name) AS description, "
+		 . "0 AS disputed, "
+		 . "'' AS dispute_description "
+         . "FROM libreview AS r "
+         . "LEFT JOIN libalbum AS a ON r.albumID = a.albumID "
+         . "LEFT JOIN libartist AS ar ON ar.artistID = a.artistID "
+         . "WHERE r.username = '$username' "
+         . "AND UNIX_TIMESTAMP(r.review_date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " "
+         . "ORDER BY date DESC";
+    $summary["log"] = fetch_array(exec_query($mysqli, $q));
 
     // Compute the number of album reviews
     $q = "SELECT COUNT(*) FROM `libreview` AS r "

@@ -89,7 +89,7 @@
 				<th class="leaderboard-item" ng-click="sortBy('rank')">Rank <span class="arrow" ng-if="sortColumn == 'rank'">{{ reverseSort ? '▼' : '▲' }}</span></th>
 				<th class="leaderboard-item" ng-click="sortBy('adjustedPoints')">Points <span class="arrow" ng-if="sortColumn == 'adjustedPoints'">{{ reverseSort ? '▼' : '▲'}}</span></th>
 				<th class="leaderboard-item" ng-click="sortBy('review_count')">Reviews <span class="arrow" ng-if="sortColumn == 'review_count'">{{ reverseSort ? '▼' : '▲' }}</span></th>
-				<th class="leaderboard-item" ng-click="sortBy('disputes')">Disputes <span class="arrow" ng-if="sortColumn == 'disputes'">{{ reverseSort ? '▼' : '▲' }}</span></th>
+				<th class="leaderboard-item" ng-click="sortBy('dispute_count')">Disputes <span class="arrow" ng-if="sortColumn == 'dispute_count'">{{ reverseSort ? '▼' : '▲' }}</span></th>
 			</tr>
 		</thead>
 
@@ -101,7 +101,7 @@
 				<td class="leaderboard-item" >{{a.rank}}</td>
 				<td class="leaderboard-item" >{{a.adjustedPoints}}</td>
 				<td class="leaderboard-item" >{{a.review_count}}</td>
-				<td class="leaderboard-item" >{{a.disputes}}</td>
+				<td class="leaderboard-item" >{{a.dispute_count}}</td>
 			</tr>			
 		</tbody>
 	</table>

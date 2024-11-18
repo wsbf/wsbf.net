@@ -42,23 +42,30 @@
 						border-left: 4px solid red;
 					}
 					.disputed-item:hover {
-					 background-color: #f8d7da;
+						 background-color: #f8d7da;
 					}
-
+					.album-review-row {
+						background-color: #5de55a;
+						font-weight: bold;
+					}
+					.album-review-row:hover {
+						background-color: #0dd909;
+						font-weight: bold
+					}
 				</style>
 			</thead>
 
 			<tbody>
-				<tr ng-repeat="f in app.log | orderBy:'date'" ng-class="{'disputed-item': f.disputed == 1}">
+				<tr ng-repeat="f in app.log | orderBy:'date'" ng-class="{'disputed-item': f.disputed == 1, 'album-review-row': f.log_type === '-1'}">
 					<td>{{f.date}}</td>
-					<td>{{fishbowl_log_types[f.log_type].type}}</td>
+					<td>{{ f.log_type === '-1' ? "Album Review" : fishbowl_log_types[f.log_type].type }}</td>
 					<td>{{f.description}}</td>
 					<td ng-show="f.disputed == 1">{{f.dispute_description}}</td>
 					<td class="text-center">
-						<span class="button-icon" ng-show="f.disputed == 1" ng-click="undisputeItem(f.fishbowl_logID)" style="font-weight: bold;">I'M TRIPPIN</span>
+						<span class="button-icon" ng-show="f.disputed == 1 && f.log_type != '-1'" ng-click="undisputeItem(f.fishbowl_logID)" style="font-weight: bold;">I'M TRIPPIN</span>
 					</td>
 					<td class="text-center">
-						<span class="button-icon" ng-show="f.disputed != 1" ng-click="disputeItem(f.fishbowl_logID)" style="font-weight: bold;">CAP</span>
+						<span class="button-icon" ng-show="f.disputed != 1 && f.log_type != '-1'" ng-click="disputeItem(f.fishbowl_logID)" style="font-weight: bold;">CAP</span>
 					</td>
 				</tr>
 			</tbody>
