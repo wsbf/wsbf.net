@@ -20,9 +20,13 @@
 	color: #f77c08;
 }
 /* rules for team colors */
+/* hovering color can be adjusted here for each color as well */
 /* blue */
 .bg-team-1 {
 	background-color: #b9cdf7;
+}
+.bg-team-1:hover{
+	background-color: #b9cdf7ab;
 }
 .team-1 {
 	color: #457cf3;
@@ -31,12 +35,20 @@
 .bg-team-2 {
 	background-color: #f28e8e;
 }
+.bg-team-2:hover {
+	background-color: #f28e8ea6;
+}
 .team-2 {
 	color: #a70707;
 }
 /* green */
 .bg-team-3 {
-	background-color: #8ff088;
+	background-color: #8ff088d5;
+
+}
+.bg-team-3:hover {
+	background-color: #8ff0888c;
+
 }
 .team-3 {
 	color: #1b7914;
@@ -44,6 +56,9 @@
 /* purple */
 .bg-team-4 {
 	background-color: #dfbbed;
+}
+.bg-team-4:hover {
+	background-color: #dfbbedad;
 }
 .team-4 {
 	color: #9c2cc9;

@@ -150,6 +150,7 @@ function auth_member($mysqli)
  *   6: Production Director
  *   7: Member-At-Large
  *   8: Computer Engineer
+ * 	21: TEMP General Manager
  *
  * @param mysqli
  * @return true if current user holds one of the above staff
@@ -175,6 +176,8 @@ function auth_senior_staff($mysqli)
  *  18: Triple-A Director
  *  19: Hip-Hop Director
  *  20: New World Director
+ *  21: TEMP General Manager
+
  *
  * @param mysqli
  * @return true if current user holds one of the above staff

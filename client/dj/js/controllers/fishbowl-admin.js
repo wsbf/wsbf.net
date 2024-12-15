@@ -24,7 +24,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 			$scope.apps = apps;
 			$scope.calculateRanks();
 			$scope.calculateHousetotals();
-			console.log(apps);
+			// console.log(apps);
 		});
 	};
 
