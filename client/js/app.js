@@ -26,6 +26,11 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 			templateUrl: "views/slider_main.html",
 			controller: "CarouselCtrl"
 		})
+		.state("artist-feature", {
+			url: "/artistfeature",
+			templateUrl: "views/artist_feature.html",
+			// controller: "ArtistFeatureCtrl"
+		})
 		.state("booking", {
 			url: "/booking",
 			templateUrl: "views/booking.html"

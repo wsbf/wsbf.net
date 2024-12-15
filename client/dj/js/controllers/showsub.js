@@ -85,3 +85,32 @@ showsubModule.controller("ShowSubRequestCtrl", ["$scope", "db", "alert", functio
 		$scope.user = user;
 	});
 }]);
+
+libraryModule.controller("ShowSubAdminCtrl", ["$scope", "db", function($scope, db) {
+	$scope.show_times = db.getDefs("show_times");
+	$scope.requests = [];
+	$scope.page = 0;
+
+	var getSubRequests = function(page) {
+		db.ShowSub.getSubRequestsAdmin(page).then(function(requests) {
+			$scope.requests = requests;
+		});
+	};
+
+	$scope.getNewer = function() {
+		$scope.page--;
+		getSubRequests($scope.page);
+	};
+
+	$scope.getOlder = function() {
+		$scope.page++;
+		getSubRequests($scope.page);
+	};
+
+	$scope.search = function(term) {
+		getSubRequests(null, term);
+	};
+
+	// initialize
+	getSubRequests();
+}]);

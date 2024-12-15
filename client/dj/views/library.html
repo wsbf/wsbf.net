@@ -26,8 +26,15 @@
 			</div>
 
 			<div class="col-sm-3">
-				<button class="btn btn-sm" ng-click="page > 0 && go(rotationID, general_genreID, query, page - 1)" ng-disabled="page == 0">newer</button>
-				<button class="btn btn-sm" ng-click="go(rotationID, general_genreID, query, page + 1)">older</button>
+				<button class="btn btn-sm" ng-click="page > 0 && go(rotationID, general_genreID, query, page - 1)" ng-disabled="page == 0">&larr; Prev</button>
+				<button class="btn btn-sm" ng-click="go(rotationID, general_genreID, query, page + 1)">Next &rarr;</button>
+
+				<!-- <select class = ""
+						ng-model="selected-page"
+						ng-options="n as ('Page ' + (n+1)) for n in pageNumbers"
+						ng-change="go(rotationID, general_genreID, query, selected-page)">
+					<option value="" disabled selected>Select a page</option>
+				</select> -->
 			</div>
 
 			<div class="col-sm-4">
