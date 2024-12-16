@@ -8,6 +8,7 @@
  */
 require_once("../auth/auth.php");
 require_once("../connect.php");
+require_once("config.php");
 
 /**
  * Get the current user's fishbowl log.
@@ -44,7 +45,7 @@ function validate_fishbowl_item($mysqli, $item)
 		return false;
 	}
 	// make sure the log item is in the current semester range
-	if ( $item_date["date"] < REVIEW_BEGIN || $item["date"] > DEADLINE ) {
+	if ( strtotime($item["date"]) < REVIEW_BEGIN || strtotime($item["date"]) > DEADLINE ) {
 		return false;
 	}
 
