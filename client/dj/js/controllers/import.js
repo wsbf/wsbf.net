@@ -44,7 +44,7 @@ importModule.directive('fileModel', ['$parse', function ($parse) {
 				getDirectory();
 			})
 			.catch(function(err) {
-				alert.error("Upload failed: " + (err.data || err.statusText));
+				alert.error("Upload failed: " + (err.data.error));
 			});
 	};
 
@@ -59,7 +59,7 @@ importModule.directive('fileModel', ['$parse', function ($parse) {
 				getDirectory();
 			})
 			.catch(function(err) {
-				alert.error("Delete failed: " + (err.data || err.statusText));
+				alert.error("Delete failed: " + (err.data.error));
 			});
 	};
 

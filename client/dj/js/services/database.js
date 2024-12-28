@@ -234,9 +234,6 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 			transformRequest: angular.identity,
 			headers: { "Content-Type": undefined }
 		})
-			.then(function(res) {
-				return res.data; // success JSON
-			});
 	};
 
 	/**
@@ -253,9 +250,6 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 				folder: folder
 			}
 		})
-			.then(function(res) {
-				return res.data;
-			});
 	};
 
 	/**
