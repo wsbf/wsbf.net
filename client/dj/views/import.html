@@ -15,9 +15,9 @@
 				<h4>Carts</h4>
 
 				<div class="form-group">
-					<input type="file" id="importFile" class="form-control" file-model="importFile" />
+					<input type="file" id="cartFile" class="form-control" file-model="cartFile" />
 				</div>
-				<button class="btn btn-primary" ng-click="uploadFile(importFile, selectedFolder)">
+				<button class="btn btn-primary" ng-click="uploadFile(cartFile, 'carts')">
 					Upload File
 				</button>
 
@@ -36,13 +36,12 @@
 			<div class="col-sm-6 text-center">
 				<h4>Albums</h4>
 
-				<div class="form-inline" style="margin-bottom:10px;">
-					<input type="file" id="albumFile" class="form-control" />
-					<button class="btn btn-primary"
-							ng-click="uploadFile(document.getElementById('albumFile').files[0], 'albums')">
-						Upload Album
-					</button>
+				<div class="form-group">
+					<input type="file" id="albumFile" class="form-control" file-model="albumFile" />
 				</div>
+				<button class="btn btn-primary" ng-click="uploadFile(albumFile, 'albums')">
+					Upload File
+				</button>
 
 				<ul class="list-unstyled">
 					<li ng-repeat="a in albums">
