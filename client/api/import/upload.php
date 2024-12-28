@@ -4,9 +4,8 @@ require_once("../auth/auth.php");
 require_once("../connect.php");
 require_once("config.php");
 
-define('ALLOWED_EXTENSIONS', ["mp3"]);
-define('ALLOWED_FOLDERS', ["albums", "carts"]);
-
+define('ALLOWED_EXTENSIONS', serialize(["mp3"]));
+define('ALLOWED_FOLDERS', serialize(["albums", "carts"]));
 /**
  * Sends a JSON response with the specified status code and data.
  *
@@ -84,11 +83,13 @@ function handleFileUpload()
     }
 
     $extension = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
-    if (!in_array($extension, ALLOWED_EXTENSIONS)) {
+    $allowedExtensions = unserialize(ALLOWED_EXTENSIONS);
+    if (!in_array($extension, $allowedExtensions)) {
         sendJsonResponse(400, ["error" => "Invalid file type. Only .mp3 allowed."]);
     }
 
-    if (!isset($_POST["folder"]) || !in_array($_POST["folder"], ALLOWED_FOLDERS)) {
+    $allowedFolders = unserialize(ALLOWED_FOLDERS);
+    if (!isset($_POST["folder"]) || !in_array($_POST["folder"], $allowedFolders)) {
         sendJsonResponse(400, ["error" => "Invalid folder"]);
     }
 
@@ -124,6 +125,11 @@ function handleFileDelete()
     $filename = $_GET["filename"];
     $folder = $_GET["folder"];
     $targetPath = IMPORT_SRC . $folder . "/" . $filename;
+
+    $allowedFolders = unserialize(ALLOWED_FOLDERS);
+    if (!in_array($folder, $allowedFolders)) {
+        sendJsonResponse(400, ["error" => "Invalid folder"]);
+    }
 
     if (!file_exists($targetPath)) {
         sendJsonResponse(404, ["error" => "File does not exist"]);
