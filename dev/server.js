@@ -76,13 +76,19 @@ app.post("/api/schedule/show.php", function(req, res) {
 	res.status(200).end();
 });
 
-app.get("/api/users/user.php", function(req, res, next) {
-	if ( !authenticated ) {
-		res.status(401).end();
+app.get("/api/users/user.php", function(req, res) {
+	if (!authenticated) {
+		return res.status(401).end();
 	}
-	else {
-		next();
-	}
+
+	// Return a simple JSON object representing the current user,
+	// explicitly showing that they're senior staff (or music director).
+	res.json({
+		username: "devuser",
+		preferred_name: "Dev User",
+		positionID: "0",
+		statusID: "0"
+	});
 });
 
 app.get("/blog/:route?", function(req, res) {
