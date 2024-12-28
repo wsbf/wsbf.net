@@ -219,6 +219,46 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	this.Import = {};
 
 	/**
+	 * Upload a file (uses FormData by default).
+	 * Adjust if you prefer raw binary or base64.
+	 *
+	 * @param {File} file - the file object from an <input type="file">
+	 * @param {string} folder - "albums" or "carts"
+	 */
+	this.Import.uploadFile = function(file, folder) {
+		var formData = new FormData();
+		formData.append("file", file);
+		formData.append("folder", folder);
+
+		return $http.post("/api/import/upload.php", formData, {
+			transformRequest: angular.identity,
+			headers: { "Content-Type": undefined }
+		})
+			.then(function(res) {
+				return res.data; // success JSON
+			});
+	};
+
+	/**
+	 * Delete a file from the import directory.
+	 *
+	 * @param {string} filename - The file to delete (e.g., "Artist - Album - 01 - Track.mp3")
+	 * @param {string} folder   - Either "albums" or "carts"
+	 * @return {Promise} - Resolves with the server's JSON response
+	 */
+	this.Import.deleteFile = function(filename, folder) {
+		return $http.delete("/api/import/upload.php", {
+			params: {
+				filename: filename,
+				folder: folder
+			}
+		})
+			.then(function(res) {
+				return res.data;
+			});
+	};
+
+	/**
 	 * Get the albums and carts in the import directory.
 	 *
 	 * @return Promise of directory info object
@@ -283,6 +323,8 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	this.Import.importCart = function(cart) {
 		return $http.post("/api/import/cart.php", cart);
 	};
+
+
 
 	this.Library = {};
 

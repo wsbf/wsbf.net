@@ -6,7 +6,21 @@ var importModule = angular.module("wizbif.import", [
 	"wizbif.database"
 ]);
 
-importModule.controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db", function($scope, $rootScope, $uibModal, db) {
+importModule.directive('fileModel', ['$parse', function ($parse) {
+	return {
+		restrict: 'A',
+		link: function(scope, element, attrs) {
+			var model = $parse(attrs.fileModel);
+			var modelSetter = model.assign;
+
+			element.bind('change', function(){
+				scope.$apply(function(){
+					modelSetter(scope, element[0].files[0]);
+				});
+			});
+		}
+	};
+}]).controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db", "alert", function($scope, $rootScope, $uibModal, db, alert) {
 	$scope.carts = [];
 	$scope.albums = [];
 
@@ -15,6 +29,37 @@ importModule.controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db"
 			.then(function(info) {
 				$scope.carts = info.carts;
 				$scope.albums = info.albums;
+			});
+	};
+
+	$scope.uploadFile = function(file, folder) {
+		if (!file) {
+			alert.error("No file selected.");
+			return;
+		}
+
+		db.Import.uploadFile(file, folder)
+			.then(function(response) {
+				alert.success("File uploaded successfully: " + response.filename);
+				getDirectory();
+			})
+			.catch(function(err) {
+				alert.error("Upload failed: " + (err.data || err.statusText));
+			});
+	};
+
+	$scope.deleteFile = function(filename, folder) {
+		if (!filename || !folder) {
+			alert.error("Missing filename or folder for delete.");
+			return;
+		}
+		db.Import.deleteFile(filename, folder)
+			.then(function(response) {
+				alert.success("File deleted: " + response.filename);
+				getDirectory();
+			})
+			.catch(function(err) {
+				alert.error("Delete failed: " + (err.data || err.statusText));
 			});
 	};
 

@@ -14,15 +14,35 @@
 			<div class="col-sm-6 text-center">
 				<h4>Carts</h4>
 
+				<div class="form-group">
+					<input type="file" id="importFile" class="form-control" file-model="importFile" />
+				</div>
+				<button class="btn btn-primary" ng-click="uploadFile(importFile, selectedFolder)">
+					Upload File
+				</button>
+
 				<ul class="list-unstyled">
 					<li ng-repeat="c in carts">
 						<a href="" ng-click="openCart(c)">{{c}}</a>
+						<button type="button" class="btn btn-link text-danger"
+								ng-click="deleteFile(c, 'carts')"
+								title="Delete File">
+							<i class="fa fa-trash"></i>
+						</button>
 					</li>
 				</ul>
 			</div>
 
 			<div class="col-sm-6 text-center">
 				<h4>Albums</h4>
+
+				<div class="form-inline" style="margin-bottom:10px;">
+					<input type="file" id="albumFile" class="form-control" />
+					<button class="btn btn-primary"
+							ng-click="uploadFile(document.getElementById('albumFile').files[0], 'albums')">
+						Upload Album
+					</button>
+				</div>
 
 				<ul class="list-unstyled">
 					<li ng-repeat="a in albums">
