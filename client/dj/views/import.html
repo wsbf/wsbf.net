@@ -14,21 +14,24 @@
 			<div class="col-sm-6 text-center">
 				<h4>Carts</h4>
 
-				<div class="form-group">
+				<div class="form-group" style="display: flex; align-items: center;">
 					<input type="file" id="cartFile" class="form-control" file-model="cartFile" />
+					<button class="btn btn-primary" ng-click="uploadFile(cartFile, 'carts')">
+						Upload Cart
+					</button>
 				</div>
-				<button class="btn btn-primary" ng-click="uploadFile(cartFile, 'carts')">
-					Upload File
-				</button>
 
 				<ul class="list-unstyled">
 					<li ng-repeat="c in carts">
-						<a href="" ng-click="openCart(c)">{{c}}</a>
-						<button type="button" class="btn btn-link text-danger"
-								ng-click="deleteFile(c, 'carts')"
-								title="Delete File">
-							<i class="fa fa-trash"></i>
-						</button>
+						<span style="display: block; align-items: center;">
+							<a href="" ng-click="openCart(c)">{{c}}</a>
+							<button type="button" class="btn-xs"
+									ng-click="deleteFile(c, 'carts')"
+									title="Delete File"
+									style="margin-left: 5px; border: none;">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</span>
 					</li>
 				</ul>
 			</div>
@@ -36,16 +39,24 @@
 			<div class="col-sm-6 text-center">
 				<h4>Albums</h4>
 
-				<div class="form-group">
-					<input type="file" id="albumFile" class="form-control" file-model="albumFile" />
-				</div>
-				<button class="btn btn-primary" ng-click="uploadFile(albumFile, 'albums')">
-					Upload File
-				</button>
+<!--				<div class="form-group" style="display: flex; align-items: center;">-->
+<!--					<input type="file" id="albumFile" class="form-control" file-model="albumFile" />-->
+<!--					<button class="btn btn-primary" ng-click="uploadFile(albumFile, 'albums')">-->
+<!--						Upload File-->
+<!--					</button>-->
+<!--				</div>-->
 
 				<ul class="list-unstyled">
 					<li ng-repeat="a in albums">
-						<a href="" ng-click="openAlbum(a)">{{a.artist_name}} - {{a.album_name}}</a>
+						<span style="display: block; align-items: center;">
+							<a href="" ng-click="openAlbum(a)">{{a.artist_name}} - {{a.album_name}}</a>
+<!--							<button type="button" class="btn-xs"-->
+<!--									ng-click="deleteFile(a, 'albums')"-->
+<!--									title="Delete File"-->
+<!--									style="margin-left: 5px; border: none;">-->
+<!--								<span class="glyphicon glyphicon-trash"></span>-->
+<!--							</button>-->
+						</span>
 					</li>
 				</ul>
 			</div>
