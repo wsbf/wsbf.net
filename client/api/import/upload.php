@@ -118,7 +118,8 @@ function handleFileUpload()
  */
 function handleFileDelete()
 {
-    if (!isset($_GET["filename"]) || !isset($_GET["folder"]) || !in_array($_GET["folder"], ALLOWED_FOLDERS)) {
+    $allowedFolders = unserialize(ALLOWED_FOLDERS);
+    if (!isset($_GET["filename"]) || !isset($_GET["folder"]) || !in_array($_GET["folder"], $allowedFolders)) {
         sendJsonResponse(400, ["error" => "Invalid parameters"]);
     }
 
@@ -126,7 +127,6 @@ function handleFileDelete()
     $folder = $_GET["folder"];
     $targetPath = IMPORT_SRC . $folder . "/" . $filename;
 
-    $allowedFolders = unserialize(ALLOWED_FOLDERS);
     if (!in_array($folder, $allowedFolders)) {
         sendJsonResponse(400, ["error" => "Invalid folder"]);
     }

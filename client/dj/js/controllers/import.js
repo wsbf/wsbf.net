@@ -40,7 +40,7 @@ importModule.directive('fileModel', ['$parse', function ($parse) {
 
 		db.Import.uploadFile(file, folder)
 			.then(function(response) {
-				alert.success("File uploaded successfully: " + response.filename);
+				alert.success("File uploaded successfully: " + response.data.filename);
 				getDirectory();
 			})
 			.catch(function(err) {
@@ -55,7 +55,7 @@ importModule.directive('fileModel', ['$parse', function ($parse) {
 		}
 		db.Import.deleteFile(filename, folder)
 			.then(function(response) {
-				alert.success("File deleted: " + response.filename);
+				alert.success("File deleted: " + response.data.filename);
 				getDirectory();
 			})
 			.catch(function(err) {
