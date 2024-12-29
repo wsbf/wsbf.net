@@ -5,6 +5,7 @@
 	<script src="ng-file-upload.min.js"></script>
 
 	<style>
+		/* styling for import button */
 		.button {
 			background-color: #e91200;
 			border: none;
@@ -44,7 +45,7 @@
 
 			<div class="col-sm-6 text-center">
 				<h4>Albums</h4>
-				<div class="button" ngf-select ng-model="files" ngf-multiple="true">IMPORT</div>
+				<div class="button" ngf-select ng-model="files" ngf-multiple="true" ngf-change="uploadFiles(files)">IMPORT</div>
 				<ul class="list-unstyled">
 					<li ng-repeat="a in albums">
 						<a href="" ng-click="openAlbum(a)">{{a.artist_name}} - {{a.album_name}}</a>

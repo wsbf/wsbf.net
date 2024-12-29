@@ -11,27 +11,23 @@ importModule.controller("ImportCtrl", ["$scope", "$rootScope", "$uibModal", "db"
 	$scope.carts = [];
 	$scope.albums = [];
 
-	// upload later on form submit or something similar
-	$scope.submit = function() {
-		if ($scope.form.file.$valid && $scope.file) {
-		$scope.upload($scope.file);
-		}
-	};
-
-	// upload multiple files:
+	/*
+	 * upload multiple files or a single file to the library 
+	 * array object 'files' is sent with POST to upload.php which handles uploading
+	 * TODO: automatically rename the files to the recognized format defined in directory.php
+	 * 		 maybe check metadata?
+	 */
 	$scope.uploadFiles = function (files) {
         if (files && files.length) {
-			for (var i = 0; i < files.length; i++) {
-                Upload.upload({
-					url: 'https://wsbf.net/api/import/upload.php',
-					data: { file: file[i] }
-                }).then(function (response) {
-                    console.log('Success: ' + response.config.data.file.name + ' uploaded');
-                }, function (error) {
-                    console.error('Error uploading file: ' + file.name, error);
-                });
-            }
-			getDirectory();
+			Upload.upload({
+				url: 'http://localhost:8000/import/upload.php', // endpoint for upload handler
+				data: { files: files}
+			}).then(function (response) {
+				console.log('Success: ' + response.config.data.files.name + ' uploaded');
+			}, function (error) {
+				console.error('Error uploading file: ' + files.name, error);
+			});
+			getDirectory(); // refresh the list of files
         }
     };
 	
