@@ -210,7 +210,7 @@
 								<img class="img-rounded" ng-src="{{p.imageUrl || 'images/media_psa.png'}}" alt="album art" width="60" height="60"/>
 							</div>
 							<div class="media-body">
-								<div>{{p.time_played | date:'h:mm a ET'}}</div>
+								<div>{{p.time_played | date:'h:mm a'}}</div>
 								<div><strong>{{p.lb_track_name}}</strong></div>
 								<div>{{p.lb_artist}}</div>
 							</div>
@@ -234,7 +234,7 @@
 							</div>
 							-->
 							<div class="media-body">
-								<div>{{show_times[s.show_timeID].show_time | date:'h:mm a ET'}}</div>
+								<div>{{show_times[s.show_timeID].show_time | date:'h:mm a'}}</div>
 								<div><strong>{{s.show_name}}</strong></div>
 								<div ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
 							</div>
@@ -331,10 +331,7 @@
 									<h2>WSBF Community Calendar</h2>
 									<hr>
 									<div class="scrollable text-center">
-										<p style="font-size:17px;"> <s><b>Live Show</b> September 14, 2024 (7pm @ Moe Joe Coffee Co.)</s></p>
-										<p style="font-size:17px;"> <b>Live Show</b> Graveyard Smash: October 14, 2024 (7pm @ Jaycee Park)</p>
 										<p style="font-size:17px;"> Keep an eye out on the WSBF Instagram for more live events!</p>
-										<br>
 										<br>
 										<br>
 										<br>

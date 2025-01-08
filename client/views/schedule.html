@@ -19,7 +19,7 @@
 				</div>
 
 				<div class="media-body">
-					<p>{{show_times[s.show_timeID].show_time | date:'h:mm a ET'}}</p>
+					<p>{{show_times[s.show_timeID].show_time | date:'h:mm a'}}</p>
 					<p><strong>{{s.show_name}}</strong></p>
 					<div ng-repeat="h in s.hosts">{{h.preferred_name}}</div>
 				</div>
