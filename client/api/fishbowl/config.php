@@ -23,18 +23,20 @@ define('FALL', 1);
  * At the beginning of each application cycle, this
  * constant should be switched to the value of the NEXT semester
  */
-define('SEMESTER', SPRING);
+define('SEMESTER', FALL);
 
 /**
  * At the beginning of each application cycle, the
  * earlier date should be set to the date of the
- * first fullstaff meeting of the semester.
+ * first day of classes of the semester. The later
+ * date can be either the end of the semester of sometime
+ * in the summer beforee the start of fall semester.
  *
  * TODO: automate these dates somehow?
  */
 $SEMESTER_BEGIN = array(
 	SPRING => strtotime("5:00 pm January 8, 2025"),
-	FALL => strtotime("5:00 pm August 10, 2024")
+	FALL => strtotime("5:00 pm August 10, 2025")
 );
 
 define('REVIEW_BEGIN', $SEMESTER_BEGIN[!SEMESTER]);
