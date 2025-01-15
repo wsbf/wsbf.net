@@ -15,7 +15,8 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		4: 0
 	};
 	
-
+	$scope.currentStartDate = '';
+	$scope.currentEndDate = '';
 	$scope.apps = [];
 	$scope.bowls = [];
 
@@ -24,7 +25,13 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 			$scope.apps = apps;
 			$scope.calculateRanks();
 			$scope.calculateHousetotals();
-			console.log(apps);
+		});
+	};
+
+	var getSemesterDates = function() {
+		return db.Fishbowl.getDateRange().then(function(dates) {
+			$scope.currentStartDate = dates['start_date'];
+			$scope.currentEndDate = dates['end_date'];
 		});
 	};
 
@@ -38,11 +45,16 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		$scope.sortColumn = column; // new sort column
 	};
 
-	$scope.archiveFishbowl = function() {
-		if ( confirm("Are you sure you want to archive the fishbowl?") ) {
-			db.Fishbowl.archive().then(function() {
+	$scope.setDateRange = function(startDate_input, endDate_input) {
+		if ( confirm("Are you sure you want to change the semester date range?") ) {
+			var dates = {
+				startDate: startDate_input, 
+				endDate: endDate_input
+			};
+			db.Fishbowl.changeDates(dates).then(function() {
+				getSemesterDates();
 				getFishbowlApps();
-				alert.success("Fishbowl archived.");
+				alert.success("Semester dates changed.");
 			}, function(res) {
 				alert.error(res.data || res.statusText);
 			});
@@ -149,6 +161,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 
 	// initialize
 	getFishbowlApps();
+	getSemesterDates();
 }]);
 
 fishbowlAdminModule.controller("FishbowlReviewCtrl", ["$scope", "db", "alert", function($scope, db, alert) {

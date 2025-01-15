@@ -1,5 +1,9 @@
 <head>
 	<link rel="stylesheet" href="../../dj/css/style.css">
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 	
 	<style>
 		p { display: inline-block; margin-right: 10px; }
@@ -50,15 +54,33 @@
 	</div>
 
 	<div class="panel-body">
-		<button class="btn btn-default" ng-click="archiveFishbowl()" ng-disabled="apps.length == 0">Reset All Points</button>
+		<!-- <button class="btn btn-default" ng-click="archiveFishbowl()" ng-disabled="apps.length == 0">Reset All Points</button> -->
 		<!-- <button class="btn btn-default" ng-click="rateFishbowlApps(apps)" ng-disabled="apps.length == 0">Submit Ratings</button> -->
-		<button class="btn btn-default" ng-click="getFishbowlResults(apps)" ng-disabled="apps.length == 0">Print Results</button>
-		<div>
-			<p class="team-1">Blue Barracudas: {{houseTotals[1]}}</p>
-			<p class="team-2">Red Jaguars: {{houseTotals[2]}}</p>
-			<p class="team-3">Green Monkeys: {{houseTotals[3]}}</p>
-			<p class="team-4">Purple Parrots: {{houseTotals[4]}}</p>
+		<!-- <button class="btn btn-default" ng-click="getFishbowlResults(apps)" ng-disabled="apps.length == 0">Print Results</button> -->
+		
+		<div class="row">
+			<label class="col-sm-2 control-label">Semester Date Range</label>
+			<div class="col-sm-2">
+				<input class="form-control" type="date" name="startDate" ng-model="startDate" required placeholder="startDate"/>
+			</div>
+			<p></p>
+			<div class="col-sm-2">
+				<input class="form-control" type="date" name="endDate" ng-model="endDate" required placeholder="endDate"/>
+			</div>
+			<button class="btn btn-default" ng-click="setDateHandler(startDate, endDate)" ng-disabled>Set Date Range</button>
 		</div>
+
+		<br>
+		
+		<div class="row">
+			<div class="col-sm-2">
+				<p class="team-1">Blue Barracudas: {{houseTotals[1]}}</p>
+				<p class="team-2">Red Jaguars: {{houseTotals[2]}}</p>
+				<p class="team-3">Green Monkeys: {{houseTotals[3]}}</p>
+				<p class="team-4">Purple Parrots: {{houseTotals[4]}}</p>
+			</div>
+		</div>
+		
 		<div>
 			<p><small>Note: Points = (logged items) - (disputes) + (reviews if reviews > 1)<small></p>
 		</div>

@@ -50,16 +50,6 @@ function get_fishbowl($mysqli)
 	return fetch_array($result);
 }
 
-/**
- * Reset the current fishbowl leaderboard
- *
- * @param mysqli
- */
-function archive_fishbowl($mysqli)
-{
-	$q = "UPDATE `fishbowl_leaderboard` SET points=0;";
-	exec_query($mysqli, $q);
-}
 
 authenticate();
 
@@ -76,18 +66,5 @@ if ( $_SERVER["REQUEST_METHOD"] == "GET" ) {
 
 	header("Content-Type: application/json");
 	exit(json_encode($fishbowl));
-}
-else if ( $_SERVER["REQUEST_METHOD"] == "DELETE" ) {
-	$mysqli = construct_connection();
-
-	if ( !auth_senior_staff($mysqli) ) {
-		header("HTTP/1.1 404 Not Found");
-		exit;
-	}
-
-	archive_fishbowl($mysqli);
-	$mysqli->close();
-
-	exit;
 }
 ?>

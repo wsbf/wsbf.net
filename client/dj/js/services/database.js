@@ -173,12 +173,24 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 	// };
 
 	/**
-	 * Archive the previous fishbowl.
+	 * Change the semester date range for fishbowl deadlines.
 	 *
 	 * @return Promise of http response
 	 */
-	this.Fishbowl.archive = function() {
-		return $http.delete("/api/fishbowl/fishbowl.php");
+	this.Fishbowl.changeDates = function(item) {
+		return $http.post("/api/fishbowl/fishbowl_date_range.php", item);
+	};
+
+	/**
+	 * Get the semester start and end dates.
+	 *
+	 * @return Promise of array of dates
+	 */
+	this.Fishbowl.getDateRange = function() {
+		return $http.get("/api/fishbowl/fishbowl_date_range.php")
+			.then(function(res) {
+				return res.data;
+			});
 	};
 
 	/**
