@@ -6,14 +6,14 @@ staffModule.constant("staff", [
 		{
 			position: "General Manager",
 			email: "gm@wsbf.net",
-			name: " Thomas Williams",
-			imageUrl: "images/staff/2425/thomas-williams.png"
+			name: " Dillon Finley",
+			imageUrl: "images/staff/2425/dillon-finley.png"
 		},
     {
 			position: "Chief Announcer",
 			email: "announcer@wsbf.net",
-			name: "Megan Nash",
-			imageUrl: "images/staff/2425/megan-nash.png"
+			name: "Thomas Merzlak",
+			imageUrl: "images/staff/2425/thomas-merzlak.png"
     },
     {
 			position: "Chief Engineer",
