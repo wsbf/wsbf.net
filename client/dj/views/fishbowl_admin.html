@@ -90,10 +90,10 @@
 
   	<div id="dateInputs" class="hidden" style="font-size: small;">
 		<label for="startDate">Start Date:</label>
-		<input type="date" id="startDate" />
+		<input type="date" id="startDate" ng-model="startDate"/>
 		<br>
 		<label for="endDate">End Date:</label>
-		<input type="date" id="endDate" />
+		<input type="date" id="endDate" ng-model="endDate"/>
 		<br>
 		<button ng-click="setDateRange(startDate, endDate)">Submit Changes</button>
 	</div>
