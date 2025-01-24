@@ -8,7 +8,6 @@
  */
 require_once("../auth/auth.php");
 require_once("../connect.php");
-require_once("config.php");
 
 /**
  * Get fishbowl user summary information.
@@ -21,11 +20,19 @@ function get_user_summary($mysqli, $username)
 {
 
 	$keys = array(
-        "f.points",
 		"f.disputes",
         "u.username",
         "u.preferred_name",
     );
+
+	// this is the function of get_current_date_range in file fishbowl_date_range.php
+    $q = "SELECT date FROM `def_semester_dates` WHERE dateID=0";
+    $result = fetch_array(exec_query($mysqli, $q));
+    $REVIEW_BEGIN = $result[0]['date'];
+
+    $q = "SELECT date FROM `def_semester_dates` WHERE dateID=1";
+    $result = fetch_array(exec_query($mysqli, $q));
+    $DEADLINE = $result[0]['date'];
 
     $q = "SELECT " . implode(",", $keys) . " FROM `fishbowl_leaderboard` AS f "
         . "INNER JOIN `users` AS u ON u.username = f.username "
@@ -42,7 +49,7 @@ function get_user_summary($mysqli, $username)
 			. "f.dispute_description AS dispute_description "
          . "FROM fishbowl_log AS f "
          . "WHERE f.username = '$username' "
-         . "AND UNIX_TIMESTAMP(f.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " "
+         . "AND UNIX_TIMESTAMP(f.date) BETWEEN UNIX_TIMESTAMP('$REVIEW_BEGIN') AND UNIX_TIMESTAMP('$DEADLINE') "
          . "UNION ALL "
          . "SELECT "
 				. "NULL AS fishbowl_logID, "
@@ -56,7 +63,7 @@ function get_user_summary($mysqli, $username)
          . "LEFT JOIN libalbum AS a ON r.albumID = a.albumID "
          . "LEFT JOIN libartist AS ar ON ar.artistID = a.artistID "
          . "WHERE r.username = '$username' "
-         . "AND UNIX_TIMESTAMP(r.review_date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " "
+         . "AND UNIX_TIMESTAMP(r.review_date) BETWEEN UNIX_TIMESTAMP('$REVIEW_BEGIN') AND UNIX_TIMESTAMP('$DEADLINE') "
          . "ORDER BY date DESC";
     $summary["log"] = fetch_array(exec_query($mysqli, $q));
 
@@ -64,7 +71,7 @@ function get_user_summary($mysqli, $username)
     $q = "SELECT COUNT(*) FROM `libreview` AS r "
         . "WHERE r.username = '$username' "
         . "AND " . REVIEW_BEGIN . " <= UNIX_TIMESTAMP(r.review_date) "
-        . "AND UNIX_TIMESTAMP(r.review_date) <= " . DEADLINE . ";";
+        . "AND UNIX_TIMESTAMP(r.review_date) <= UNIX_TIMESTAMP('$DEADLINE');";
     $result = exec_query($mysqli, $q);
     $row = $result->fetch_row();
 
@@ -207,8 +214,6 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
 	$item = json_decode(file_get_contents("php://input"), true);
 	$item = escape_json($mysqli, $item);
 	
-	error_log(print_r($item, true));  // Log the entire POST array to the error log
-
     $action = isset($item['action']) ? $item['action'] : null;
 	$fishbowl_logID = $item['fishbowl_logID'];
 	$dispute_description = isset($item['dispute_description']) ? $item['dispute_description'] : null;

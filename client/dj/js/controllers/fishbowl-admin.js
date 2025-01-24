@@ -45,6 +45,10 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 		$scope.sortColumn = column; // new sort column
 	};
 
+	$scope.showDateInputs = function() {
+		document.getElementById("dateInputs").classList.remove("hidden"); // unhide the date inputs
+	}
+
 	$scope.setDateRange = function(startDate_input, endDate_input) {
 		if ( confirm("Are you sure you want to change the semester date range?") ) {
 			var dates = {
@@ -54,6 +58,7 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 			db.Fishbowl.changeDates(dates).then(function() {
 				getSemesterDates();
 				getFishbowlApps();
+				document.getElementById("dateInputs").classList.add("hidden");
 				alert.success("Semester dates changed.");
 			}, function(res) {
 				alert.error(res.data || res.statusText);

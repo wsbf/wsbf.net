@@ -8,7 +8,6 @@
  */
 require_once("../auth/auth.php");
 require_once("../connect.php");
-require_once("config.php");
 
 /**
  * Get the current date range for the semester
@@ -80,12 +79,6 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
     $item = json_decode(file_get_contents("php://input"), true);
 	$item = escape_json($mysqli, $item);
 	
-	error_log(print_r($item, true));  // Log the entire POST array to the error log
-
-    $action = isset($item['action']) ? $item['action'] : null;
-	$fishbowl_logID = $item['fishbowl_logID'];
-	$dispute_description = isset($item['dispute_description']) ? $item['dispute_description'] : null;
-
 	update_semester_date_range($mysqli, $start_date_input, $end_date_input);
 	$mysqli->close();
 

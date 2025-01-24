@@ -4,7 +4,7 @@
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-	
+
 	<style>
 		p { display: inline-block; margin-right: 10px; }
 
@@ -39,6 +39,11 @@
 		.arrow {
             font-size: 12px;
         }
+
+		/* used for the hidden date inputs */
+		.hidden {
+			display: none;
+		}
 	</style>
 </head>
 
@@ -57,23 +62,9 @@
 		<!-- <button class="btn btn-default" ng-click="archiveFishbowl()" ng-disabled="apps.length == 0">Reset All Points</button> -->
 		<!-- <button class="btn btn-default" ng-click="rateFishbowlApps(apps)" ng-disabled="apps.length == 0">Submit Ratings</button> -->
 		<!-- <button class="btn btn-default" ng-click="getFishbowlResults(apps)" ng-disabled="apps.length == 0">Print Results</button> -->
-		
+				
 		<div class="row">
-			<label class="col-sm-2 control-label">Semester Date Range</label>
-			<div class="col-sm-2">
-				<input class="form-control" type="date" name="startDate" ng-model="startDate" required placeholder="startDate"/>
-			</div>
-			<p></p>
-			<div class="col-sm-2">
-				<input class="form-control" type="date" name="endDate" ng-model="endDate" required placeholder="endDate"/>
-			</div>
-			<button class="btn btn-default" ng-click="setDateHandler(startDate, endDate)" ng-disabled>Set Date Range</button>
-		</div>
-
-		<br>
-		
-		<div class="row">
-			<div class="col-sm-2">
+			<div class="col-md-2">
 				<p class="team-1">Blue Barracudas: {{houseTotals[1]}}</p>
 				<p class="team-2">Red Jaguars: {{houseTotals[2]}}</p>
 				<p class="team-3">Green Monkeys: {{houseTotals[3]}}</p>
@@ -81,9 +72,30 @@
 			</div>
 		</div>
 		
-		<div>
-			<p><small>Note: Points = (logged items) - (disputes) + (reviews if reviews > 1)<small></p>
+		<div class="row">
+			<div class="col-md-12">
+				<p><small>Note: Points = (logged items) - (disputes) + (reviews if reviews > 1)<small></p>
+			</div>
 		</div>
+
+		<div class="row" style="font-size: medium;">
+			<div class="col-md-12">
+				<b>Date Range</b>
+				<p>Start: {{currentStartDate}} End: {{currentEndDate}}</p>
+				<button ng-click="showDateInputs()">Change Date Range</button>
+				<!-- <input class="form-control" type="date" name="endDate" ng-model="endDate" required placeholder="endDate"/> -->
+			</div>
+		</div>
+
+
+  	<div id="dateInputs" class="hidden" style="font-size: small;">
+		<label for="startDate">Start Date:</label>
+		<input type="date" id="startDate" />
+		<br>
+		<label for="endDate">End Date:</label>
+		<input type="date" id="endDate" />
+		<br>
+		<button ng-click="setDateRange(startDate, endDate)">Submit Changes</button>
 	</div>
 
 	<div class="panel-body" ng-show="bowls.length > 0">
