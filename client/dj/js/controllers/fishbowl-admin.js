@@ -30,8 +30,8 @@ fishbowlAdminModule.controller("FishbowlAdminCtrl", ["$scope", "$rootScope", "$u
 
 	var getSemesterDates = function() {
 		return db.Fishbowl.getDateRange().then(function(dates) {
-			$scope.currentStartDate = dates['start_date'];
-			$scope.currentEndDate = dates['end_date'];
+			$scope.currentStartDate = dates['start_date']['date'].split(' ')[0];
+			$scope.currentEndDate = dates['end_date']['date'].split(' ')[0];
 		});
 	};
 
