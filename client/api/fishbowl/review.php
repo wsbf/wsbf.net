@@ -70,7 +70,7 @@ function get_user_summary($mysqli, $username)
     // Compute the number of album reviews
     $q = "SELECT COUNT(*) FROM `libreview` AS r "
         . "WHERE r.username = '$username' "
-        . "AND " . REVIEW_BEGIN . " <= UNIX_TIMESTAMP(r.review_date) "
+        . "AND UNIX_TIMESTAMP('$REVIEW_BEGIN') <= UNIX_TIMESTAMP(r.review_date) "
         . "AND UNIX_TIMESTAMP(r.review_date) <= UNIX_TIMESTAMP('$DEADLINE');";
     $result = exec_query($mysqli, $q);
     $row = $result->fetch_row();

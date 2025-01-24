@@ -35,13 +35,16 @@ function get_current_date_range($mysqli)
  */
 function update_semester_date_range($mysqli, $start_date_input, $end_date_input)
 {
+	$new_start = substr($start_date_input, 0, 10);
+    $new_end = substr($end_date_input, 0, 10);
+
     $q = "UPDATE `def_semester_dates` "
-        . "SET date = " . $start_date_input . " "
+        . "SET date = '$new_start' "
         . "WHERE dateID = 0;";
     exec_query($mysqli, $q);
 
     $q = "UPDATE `def_semester_dates` "
-        . "SET date = " . $end_date_input . " "
+        . "SET date = '$new_end' "
         . "WHERE dateID = 1;";
     exec_query($mysqli, $q);
 }
@@ -79,7 +82,7 @@ else if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
     $item = json_decode(file_get_contents("php://input"), true);
 	$item = escape_json($mysqli, $item);
 	
-	update_semester_date_range($mysqli, $start_date_input, $end_date_input);
+	update_semester_date_range($mysqli, $item['startDate'], $item['endDate']);
 	$mysqli->close();
 
 	exit;
