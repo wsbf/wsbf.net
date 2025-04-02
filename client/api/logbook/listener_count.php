@@ -14,8 +14,9 @@
 define('TCP_ESTABLISHED', "107");
 
 $output = shell_exec("cat /proc/net/tcp"
-	. " | grep '04117F82:1F40'"
-	. " | grep -v '06117F82:'");
+	. " | grep -e ': 04117F82:1F40'"
+	. " -e ': 0100007F:1F40'"
+	. " | grep -v '27117F82:'");
 
 $lines = explode("\n", $output);
 
