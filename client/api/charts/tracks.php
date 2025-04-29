@@ -32,7 +32,7 @@ function get_top_tracks($mysqli, $date1, $date2, $count)
 		. "INNER JOIN `show` AS s ON l.showID=s.showID "
 		. "WHERE '$date1' < UNIX_TIMESTAMP(s.start_time) "
 		. "AND UNIX_TIMESTAMP(s.end_time) < '$date2' "
-		. "AND s.show_typeID != 8 "
+/*		. "AND s.show_typeID != 8 " */
 		. "AND l.lb_rotation IN ('N','H','M','L') "
 		. "GROUP BY l.lb_track_name "
 		. "ORDER BY plays DESC "

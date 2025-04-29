@@ -32,7 +32,7 @@ function get_top_albums($mysqli, $date1, $date2, $general_genreID)
 		. "LEFT OUTER JOIN `libalbum` AS a ON l.lb_album_code=a.album_code "
 		. "WHERE '$date1' < UNIX_TIMESTAMP(s.start_time) "
 		. "AND UNIX_TIMESTAMP(s.end_time) < '$date2' "
-		. "AND s.show_typeID != 8 "
+/*		. "AND s.show_typeID != 8 " */ // dont use automation
 		. "AND l.lb_rotation IN ('N','H','M','L') "
 		. (isset($general_genreID)
 			? "AND a.general_genreID = '$general_genreID' "
