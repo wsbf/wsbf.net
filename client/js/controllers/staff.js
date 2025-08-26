@@ -61,7 +61,7 @@ staffModule.constant("staff", [
 			position: "Member At Large",
 			email: "member@wsbf.net",
 			name: "Porter Hand",
-			imageUrl: "images/staff/2425/porter-hand.png"
+			imageUrl: "images/staff/2526/porter-hand.png"
 	},
     /*{
 			position: "Student Media Advisor",
@@ -74,3 +74,4 @@ staffModule.constant("staff", [
 staffModule.controller("StaffCtrl", ["$scope", "staff", function($scope, staff) {
     $scope.staff = staff;
 }]);
+
