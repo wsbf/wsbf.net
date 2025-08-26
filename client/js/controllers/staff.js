@@ -6,14 +6,14 @@ staffModule.constant("staff", [
 		{
 			position: "General Manager",
 			email: "gm@wsbf.net",
-			name: " Dillon Finley",
-			imageUrl: "images/staff/2425/dillon-finley.png"
+			name: " Thomas Merzlak",
+			imageUrl: "images/staff/2425/thomas-merzlak.png"
 		},
     {
 			position: "Chief Announcer",
 			email: "announcer@wsbf.net",
-			name: "Thomas Merzlak",
-			imageUrl: "images/staff/2425/thomas-merzlak.png"
+			name: "Kaylyn Bauder",
+			imageUrl: "images/staff/2526/kaylyn-bauder.png"
     },
     {
 			position: "Chief Engineer",
@@ -30,14 +30,14 @@ staffModule.constant("staff", [
     {
 			position: "Computer Engineer",
 			email: "computer@wsbf.net",
-			name: "Jai Agarwal",
-			imageUrl: "images/staff/2425/jai-agarwal.png"
+			name: "Adeep Sen",
+			imageUrl: "images/staff/2526/adeep-sen.png"
     },
     {
 			position: "Events Coordinator",
 			email: "events@wsbf.net",
-			name: "Jack Waldrop",
-			imageUrl: "images/staff/2425/jack-waldrop.png"
+			name: "Brian Turner",
+			imageUrl: "images/staff/2526/brian-turner.png"
     },
     {
 			position: "Music Director",
@@ -54,14 +54,14 @@ staffModule.constant("staff", [
     {
 			position: "Promotion Director",
 			email: "promo@wsbf.net",
-			name: "MG Corbin",
-			imageUrl: "images/staff/2425/mg-corbin.png"
+			name: "Nick Miller",
+			imageUrl: "images/staff/2526/nick-miller.png"
 	},
 	{
 			position: "Member At Large",
 			email: "member@wsbf.net",
-			name: "Cole Turbeville",
-			imageUrl: "images/staff/2425/cole-turbeville.png"
+			name: "Porter Hand",
+			imageUrl: "images/staff/2425/porter-hand.png"
 	},
     /*{
 			position: "Student Media Advisor",
