@@ -23,7 +23,7 @@ define('FALL', 1);
  * At the beginning of each application cycle, this
  * constant should be switched to the value of the NEXT semester
  */
-define('SEMESTER', FALL);
+define('SEMESTER', SPRING);
 
 /**
  * At the beginning of each application cycle, the
@@ -35,7 +35,7 @@ define('SEMESTER', FALL);
  * TODO: automate these dates somehow?
  */
 $SEMESTER_BEGIN = array(
-	SPRING => strtotime("5:00 pm January 8, 2025"),
+	SPRING => strtotime("5:00 pm January 8, 2026"),
 	FALL => strtotime("5:00 pm August 10, 2025")
 );
 
