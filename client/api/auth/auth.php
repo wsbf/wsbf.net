@@ -158,7 +158,7 @@ function auth_member($mysqli)
  */
 function auth_senior_staff($mysqli)
 {
-	return in_array(get_position($mysqli), array(0, 1, 2, 3, 4, 5, 6, 7, 8, 13));
+	return in_array(get_position($mysqli), array(0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 22));
 }
 
 /**
@@ -177,6 +177,7 @@ function auth_senior_staff($mysqli)
  *  19: Hip-Hop Director
  *  20: New World Director
  *  21: TEMP General Manager
+ *  22: Collector(Jr Staff)
 
  *
  * @param mysqli
