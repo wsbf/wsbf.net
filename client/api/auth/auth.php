@@ -186,6 +186,6 @@ function auth_senior_staff($mysqli)
 function auth_music_director($mysqli)
 {
 	return in_array(get_position($mysqli),
-			array(0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20));
+			array(0, 1, 2, 3, 8, 13, 14, 17, 18, 19, 20, 22));
 }
 ?>
