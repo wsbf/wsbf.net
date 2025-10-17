@@ -20,7 +20,7 @@ mainModule.constant("authSets", {
 	},
 	musicDirector: {
 		key: "positionID",
-		values: ["0", "1", "2", "3", "8", "13", "14", "17", "18", "19", "20"]
+		values: ["0", "1", "2", "3", "8", "13", "14", "17", "18", "19", "20", "22"]
 	}
 });
 
