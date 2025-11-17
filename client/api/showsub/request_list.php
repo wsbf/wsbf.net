@@ -35,7 +35,7 @@ function get_sub_requests($mysqli)
 		. "INNER JOIN `def_show_types` AS t ON t.show_typeID=sc.show_typeID "
 		. "LEFT OUTER JOIN `sub_fill` AS f ON f.sub_requestID=r.sub_requestID "
 		. "LEFT OUTER JOIN `users` AS uf ON uf.username=f.username "
-		. "WHERE NOW() <= r.date "
+		. "WHERE CURRENT_DATE() <= r.date "
 		. "ORDER BY r.date;";
 	$result = exec_query($mysqli, $q);
 
