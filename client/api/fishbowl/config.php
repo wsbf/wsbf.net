@@ -23,7 +23,7 @@ define('FALL', 1);
  * At the beginning of each application cycle, this
  * constant should be switched to the value of the NEXT semester
  */
-define('SEMESTER', SPRING);
+define('SEMESTER', FALL);
 
 /**
  * At the beginning of each application cycle, the
