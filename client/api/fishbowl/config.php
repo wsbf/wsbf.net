@@ -36,7 +36,7 @@ define('SEMESTER', FALL);
  */
 $SEMESTER_BEGIN = array(
 	SPRING => strtotime("5:00 pm January 8, 2026"),
-	FALL => strtotime("5:00 pm August 10, 2025")
+	FALL => strtotime("5:00 pm August 10, 2026")
 );
 
 define('REVIEW_BEGIN', $SEMESTER_BEGIN[!SEMESTER]);
