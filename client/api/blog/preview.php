@@ -4,6 +4,7 @@
  * @file blog/preview.php
  * @author Ben Shealy
  */
+/*
 require_once("$_SERVER[DOCUMENT_ROOT]/blog/wp-blog-header.php");
 
 function custom_excerpt_length($length)
@@ -47,4 +48,5 @@ foreach ( $wp_posts as $post ) {
 
 header("Content-Type: application/json");
 exit(json_encode($posts));
+*/
 ?>
