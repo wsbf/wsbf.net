@@ -6,8 +6,8 @@ staffModule.constant("staff", [
 		{
 			position: "General Manager",
 			email: "gm@wsbf.net",
-			name: " Thomas Merzlak",
-			imageUrl: "images/staff/2425/thomas-merzlak.png"
+			name: " Nick Brenkert",
+			imageUrl: "images/staff/2425/nick-brenkert.png"
 		},
     {
 			position: "Chief Announcer",
