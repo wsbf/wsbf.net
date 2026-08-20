@@ -86,6 +86,7 @@
 				<th class="leaderboard-item" ng-click="sortBy('adjustedPoints')">Points <span class="arrow" ng-if="sortColumn == 'adjustedPoints'">{{ reverseSort ? '▼' : '▲'}}</span></th>
 				<th class="leaderboard-item" ng-click="sortBy('review_count')">Reviews <span class="arrow" ng-if="sortColumn == 'review_count'">{{ reverseSort ? '▼' : '▲' }}</span></th>
 				<th class="leaderboard-item" ng-click="sortBy('dispute_count')">Disputes <span class="arrow" ng-if="sortColumn == 'dispute_count'">{{ reverseSort ? '▼' : '▲' }}</span></th>
+				<th class="leaderboard-item" ng-click="sortBy('sub_request_count')">Sub Requests <span class="arrow" ng-if="sortColumn == 'sub_request_count'">{{ reverseSort ? '▼' : '▲' }}</span></th>
 			</tr>
 		</thead>
 
@@ -98,6 +99,7 @@
 				<td class="leaderboard-item" >{{a.adjustedPoints}}</td>
 				<td class="leaderboard-item" >{{a.review_count}}</td>
 				<td class="leaderboard-item" >{{a.dispute_count}}</td>
+				<td class="leaderboard-item" ng-class="{'text-danger': a.sub_request_count > 4}">{{a.sub_request_count}}</td>
 			</tr>			
 		</tbody>
 	</table>

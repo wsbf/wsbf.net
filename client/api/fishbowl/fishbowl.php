@@ -35,6 +35,11 @@ function get_fishbowl($mysqli)
 	. "FROM fishbowl_log AS f "
 	. "WHERE f.username = u.username "
 	. "AND UNIX_TIMESTAMP(f.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . ") AS dispute_count, "
+	. "(SELECT COUNT(DISTINCT r.sub_requestID) "
+			. "FROM sub_request AS r "
+			. "INNER JOIN schedule_hosts AS sh ON sh.scheduleID = r.scheduleID "
+			. "WHERE sh.username = u.username "
+			. "AND UNIX_TIMESTAMP(r.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . ") AS sub_request_count, "
 	. "COALESCE((SELECT COUNT(*) "
 			. "FROM libreview AS r "
 			. "WHERE r.username = u.username "
@@ -43,7 +48,10 @@ function get_fishbowl($mysqli)
 	//. "WHERE u.username IN (SELECT username FROM fishbowl_log WHERE UNIX_TIMESTAMP(date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . ") "
 	. "WHERE u.username IN ( "
 		. "SELECT username FROM fishbowl_log as f WHERE UNIX_TIMESTAMP(f.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " UNION "
-    		. "SELECT username FROM libreview as r WHERE UNIX_TIMESTAMP(r.review_date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . ") "
+			. "SELECT username FROM libreview as r WHERE UNIX_TIMESTAMP(r.review_date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " UNION "
+			. "SELECT sh.username FROM sub_request AS sr "
+			. "INNER JOIN schedule_hosts AS sh ON sh.scheduleID = sr.scheduleID "
+			. "WHERE UNIX_TIMESTAMP(sr.date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . ") "
 	. "ORDER BY points DESC;";
 	$result = exec_query($mysqli, $q);
 
