@@ -35,7 +35,7 @@ define('SEMESTER', SPRING);
  * TODO: automate these dates somehow?
  */
 $SEMESTER_BEGIN = array(
-	SPRING => strtotime("5:00 pm January 8, 2026"),
+	SPRING => strtotime("5:00 pm January 8, 2027"),
 	FALL => strtotime("5:00 pm August 10, 2026")
 );
 
