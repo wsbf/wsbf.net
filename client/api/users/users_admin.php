@@ -31,6 +31,10 @@ function get_users($mysqli)
 	$result = exec_query($mysqli, $q);
 
 	$users = fetch_array($result);
+	$tables = fetch_array(exec_query($mysqli, "SHOW TABLES LIKE 'attendance_events';"));
+	if ( count($tables) == 0 ) {
+		return $users;
+	}
 	foreach ($users as &$user) {
 		$user["attendanceFlag"] = false;
 		$user["missedMeetings"] = array();
