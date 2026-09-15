@@ -216,6 +216,33 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		return $http.post("/api/fishbowl/review.php", apps);
 	};
 
+	this.Attendance = {};
+
+	this.Attendance.getEvents = function(admin) {
+		return $http.get("/api/attendance/attendance.php", {
+			params: { admin: admin ? 1 : 0 }
+		}).then(function(res) {
+			return res.data;
+		});
+	};
+
+	this.Attendance.mark = function(eventID, password) {
+		return $http.post("/api/attendance/attendance.php", {
+			eventID: eventID,
+			password: password
+		});
+	};
+
+	this.Attendance.create = function(event) {
+		return $http.post("/api/attendance/attendance.php", event);
+	};
+
+	this.Attendance.remove = function(attendanceID) {
+		return $http.delete("/api/attendance/attendance.php", {
+			params: { attendanceID: attendanceID }
+		});
+	};
+
 	this.Import = {};
 
 	/**

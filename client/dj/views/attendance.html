@@ -1,0 +1,16 @@
+<div class="text-center" ng-show="!auth.member">
+	<h3><strong>Nah.</strong></h3>
+	<p>It would seem that you aren't allowed to record attendance.</p>
+</div>
+<div class="panel panel-default" ng-show="auth.member">
+	<div class="panel-heading"><h3 class="panel-title">Attendance</h3></div>
+	<table class="table">
+		<thead><tr><th>Event</th><th>Type</th><th>Date</th><th>Password</th><th></th></tr></thead>
+		<tbody><tr ng-repeat="event in events">
+			<td>{{event.name}}</td><td>{{event.typeLabel}}</td><td>{{event.eventDate}}</td>
+			<td><input class="form-control" type="password" ng-model="passwords[event.eventID]" ng-disabled="event.attending"></td>
+			<td><button class="btn btn-default" ng-click="mark(event)" ng-disabled="event.attending || !passwords[event.eventID]">{{event.attending ? "Attending" : "Mark attending"}}</button></td>
+		</tr></tbody>
+	</table>
+	<div class="panel-body" ng-show="events.length == 0">There are no active events.</div>
+</div>

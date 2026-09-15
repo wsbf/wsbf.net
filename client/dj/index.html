@@ -20,6 +20,8 @@
 	<script src="js/services/alert.js"></script>
 	<script src="js/services/database.js"></script>
 	<script src="js/controllers/alumni.js"></script>
+	<script src="js/controllers/attendance.js"></script>
+	<script src="js/controllers/attendance_user.js"></script>
 	<script src="js/controllers/archives.js"></script>
 	<script src="js/controllers/carts.js"></script>
 	<script src="js/controllers/fishbowl-admin.js"></script>
@@ -106,6 +108,7 @@
 					<div class="list-group">
 						<a class="list-group-item" ui-sref="user({ username: user.username })">User Profile</a>
 						<a class="list-group-item" ui-sref="documents">Documents</a>
+						<a class="list-group-item" ui-sref="attendance">Attendance</a>
 						<a class="list-group-item" ui-sref="library">Music Library</a>
 						<a class="list-group-item" ui-sref="users-reviews">Album Reviews</a>
 					</div>
@@ -140,6 +143,7 @@
 					<div class="panel-heading" style="background-color: #000000; color: #ffffff;"><strong>Senior Staff</strong></div>
 					<div class="list-group">
 						<a class="list-group-item" ui-sref="carts-admin">Carts Control Panel</a>
+						<a class="list-group-item" ui-sref="attendance-admin">Event Control Panel</a>
 						<a class="list-group-item" ui-sref="fishbowl-admin">Fishbowl Control Panel</a>
 						<a class="list-group-item" ui-sref="import">Import Control Panel</a>
 						<a class="list-group-item" ui-sref="library-admin">Library Control Panel</a>

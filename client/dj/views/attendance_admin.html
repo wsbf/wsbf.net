@@ -1,0 +1,20 @@
+<div class="text-center" ng-show="!auth.seniorStaff">
+	<h3><strong>Nah.</strong></h3>
+	<p>It would seem that you aren't on senior staff, so you can't manage events.</p>
+</div>
+<div class="panel panel-default" ng-show="auth.seniorStaff">
+	<div class="panel-heading"><h3 class="panel-title">Event Control Panel</h3></div>
+	<form class="panel-body form-horizontal" ng-submit="create()">
+		<div class="form-group"><label class="col-sm-3 control-label">Event name</label><div class="col-sm-6"><input class="form-control" ng-model="event.name" required maxlength="255"></div></div>
+		<div class="form-group"><label class="col-sm-3 control-label">Event type</label><div class="col-sm-6"><select class="form-control" ng-model="event.eventType" ng-options="t.value as t.label for t in eventTypes" required></select></div></div>
+		<div class="form-group"><label class="col-sm-3 control-label">Date</label><div class="col-sm-6"><input class="form-control" type="date" ng-model="event.eventDate" required></div></div>
+		<div class="form-group"><label class="col-sm-3 control-label">Password</label><div class="col-sm-6"><input class="form-control" type="password" ng-model="event.password" required></div></div>
+		<div class="text-center"><button class="btn btn-default" type="submit">Create event</button></div>
+	</form>
+</div>
+<div class="panel panel-default" ng-show="auth.seniorStaff" ng-repeat="event in events">
+	<div class="panel-heading"><strong>{{event.name}}</strong> — {{event.typeLabel}} — {{event.eventDate}}</div>
+	<table class="table"><thead><tr><th>Attendee</th><th>Recorded</th><th></th></tr></thead>
+	<tbody><tr ng-repeat="attendee in event.attendees"><td>{{attendee.preferred_name}}</td><td>{{attendee.attendedAt}}</td><td><button class="btn btn-link" ng-click="removeAttendance(attendee)">CAP</button></td></tr></tbody></table>
+	<div class="panel-body" ng-show="event.attendees.length == 0">No attendees recorded.</div>
+</div>

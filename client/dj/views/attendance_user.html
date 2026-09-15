@@ -1,0 +1,10 @@
+<form class="modal-body">
+	<span class="close" ng-click="$dismiss()">&times;</span>
+	<h3>{{user.preferred_name}} — Attendance</h3>
+	<h4>Missed regular full staff meetings</h4>
+	<p ng-show="user.missedMeetings.length == 0">None</p>
+	<ul><li ng-repeat="meeting in user.missedMeetings">{{meeting.name}} — {{meeting.eventDate}}</li></ul>
+	<h4>Virtual full staff attendances this semester</h4>
+	<p ng-show="user.virtualAttendances.length == 0">None</p>
+	<ul><li ng-repeat="meeting in user.virtualAttendances">{{meeting.name}} — {{meeting.eventDate}}</li></ul>
+</form>

@@ -37,6 +37,14 @@ usersModule.controller("UsersAdminCtrl", ["$scope", "$rootScope", "$uibModal", "
 		}).result.then(getUsers);
 	};
 
+	$scope.showAttendance = function(user) {
+		$uibModal.open({
+			templateUrl: "views/attendance_user.html",
+			controller: "AttendanceUserCtrl",
+			resolve: { user: function() { return user; } }
+		});
+	};
+
 	// initialize
 	getUsers();
 }]);

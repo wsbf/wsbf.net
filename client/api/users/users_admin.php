@@ -6,6 +6,7 @@
  */
 require_once("../auth/auth.php");
 require_once("../connect.php");
+require_once("../fishbowl/config.php");
 
 /**
  * Get a list of users.
@@ -29,7 +30,29 @@ function get_users($mysqli)
 		. "WHERE 1;";
 	$result = exec_query($mysqli, $q);
 
-	return fetch_array($result);
+	$users = fetch_array($result);
+	foreach ($users as &$user) {
+		$user["attendanceFlag"] = false;
+		$user["missedMeetings"] = array();
+		$user["virtualAttendances"] = array();
+		if ((int) $user["statusID"] !== 0) {
+			continue;
+		}
+		$username = $mysqli->escape_string($user["username"]);
+		$missed = "SELECT e.eventID, e.name, e.event_date AS eventDate FROM attendance_events e "
+			. "WHERE e.event_type='full_staff' AND e.event_date < CURDATE() "
+			. "AND UNIX_TIMESTAMP(e.event_date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " "
+			. "AND NOT EXISTS (SELECT 1 FROM attendance a WHERE a.eventID=e.eventID AND a.username='$username') "
+			. "ORDER BY e.event_date;";
+		$user["missedMeetings"] = fetch_array(exec_query($mysqli, $missed));
+		$virtual = "SELECT e.eventID, e.name, e.event_date AS eventDate FROM attendance_events e "
+			. "INNER JOIN attendance a ON a.eventID=e.eventID AND a.username='$username' "
+			. "WHERE e.event_type='virtual_full_staff' AND UNIX_TIMESTAMP(e.event_date) BETWEEN " . REVIEW_BEGIN . " AND " . DEADLINE . " "
+			. "ORDER BY e.event_date;";
+		$user["virtualAttendances"] = fetch_array(exec_query($mysqli, $virtual));
+		$user["attendanceFlag"] = count($user["missedMeetings"]) > 1;
+	}
+	return $users;
 }
 
 /**
