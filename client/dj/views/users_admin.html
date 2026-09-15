@@ -26,6 +26,7 @@
 			<th>Preferred Name</th>
 			<th>Email</th>
 			<th>Team</th>
+			<th>Attendance</th>
 			<th></th>
 		</thead>
 
@@ -36,6 +37,7 @@
 				<td>{{u.preferred_name}}</td>
 				<td>{{u.email_addr}}</td>
 				<td>{{teams[u.teamID].team}}</td>
+				<td><button ng-show="u.attendanceFlag" class="btn btn-danger btn-xs" ng-click="showAttendance(u)">2+ absences</button></td>
 				<td>
 					<span class="button-icon" ng-click="editUser(u)">
 						<span class="glyphicon glyphicon-pencil"></span>
