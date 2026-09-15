@@ -243,6 +243,12 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		});
 	};
 
+	this.Attendance.deleteEvent = function(eventID) {
+		return $http.delete("/api/attendance/attendance.php", {
+			params: { eventID: eventID }
+		});
+	};
+
 	this.Import = {};
 
 	/**

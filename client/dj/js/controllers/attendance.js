@@ -40,7 +40,26 @@ attendanceModule.controller("AttendanceAdminCtrl", ["$scope", "db", "alert", fun
 
 	var load = function() {
 		db.Attendance.getEvents(true).then(function(events) {
+			events.forEach(function(event) {
+				event.attendeesExpanded = false;
+			});
 			$scope.events = events;
+		});
+	};
+
+	$scope.toggleAttendees = function(event) {
+		event.attendeesExpanded = !event.attendeesExpanded;
+	};
+
+	$scope.deleteEvent = function(event) {
+		if (!confirm("Are you sure you want to delete '" + event.name + "'?")) {
+			return;
+		}
+		db.Attendance.deleteEvent(event.eventID).then(function() {
+			alert.success("Event deleted.");
+			load();
+		}, function(res) {
+			alert.error(res.data || res.statusText);
 		});
 	};
 

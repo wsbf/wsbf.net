@@ -96,7 +96,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
-	if (!auth_senior_staff($mysqli) || !is_numeric($_GET["attendanceID"])) {
+	if (!auth_senior_staff($mysqli)) {
+		header("HTTP/1.1 404 Not Found"); exit;
+	}
+	if (isset($_GET["eventID"])) {
+		if (!is_numeric($_GET["eventID"])) {
+			header("HTTP/1.1 404 Not Found"); exit;
+		}
+		exec_query($mysqli, "DELETE FROM attendance_events WHERE eventID='" . $mysqli->escape_string($_GET["eventID"]) . "';");
+		$mysqli->close(); exit;
+	}
+	if (!isset($_GET["attendanceID"]) || !is_numeric($_GET["attendanceID"])) {
 		header("HTTP/1.1 404 Not Found"); exit;
 	}
 	$attendanceID = $mysqli->escape_string($_GET["attendanceID"]);

@@ -13,8 +13,16 @@
 	</form>
 </div>
 <div class="panel panel-default" ng-show="auth.seniorStaff" ng-repeat="event in events">
-	<div class="panel-heading"><strong>{{event.name}}</strong> — {{event.typeLabel}} — {{event.eventDate}}</div>
-	<table class="table"><thead><tr><th>Attendee</th><th>Recorded</th><th></th></tr></thead>
-	<tbody><tr ng-repeat="attendee in event.attendees"><td>{{attendee.preferred_name}}</td><td>{{attendee.attendedAt}}</td><td><button class="btn btn-link" ng-click="removeAttendance(attendee)">CAP</button></td></tr></tbody></table>
-	<div class="panel-body" ng-show="event.attendees.length == 0">No attendees recorded.</div>
+	<div class="panel-heading">
+		<strong>{{event.name}}</strong> — {{event.typeLabel}} — {{event.eventDate}}
+		<div class="pull-right">
+			<button class="btn btn-link btn-xs" ng-click="toggleAttendees(event)">{{event.attendeesExpanded ? "Hide attendees" : "Show attendees"}}</button>
+			<button class="btn btn-danger btn-xs" ng-click="deleteEvent(event)">Delete event</button>
+		</div>
+	</div>
+	<div ng-show="event.attendeesExpanded">
+		<table class="table"><thead><tr><th>Attendee</th><th>Recorded</th><th></th></tr></thead>
+		<tbody><tr ng-repeat="attendee in event.attendees"><td>{{attendee.preferred_name}}</td><td>{{attendee.attendedAt}}</td><td><button class="btn btn-link" ng-click="removeAttendance(attendee)">CAP</button></td></tr></tbody></table>
+		<div class="panel-body" ng-show="event.attendees.length == 0">No attendees recorded.</div>
+	</div>
 </div>
