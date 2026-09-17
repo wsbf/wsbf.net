@@ -16,7 +16,8 @@ $EVENT_TYPES = array(
 function attendance_events($mysqli, $activeOnly, $username = null)
 {
 	$where = $activeOnly ? "WHERE e.event_date >= CURDATE()" : "";
-	$q = "SELECT e.eventID, e.name, e.event_type, e.event_date, "
+	$password = $activeOnly ? "" : ", e.password";
+	$q = "SELECT e.eventID, e.name, e.event_type, e.event_date$password, "
 		. "IF(a.username IS NULL, 0, 1) AS attending "
 		. "FROM attendance_events e "
 		. ($username === null ? "LEFT JOIN attendance a ON a.eventID=e.eventID AND 1=0 " : "LEFT JOIN attendance a ON a.eventID=e.eventID AND a.username='$username' ")
@@ -65,6 +66,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$input = json_decode(file_get_contents("php://input"), true);
 	if (isset($input["eventID"])) {
+		if (isset($input["action"]) && $input["action"] == "update_password") {
+			if (!auth_senior_staff($mysqli) || empty($input["password"]) || !is_numeric($input["eventID"])) {
+				header("HTTP/1.1 404 Not Found"); exit;
+			}
+			$eventID = $mysqli->escape_string($input["eventID"]);
+			$password = $mysqli->escape_string($input["password"]);
+			$hash = $mysqli->escape_string(password_hash($input["password"], PASSWORD_DEFAULT));
+			exec_query($mysqli, "UPDATE attendance_events SET password='$password', password_hash='$hash' WHERE eventID='$eventID';");
+			$mysqli->close(); exit;
+		}
 		if (!auth_member($mysqli) || empty($input["password"]) || !is_numeric($input["eventID"])) {
 			header("HTTP/1.1 404 Not Found"); exit;
 		}
@@ -91,7 +102,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$type = $mysqli->escape_string($input["eventType"]);
 	$date = $mysqli->escape_string(date("Y-m-d", strtotime($input["eventDate"])));
 	$hash = $mysqli->escape_string(password_hash($input["password"], PASSWORD_DEFAULT));
-	exec_query($mysqli, "INSERT INTO attendance_events (name, event_type, event_date, password_hash, created_by) VALUES ('$name', '$type', '$date', '$hash', '" . $mysqli->escape_string($_SESSION["username"]) . "');");
+	$plainPassword = $mysqli->escape_string($input["password"]);
+	exec_query($mysqli, "INSERT INTO attendance_events (name, event_type, event_date, password, password_hash, created_by) VALUES ('$name', '$type', '$date', '$plainPassword', '$hash', '" . $mysqli->escape_string($_SESSION["username"]) . "');");
 	$mysqli->close(); exit;
 }
 
