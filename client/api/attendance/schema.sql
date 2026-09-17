@@ -3,6 +3,7 @@ CREATE TABLE attendance_events (
 	name VARCHAR(255) NOT NULL,
 	event_type ENUM('full_staff', 'virtual_full_staff', 'committee', 'other') NOT NULL,
 	event_date DATE NOT NULL,
+	password VARCHAR(255) NOT NULL,
 	password_hash VARCHAR(255) NOT NULL,
 	created_by VARCHAR(255) NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

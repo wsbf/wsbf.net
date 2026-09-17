@@ -249,6 +249,14 @@ databaseModule.service("db", ["$http", "$q", "$resource", function($http, $q, $r
 		});
 	};
 
+	this.Attendance.updatePassword = function(eventID, password) {
+		return $http.post("/api/attendance/attendance.php", {
+			action: "update_password",
+			eventID: eventID,
+			password: password
+		});
+	};
+
 	this.Import = {};
 
 	/**

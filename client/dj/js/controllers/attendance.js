@@ -42,6 +42,7 @@ attendanceModule.controller("AttendanceAdminCtrl", ["$scope", "db", "alert", fun
 		db.Attendance.getEvents(true).then(function(events) {
 			events.forEach(function(event) {
 				event.attendeesExpanded = false;
+				event.passwordVisible = false;
 			});
 			$scope.events = events;
 		});
@@ -58,6 +59,18 @@ attendanceModule.controller("AttendanceAdminCtrl", ["$scope", "db", "alert", fun
 		db.Attendance.deleteEvent(event.eventID).then(function() {
 			alert.success("Event deleted.");
 			load();
+		}, function(res) {
+			alert.error(res.data || res.statusText);
+		});
+	};
+
+	$scope.togglePassword = function(event) {
+		event.passwordVisible = !event.passwordVisible;
+	};
+
+	$scope.savePassword = function(event) {
+		db.Attendance.updatePassword(event.eventID, event.password).then(function() {
+			alert.success("Event password updated.");
 		}, function(res) {
 			alert.error(res.data || res.statusText);
 		});

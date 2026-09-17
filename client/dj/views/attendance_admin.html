@@ -16,6 +16,9 @@
 	<div class="panel-heading">
 		<strong>{{event.name}}</strong> — {{event.typeLabel}} — {{event.eventDate}}
 		<div class="pull-right">
+			<input ng-attr-type="{{event.passwordVisible ? 'text' : 'password'}}" ng-model="event.password" class="form-control input-sm" style="display: inline-block; width: 180px;" aria-label="Event password">
+			<button class="btn btn-default btn-xs" ng-click="togglePassword(event)">{{event.passwordVisible ? "Hide password" : "Show password"}}</button>
+			<button class="btn btn-primary btn-xs" ng-click="savePassword(event)" ng-disabled="!event.password">Save password</button>
 			<button class="btn btn-link btn-xs" ng-click="toggleAttendees(event)">{{event.attendeesExpanded ? "Hide attendees" : "Show attendees"}}</button>
 			<button class="btn btn-danger btn-xs" ng-click="deleteEvent(event)">Delete event</button>
 		</div>
